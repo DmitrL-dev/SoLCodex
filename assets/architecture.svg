@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1480 760" role="img" aria-labelledby="title description">
+  <title id="title">SoL Codex runtime and verification architecture</title>
+  <desc id="description">Two data-flow lanes show how PostToolUse selects a model-aware threshold, stores exact hook-visible output, returns a bounded receipt, reports aggregate bytes, and preserves verification debt using a trusted exit status across Codex compaction.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071426"/>
+      <stop offset="1" stop-color="#10294a"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#45a3ff"/>
+      <stop offset="1" stop-color="#71e6c5"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#020814" flood-opacity="0.45"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8fb9e9"/>
+    </marker>
+    <style>
+      .heading { font: 700 27px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #f4f8ff; }
+      .subheading { font: 500 14px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #a8bdd8; letter-spacing: 0.08em; }
+      .node { fill: #102f51; stroke: #4a84bd; stroke-width: 1.5; rx: 13; filter: url(#shadow); }
+      .node-accent { fill: #113f4a; stroke: #51d5b2; stroke-width: 1.5; rx: 13; filter: url(#shadow); }
+      .node-warn { fill: #47391d; stroke: #f1bd51; stroke-width: 1.5; rx: 13; filter: url(#shadow); }
+      .decision { fill: #192c50; stroke: #8b8cff; stroke-width: 1.6; filter: url(#shadow); }
+      .label { font: 600 15px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #f5f8ff; text-anchor: middle; }
+      .small { font: 500 12px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #b7cae1; text-anchor: middle; }
+      .edge { fill: none; stroke: #8fb9e9; stroke-width: 2; marker-end: url(#arrow); }
+      .edge-accent { fill: none; stroke: #62d9bb; stroke-width: 2.2; marker-end: url(#arrow); }
+      .edge-warn { fill: none; stroke: #efbd5f; stroke-width: 2; marker-end: url(#arrow); }
+      .edge-label { font: 600 12px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #c9dbef; }
+      .lane { fill: #0a1b31; stroke: #294968; stroke-width: 1; rx: 20; }
+    </style>
+  </defs>
+
+  <rect width="1480" height="760" fill="url(#background)" rx="24"/>
+  <rect x="42" y="36" width="1396" height="318" class="lane"/>
+  <text x="76" y="78" class="subheading">RUNTIME DATA FLOW</text>
+  <text x="76" y="111" class="heading">Keep the evidence. Shrink the replay.</text>
+
+  <path class="edge" d="M226 191 H286"/>
+  <path class="edge" d="M426 191 H480"/>
+  <path class="edge-accent" d="M600 170 C632 142 641 142 680 142"/>
+  <path class="edge" d="M600 212 C632 244 641 244 680 244"/>
+  <path class="edge" d="M824 142 C855 142 859 173 894 173"/>
+  <path class="edge" d="M824 244 C855 244 859 211 894 211"/>
+  <path class="edge-accent" d="M1056 171 H1114"/>
+  <path class="edge-warn" d="M975 239 V296 H1114"/>
+  <path class="edge-accent" d="M1284 170 H1330"/>
+  <path class="edge" d="M1284 188 H1308 V238"/>
+
+  <rect x="76" y="158" width="150" height="66" class="node"/>
+  <text x="151" y="185" class="label">Codex tool result</text>
+  <text x="151" y="205" class="small">local function output</text>
+
+  <rect x="286" y="158" width="140" height="66" class="node-accent"/>
+  <text x="356" y="186" class="label">PostToolUse</text>
+  <text x="356" y="206" class="small">after execution</text>
+
+  <polygon points="540,145 600,191 540,237 480,191" class="decision"/>
+  <text x="540" y="186" class="label">Active</text>
+  <text x="540" y="205" class="label">model</text>
+
+  <rect x="680" y="111" width="144" height="62" class="node-accent"/>
+  <text x="752" y="137" class="label">4 KiB Astra</text>
+  <text x="752" y="157" class="small">gpt-6-astra only</text>
+  <rect x="680" y="213" width="144" height="62" class="node"/>
+  <text x="752" y="239" class="label">12 KiB default</text>
+  <text x="752" y="259" class="small">all other models</text>
+
+  <polygon points="975,132 1056,191 975,250 894,191" class="decision"/>
+  <text x="975" y="177" class="label">Eligible?</text>
+  <text x="975" y="197" class="label">+ net savings?</text>
+  <text x="1076" y="159" class="edge-label">yes</text>
+  <text x="989" y="288" class="edge-label">no</text>
+
+  <rect x="1114" y="137" width="170" height="66" class="node-accent"/>
+  <text x="1199" y="164" class="label">exact local artifact</text>
+  <text x="1199" y="184" class="small">private PLUGIN_DATA</text>
+
+  <rect x="1330" y="137" width="104" height="66" class="node-accent"/>
+  <text x="1382" y="163" class="label">receipt</text>
+  <text x="1382" y="183" class="small">bounded</text>
+  <text x="1265" y="128" class="edge-label">sanitized bounded receipt</text>
+
+  <rect x="1114" y="265" width="144" height="58" class="node-warn"/>
+  <text x="1186" y="290" class="label">Original result</text>
+  <text x="1186" y="309" class="small">unchanged</text>
+
+  <rect x="1288" y="238" width="146" height="58" class="node"/>
+  <text x="1361" y="263" class="label">per-model report</text>
+  <text x="1361" y="282" class="small">aggregate bytes</text>
+
+  <rect x="42" y="384" width="1396" height="332" class="lane"/>
+  <text x="76" y="426" class="subheading">VERIFICATION DEBT + COMPACTION LIFECYCLE</text>
+  <text x="76" y="459" class="heading">Progress survives compaction; claims still need evidence.</text>
+
+  <path class="edge-accent" d="M246 539 H300"/>
+  <path class="edge" d="M480 539 H535"/>
+  <path class="edge-accent" d="M655 518 C690 517 704 517 742 517"/>
+  <path class="edge-warn" d="M655 560 C690 594 704 594 742 594"/>
+  <path class="edge-warn" d="M900 594 H954"/>
+  <path class="edge" d="M390 573 V666 H524"/>
+  <path class="edge" d="M668 666 H720"/>
+  <path class="edge" d="M850 666 H902"/>
+  <path class="edge" d="M1048 666 H1100"/>
+  <path class="edge-accent" d="M1258 636 C1300 606 1300 476 1250 476 H625 C610 476 600 484 595 493"/>
+
+  <rect x="76" y="506" width="170" height="66" class="node-accent"/>
+  <text x="161" y="533" class="label">Code patch</text>
+  <text x="161" y="553" class="small">code-like path changed</text>
+
+  <rect x="300" y="506" width="180" height="66" class="node-warn"/>
+  <text x="390" y="533" class="label">Pending debt</text>
+  <text x="390" y="553" class="small">durable local state</text>
+
+  <polygon points="595,493 655,539 595,585 535,539" class="decision"/>
+  <text x="595" y="534" class="label">Verifier</text>
+  <text x="595" y="554" class="small">status / sidecar</text>
+
+  <rect x="742" y="486" width="158" height="62" class="node-accent"/>
+  <text x="821" y="512" class="label">Debt cleared</text>
+  <text x="821" y="532" class="small">exit code 0</text>
+  <rect x="742" y="563" width="158" height="62" class="node-warn"/>
+  <text x="821" y="589" class="label">Debt remains</text>
+  <text x="821" y="609" class="small">failure or no status</text>
+
+  <rect x="954" y="563" width="180" height="62" class="node-warn"/>
+  <text x="1044" y="588" class="label">Stop feedback</text>
+  <text x="1044" y="608" class="small">completion claim blocked</text>
+
+  <rect x="524" y="637" width="144" height="58" class="node"/>
+  <text x="596" y="662" class="label">PreCompact</text>
+  <text x="596" y="681" class="small">read durable state</text>
+  <rect x="720" y="637" width="130" height="58" class="node"/>
+  <text x="785" y="662" class="label">Codex compacts</text>
+  <text x="785" y="681" class="small">plugin observes</text>
+  <rect x="902" y="637" width="146" height="58" class="node"/>
+  <text x="975" y="662" class="label">PostCompact</text>
+  <text x="975" y="681" class="small">record lifecycle</text>
+  <rect x="1100" y="627" width="158" height="78" class="node-accent"/>
+  <text x="1179" y="652" class="label">Compact resume</text>
+  <text x="1179" y="672" class="small">SessionStart restores</text>
+  <text x="1179" y="690" class="small">debt reminder</text>
+</svg>

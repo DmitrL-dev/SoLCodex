@@ -1,0 +1,41 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "sol-codex",
+  "version": "0.1.0+codex.20260923075309",
+  "description": "Local Codex hooks for evidence-preserving output packing and verification-aware coding loops.",
+  "author": {
+    "name": "Spectorn",
+    "url": "https://github.com/DmitrL-dev"
+  },
+  "homepage": "https://github.com/DmitrL-dev/SoLCodex#readme",
+  "repository": "https://github.com/DmitrL-dev/SoLCodex",
+  "license": "MIT",
+  "keywords": [
+    "codex",
+    "hooks",
+    "context-window",
+    "llm-efficiency"
+  ],
+  "extensions": {
+    "com.openai": {
+      "hooks": "./hooks/hooks.json",
+      "interface": {
+        "displayName": "SoL Codex",
+        "shortDescription": "Verified compact tool output for efficient coding loops",
+        "longDescription": "Archives eligible large local tool output exactly, returns bounded sanitized receipts, and tracks verification debt across compaction.",
+        "developerName": "Spectorn",
+        "category": "Productivity",
+        "capabilities": [
+          "Lifecycle hooks",
+          "Local output archives",
+          "Verification tracking"
+        ],
+        "websiteURL": "https://github.com/DmitrL-dev/SoLCodex",
+        "defaultPrompt": [
+          "Use SoL Codex for this coding task with focused verification."
+        ],
+        "brandColor": "#2F6FED"
+      }
+    }
+  }
+}

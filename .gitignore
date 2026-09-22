@@ -1,0 +1,17 @@
+.DS_Store
+._*
+__pycache__/
+*.py[cod]
+.venv/
+dist/
+build/
+release/
+work/
+*.zip
+*.sha256
+.superpowers/
+docs/superpowers/
+plugin-data/
+.sol-codex-data/
+observations/
+state/

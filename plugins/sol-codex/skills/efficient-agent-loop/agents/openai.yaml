@@ -1,0 +1,4 @@
+interface:
+  display_name: "Efficient Agent Loop"
+  short_description: "Reduce model turns without skipping verification"
+  default_prompt: "Use $efficient-agent-loop to complete this coding task efficiently and verify the result."

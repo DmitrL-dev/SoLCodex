@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "snapshot_date": "2026-09-22",
+  "unit": "serialized model-visible bytes",
+  "totals": {
+    "packed_observations": 355,
+    "source_bytes": 8158596,
+    "receipt_bytes": 735540,
+    "saved_bytes": 7423056
+  },
+  "gpt-6-astra": {
+    "packed_observations": 7,
+    "source_bytes": 47428,
+    "receipt_bytes": 9065,
+    "saved_bytes": 38363
+  },
+  "gpt-5.6-sol": {
+    "packed_observations": 1,
+    "source_bytes": 40112,
+    "receipt_bytes": 1986,
+    "saved_bytes": 38126
+  },
+  "other_models": {
+    "packed_observations": 9,
+    "source_bytes": 237450,
+    "receipt_bytes": 26955,
+    "saved_bytes": 210495
+  },
+  "legacy_unattributed": {
+    "packed_observations": 338,
+    "source_bytes": 7833606,
+    "receipt_bytes": 697534,
+    "saved_bytes": 7136072
+  },
+  "formulas": {
+    "saved_bytes": "source_bytes - receipt_bytes",
+    "saved_percent": "saved_bytes / source_bytes * 100",
+    "receipt_percent": "receipt_bytes / source_bytes * 100"
+  }
+}

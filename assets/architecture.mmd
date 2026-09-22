@@ -1,0 +1,29 @@
+flowchart TB
+  subgraph runtime[Runtime data flow]
+    direction LR
+    A[Codex tool result] --> B[PostToolUse]
+    B --> C{Active model}
+    C -->|gpt-6-astra| D[4 KiB Astra]
+    C -->|all others| E[12 KiB default]
+    D --> F{Packable result and net savings?}
+    E --> F
+    F -->|yes| G[exact local artifact]
+    G --> H[sanitized bounded receipt]
+    H --> I[Model-visible result]
+    G --> J[per-model report]
+    F -->|no| K[Original result unchanged]
+  end
+
+  subgraph verification_debt[Verification debt and compaction lifecycle]
+    direction LR
+    L[Successful apply_patch] --> M[Pending verification debt]
+    M --> N{Verifier with trusted status}
+    N -->|exit 0| O[Debt cleared]
+    N -->|nonzero or absent| P[Debt remains]
+    P --> Q[Stop blocks completion claim]
+    M --> R[PreCompact reads durable state]
+    R --> S[Codex compacts]
+    S --> T[PostCompact records lifecycle]
+    T --> U[Compact SessionStart restores debt reminder]
+    U --> N
+  end

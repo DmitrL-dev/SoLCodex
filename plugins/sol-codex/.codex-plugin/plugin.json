@@ -1,0 +1,23 @@
+{
+  "name": "sol-codex",
+  "version": "0.1.0+codex.20260923075309",
+  "description": "Local harness-efficiency hooks for Codex Desktop: model-aware output packing, fused verification, and compaction recovery.",
+  "author": {
+    "name": "Spectorn"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "SoL Codex",
+    "shortDescription": "Efficient coding loops with verified compact output",
+    "longDescription": "Reduces avoidable model turns, applies an earlier evidence-preserving packing threshold for Astra without reducing reasoning, reports savings by model, and carries verification debt safely across compaction.",
+    "developerName": "Spectorn",
+    "category": "Productivity",
+    "capabilities": [
+      "Lifecycle hooks",
+      "Evidence-preserving output packing",
+      "Astra-aware packing and per-model savings",
+      "Verification debt tracking"
+    ],
+    "defaultPrompt": "Use SoL Codex to complete this coding task with fused verification."
+  }
+}
