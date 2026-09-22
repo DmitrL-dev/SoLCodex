@@ -53,6 +53,8 @@ PLUGIN_DATA=/path/to/your/sol-codex-data \
 
 The JSON report contains aggregate byte counters only. Marketplace names affect installed cache and data paths, so copy the resolved locations from `/hooks` rather than guessing them. The [measurement methodology](docs/savings.md) explains the formulas and limitations.
 
+In a [local historical snapshot](docs/savings.md), 355 packed events contained 8,158,596 source bytes and returned 735,540 receipt bytes: 7,423,056 fewer model-visible serialized bytes (90.98%) for those events. This is local byte accounting, not a measured saving in tokens, money, quota, or time, and it does not establish unchanged task quality. The snapshot predates plain-string packing, includes only outputs selected by the active byte threshold and net-savings guard, and has 338 legacy events without model attribution. SoL-Pi's results do not apply to this plugin.
+
 ## Security and limits
 
 Exact local artifacts can contain credentials, source code, or personal data. They use private filesystem modes and are never uploaded by this plugin, but anyone with access to the account or storage may still read them. Review [docs/security.md](docs/security.md) before enabling hooks on sensitive work.

@@ -1,8 +1,8 @@
 # Byte-savings methodology
 
-SoL Codex counts the serialized bytes of eligible tool observations before and after they are replaced with bounded receipts. These counters describe model-visible tool-result bytes for packing events only.
+SoL Codex locally counts the serialized bytes of eligible tool observations before and after they are replaced with bounded receipts. These counters describe model-visible tool-result bytes saved for packing events only.
 
-They are not token counts, API costs, quota measurements, cache measurements, or evidence that task quality is unchanged.
+They are not token counts, API costs, quota, time, or cache measurements, or evidence that task quality is unchanged.
 
 ## Snapshot
 
