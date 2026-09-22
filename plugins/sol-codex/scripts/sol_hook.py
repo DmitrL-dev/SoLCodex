@@ -845,11 +845,15 @@ def handle_stop(event: Dict[str, Any], store: StateStore) -> None:
     if event.get("stop_hook_active"):
         emit({"continue": True})
         return
-    pending = debt_summary(read_state(store))
-    if pending:
+    debt = read_state(store).get("verification_debt") or {}
+    if debt.get("pending"):
+        status = "failed" if debt.get("status") == "verification_failed" else "pending"
         emit({
-            "decision": "block",
-            "reason": pending + " Do not claim completion until it passes or the failure is reported explicitly.",
+            "continue": True,
+            "systemMessage": (
+                f"SoL Codex: verification {status}. Report checks accurately; "
+                "do not claim they passed without evidence."
+            ),
         })
     else:
         emit({"continue": True})

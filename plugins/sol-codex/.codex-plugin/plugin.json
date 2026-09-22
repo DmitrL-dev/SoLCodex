@@ -1,6 +1,6 @@
 {
   "name": "sol-codex",
-  "version": "0.1.0+codex.20260923075309",
+  "version": "0.1.1+codex.20260923091545",
   "description": "Local harness-efficiency hooks for Codex Desktop: model-aware output packing, fused verification, and compaction recovery.",
   "author": {
     "name": "Spectorn"

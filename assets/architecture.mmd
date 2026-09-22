@@ -20,7 +20,7 @@ flowchart TB
     M --> N{Verifier with trusted status}
     N -->|exit 0| O[Debt cleared]
     N -->|nonzero or absent| P[Debt remains]
-    P --> Q[Stop blocks completion claim]
+    P --> Q[Stop warns; answer continues]
     M --> R[PreCompact reads durable state]
     R --> S[Codex compacts]
     S --> T[PostCompact records lifecycle]

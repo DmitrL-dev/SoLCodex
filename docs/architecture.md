@@ -37,7 +37,7 @@ flowchart LR
   B --> C{Recognized verifier with trusted status}
   C -->|exit 0| D[Debt cleared]
   C -->|nonzero or absent| E[Debt remains]
-  E --> F[Stop blocks completion claim]
+  E --> F[Stop warns; answer continues]
   B --> G[PreCompact reads durable state]
   G --> H[Codex compacts]
   H --> I[PostCompact records lifecycle]
@@ -49,7 +49,7 @@ A successful `apply_patch` affecting a code-like path creates verification debt 
 
 Before compaction, the hook confirms that durable state is readable. After compaction it records the lifecycle event. When Codex resumes from compaction, `SessionStart` restores the pending-debt reminder. SoL Codex observes this lifecycle; it does not initiate Codex compaction.
 
-`Stop` feedback prevents the model from presenting an unverified code mutation as complete. It does not roll back changes and it is not a security boundary. Re-entry is allowed so the hook cannot trap Codex in its own stop loop.
+`Stop` emits an advisory warning for pending or failed verification while allowing the final answer. The agent must not claim unverified checks passed. This does not roll back changes and is not a security boundary. Re-entry is allowed.
 
 ## Local components
 

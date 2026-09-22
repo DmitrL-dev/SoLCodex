@@ -127,7 +127,7 @@
 
   <rect x="954" y="563" width="180" height="62" class="node-warn"/>
   <text x="1044" y="588" class="label">Stop feedback</text>
-  <text x="1044" y="608" class="small">completion claim blocked</text>
+  <text x="1044" y="608" class="small">advisory; answer continues</text>
 
   <rect x="524" y="637" width="144" height="58" class="node"/>
   <text x="596" y="662" class="label">PreCompact</text>

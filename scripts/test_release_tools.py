@@ -398,7 +398,7 @@ class ReleaseToolTests(unittest.TestCase):
         self.assertEqual(second.returncode, 0, second.stderr)
         self.assertEqual(first_bytes, rebuilt.read_bytes())
 
-        expected_prefix = "sol-codex-portable-0.1.0-codex.20260923075309/"
+        expected_prefix = "sol-codex-portable-0.1.1-codex.20260923091545/"
         with zipfile.ZipFile(archive) as handle:
             infos = handle.infolist()
             names = [info.filename for info in infos]
@@ -411,7 +411,7 @@ class ReleaseToolTests(unittest.TestCase):
             self.assertIn(expected_prefix + "LICENSE", names)
             self.assertIn(expected_prefix + "plugins/sol-codex/LICENSE", names)
             portable_readme = handle.read(expected_prefix + "README.md").decode("utf-8")
-            self.assertIn("0.1.0+codex.20260923075309", portable_readme)
+            self.assertIn("0.1.1+codex.20260923091545", portable_readme)
             self.assertIn("bash install.sh", portable_readme)
             self.assertIn("sol-codex@sol-codex-portable", portable_readme)
             root_license = handle.read(expected_prefix + "LICENSE")

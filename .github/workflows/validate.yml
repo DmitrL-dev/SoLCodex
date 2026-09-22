@@ -44,5 +44,5 @@ jobs:
           PYTHONDONTWRITEBYTECODE: "1"
         run: |
           scripts/build_release.sh
-          unzip -t dist/sol-codex-portable-0.1.0-codex.20260923075309.zip
-          python scripts/validate_repository.py --archive dist/sol-codex-portable-0.1.0-codex.20260923075309.zip
+          unzip -t dist/sol-codex-portable-0.1.1-codex.20260923091545.zip
+          python scripts/validate_repository.py --archive dist/sol-codex-portable-0.1.1-codex.20260923091545.zip

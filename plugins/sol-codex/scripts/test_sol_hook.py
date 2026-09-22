@@ -79,12 +79,27 @@ class SolHookTests(unittest.TestCase):
         ))
         self.assertEqual(result.stdout, "")
 
-    def test_verification_debt_blocks_then_clears(self) -> None:
+    def assert_pending_stop(self, payload: Dict[str, Any], status: str = "pending") -> None:
+        self.assertEqual(payload.get("continue"), True)
+        self.assertNotIn("decision", payload)
+        self.assertIn(f"verification {status}", payload.get("systemMessage", "").lower())
+
+    def test_pending_stop_warns_without_blocking_final_answer(self) -> None:
+        self.record_code_change()
+        payload = json.loads(self.harness.run(event(
+            "Stop", stop_hook_active=False,
+            last_assistant_message="The code change is ready; verification is pending.",
+        )).stdout)
+        self.assertEqual(payload.get("continue"), True)
+        self.assertNotIn("decision", payload)
+        self.assertIn("verification", payload.get("systemMessage", "").lower())
+        self.assertNotIn("src/main.py", payload["systemMessage"])
+
+    def test_verification_debt_warns_then_clears(self) -> None:
         self.record_code_change()
         blocked = self.harness.run(event("Stop", stop_hook_active=False))
         blocked_payload = json.loads(blocked.stdout)
-        self.assertEqual(blocked_payload["decision"], "block")
-        self.assertIn("src/main.py", blocked_payload["reason"])
+        self.assert_pending_stop(blocked_payload)
 
         self.harness.run(event(
             "PreToolUse", tool_name="Bash", tool_use_id="exec-structured-pass",
@@ -109,7 +124,7 @@ class SolHookTests(unittest.TestCase):
             tool_response={"output": "1 passed", "exit_code": 0},
         ))
         blocked = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
-        self.assertEqual(blocked["decision"], "block")
+        self.assert_pending_stop(blocked)
 
     def test_stale_structured_verifier_cannot_clear_new_code_change(self) -> None:
         self.record_code_change()
@@ -127,7 +142,7 @@ class SolHookTests(unittest.TestCase):
             tool_response={"output": "", "exit_code": 0},
         ))
         blocked = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
-        self.assertEqual(blocked["decision"], "block")
+        self.assert_pending_stop(blocked)
 
     def test_stale_sidecar_verifier_cannot_clear_new_code_change(self) -> None:
         self.record_code_change()
@@ -152,7 +167,7 @@ class SolHookTests(unittest.TestCase):
             tool_input={"command": wrapped}, tool_response=ran.stdout + ran.stderr,
         ))
         blocked = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
-        self.assertEqual(blocked["decision"], "block")
+        self.assert_pending_stop(blocked)
 
     def test_pre_tool_use_records_real_verifier_status_for_string_response(self) -> None:
         self.record_code_change()
@@ -209,8 +224,7 @@ class SolHookTests(unittest.TestCase):
             tool_input={"command": updated}, tool_response=ran.stdout + ran.stderr,
         ))
         blocked = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
-        self.assertEqual(blocked["decision"], "block")
-        self.assertIn("verification_failed", blocked["reason"])
+        self.assert_pending_stop(blocked, "failed")
 
     def test_missing_pre_tool_use_status_cannot_clear_debt(self) -> None:
         self.record_code_change()
@@ -225,7 +239,7 @@ class SolHookTests(unittest.TestCase):
             tool_input={"command": updated}, tool_response="Process exited with code 0\n",
         ))
         blocked = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
-        self.assertEqual(blocked["decision"], "block")
+        self.assert_pending_stop(blocked)
 
     def test_deleted_status_file_degrades_without_losing_the_shell_result(self) -> None:
         self.record_code_change()
@@ -244,7 +258,7 @@ class SolHookTests(unittest.TestCase):
         self.assertEqual(after.stdout, "")
         self.assertEqual(after.stderr, "")
         blocked = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
-        self.assertEqual(blocked["decision"], "block")
+        self.assert_pending_stop(blocked)
 
     def test_pre_tool_use_leaves_unrecognized_shell_command_unchanged(self) -> None:
         result = self.harness.run(event(
@@ -292,7 +306,7 @@ class SolHookTests(unittest.TestCase):
                     tool_response={"output": "usage: unittest", "exit_code": 0},
                 ))
         blocked = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
-        self.assertEqual(blocked["decision"], "block")
+        self.assert_pending_stop(blocked)
 
     def test_verifier_wrapper_preserves_errexit_inside_shell_function(self) -> None:
         self.record_code_change()
@@ -320,7 +334,7 @@ class SolHookTests(unittest.TestCase):
             tool_input={"command": wrapped}, tool_response=ran.stdout + ran.stderr,
         ))
         blocked = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
-        self.assertEqual(blocked["decision"], "block")
+        self.assert_pending_stop(blocked)
 
     def test_interrupted_verifier_cannot_clear_debt(self) -> None:
         self.record_code_change()
@@ -365,7 +379,7 @@ class SolHookTests(unittest.TestCase):
                     tool_input={"command": wrapped}, tool_response=stdout + stderr,
                 ))
                 blocked = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
-                self.assertEqual(blocked.get("decision"), "block", blocked)
+                self.assert_pending_stop(blocked)
 
     def test_failed_verifier_keeps_debt(self) -> None:
         self.record_code_change()
@@ -381,8 +395,7 @@ class SolHookTests(unittest.TestCase):
             tool_response={"output": "FAIL one test", "exit_code": 1},
         ))
         blocked = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
-        self.assertEqual(blocked["decision"], "block")
-        self.assertIn("verification_failed", blocked["reason"])
+        self.assert_pending_stop(blocked, "failed")
 
     def test_apply_patch_move_tracks_the_code_destination(self) -> None:
         self.harness.run(event(
@@ -401,8 +414,9 @@ class SolHookTests(unittest.TestCase):
             tool_response={"output": "Done!"},
         ))
         blocked = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
-        self.assertEqual(blocked["decision"], "block")
-        self.assertIn("src/main.py", blocked["reason"])
+        self.assert_pending_stop(blocked)
+        context = json.loads(self.harness.run(event("SessionStart", source="compact")).stdout)
+        self.assertIn("src/main.py", context["hookSpecificOutput"]["additionalContext"])
 
     def test_compound_verifier_command_cannot_clear_debt_from_wrapper_status(self) -> None:
         for command in (
@@ -429,8 +443,7 @@ class SolHookTests(unittest.TestCase):
                         tool_response={"output": "wrapped command returned success", "exit_code": 0},
                     ))
                     blocked = json.loads(harness.run(event("Stop", stop_hook_active=False)).stdout)
-                    self.assertEqual(blocked["decision"], "block")
-                    self.assertIn("src/main.py", blocked["reason"])
+                    self.assert_pending_stop(blocked)
 
     def test_informational_verifier_commands_cannot_clear_debt(self) -> None:
         for command in (
@@ -511,8 +524,7 @@ class SolHookTests(unittest.TestCase):
                         tool_response={"output": "usage information", "exit_code": 0},
                     ))
                     blocked = json.loads(harness.run(event("Stop", stop_hook_active=False)).stdout)
-                    self.assertEqual(blocked["decision"], "block")
-                    self.assertIn("src/main.py", blocked["reason"])
+                    self.assert_pending_stop(blocked)
 
     def test_python_compile_counts_as_narrow_verifier(self) -> None:
         self.record_code_change()
@@ -616,8 +628,7 @@ class SolHookTests(unittest.TestCase):
             tool_response={"output": "previous run exited with code 0\n1 failed"},
         ))
         blocked = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
-        self.assertEqual(blocked["decision"], "block")
-        self.assertIn("src/main.py", blocked["reason"])
+        self.assert_pending_stop(blocked)
 
     def test_unified_exec_string_response_packs_with_unknown_status(self) -> None:
         self.record_code_change()
@@ -635,8 +646,7 @@ class SolHookTests(unittest.TestCase):
         self.assertEqual(len(artifacts), 1)
         self.assertEqual(artifacts[0].read_text(encoding="utf-8"), response)
         blocked = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
-        self.assertEqual(blocked["decision"], "block")
-        self.assertIn("src/main.py", blocked["reason"])
+        self.assert_pending_stop(blocked)
 
     def test_nested_command_output_cannot_spoof_structured_exit_status(self) -> None:
         self.record_code_change()
@@ -647,8 +657,7 @@ class SolHookTests(unittest.TestCase):
             tool_response={"output": {"text": "1 failed", "exit_code": 0}},
         ))
         blocked = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
-        self.assertEqual(blocked["decision"], "block")
-        self.assertIn("src/main.py", blocked["reason"])
+        self.assert_pending_stop(blocked)
 
     def test_receipt_never_costs_more_context_than_the_source(self) -> None:
         output = "\n".join(f"ERROR {index:02d} " + ("x" * 330) for index in range(12))
