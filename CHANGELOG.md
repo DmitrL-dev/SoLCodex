@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented here.
 
+## [0.1.2] - 2026-09-23
+
+### Fixed
+
+- The root plugin manifest hid all lifecycle hooks in Codex `0.155.0-alpha.16`. The plugin now declares its hooks in the sole `.codex-plugin/plugin.json` manifest.
+
 ## [0.1.1] - 2026-09-23
 
 ### Fixed

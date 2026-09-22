@@ -31,7 +31,6 @@ ARCHIVE_ALLOWED_FILES = frozenset(
         "plugins/sol-codex/.codex-plugin/plugin.json",
         "plugins/sol-codex/LICENSE",
         "plugins/sol-codex/hooks/hooks.json",
-        "plugins/sol-codex/plugin.json",
         "plugins/sol-codex/scripts/sol_hook.py",
         "plugins/sol-codex/skills/efficient-agent-loop/SKILL.md",
         "plugins/sol-codex/skills/efficient-agent-loop/agents/openai.yaml",
@@ -79,7 +78,6 @@ def public_relative_paths(repo: Path) -> Iterable[Path]:
 
 
 def validate_manifest_identity(repo: Path) -> list[str]:
-    portable = load_json(repo / "plugins/sol-codex/plugin.json")
     compat = load_json(repo / "plugins/sol-codex/.codex-plugin/plugin.json")
     marketplace = load_json(repo / ".agents/plugins/marketplace.json")
     plugins = marketplace.get("plugins")
@@ -87,19 +85,12 @@ def validate_manifest_identity(repo: Path) -> list[str]:
         return ["marketplace must contain exactly one plugin object"]
     entry = plugins[0]
     errors: list[str] = []
-    portable_name = portable.get("name")
-    for label, value in (("compatibility", compat.get("name")), ("marketplace", entry.get("name"))):
-        if value != portable_name:
-            errors.append(
-                f"manifest name mismatch: portable={portable_name!r}, {label}={value!r}"
-            )
-    if compat.get("version") != portable.get("version"):
-        errors.append("manifest version mismatch")
-    if portable_name != PLUGIN_NAME:
-        errors.append(f"portable manifest name must be {PLUGIN_NAME!r}")
-    extension = portable.get("extensions")
-    if not isinstance(extension, dict) or not isinstance(extension.get("com.openai"), dict):
-        errors.append("portable manifest must define extensions.com.openai")
+    if compat.get("name") != PLUGIN_NAME or entry.get("name") != compat.get("name"):
+        errors.append("manifest name mismatch")
+    if not isinstance(compat.get("version"), str) or not compat["version"]:
+        errors.append("plugin manifest version missing")
+    if (repo / "plugins/sol-codex/plugin.json").exists():
+        errors.append("root plugin manifest hides hooks in Codex; use .codex-plugin/plugin.json only")
     return errors
 
 
@@ -150,7 +141,6 @@ def skill_frontmatter(path: Path) -> dict[str, str] | None:
 def validate_plugin_structure(repo: Path) -> list[str]:
     errors: list[str] = []
     plugin_root = repo / "plugins/sol-codex"
-    portable = load_json(plugin_root / "plugin.json")
     compat = load_json(plugin_root / ".codex-plugin/plugin.json")
 
     root_license = repo / "LICENSE"
@@ -160,11 +150,7 @@ def validate_plugin_structure(repo: Path) -> list[str]:
     elif root_license.read_bytes() != plugin_license.read_bytes():
         errors.append("plugin license must match repository LICENSE")
 
-    extensions = portable.get("extensions")
-    openai = extensions.get("com.openai") if isinstance(extensions, dict) else None
-    hook_path = plugin_relative_path(
-        plugin_root, openai.get("hooks") if isinstance(openai, dict) else None,
-    )
+    hook_path = plugin_relative_path(plugin_root, compat.get("hooks"))
     if hook_path is None or not hook_path.is_file():
         errors.append("hook configuration missing or outside plugin root")
     else:

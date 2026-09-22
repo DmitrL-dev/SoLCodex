@@ -6,7 +6,7 @@ repo_root="$(cd "$script_dir/.." && pwd -P)"
 dist_dir="${DIST_DIR:-$repo_root/dist}"
 source_date_epoch="${SOURCE_DATE_EPOCH:-315532800}"
 
-version="$(python3 - "$repo_root/plugins/sol-codex/plugin.json" <<'PY'
+version="$(python3 - "$repo_root/plugins/sol-codex/.codex-plugin/plugin.json" <<'PY'
 import json
 import sys
 from pathlib import Path

@@ -38,16 +38,8 @@ class ReleaseToolTests(unittest.TestCase):
     def fixture_repo(self) -> Path:
         repo = self.temp / "repo"
         self.write_json(
-            repo / "plugins/sol-codex/plugin.json",
-            {
-                "name": "sol-codex",
-                "version": "0.1.0",
-                "extensions": {"com.openai": {"hooks": "./hooks/hooks.json"}},
-            },
-        )
-        self.write_json(
             repo / "plugins/sol-codex/.codex-plugin/plugin.json",
-            {"name": "sol-codex", "version": "0.1.0", "skills": "./skills/"},
+            {"name": "sol-codex", "version": "0.1.0", "skills": "./skills/", "hooks": "./hooks/hooks.json"},
         )
         self.write_json(repo / "plugins/sol-codex/hooks/hooks.json", {"hooks": {}})
         license_text = "MIT License\n\nCopyright (c) 2026 Spectorn\n"
@@ -133,12 +125,19 @@ class ReleaseToolTests(unittest.TestCase):
     def test_manifest_identity_mismatch_fails(self) -> None:
         repo = self.fixture_repo()
         self.write_json(
-            repo / "plugins/sol-codex/plugin.json",
-            {"name": "wrong", "version": "0.1.0", "extensions": {"com.openai": {}}},
+            repo / "plugins/sol-codex/.codex-plugin/plugin.json",
+            {"name": "wrong", "version": "0.1.0", "skills": "./skills/", "hooks": "./hooks/hooks.json"},
         )
         result = self.run_validator(repo)
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("manifest name mismatch", result.stderr)
+
+    def test_root_manifest_that_hides_hooks_is_rejected(self) -> None:
+        repo = self.fixture_repo()
+        self.write_json(repo / "plugins/sol-codex/plugin.json", {"name": "sol-codex", "version": "0.1.0"})
+        result = self.run_validator(repo)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("root plugin manifest", result.stderr)
 
     def test_marketplace_path_and_policy_are_enforced(self) -> None:
         repo = self.fixture_repo()
@@ -398,20 +397,20 @@ class ReleaseToolTests(unittest.TestCase):
         self.assertEqual(second.returncode, 0, second.stderr)
         self.assertEqual(first_bytes, rebuilt.read_bytes())
 
-        expected_prefix = "sol-codex-portable-0.1.1-codex.20260923091545/"
+        expected_prefix = "sol-codex-portable-0.1.2-codex.20260923094500/"
         with zipfile.ZipFile(archive) as handle:
             infos = handle.infolist()
             names = [info.filename for info in infos]
             self.assertEqual(names, sorted(names))
             self.assertIn(expected_prefix + ".agents/plugins/marketplace.json", names)
-            self.assertIn(expected_prefix + "plugins/sol-codex/plugin.json", names)
+            self.assertNotIn(expected_prefix + "plugins/sol-codex/plugin.json", names)
             self.assertIn(expected_prefix + "plugins/sol-codex/.codex-plugin/plugin.json", names)
             self.assertIn(expected_prefix + "install.sh", names)
             self.assertIn(expected_prefix + "README.md", names)
             self.assertIn(expected_prefix + "LICENSE", names)
             self.assertIn(expected_prefix + "plugins/sol-codex/LICENSE", names)
             portable_readme = handle.read(expected_prefix + "README.md").decode("utf-8")
-            self.assertIn("0.1.1+codex.20260923091545", portable_readme)
+            self.assertIn("0.1.2+codex.20260923094500", portable_readme)
             self.assertIn("bash install.sh", portable_readme)
             self.assertIn("sol-codex@sol-codex-portable", portable_readme)
             root_license = handle.read(expected_prefix + "LICENSE")
@@ -458,7 +457,8 @@ class ReleaseToolTests(unittest.TestCase):
         )
         self.assertEqual(installed.returncode, 0, installed.stderr)
         install_root = self.temp / "data/sol-codex-portable"
-        self.assertTrue((install_root / "plugins/sol-codex/plugin.json").is_file())
+        self.assertFalse((install_root / "plugins/sol-codex/plugin.json").exists())
+        self.assertTrue((install_root / "plugins/sol-codex/.codex-plugin/plugin.json").is_file())
         calls = log.read_text(encoding="utf-8")
         self.assertIn(f"plugin marketplace add {install_root}", calls)
         self.assertIn("plugin add sol-codex@sol-codex-portable", calls)

@@ -2,7 +2,7 @@
 set -euo pipefail
 
 plugin_name="sol-codex"
-plugin_version="0.1.1+codex.20260923091545"
+plugin_version="0.1.2+codex.20260923094500"
 marketplace_name="sol-codex-portable"
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 source_root="$script_dir"
@@ -73,15 +73,15 @@ from pathlib import Path
 root = Path(sys.argv[1])
 expected_name, expected_version, expected_marketplace = sys.argv[2:]
 try:
-    portable = json.loads((root / "plugins/sol-codex/plugin.json").read_text(encoding="utf-8"))
     compat = json.loads((root / "plugins/sol-codex/.codex-plugin/plugin.json").read_text(encoding="utf-8"))
     market = json.loads((root / ".agents/plugins/marketplace.json").read_text(encoding="utf-8"))
     entries = market["plugins"]
     valid = (
-        portable.get("name") == expected_name
-        and compat.get("name") == expected_name
-        and portable.get("version") == expected_version
+        compat.get("name") == expected_name
         and compat.get("version") == expected_version
+        and compat.get("hooks") == "./hooks/hooks.json"
+        and (root / "plugins/sol-codex/hooks/hooks.json").is_file()
+        and not (root / "plugins/sol-codex/plugin.json").exists()
         and market.get("name") == expected_marketplace
         and isinstance(entries, list)
         and len(entries) == 1
