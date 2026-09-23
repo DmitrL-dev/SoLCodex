@@ -8,6 +8,7 @@ All notable changes to this project are documented here.
 
 - Recorded a two-pair real-repository receipt pilot, aggregate-only evidence, and invalid exploratory attempts.
 - Verified and documented that a new turn in the same task adopted the updated hook after a cache-preserving CLI upgrade; the original code-mode result remained visible.
+- Confirmed that a nonzero tool exit preserved its status without rejecting a nested Promise, and documented command-selection guidance for the opt-in adapter.
 
 ## [0.1.9] - 2026-09-24
 

@@ -6,6 +6,8 @@ After a cache-preserving upgrade from SoL Codex `0.1.8` to `0.1.9`, `codex plugi
 
 On the **next turn of this same task**, a second read-only command produced 9,015 bytes. The statement after `await` executed, the command returned exit code zero, and a private `0600` observation contained all 9,015 bytes. The installed manifest and hook source were `0.1.9+codex.20260924` with non-blocking `continue: false` feedback. No new task or app restart occurred. The JavaScript result still contained the original 9,015 bytes, so this proves control-flow recovery and local archival for this probe, not code-mode context compression.
 
+A second read-only probe printed 9,013 bytes and exited with code `7`. Its `await` also completed, returned `exit_code=7`, and archived the output in a `0600` artifact. A nonzero child exit therefore did not become a rejected code-mode Promise in this observed path; the status remained available to the caller.
+
 ## Refresh boundary in the inspected Codex build
 
 In Codex `0.155.0-alpha.16.3` source, [`start_task()` calls `activate_plugin_selection()`](https://github.com/openai/codex/blob/ffa06df2317e3e65fc74da977a5884710c5382d5/codex-rs/core/src/tasks/mod.rs#L285-L291). That function [compares effective plugin hook sources and calls `refresh_hooks()` when they differ](https://github.com/openai/codex/blob/ffa06df2317e3e65fc74da977a5884710c5382d5/codex-rs/core/src/session/plugin_selection.rs#L9-L29). A **new turn in the same task** was the successful refresh boundary in the local probe. Other host builds and trust states still require a real hook event for verification.

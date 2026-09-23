@@ -55,7 +55,7 @@ The [real-repository receipt pilot](docs/measurements/2026-09-24-real-repo-pilot
 
 The [A/B trace accounting guide](docs/measurements/ab-trace.md) documents an aggregate-only `codex exec --json` parser, private manifest format, quality checks, and limits of the earlier five-pair pilot.
 
-An [explicit command receipt prototype](docs/measurements/receipt-adapter.md) captures output before tool return and preserves code-mode control flow in a local test. It is opt-in, POSIX-only, and separate from the installed plugin while its task-level value is measured.
+An [explicit command receipt prototype](docs/measurements/receipt-adapter.md) captures output before tool return and preserves code-mode control flow in a local test. Use it for expected large or noisy output; short checks can cost more bytes as receipts. It is opt-in, POSIX-only, and separate from the installed plugin while its task-level value is measured.
 
 Its [frozen three-pair pilot](docs/measurements/2026-09-24-explicit-adapter-pilot.md) passed all task verifiers and used fewer aggregate total tokens, but took longer overall. Per-task results varied; a general efficiency gain is not established.
 
