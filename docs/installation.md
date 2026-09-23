@@ -21,7 +21,15 @@ Open `/hooks` after installation. Review the commands resolved from `hooks/hooks
 
 ## Update
 
-Refresh the marketplace checkout first:
+From a checkout of this repository, use the cache-preserving updater:
+
+```bash
+python3 scripts/upgrade_preserve_cache.py
+```
+
+It saves the exact existing SoL Codex cache entries, refreshes the marketplace, reinstalls only when the version changed, and restores old paths without overwriting the new installation. This keeps hook commands already bound by open tasks pointing at their original files. The tool refuses unexpected cache entries or links outside this plugin's cache. Keep its backup directory if a restore fails.
+
+For a manual update, refresh the marketplace checkout first:
 
 ```bash
 codex plugin marketplace upgrade sol-codex
@@ -34,7 +42,7 @@ codex plugin remove sol-codex@sol-codex
 codex plugin add sol-codex@sol-codex
 ```
 
-Open `/hooks` again. Changed hook files produce a new trust hash and must be reviewed. Start a new task after an update; running tasks retain the hooks they started with. Avoid updating while old tasks are still active: removing their versioned cache path can break hook commands loaded before `0.1.4`. See [troubleshooting](troubleshooting.md) if an old task is already blocked.
+Open `/hooks` again. Changed hook files produce a new trust hash and must be reviewed. Running tasks retain their loaded hook definitions; Codex does not provide a plugin-side way to register new hooks in those tasks. The updater keeps their old scripts available, so work can continue in the same task with the old behavior. Start a new task when the new hook definitions are required. A manual remove/add deletes old cache paths; use the updater while old tasks are open. See [troubleshooting](troubleshooting.md) if an old task is already blocked.
 
 ## Environment overrides
 

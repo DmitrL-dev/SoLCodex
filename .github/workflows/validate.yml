@@ -36,6 +36,10 @@ jobs:
         env:
           PYTHONDONTWRITEBYTECODE: "1"
         run: python -m unittest scripts.test_release_tools -v
+      - name: Test cache-preserving upgrade
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python -m unittest scripts.test_upgrade_cache -v
       - name: Run deterministic receipt benchmark
         env:
           PYTHONDONTWRITEBYTECODE: "1"
