@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented here.
 
+## Unreleased
+
+### Documentation
+
+- Added a source-linked research map and ranked A/B plan for context efficiency, provider caching, and retrieval cost.
+
 ## [0.1.8] - 2026-09-23
 
 ### Added

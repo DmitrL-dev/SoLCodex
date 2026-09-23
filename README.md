@@ -45,6 +45,8 @@ export SOL_CODEX_PACK_THRESHOLD_BYTES=6144
 
 ## Reports
 
+The [context-efficiency research map](docs/research/2026-09-23-context-efficiency.md) compares related work and ranks experiments. It does not change the released plugin or claim that published results transfer to SoL Codex.
+
 Run the hook script with the same `PLUGIN_DATA` directory shown by the installed hook environment:
 
 ```bash
