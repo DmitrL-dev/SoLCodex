@@ -1,6 +1,6 @@
 # Cost frontier and confirmation protocol (2026-09-24)
 
-The [bounded-search development pair](../measurements/2026-09-24-bounded-search-development.md) moved in the right direction, but one previously used defect cannot establish savings. This note widens the evidence base and fixes the outcome we need to test next.
+The [bounded-search development pair](../measurements/2026-09-24-bounded-search-development.md) moved in the right direction, but one previously used defect cannot establish savings. A second [cache-boundary pair](../measurements/2026-09-24-cache-boundary-development.md) also used fewer provider tokens at equal verifier success, while taking longer. Neither pair establishes general savings. This note widens the evidence base and fixes the outcome we need to test next.
 
 ## External evidence
 
@@ -10,8 +10,12 @@ The [bounded-search development pair](../measurements/2026-09-24-bounded-search-
 | [The Complexity Trap, v3](https://arxiv.org/abs/2508.21433) | On SWE-agent/SWE-bench Verified across five model settings, masking older observations roughly halved cost versus raw history while rivaling summarization; the authors report a further decrease for a hybrid. | A simple, model-free baseline belongs in future host-level comparisons. Masking *old* observations is a different intervention from reducing a new tool result, and current hooks cannot rewrite prior Codex history. |
 | [AgentDiet, v2](https://arxiv.org/abs/2509.23586) | On one coding-agent scaffold, two models, and two benchmarks, pruning useless/expired trajectory content reduced reported input tokens 39.9–59.7% and computed total cost 21.1–35.9% at the authors' measured performance. | Long-session trajectory state may offer more headroom than one command. The installed hook lacks that transcript-editing boundary; adaptation needs a different host/API capability and its own verification. |
 | [Recursive Language Models, v3](https://arxiv.org/abs/2512.24601) | Externalized prompts and programmatic inspection/subcalls handled long-context tasks at comparable reported cost in the paper's evaluations. | Programmatic filtering is a plausible alternative to a fixed preview, but recursive model calls are a different and potentially expensive treatment. Its benchmarks are not a Codex repair-loop result. |
+| [Don't Break the Cache](https://arxiv.org/html/2601.06007) | Across 500 multi-turn research-agent sessions on three providers, the authors report 41–80% lower API cost and 13–31% lower time to first token with prompt caching. Stable prompt boundaries were more reliable than caching dynamic tool content. | A host-level cache strategy can dominate our small tool-output intervention. The published task is web research, and the Codex CLI does not expose the same cache-boundary controls to this plugin. Record cache categories and keep tool definitions stable. |
+| [Cache-Aware Prompt Compression](https://arxiv.org/html/2607.15516) | The authors model compression jointly with cache writes/reads and report lower measured Anthropic API cost for query-agnostic compression in their evaluated settings; a 50-task retail benchmark had the same deterministic reward as their vanilla arm (36/50). | The measured cache tiers and cost ratios are specific to Sonnet 4.6 and its API. A receipt with a fixed schema may preserve a reusable prefix, but that is a hypothesis for Codex, not a transferred result. Avoid using raw token count as a dollar proxy. |
 
 The billed-cost study estimates that user-modifiable content was about 6% of cost in its single-prompt Claude Code benchmark, with tool output about 3.3%; its separate interactive-session analysis found a different mix. These are **not** Codex percentages. They suggest that a small single-prompt fixture may have too little addressable work for a broad money-saving claim. Our current Codex CLI traces expose token categories and time, not a provider bill.
+
+The cache studies also motivate a second falsifiable prediction: a shorter dynamic tool result could lower total tokens while changing the mix of cache reads and uncached input enough to erase monetary savings. We can test the token and cache-mix part with CLI telemetry. Actual billed cost would require billing records or a justified provider-specific price model, neither of which this experiment has.
 
 ## Mechanism and falsifiable claim
 
@@ -23,8 +27,9 @@ flowchart LR
   B --> E[Agent actions]
   D --> E
   E --> F[Independent task acceptance]
-  E --> G[All provider tokens, retrievals, and time]
-  F --> H[Cost per accepted task]
+  E --> G[Cached and uncached tokens, output, retrievals, time]
+  J[Host prompt-cache behavior] --> G
+  F --> H[Provider tokens per accepted task]
   G --> H
 ```
 

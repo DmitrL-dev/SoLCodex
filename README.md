@@ -53,6 +53,8 @@ A separate [bounded artifact-search prototype](docs/measurements/receipt-adapter
 
 The [bounded-search development pair](docs/measurements/2026-09-24-bounded-search-development.md) passed both repair checks with fewer total provider tokens and less time on one previously used fixture; a [cost-frontier protocol](docs/research/2026-09-24-cost-frontier.md) defines the held-out tests needed before claiming reliable savings.
 
+A [cache-boundary development pair](docs/measurements/2026-09-24-cache-boundary-development.md) passed both repair checks on a different defect with 10.3% fewer provider tokens, while taking 19.7% longer. It is exploratory evidence, not a billing or general-efficiency claim.
+
 The [hook result boundary study](docs/research/2026-09-24-hook-result-boundary.md) records the code-mode limitation, related upstream work, and the safe control-flow change in 0.1.9.
 
 The [existing-task hook refresh study](docs/research/2026-09-24-live-hook-refresh.md) records a successful same-task, next-turn refresh after upgrade, without restarting the app. The code-mode script still received the original result.

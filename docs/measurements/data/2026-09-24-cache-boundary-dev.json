@@ -1,0 +1,57 @@
+{
+  "adapter_sha256": "067ee9df409b84f52da3646df69c693253d9de2e46c8d9da0ed9df3507f80f1d",
+  "arms": {
+    "off": {
+      "all_command_result_bytes": 21796,
+      "artifact_read_commands": 0,
+      "decisive_case_recovered_before_edit": true,
+      "elapsed_seconds": 37.33,
+      "first_diagnostic_result_bytes": 11392,
+      "process_exit_code": 0,
+      "tokens": {
+        "cache_write_input_tokens": 0,
+        "cached_input_tokens": 113920,
+        "input_tokens": 126754,
+        "output_tokens": 598,
+        "reasoning_output_tokens": 0,
+        "total_input_output_tokens": 127352,
+        "uncached_input_tokens": 12834
+      },
+      "tool_calls": 6,
+      "verified": true
+    },
+    "on": {
+      "all_command_result_bytes": 11622,
+      "artifact_read_commands": 2,
+      "decisive_case_recovered_before_edit": true,
+      "elapsed_seconds": 44.67,
+      "first_diagnostic_result_bytes": 1009,
+      "process_exit_code": 0,
+      "tokens": {
+        "cache_write_input_tokens": 0,
+        "cached_input_tokens": 101632,
+        "input_tokens": 113179,
+        "output_tokens": 1063,
+        "reasoning_output_tokens": 0,
+        "total_input_output_tokens": 114242,
+        "uncached_input_tokens": 11547
+      },
+      "tool_calls": 7,
+      "verified": true
+    }
+  },
+  "date": "2026-09-24",
+  "fixture_sha256": "9285469f15bb658d87302325ffeadac60f3be7c7ab9c17eb5ce8c1ff4aab2f04",
+  "limitations": "One newly seeded defect, fixed run order, different treatment instructions, no provider bill; exploratory only.",
+  "measurement_complete": true,
+  "model": "gpt-6-luna",
+  "order": [
+    "off",
+    "on"
+  ],
+  "reasoning_effort": "low",
+  "repo_commit": "017453a8de9de7907fccad9c3ed07f71f4eaeb9a",
+  "schema_version": 1,
+  "search_sha256": "1cdbe1278e59e20655b66dc366f1e962bc2418907c4d3d5e8011d45b937abb4c",
+  "study": "cache-boundary-development"
+}
