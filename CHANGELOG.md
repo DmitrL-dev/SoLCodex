@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented here.
 
+## [0.1.6] - 2026-09-23
+
+### Changed
+
+- Large `pytest` and `unittest` output stays inline when the tool response has no trustworthy exit code. This avoids sending agents to saved artifacts merely to determine whether a test passed. Known-status test output and non-test output can still be packed.
+
 ## [0.1.5] - 2026-09-23
 
 ### Fixed

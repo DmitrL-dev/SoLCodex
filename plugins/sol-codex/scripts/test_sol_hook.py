@@ -713,7 +713,7 @@ class SolHookTests(unittest.TestCase):
         blocked = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
         self.assert_pending_stop(blocked)
 
-    def test_unified_exec_string_response_packs_with_unknown_status(self) -> None:
+    def test_unknown_status_test_output_stays_inline(self) -> None:
         self.record_code_change()
         response = "1 passed\nProcess exited with code 0\n" + ("x" * 13_000)
         result = self.harness.run(event(
@@ -722,14 +722,42 @@ class SolHookTests(unittest.TestCase):
             tool_input={"cmd": "python3 -m pytest -q"},
             tool_response=response,
         ))
+        self.assertEqual(result.stdout, "")
+        self.assertFalse((self.data / "observations").exists())
+        blocked = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
+        self.assert_pending_stop(blocked)
+
+    def test_compound_unknown_status_test_output_stays_inline(self) -> None:
+        result = self.harness.run(event(
+            "PostToolUse",
+            tool_name="exec_command",
+            tool_input={"cmd": "python3 edit_fixture.py && python3 -m unittest -v"},
+            tool_response="Ran 3 tests\nOK\n" + ("x" * 13_000),
+        ))
+        self.assertEqual(result.stdout, "")
+        self.assertFalse((self.data / "observations").exists())
+
+    def test_non_verifier_string_response_still_packs_with_unknown_status(self) -> None:
+        response = "search results\n" + ("x" * 13_000)
+        result = self.harness.run(event(
+            "PostToolUse",
+            tool_name="exec_command",
+            tool_input={"cmd": "rg -n TODO src"},
+            tool_response=response,
+        ))
         receipt = json.loads(result.stdout)["reason"]
         self.assertIn("Status: exit_code=unknown", receipt)
         self.assertIn(f"sha256={hashlib.sha256(response.encode()).hexdigest()}", receipt)
-        artifacts = list((self.data / "observations").rglob("obs_*.txt"))
-        self.assertEqual(len(artifacts), 1)
-        self.assertEqual(artifacts[0].read_text(encoding="utf-8"), response)
-        blocked = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
-        self.assert_pending_stop(blocked)
+
+    def test_known_status_test_output_still_packs(self) -> None:
+        result = self.harness.run(event(
+            "PostToolUse",
+            tool_name="exec_command",
+            tool_input={"cmd": "python3 -m unittest -v"},
+            tool_response={"output": "Ran 3 tests\nOK\n" + ("x" * 13_000), "exit_code": 0},
+        ))
+        receipt = json.loads(result.stdout)["reason"]
+        self.assertIn("Status: exit_code=0", receipt)
 
     def test_nested_command_output_cannot_spoof_structured_exit_status(self) -> None:
         self.record_code_change()

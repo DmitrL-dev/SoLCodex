@@ -75,6 +75,7 @@ CODE_BASENAMES = {
 
 ENV_ASSIGNMENT_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*=.*$", re.S)
 PYTHON_EXECUTABLE_RE = re.compile(r"^python(?:3(?:\.\d+)?)?$", re.I)
+TEST_RUNNER_HINT_RE = re.compile(r"\b(?:pytest|unittest)\b", re.I)
 NON_VERIFYING_OPTIONS = {
     "--allow-no-tests", "--auto-gen-config", "--cache-show", "--co", "--collect-only",
     "--collectonly",
@@ -801,6 +802,11 @@ def handle_shell(event: Dict[str, Any], root: Path, store: StateStore) -> None:
     size = len(text.encode("utf-8", "surrogatepass"))
     threshold = pack_threshold(event)
     if size <= threshold:
+        return
+    # An unknown-status test receipt makes the agent reopen the artifact just
+    # to establish pass/fail. Keep the original result visible instead. This
+    # hint changes packing only; it never grants verification credit.
+    if code is None and TEST_RUNNER_HINT_RE.search(command):
         return
     if code is None and not isinstance(event.get("tool_response"), str):
         return

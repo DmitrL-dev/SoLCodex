@@ -51,7 +51,7 @@ Packing requires all of the following:
 
 `apply_patch` is tracked for verification debt but its response is not packed. The plugin also leaves output untouched when safety or efficiency conditions are not met.
 
-Plain-string responses may be packed with `exit_code=unknown`. If Codex truncated the output before `PostToolUse`, the hook sees only the truncated text and may not reach the threshold. An unknown-status structured object remains unchanged.
+Plain-string responses may be packed with `exit_code=unknown`, except when the command mentions `pytest` or `unittest`: test output stays inline if its exit code is unknown. If Codex truncated the output before `PostToolUse`, the hook sees only the truncated text and may not reach the threshold. An unknown-status structured object remains unchanged.
 
 ## Verification debt remains
 

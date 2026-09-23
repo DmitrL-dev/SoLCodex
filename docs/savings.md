@@ -59,7 +59,7 @@ It uses fixed synthetic output in a temporary private data directory. Its output
 
 ## Population and interpretation limits
 
-The snapshot includes only observations that crossed the active byte threshold and produced a smaller receipt under the hook version that recorded them. It predates plain-string packing; it is not a forecast for the current release. Small outputs and outputs rejected by the net-savings guard are absent from these counters. Current reports may also include packed plain-string observations with unknown status.
+The snapshot includes only observations that crossed the active byte threshold and produced a smaller receipt under the hook version that recorded them. It predates plain-string packing; it is not a forecast for the current release. Small outputs, unknown-status `pytest` and `unittest` results, and outputs rejected by the net-savings guard are absent from these counters. Current reports may also include other packed plain-string observations with unknown status.
 
 The source and receipt sizes are serialized UTF-8 byte lengths measured by the hook. A tokenizer may map the same text to a different ratio, providers may cache or bill content differently, and Codex may apply additional context processing outside the plugin.
 
