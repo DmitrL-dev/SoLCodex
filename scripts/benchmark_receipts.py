@@ -98,6 +98,7 @@ def benchmark() -> Dict[str, Any]:
         secret = "sk-" + ("b" * 32)
         cases: List[Dict[str, Any]] = [
             packed_case(data, "astra-5000", "gpt-6-astra", "a" * 5_000),
+            packed_case(data, "default-8000", "gpt-6-luna", "l" * 8_000),
             packed_case(data, "default-13000", "gpt-5.6-sol", "d" * 13_000),
             packed_case(
                 data, "plain-string-unknown", "gpt-6-sol", "s" * 13_000,

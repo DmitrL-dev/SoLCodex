@@ -69,6 +69,8 @@ The results from NVIDIA's SoL-Pi paper use another harness, mechanisms, workload
 
 ## Future A/B measurement
 
+A [five-pair local pilot](measurements/2026-09-23-ab-threshold.md) tested a 4,096-byte override on two synthetic Python tasks. Both arms passed every verifier, and ON used fewer provider-reported tokens overall. The new 6,144-byte default was not itself measured end to end. The pilot is too small and narrow to support a general savings claim.
+
 A credible end-to-end comparison should be designed before runs begin:
 
 1. Freeze a task set, repository revisions, toolchain, model, reasoning effort, and time limits.

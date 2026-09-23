@@ -50,7 +50,7 @@ Launch Codex from an environment containing any overrides you need:
 
 ```bash
 export SOL_CODEX_ASTRA_PACK_THRESHOLD_BYTES=4096
-export SOL_CODEX_PACK_THRESHOLD_BYTES=12288
+export SOL_CODEX_PACK_THRESHOLD_BYTES=6144
 ```
 
 The global setting takes precedence. Both are byte thresholds with a minimum of 256. The plugin reads the current model from each hook event and never changes it.

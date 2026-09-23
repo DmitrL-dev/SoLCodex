@@ -26,7 +26,7 @@ The artifact proves what bytes were retained, not that the command was correct. 
 ## Preserve Astra quality
 
 When the active model is `gpt-6-astra`, outputs larger than 4096 bytes are packed earlier than the
-default 12288-byte threshold. This changes only model-visible tool output; it does not reduce Astra's
+default 6144-byte threshold. This changes only model-visible tool output; it does not reduce Astra's
 reasoning effort. Keep complex judgment and final verification in Astra. When subagents are available,
 delegate deterministic discovery, log collection, and routine test execution to Sol, then review the
 compact evidence in Astra.

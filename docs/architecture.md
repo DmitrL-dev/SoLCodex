@@ -23,7 +23,7 @@ flowchart LR
 
 `PostToolUse` runs after the tool has completed. It cannot undo file writes, commands, or other side effects. A shell result is packable when it is a plain string or when a recognized top-level structured exit code is present. String results without a verifier sidecar retain `exit_code=unknown`; a textual claim such as "passed" is never trusted as status. An unknown-status structured object remains unchanged. The hook contract was validated against Codex `0.155.0-alpha.9.2`.
 
-The active model slug selects only the byte threshold. Exact `gpt-6-astra` uses 4,096 bytes; every other model uses 12,288 bytes unless an environment override is present. The plugin does not select, switch, or configure the active model or its reasoning effort.
+The active model slug selects only the byte threshold. Exact `gpt-6-astra` uses 4,096 bytes; every other model uses 6,144 bytes unless an environment override is present. The plugin does not select, switch, or configure the active model or its reasoning effort. The lower default fits observed host-truncated `PostToolUse` payloads of roughly 8 KiB; the hook can preserve only the bytes it actually receives.
 
 When output is eligible, the hook writes the exact bytes it received to a private local artifact and computes a SHA-256 digest. The receipt includes known or unknown status, model profile, size, line count, hashes, a local artifact path, bounded diagnostic lines, and bounded head/tail previews. Supported credential shapes are redacted from the receipt; the exact artifact is deliberately unchanged. Output already truncated by the host before `PostToolUse` cannot be recovered.
 

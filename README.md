@@ -21,7 +21,7 @@ Open `/hooks`, review the resolved commands, and trust the plugin when Codex ask
 
 ## What it does
 
-- `PostToolUse` watches shell and patch results. Eligible output larger than 12 KiB is written exactly under `PLUGIN_DATA`; `gpt-6-astra` uses a 4 KiB threshold.
+- `PostToolUse` watches shell and patch results. Eligible output larger than 6 KiB is written exactly under `PLUGIN_DATA`; `gpt-6-astra` uses a 4 KiB threshold.
 - The model receives a bounded receipt with status (or `unknown`), hashes, diagnostic lines, and a small preview. Receipt redaction is best effort; the exact local artifact is not redacted.
 - Successful code patches create verification debt. A recognized verifier clears it only when its matching `PreToolUse` ran after the latest code patch and a structured exit code or private status sidecar reports exit code zero. Sidecars are a workflow aid, not a security attestation against malicious project code.
 - `PreCompact`, `PostCompact`, and `SessionStart` keep the debt reminder across Codex compaction. `Stop` warns about pending or failed verification without blocking the final answer; the agent must report checks accurately.
@@ -37,7 +37,7 @@ Set environment variables before launching Codex:
 
 ```bash
 export SOL_CODEX_ASTRA_PACK_THRESHOLD_BYTES=4096
-export SOL_CODEX_PACK_THRESHOLD_BYTES=12288
+export SOL_CODEX_PACK_THRESHOLD_BYTES=6144
 ```
 
 `SOL_CODEX_ASTRA_PACK_THRESHOLD_BYTES` applies only when the current model is `gpt-6-astra`. `SOL_CODEX_PACK_THRESHOLD_BYTES` is a global override and takes precedence for every model. Values are bytes and are clamped to at least 256. The plugin does not select a model; the Astra profile is active only when Codex already reports `gpt-6-astra` as the current model.

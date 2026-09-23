@@ -808,6 +808,20 @@ class SolHookTests(unittest.TestCase):
         ))
         self.assertEqual(result.stdout, "")
 
+    def test_host_truncated_plain_string_exceeds_default_threshold(self) -> None:
+        response = "Warning: truncated output (original token count: 6183)\n" + ("x" * 8_000)
+        result = self.harness.run(event(
+            "PostToolUse",
+            model="gpt-6-luna",
+            tool_name="Bash",
+            tool_input={"command": "python3 inspect_fixture.py"},
+            tool_response=response,
+        ))
+        payload = json.loads(result.stdout)
+        self.assertEqual(payload["decision"], "block")
+        self.assertIn("threshold_bytes=6144", payload["reason"])
+        self.assertIn("Status: exit_code=unknown", payload["reason"])
+
     def test_astra_packs_at_four_kib_while_sol_keeps_same_output_inline(self) -> None:
         output = "x" * 5_000
         astra = self.harness.run(event(
