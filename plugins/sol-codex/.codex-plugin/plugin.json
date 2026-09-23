@@ -1,7 +1,7 @@
 {
   "name": "sol-codex",
-  "version": "0.1.8+codex.20260923",
-  "description": "Local harness-efficiency hooks for Codex Desktop: model-aware output packing, fused verification, and compaction recovery.",
+  "version": "0.1.9+codex.20260924",
+  "description": "Local Codex hooks for bounded receipt feedback, verification tracking, and compaction recovery.",
   "author": {
     "name": "Spectorn"
   },
@@ -10,7 +10,7 @@
   "interface": {
     "displayName": "SoL Codex",
     "shortDescription": "Efficient coding loops with verified compact output",
-    "longDescription": "Reduces avoidable model turns, applies an earlier evidence-preserving packing threshold for Astra without reducing reasoning, reports savings by model, and carries verification debt safely across compaction.",
+    "longDescription": "Provides non-blocking receipt feedback for eligible large outputs, reports local byte counters by model, and carries verification debt across compaction. Code mode can retain the original nested result.",
     "developerName": "Spectorn",
     "category": "Productivity",
     "capabilities": [

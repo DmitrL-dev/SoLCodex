@@ -12,7 +12,7 @@ No SoL-Pi source code is copied into this repository. SoL Codex is not a fork, i
 The concrete adaptation uses Codex lifecycle hooks to:
 
 - archive eligible local tool output exactly;
-- return a bounded model-visible receipt;
+- request bounded hook feedback; code-mode scripts may still receive the original result;
 - track verification debt after code mutation;
 - preserve that reminder across compaction; and
 - aggregate byte counts by the model already active in Codex.

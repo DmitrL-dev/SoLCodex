@@ -6,7 +6,24 @@ repo_root="$(cd "$script_dir/.." && pwd -P)"
 dist_dir="${DIST_DIR:-$repo_root/dist}"
 source_date_epoch="${SOURCE_DATE_EPOCH:-315532800}"
 
-version="$(python3 - "$repo_root/plugins/sol-codex/.codex-plugin/plugin.json" <<'PY'
+if [ -n "$(git -C "$repo_root" status --porcelain --untracked-files=all -- \
+  .agents/plugins/marketplace.json plugins/sol-codex scripts/install.sh LICENSE)" ]; then
+  echo "release inputs differ from HEAD; commit them before building" >&2
+  exit 1
+fi
+
+temporary="$(mktemp -d)"
+cleanup() {
+  rm -rf -- "$temporary"
+}
+trap cleanup EXIT
+source_root="$temporary/source"
+mkdir -p "$source_root"
+git -C "$repo_root" archive --format=tar HEAD \
+  .agents/plugins/marketplace.json plugins/sol-codex scripts/install.sh LICENSE \
+  | tar -xf - -C "$source_root"
+
+version="$(python3 - "$source_root/plugins/sol-codex/.codex-plugin/plugin.json" <<'PY'
 import json
 import sys
 from pathlib import Path
@@ -20,21 +37,13 @@ archive_name="$package_name.zip"
 archive_path="$dist_dir/$archive_name"
 checksum_path="$archive_path.sha256"
 
-temporary="$(mktemp -d)"
-cleanup() {
-  rm -rf -- "$temporary"
-}
-trap cleanup EXIT
 package_root="$temporary/$package_name"
-mkdir -p "$package_root" "$dist_dir"
-
-git -C "$repo_root" archive --format=tar HEAD \
-  .agents/plugins/marketplace.json plugins/sol-codex \
-  | tar -xf - -C "$package_root"
+mv "$source_root" "$package_root"
+mkdir -p "$dist_dir"
 find "$package_root/plugins" -type f -name 'test_*.py' -delete
-cp "$script_dir/install.sh" "$package_root/install.sh"
-cp "$repo_root/LICENSE" "$package_root/LICENSE"
-cp "$repo_root/LICENSE" "$package_root/plugins/sol-codex/LICENSE"
+mv "$package_root/scripts/install.sh" "$package_root/install.sh"
+rmdir "$package_root/scripts"
+cp "$package_root/LICENSE" "$package_root/plugins/sol-codex/LICENSE"
 chmod 0755 "$package_root/install.sh"
 
 python3 - "$package_root/.agents/plugins/marketplace.json" <<'PY'

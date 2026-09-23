@@ -19,7 +19,7 @@ SoL Codex may replace a large Bash result with a receipt containing hashes, exac
 
 For a large plain-string Bash result, a receipt can exist with `Status: exit_code=unknown`. Inspect its bounded evidence or exact local artifact only as needed, but never infer command success from its text. An unknown-status structured response, or a result whose receipt would cost at least as many bytes as the source, remains unchanged.
 
-In code mode, the nested tool promise may reject after a large result because the PostToolUse hook replaces that result with the receipt. The command has already run. Read `Status: exit_code=...` in the receipt before deciding whether the command itself failed; `unknown` is not a pass. Host-side truncation before the hook may prevent packing.
+This release uses non-blocking `PostToolUse` feedback so its receipt does not reject a nested code-mode promise after the command runs. Code mode may still receive the original nested result and can re-emit it; keep `text()` output bounded. For commands expected to produce large output, capture and summarize before returning from the tool when a trusted adapter is available. A receipt with `Status: exit_code=unknown` is not a pass. Host-side truncation before the hook may prevent a receipt.
 
 The artifact proves what bytes were retained, not that the command was correct. Use exit status and an appropriate verifier to establish correctness.
 

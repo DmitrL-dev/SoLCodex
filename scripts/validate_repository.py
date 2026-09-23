@@ -309,6 +309,24 @@ def validate_archive(path: Path) -> list[str]:
                     errors.append(error.replace("local absolute path", "local absolute path in archive"))
             if len(roots) != 1:
                 errors.append("archive must contain exactly one versioned package root")
+            else:
+                root = next(iter(roots))
+                manifest_path = f"{root}/plugins/sol-codex/.codex-plugin/plugin.json"
+                installer_path = f"{root}/install.sh"
+                if manifest_path in archive.namelist() and installer_path in archive.namelist():
+                    try:
+                        manifest = json.loads(archive.read(manifest_path))
+                        installer = archive.read(installer_path).decode("utf-8")
+                        version = manifest["version"]
+                        installer_match = re.search(r'^plugin_version="([^"]+)"$', installer, re.M)
+                        if not isinstance(version, str) or not version:
+                            raise ValueError("invalid version")
+                        if root != f"sol-codex-portable-{version.replace('+', '-')}":
+                            errors.append("archive package root does not match embedded plugin version")
+                        if installer_match is None or installer_match.group(1) != version:
+                            errors.append("archive installer version does not match embedded plugin version")
+                    except (ValueError, KeyError, TypeError, UnicodeDecodeError):
+                        errors.append("archive has invalid version metadata")
             for missing in sorted(ARCHIVE_ALLOWED_FILES - seen_files):
                 errors.append(f"{missing}: missing required archive member")
     except (OSError, zipfile.BadZipFile) as error:

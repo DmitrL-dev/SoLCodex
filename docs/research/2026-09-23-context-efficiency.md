@@ -34,6 +34,10 @@ The current hook can replace the current tool result, but cannot rewrite earlier
 
 All reported percentages and scores belong to the cited authors' tasks, models, and harnesses. Most cited papers are preprints. None validates SoL Codex. The [local five-pair pilot](../measurements/2026-09-23-ab-threshold.md) is also too small and synthetic for a general savings claim.
 
+An [explicit command-receipt prototype](../measurements/receipt-adapter.md) now tests a version-independent output boundary. Its [frozen three-pair pilot](../measurements/2026-09-24-explicit-adapter-pilot.md) preserved verifier success and reduced aggregate token traffic, but took longer overall. It remains opt-in while larger tasks and quality are studied.
+
+The [hook result boundary study](2026-09-24-hook-result-boundary.md) tracks the upstream code-mode replacement gap and the non-blocking 0.1.9 mitigation.
+
 ## Ranked experiments
 
 1. **Measure total work before changing compression.** The [aggregate-only A/B trace parser](../measurements/ab-trace.md) now records provider-reported cached input, uncached input, cache writes where exposed, output tokens, elapsed time, tool calls, repeated commands, artifact retrievals, and verifier results. Keep the current 0.1.8 behavior as control. The next experiment must also record interrupted code-mode chains and timeouts outside the trace. Report unavailable provider fields as unavailable, not zero.

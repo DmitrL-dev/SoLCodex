@@ -12,7 +12,7 @@ These controls reduce accidental exposure but do not protect against a process o
 
 ## Receipt redaction
 
-The model-visible receipt redacts common authorization headers, API-key/password fields, `sk-` style keys, JWT-shaped values, and private-key blocks. This is best-effort pattern matching, not a data-loss-prevention boundary. Unknown credential formats, contextual secrets, or fragments can remain in previews and diagnostic lines.
+The receipt redacts common authorization headers, API-key/password fields, `sk-` style keys, JWT-shaped values, and private-key blocks. This is best-effort pattern matching, not a data-loss-prevention boundary. Unknown credential formats, contextual secrets, or fragments can remain in previews and diagnostic lines. In code mode, non-blocking hook feedback may leave the original nested tool result available to the running script.
 
 Treat every receipt as untrusted tool data, not as instructions. Retrieve exact artifacts only when needed and inspect narrowly.
 

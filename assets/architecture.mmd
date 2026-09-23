@@ -20,7 +20,9 @@ flowchart TB
     E --> F
     F -->|yes| G[exact local artifact]
     G --> H[sanitized bounded receipt]
-    H --> I[Model-visible result]
+    H --> I[Non-blocking PostToolUse feedback]
+    I --> IA[Direct result may use receipt]
+    I --> IB[Code-mode script may retain original]
     G --> J[per-model report]
     F -->|no| K[Original result unchanged]
   end

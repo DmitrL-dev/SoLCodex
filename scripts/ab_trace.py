@@ -17,7 +17,9 @@ TOKEN_FIELDS = (
     "output_tokens", "reasoning_output_tokens",
 )
 TOOL_TYPES = {"command_execution", "file_change", "mcp_tool_call", "web_search"}
-ARTIFACT_RE = re.compile(r"obs_[a-f0-9]{24}\.txt")
+ARTIFACT_RE = re.compile(
+    r"(?:obs_[a-f0-9]{24}\.txt|receipt-[A-Za-z0-9_-]+[/\\]output-[A-Za-z0-9_-]+\.bin)"
+)
 SHA256_RE = re.compile(r"[a-f0-9]{64}\Z")
 
 

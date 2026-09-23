@@ -234,7 +234,7 @@ class SolHookTests(unittest.TestCase):
             tool_input={"command": updated},
             tool_response=response,
         ))
-        receipt = json.loads(after.stdout)["reason"]
+        receipt = json.loads(after.stdout)["stopReason"]
         self.assertIn("Status: exit_code=0", receipt)
         artifacts = list((self.data / "observations").rglob("obs_*.txt"))
         self.assertEqual(len(artifacts), 1)
@@ -648,8 +648,9 @@ class SolHookTests(unittest.TestCase):
             tool_response={"output": output, "exit_code": 1},
         ), threshold=256)
         payload = json.loads(result.stdout)
-        self.assertEqual(payload["decision"], "block")
-        receipt = payload["reason"]
+        self.assertIs(payload["continue"], False)
+        self.assertNotIn("decision", payload)
+        receipt = payload["stopReason"]
         self.assertIn("ERROR request failed", receipt)
         self.assertIn("[REDACTED]", receipt)
         self.assertNotIn(secret, receipt)
@@ -694,7 +695,7 @@ class SolHookTests(unittest.TestCase):
             tool_input={"command": "credential-safety-check"},
             tool_response={"output": output, "exit_code": 0},
         ), threshold=256)
-        receipt = json.loads(result.stdout)["reason"]
+        receipt = json.loads(result.stdout)["stopReason"]
         for secret in (
             json_secret, private_key_body, multiline_secret, authorization_secret,
             basic_authorization_secret, escaped_key_body, prefixed_key_body,
@@ -758,7 +759,7 @@ class SolHookTests(unittest.TestCase):
             tool_input={"cmd": "rg -n TODO src"},
             tool_response=response,
         ))
-        receipt = json.loads(result.stdout)["reason"]
+        receipt = json.loads(result.stdout)["stopReason"]
         self.assertIn("Status: exit_code=unknown", receipt)
         self.assertIn(f"sha256={hashlib.sha256(response.encode()).hexdigest()}", receipt)
 
@@ -769,7 +770,7 @@ class SolHookTests(unittest.TestCase):
             tool_input={"cmd": "python3 -m unittest -v"},
             tool_response={"output": "Ran 3 tests\nOK\n" + ("x" * 13_000), "exit_code": 0},
         ))
-        receipt = json.loads(result.stdout)["reason"]
+        receipt = json.loads(result.stdout)["stopReason"]
         self.assertIn("Status: exit_code=0", receipt)
 
     def test_nested_command_output_cannot_spoof_structured_exit_status(self) -> None:
@@ -792,7 +793,7 @@ class SolHookTests(unittest.TestCase):
             tool_input={"command": "diagnostic-heavy-command"},
             tool_response={"output": output, "exit_code": 1},
         ), threshold=256)
-        receipt = json.loads(result.stdout)["reason"]
+        receipt = json.loads(result.stdout)["stopReason"]
         source_bytes = len(output.encode("utf-8"))
         receipt_bytes = len(receipt.encode("utf-8"))
         self.assertLess(receipt_bytes, source_bytes)
@@ -831,9 +832,9 @@ class SolHookTests(unittest.TestCase):
             tool_response=response,
         ))
         payload = json.loads(result.stdout)
-        self.assertEqual(payload["decision"], "block")
-        self.assertIn("threshold_bytes=6144", payload["reason"])
-        self.assertIn("Status: exit_code=unknown", payload["reason"])
+        self.assertIs(payload["continue"], False)
+        self.assertIn("threshold_bytes=6144", payload["stopReason"])
+        self.assertIn("Status: exit_code=unknown", payload["stopReason"])
 
     def test_astra_packs_at_four_kib_while_sol_keeps_same_output_inline(self) -> None:
         output = "x" * 5_000
@@ -845,8 +846,8 @@ class SolHookTests(unittest.TestCase):
             tool_response={"output": output, "exit_code": 0},
         ))
         astra_payload = json.loads(astra.stdout)
-        self.assertEqual(astra_payload["decision"], "block")
-        self.assertIn("Model: gpt-6-astra; profile=astra; threshold_bytes=4096", astra_payload["reason"])
+        self.assertIs(astra_payload["continue"], False)
+        self.assertIn("Model: gpt-6-astra; profile=astra; threshold_bytes=4096", astra_payload["stopReason"])
 
         sol = self.harness.run(event(
             "PostToolUse",
@@ -884,7 +885,7 @@ class SolHookTests(unittest.TestCase):
             tool_input={"command": "long-running-check"},
             tool_response={"output": output, "exit_code": 0},
         ), threshold=256)
-        receipt = json.loads(result.stdout)["reason"]
+        receipt = json.loads(result.stdout)["stopReason"]
         self.assertEqual(receipt.count("> heartbeat"), 1)
         self.assertIn("repeated 100 times", receipt)
 

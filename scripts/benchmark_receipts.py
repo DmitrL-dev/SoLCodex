@@ -59,7 +59,10 @@ def packed_case(
     result = run_hook(data, payload)
     if result.returncode != 0 or not result.stdout:
         raise RuntimeError(f"{name}: expected a packed receipt")
-    receipt = json.loads(result.stdout)["reason"]
+    feedback = json.loads(result.stdout)
+    if feedback.get("continue") is not False:
+        raise RuntimeError(f"{name}: receipt feedback must not reject the tool call")
+    receipt = feedback["stopReason"]
     if plain_string and "Status: exit_code=unknown" not in receipt:
         raise RuntimeError(f"{name}: plain-string status was not marked unknown")
     artifact_match = ARTIFACT_RE.search(receipt)

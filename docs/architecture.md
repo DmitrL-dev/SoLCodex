@@ -1,6 +1,6 @@
 # Architecture
 
-SoL Codex is a local Codex hook plugin. It observes supported lifecycle events, stores eligible large tool output under the plugin's writable data directory, and returns a smaller evidence-bearing receipt when doing so reduces model-visible bytes.
+SoL Codex is a local Codex hook plugin. It observes supported lifecycle events, stores eligible large tool output under the plugin's writable data directory, and requests non-blocking receipt feedback when the receipt is smaller than the extracted text.
 
 The editable diagram source is [`assets/architecture.mmd`](../assets/architecture.mmd). The README-ready render is [`assets/architecture.svg`](../assets/architecture.svg).
 
@@ -31,9 +31,11 @@ flowchart LR
   E --> F
   F -->|yes| G[exact local artifact]
   G --> H[sanitized bounded receipt]
-  H --> I[Model-visible result]
-  G --> J[per-model report]
-  F -->|no| K[Original result unchanged]
+  H --> I[Non-blocking PostToolUse feedback]
+  I --> J[Direct result may use receipt]
+  I --> K[Code-mode script may retain original]
+  G --> AR[per-model report]
+  F -->|no| U[Original result unchanged]
 ```
 
 `PostToolUse` runs after the tool has completed. It cannot undo file writes, commands, or other side effects. A shell result is packable when it is a plain string or when a recognized top-level structured exit code is present. String results without a verifier sidecar retain `exit_code=unknown`; a textual claim such as "passed" is never trusted as status. An unknown-status structured object remains unchanged. The hook contract was validated against Codex `0.155.0-alpha.9.2`.
@@ -42,7 +44,7 @@ The active model slug selects only the byte threshold. Exact `gpt-6-astra` uses 
 
 When output is eligible, the hook writes the exact bytes it received to a private local artifact and computes a SHA-256 digest. The receipt includes known or unknown status, model profile, size, line count, hashes, a local artifact path, bounded diagnostic lines, and bounded head/tail previews. Supported credential shapes are redacted from the receipt; the exact artifact is deliberately unchanged. Output already truncated by the host before `PostToolUse` cannot be recovered.
 
-The hook compares serialized UTF-8 sizes before replacing the result. If archival fails or the receipt is not smaller, the original result continues unchanged. Runtime exceptions are caught so the host session can continue: the plugin is fail-open.
+The hook compares serialized UTF-8 sizes before emitting feedback. If archival fails or the receipt is not smaller, the original result continues unchanged. `continue: false` avoids deliberately rejecting a code-mode Promise after the tool executes. The documented host behavior may still return the original result to a code-mode script; that script can re-emit it. The local byte report measures source versus receipt length, not actual model input in that case. Runtime exceptions are caught so the host session can continue: the plugin is fail-open.
 
 ## Verification debt and compaction
 

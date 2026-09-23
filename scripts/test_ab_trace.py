@@ -48,6 +48,13 @@ class TraceTest(unittest.TestCase):
             self.assertIsNone(result["tokens"]["cached_input_tokens"])
             self.assertIsNone(result["tokens"]["uncached_input_tokens"])
 
+    def test_explicit_adapter_artifact_retrieval_is_counted(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "trace.jsonl"
+            command = "sed -n '10,12p' /private/receipt-abc123/output-xyz456.bin"
+            write_trace(path, cached=40, command=command)
+            self.assertEqual(parse_trace(path)["artifact_read_commands"], 2)
+
     def test_pair_report_keeps_unverified_run_inconclusive(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

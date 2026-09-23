@@ -18,7 +18,7 @@ Codex binds trust to the resolved hook content. Marketplace upgrades and new cac
 
 ## An old task calls a removed cache path
 
-Release `0.1.8` runs a pinned bootstrap from `PLUGIN_DATA/runtime-v1` after its first successful invocation. It loads the runtime snapshot bound to the task and lexical `PLUGIN_ROOT`, even after that cache path is removed. If both cache and bootstrap are missing before first use, recovery is impossible. If a removed root has several snapshots and no task binding, the loader refuses to guess. Reusing the same root path with changed runtime bytes in the same task also degrades safely. Keep `PLUGIN_DATA` intact and inspect the hook's diagnostic. Older loaded commands cannot adopt the new bootstrap; restore their exact reviewed cache path temporarily or reopen the task. The cache-preserving updater remains useful during this transition.
+Since release `0.1.8`, the plugin runs a pinned bootstrap from `PLUGIN_DATA/runtime-v1` after its first successful invocation. It loads the runtime snapshot bound to the task and lexical `PLUGIN_ROOT`, even after that cache path is removed. If both cache and bootstrap are missing before first use, recovery is impossible. If a removed root has several snapshots and no task binding, the loader refuses to guess. Reusing the same root path with changed runtime bytes in the same task also degrades safely. Keep `PLUGIN_DATA` intact and inspect the hook's diagnostic. Older loaded commands cannot adopt the new bootstrap; restore their exact reviewed cache path temporarily or reopen the task. The cache-preserving updater remains useful during this transition.
 
 ## Marketplace name collision
 
@@ -52,6 +52,8 @@ Packing requires all of the following:
 `apply_patch` is tracked for verification debt but its response is not packed. The plugin also leaves output untouched when safety or efficiency conditions are not met.
 
 Plain-string responses may be packed with `exit_code=unknown`, except when the command mentions `pytest` or `unittest`: test output stays inline if its exit code is unknown. If Codex truncated the output before `PostToolUse`, the hook sees only the truncated text and may not reach the threshold. An unknown-status structured object remains unchanged.
+
+Since 0.1.9, receipt feedback uses `continue: false` so the hook does not deliberately reject a nested code-mode Promise after a command has run. Current code-mode hosts may still give JavaScript the original result, which the script can re-emit. The local `saved_bytes` counter therefore cannot confirm context savings for that path. Use an explicit capture adapter when a bounded nested result is required.
 
 ## Verification debt remains
 

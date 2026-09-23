@@ -1,6 +1,6 @@
 # Byte-savings methodology
 
-SoL Codex locally counts the serialized bytes of eligible tool observations before and after they are replaced with bounded receipts. These counters describe model-visible tool-result bytes saved for packing events only.
+SoL Codex locally counts the serialized bytes of eligible extracted tool text and its bounded receipt. The `saved_bytes` field is their arithmetic difference for receipt events. In code mode the host may return the original nested result to JavaScript, so this counter does not establish model-visible bytes saved.
 
 They are not token counts, API costs, quota, time, or cache measurements, or evidence that task quality is unchanged.
 
@@ -59,7 +59,7 @@ It uses fixed synthetic output in a temporary private data directory. Its output
 
 ## Population and interpretation limits
 
-The snapshot includes only observations that crossed the active byte threshold and produced a smaller receipt under the hook version that recorded them. It predates plain-string packing; it is not a forecast for the current release. Small outputs, unknown-status `pytest` and `unittest` results, and outputs rejected by the net-savings guard are absent from these counters. Current reports may also include other packed plain-string observations with unknown status.
+The snapshot includes only observations that crossed the active byte threshold and produced a smaller receipt under the hook version that recorded them. It predates plain-string packing and the 0.1.9 non-blocking delivery change; it is not a forecast for the current release. Small outputs, unknown-status `pytest` and `unittest` results, and outputs rejected by the net-savings guard are absent from these counters. Current reports may also include other plain-string receipt events with unknown status.
 
 The source and receipt sizes are serialized UTF-8 byte lengths measured by the hook. A tokenizer may map the same text to a different ratio, providers may cache or bill content differently, and Codex may apply additional context processing outside the plugin.
 
@@ -69,7 +69,7 @@ The results from NVIDIA's SoL-Pi paper use another harness, mechanisms, workload
 
 ## Future A/B measurement
 
-A [five-pair local pilot](measurements/2026-09-23-ab-threshold.md) tested a 4,096-byte override on two synthetic Python tasks. Both arms passed every verifier, and ON used fewer provider-reported tokens overall. The new 6,144-byte default was not itself measured end to end. The pilot is too small and narrow to support a general savings claim.
+A [five-pair local pilot](measurements/2026-09-23-ab-threshold.md) tested a 4,096-byte override on two synthetic Python tasks under the earlier blocking hook. Both arms passed every verifier, and ON used fewer provider-reported tokens overall. The new 6,144-byte default and the 0.1.9 non-blocking hook were not measured in that pilot. An [explicit-adapter pilot](measurements/2026-09-24-explicit-adapter-pilot.md) tests a different output boundary. Neither small pilot supports a general savings claim.
 
 A credible end-to-end comparison should be designed before runs begin:
 
@@ -81,4 +81,4 @@ A credible end-to-end comparison should be designed before runs begin:
 6. Predeclare capability floors, exclusion rules, stopping rules, and the primary efficiency metric.
 7. Report paired results, failures, confidence intervals, and all deviations from the protocol.
 
-Until that experiment exists, the public claim is intentionally narrow: SoL Codex reduced the serialized model-visible byte size of the 355 packing events in this local snapshot by 7,423,056 bytes, or 90.98%.
+Until that experiment exists, the public claim is intentionally narrow: across 355 historical receipt events, the emitted receipts totaled 7,423,056 fewer serialized bytes than the extracted source texts, a 90.98% local byte difference. This is not an end-to-end model-input or cost measurement.

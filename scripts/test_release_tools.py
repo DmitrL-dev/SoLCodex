@@ -230,6 +230,46 @@ class ReleaseToolTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("prohibited archive member", result.stderr)
 
+    def test_archive_rejects_version_mismatch(self) -> None:
+        root = "sol-codex-portable-0.1.9-codex.20260924"
+        manifest = b'{"version":"0.1.8+codex.20260923"}'
+        archive = self.zip_fixture(
+            {
+                f"{root}/plugins/sol-codex/.codex-plugin/plugin.json": manifest,
+                f"{root}/install.sh": b'plugin_version="0.1.8+codex.20260923"\n',
+            }
+        )
+        result = self.run_validator(self.fixture_repo(), archive)
+        self.assertIn("archive package root does not match embedded plugin version", result.stderr)
+
+        archive = self.zip_fixture(
+            {
+                f"{root}/plugins/sol-codex/.codex-plugin/plugin.json":
+                    b'{"version":"0.1.9+codex.20260924"}',
+                f"{root}/install.sh": b'plugin_version="0.1.8+codex.20260923"\n',
+            }
+        )
+        result = self.run_validator(self.fixture_repo(), archive)
+        self.assertIn("archive installer version does not match embedded plugin version", result.stderr)
+
+    def test_release_build_rejects_dirty_package_inputs(self) -> None:
+        repo = self.temp / "release-clone"
+        subprocess.run(["git", "clone", "--local", "--quiet", str(ROOT), str(repo)], check=True)
+        (repo / "scripts/build_release.sh").write_bytes(BUILD_RELEASE.read_bytes())
+        manifest = repo / "plugins/sol-codex/.codex-plugin/plugin.json"
+        manifest.write_text(manifest.read_text(encoding="utf-8") + "\n", encoding="utf-8")
+        result = subprocess.run(
+            ["bash", str(repo / "scripts/build_release.sh")],
+            cwd=repo,
+            env={**os.environ, "DIST_DIR": str(self.temp / "dirty-dist")},
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("release inputs differ from HEAD", result.stderr)
+        self.assertFalse(list((self.temp / "dirty-dist").glob("*.zip")))
+
     def test_archive_rejects_unexpected_process_and_runtime_state(self) -> None:
         archive = self.zip_fixture(
             {
@@ -409,6 +449,10 @@ class ReleaseToolTests(unittest.TestCase):
             self.assertNotIn(expected_prefix + "plugins/sol-codex/plugin.json", names)
             self.assertIn(expected_prefix + "plugins/sol-codex/.codex-plugin/plugin.json", names)
             self.assertIn(expected_prefix + "install.sh", names)
+            self.assertIn(
+                f'plugin_version="{version}"'.encode("utf-8"),
+                handle.read(expected_prefix + "install.sh"),
+            )
             self.assertIn(expected_prefix + "README.md", names)
             self.assertIn(expected_prefix + "LICENSE", names)
             self.assertIn(expected_prefix + "plugins/sol-codex/LICENSE", names)

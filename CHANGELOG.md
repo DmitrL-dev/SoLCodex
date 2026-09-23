@@ -2,16 +2,26 @@
 
 All notable changes to this project are documented here.
 
-## Unreleased
+## [0.1.9] - 2026-09-24
+
+### Fixed
+
+- Large `PostToolUse` receipts now use non-blocking feedback. The hook no longer intentionally rejects a code-mode tool promise after the tool has run. Current code-mode hosts may still return the original nested result to JavaScript, so receipt byte counters do not prove reduced model input.
 
 ### Documentation
 
 - Added a source-linked research map and ranked A/B plan for context efficiency, provider caching, and retrieval cost.
 - Clarified that structured artifacts contain extracted text and documented the observed code-mode Promise rejection after packed tool results.
+- Documented existing upstream hook-result proposals and a capability-based path to future transparent code-mode replacement.
 
 ### Added
 
 - Aggregate-only parser for paired `codex exec --json` traces, with private-manifest methodology, focused tests, and CI coverage on Python 3.9–3.12.
+- Opt-in POSIX command receipt research prototype with bounded output, private artifacts, explicit exit status, timeout, and focused tests. It is not packaged into the installed plugin.
+
+### Research
+
+- Recorded a frozen three-pair explicit-adapter pilot with equal verifier success, smaller first results, fewer aggregate total tokens, and longer aggregate elapsed time. No general savings claim follows from this pilot.
 
 ## [0.1.8] - 2026-09-23
 

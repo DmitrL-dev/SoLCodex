@@ -832,11 +832,11 @@ def handle_shell(event: Dict[str, Any], root: Path, store: StateStore) -> None:
         for key, increment in increments.items():
             values[key] += increment
             per_model[key] += increment
-    # `continue: false` does not prevent a code-mode script from reading and
-    # re-emitting the original nested tool result. A PostToolUse block replaces
-    # the model-visible result with `reason`; the command has already run, so
-    # the receipt remains the authoritative status/evidence for this call.
-    emit({"decision": "block", "reason": receipt})
+    # Blocking after execution rejects code-mode promises and can interrupt a
+    # chain after side effects. A non-blocking receipt preserves control flow;
+    # current code-mode runtimes may still pass the original result to the
+    # script, so these byte counters are not model-context savings.
+    emit({"continue": False, "stopReason": receipt})
 
 
 def debt_summary(state: Dict[str, Any]) -> Optional[str]:
