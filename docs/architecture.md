@@ -11,7 +11,7 @@ flowchart LR
   A[Codex tool result] --> B[PostToolUse]
   B --> C{Active model}
   C -->|gpt-6-astra| D[4 KiB Astra]
-  C -->|all others| E[12 KiB default]
+  C -->|all others| E[6 KiB default]
   D --> F{Packable result and net savings?}
   E --> F
   F -->|yes| G[exact local artifact]

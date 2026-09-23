@@ -335,7 +335,7 @@ class ReleaseToolTests(unittest.TestCase):
         for label in (
             "PostToolUse",
             "4 KiB Astra",
-            "12 KiB default",
+            "6 KiB default",
             "exact local artifact",
             "sanitized bounded receipt",
             "per-model report",

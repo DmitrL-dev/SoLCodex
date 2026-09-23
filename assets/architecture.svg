@@ -65,7 +65,7 @@
   <text x="752" y="137" class="label">4 KiB Astra</text>
   <text x="752" y="157" class="small">gpt-6-astra only</text>
   <rect x="680" y="213" width="144" height="62" class="node"/>
-  <text x="752" y="239" class="label">12 KiB default</text>
+  <text x="752" y="239" class="label">6 KiB default</text>
   <text x="752" y="259" class="small">all other models</text>
 
   <polygon points="975,132 1056,191 975,250 894,191" class="decision"/>
