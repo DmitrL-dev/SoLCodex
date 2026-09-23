@@ -34,7 +34,7 @@ codex plugin remove sol-codex@sol-codex
 codex plugin add sol-codex@sol-codex
 ```
 
-Then inspect `/hooks` for the resolved cache path and verify a new hook event in the open task. Reopen it only if the host has not refreshed its hook engine. Do not edit cachebuster directories by hand.
+Finish the current turn and send a follow-up in the same task. Inspect the resolved hook path and verify a real event from the new definition. If the old hook still runs, review Settings → Hooks and trust; the list-only Reload hooks action does not prove that the runtime switched. See the [existing-task refresh study](research/2026-09-24-live-hook-refresh.md). Preserve old cache paths and do not edit cachebuster directories by hand.
 
 ## `PLUGIN_DATA` appears missing
 

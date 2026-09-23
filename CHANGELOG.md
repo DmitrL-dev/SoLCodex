@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented here.
 
+## [Unreleased]
+
+### Research and documentation
+
+- Recorded a two-pair real-repository receipt pilot, aggregate-only evidence, and invalid exploratory attempts.
+- Documented the observed active-turn hook staleness after an upgrade and the inspected next-turn refresh path in Codex.
+
 ## [0.1.9] - 2026-09-24
 
 ### Fixed

@@ -49,6 +49,10 @@ The [context-efficiency research map](docs/research/2026-09-23-context-efficienc
 
 The [hook result boundary study](docs/research/2026-09-24-hook-result-boundary.md) records the code-mode limitation, related upstream work, and the safe control-flow change in 0.1.9.
 
+The [existing-task hook refresh study](docs/research/2026-09-24-live-hook-refresh.md) records why the current turn retained an old hook after upgrade and why the next turn in the same task is the first refresh attempt to verify.
+
+The [real-repository receipt pilot](docs/measurements/2026-09-24-real-repo-pilot.md) records two paired repairs, their aggregate trace data, and invalid exploratory attempts. Both pairs passed independent checks; token and time effects differed by task.
+
 The [A/B trace accounting guide](docs/measurements/ab-trace.md) documents an aggregate-only `codex exec --json` parser, private manifest format, quality checks, and limits of the earlier five-pair pilot.
 
 An [explicit command receipt prototype](docs/measurements/receipt-adapter.md) captures output before tool return and preserves code-mode control flow in a local test. It is opt-in, POSIX-only, and separate from the installed plugin while its task-level value is measured.
