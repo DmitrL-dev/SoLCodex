@@ -51,6 +51,8 @@ The [retrieval-economics research note](docs/research/2026-09-24-retrieval-econo
 
 A separate [bounded artifact-search prototype](docs/measurements/receipt-adapter.md#bounded-artifact-search) prevents broad literal queries from replaying an entire saved command result. It is opt-in research code, outside the installed plugin.
 
+The [bounded-search development pair](docs/measurements/2026-09-24-bounded-search-development.md) passed both repair checks with fewer total provider tokens and less time on one previously used fixture; a [cost-frontier protocol](docs/research/2026-09-24-cost-frontier.md) defines the held-out tests needed before claiming reliable savings.
+
 The [hook result boundary study](docs/research/2026-09-24-hook-result-boundary.md) records the code-mode limitation, related upstream work, and the safe control-flow change in 0.1.9.
 
 The [existing-task hook refresh study](docs/research/2026-09-24-live-hook-refresh.md) records a successful same-task, next-turn refresh after upgrade, without restarting the app. The code-mode script still received the original result.

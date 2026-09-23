@@ -58,6 +58,18 @@ class ReceiptSearchTests(unittest.TestCase):
         self.assertIn("CASE 064", result["matches"][0]["text"])
         self.assertFalse(result["truncated"])
 
+    def test_line_range_recovers_middle_context(self):
+        result = subprocess.run(
+            [sys.executable, str(SCRIPT), "--artifact", str(self.path),
+             "--sha256", self.sha256, "--line", "63"],
+            capture_output=True, timeout=10,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        payload = json.loads(result.stdout)
+        self.assertLessEqual(len(result.stdout), receipt_search.MAX_RESULT_BYTES)
+        self.assertEqual([item["line"] for item in payload["matches"]], [63, 64, 65, 66])
+        self.assertIn("CASE 064", payload["matches"][2]["text"])
+
     def test_hash_mismatch_does_not_disclose_content(self):
         code, result = self.run_search("expected=True", digest="0" * 64)
         self.assertEqual(code, 2)
@@ -69,6 +81,8 @@ class ReceiptSearchTests(unittest.TestCase):
         self.sha256 = hashlib.sha256(self.path.read_bytes()).hexdigest()
         _, long_line = self.run_search("key=")
         self.assertEqual(long_line["matches"][0]["text"], "[line omitted: over 240 bytes]")
+        self.assertTrue(long_line["truncated"])
+        self.assertEqual(long_line["omitted_long_matches"], 1)
         _, secret = self.run_search("authorization:")
         self.assertNotIn("private-token", json.dumps(secret))
 

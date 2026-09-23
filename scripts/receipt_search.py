@@ -31,14 +31,19 @@ def encoded(value):
     return (json.dumps(value, ensure_ascii=True, separators=(",", ":")) + "\n").encode("ascii")
 
 
-def search(path: Path, expected_sha256: str, literal: str):
+def search(path: Path, expected_sha256: str, literal: str = None, start_line: int = None):
     if os.name != "posix":
         raise ValueError("unsupported_platform")
     if not SHA256.fullmatch(expected_sha256):
         raise ValueError("invalid_sha256")
-    if not literal or "\n" in literal or "\r" in literal or len(literal.encode("utf-8")) > 256:
-        raise ValueError("invalid_literal")
-    needle = literal.encode("utf-8")
+    if (literal is None) == (start_line is None):
+        raise ValueError("choose_literal_or_line")
+    if literal is not None:
+        if not literal or "\n" in literal or "\r" in literal or len(literal.encode("utf-8")) > 256:
+            raise ValueError("invalid_literal")
+        needle = literal.encode("utf-8")
+    elif type(start_line) is not int or start_line < 1:
+        raise ValueError("invalid_line")
     flags = os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0)
     try:
         descriptor = os.open(path, flags)
@@ -53,6 +58,7 @@ def search(path: Path, expected_sha256: str, literal: str):
         digest = hashlib.sha256()
         shown = []
         match_count = 0
+        omitted_long_matches = 0
         line_count = 0
         total_bytes = 0
         for line_count, line in enumerate(stream, 1):
@@ -60,12 +66,17 @@ def search(path: Path, expected_sha256: str, literal: str):
             if total_bytes > MAX_ARTIFACT_BYTES:
                 raise ValueError("artifact_too_large")
             digest.update(line)
-            if needle not in line:
+            selected = (needle in line if literal is not None
+                        else start_line <= line_count < start_line + MAX_MATCHES)
+            if not selected:
                 continue
             match_count += 1
+            long_line = len(line.rstrip(b"\r\n")) > MAX_LINE_BYTES
+            if long_line:
+                omitted_long_matches += 1
             if len(shown) == MAX_MATCHES:
                 continue
-            if len(line.rstrip(b"\r\n")) > MAX_LINE_BYTES:
+            if long_line:
                 display = "[line omitted: over 240 bytes]"
             else:
                 display = redact(line.rstrip(b"\r\n").decode("utf-8", "replace"))
@@ -74,7 +85,8 @@ def search(path: Path, expected_sha256: str, literal: str):
         raise ValueError("hash_mismatch")
     result = {"schema": SCHEMA, "status": "ok", "sha256": expected_sha256,
               "line_count": line_count, "match_count": match_count,
-              "matches": shown, "truncated": match_count > len(shown)}
+              "matches": shown, "omitted_long_matches": omitted_long_matches,
+              "truncated": match_count > len(shown) or omitted_long_matches > 0}
     while len(encoded(result)) > MAX_RESULT_BYTES and result["matches"]:
         result["matches"].pop()
         result["truncated"] = True
@@ -87,10 +99,12 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--artifact", type=Path, required=True)
     parser.add_argument("--sha256", required=True)
-    parser.add_argument("--literal", required=True)
+    choice = parser.add_mutually_exclusive_group(required=True)
+    choice.add_argument("--literal")
+    choice.add_argument("--line", type=int)
     args = parser.parse_args(argv)
     try:
-        result = search(args.artifact, args.sha256, args.literal)
+        result = search(args.artifact, args.sha256, args.literal, args.line)
         code = 0
     except ValueError as error:
         result = {"schema": SCHEMA, "status": "error", "error": str(error)}

@@ -1,0 +1,87 @@
+{
+  "interpretation": "Counts describe these runs only. Exact command repetition is a proxy, not proof of reacquisition. Verifier codes and elapsed time come from the manifest. Missing usage fields are null; complete fields do not establish adequate sample size. This report does not estimate API cost or prove causality.",
+  "measurement_complete_pairs": 1,
+  "pair_count": 1,
+  "pairs": [
+    {
+      "fixture_sha256": "97c8ebfd21a2c7d8c3824482dfc07fc56da9ea8c7f5b41110ea0d2c89d9b7873",
+      "id": "zip-bounded-development-1",
+      "measurement_complete": true,
+      "model": "gpt-6-luna",
+      "off": {
+        "artifact_read_commands": 0,
+        "completed_turns": 1,
+        "elapsed_seconds": 56.34,
+        "error_events": 0,
+        "failed_tool_items": 2,
+        "failed_turns": 0,
+        "nonzero_tool_exits": 2,
+        "process_exit_code": 0,
+        "repeated_exact_commands": 0,
+        "tokens": {
+          "cache_write_input_tokens": 0,
+          "cached_input_tokens": 190976,
+          "input_tokens": 211339,
+          "output_tokens": 1136,
+          "reasoning_output_tokens": 0,
+          "total_input_output_tokens": 212475,
+          "uncached_input_tokens": 20363
+        },
+        "tool_calls": 7,
+        "tool_calls_by_type": {
+          "command_execution": 6,
+          "file_change": 1
+        },
+        "verified": true,
+        "verifier_exit_code": 0
+      },
+      "on": {
+        "artifact_read_commands": 3,
+        "completed_turns": 1,
+        "elapsed_seconds": 50.27,
+        "error_events": 0,
+        "failed_tool_items": 2,
+        "failed_turns": 0,
+        "nonzero_tool_exits": 2,
+        "process_exit_code": 0,
+        "repeated_exact_commands": 0,
+        "tokens": {
+          "cache_write_input_tokens": 0,
+          "cached_input_tokens": 130816,
+          "input_tokens": 145926,
+          "output_tokens": 1277,
+          "reasoning_output_tokens": 0,
+          "total_input_output_tokens": 147203,
+          "uncached_input_tokens": 15110
+        },
+        "tool_calls": 10,
+        "tool_calls_by_type": {
+          "command_execution": 9,
+          "file_change": 1
+        },
+        "verified": true,
+        "verifier_exit_code": 0
+      },
+      "on_minus_off": {
+        "artifact_read_commands": 3,
+        "cache_write_input_tokens": 0,
+        "cached_input_tokens": -60160,
+        "elapsed_seconds": -6.07,
+        "failed_tool_items": 0,
+        "input_tokens": -65413,
+        "nonzero_tool_exits": 0,
+        "output_tokens": 141,
+        "repeated_exact_commands": 0,
+        "tool_calls": 3,
+        "total_input_output_tokens": -65272,
+        "uncached_input_tokens": -5253
+      },
+      "order": [
+        "on",
+        "off"
+      ],
+      "reasoning_effort": "low"
+    }
+  ],
+  "schema_version": 1
+}

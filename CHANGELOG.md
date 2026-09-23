@@ -9,6 +9,9 @@ All notable changes to this project are documented here.
 - Added a source-linked retrieval-economics review and a pilot that makes an agent recover evidence omitted from a bounded receipt; the pilot passed verification but used more total tokens and time with the adapter.
 - Added an opt-in bounded artifact-search research prototype, focused tests, and CI coverage after broad artifact queries replayed the full diagnostic twice.
 - Increased the existing adapter timeout-test window so child startup under a busy CI host does not erase the expected partial-output fixture.
+- Recorded a same-fixture bounded-search development pair with equal verification and lower observed provider tokens/time, while keeping it separate from held-out evidence.
+- Added a cost-frontier research protocol based on provider-billed coding-agent studies and independent Astra review.
+- Extended the opt-in artifact search with bounded line-range retrieval and explicit reporting when long matched lines are omitted.
 - Recorded a two-pair real-repository receipt pilot, aggregate-only evidence, and invalid exploratory attempts.
 - Verified and documented that a new turn in the same task adopted the updated hook after a cache-preserving CLI upgrade; the original code-mode result remained visible.
 - Confirmed that a nonzero tool exit preserved its status without rejecting a nested Promise, and documented command-selection guidance for the opt-in adapter.

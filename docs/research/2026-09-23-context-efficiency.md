@@ -40,6 +40,8 @@ The [hook result boundary study](2026-09-24-hook-result-boundary.md) tracks the 
 
 The [retrieval-economics follow-up](2026-09-24-retrieval-economics.md) adds newer primary research and a pilot in which the decisive diagnostic line falls outside the receipt preview.
 
+The [cost-frontier protocol](2026-09-24-cost-frontier.md) incorporates additional billed-cost studies and sets a held-out confirmation target. A [bounded-search development pair](../measurements/2026-09-24-bounded-search-development.md) passed both verifiers with lower total provider tokens on a previously used fixture; it is not confirmatory evidence.
+
 ## Ranked experiments
 
 1. **Measure total work before changing compression.** The [aggregate-only A/B trace parser](../measurements/ab-trace.md) now records provider-reported cached input, uncached input, cache writes where exposed, output tokens, elapsed time, tool calls, repeated commands, artifact retrievals, and verifier results. Keep the current 0.1.8 behavior as control. The next experiment must also record interrupted code-mode chains and timeouts outside the trace. Report unavailable provider fields as unavailable, not zero.
