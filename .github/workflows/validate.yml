@@ -14,7 +14,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
-        python-version: ["3.11", "3.12"]
+        python-version: ["3.10", "3.11", "3.12"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -49,17 +49,52 @@ jobs:
           PYTHONDONTWRITEBYTECODE: "1"
         run: scripts/build_release.sh
 
-  validate-windows:
-    runs-on: windows-latest
+  validate-legacy:
+    runs-on: ${{ matrix.os }}
+    env:
+      PY_PYTHON3: "3.9"
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.11", "3.12"]
+        os: [ubuntu-latest, macos-15-intel, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+      - name: Verify Python 3.9
+        run: python -c "import sys; assert sys.version_info[:2] == (3, 9)"
+      - name: Verify Windows launcher selects Python 3.9
+        if: runner.os == 'Windows'
+        run: py -3 -c "import sys; assert sys.version_info[:2] == (3, 9)"
+      - name: Test hooks and Windows commands
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python -m unittest discover -s plugins/sol-codex/scripts -p 'test_*.py' -v
+      - name: Smoke-test installed hook commands
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python -m unittest scripts.test_installed_hooks -v
+      - name: Validate repository
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python scripts/validate_repository.py
+
+  validate-windows:
+    runs-on: windows-latest
+    env:
+      PY_PYTHON3: ${{ matrix.python-version }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Verify Windows launcher selects matrix Python
+        run: py -3 -c "import os, sys; assert '.'.join(map(str, sys.version_info[:2])) == os.environ['PY_PYTHON3']"
       - name: Test hooks and Windows commands
         env:
           PYTHONDONTWRITEBYTECODE: "1"
