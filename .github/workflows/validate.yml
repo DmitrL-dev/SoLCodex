@@ -44,6 +44,10 @@ jobs:
         env:
           PYTHONDONTWRITEBYTECODE: "1"
         run: python -m unittest discover -s scripts -p 'test_receipt_command.py' -v
+      - name: Test bounded receipt artifact search
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python -m unittest discover -s scripts -p 'test_receipt_search.py' -v
       - name: Test cache-preserving upgrade
         env:
           PYTHONDONTWRITEBYTECODE: "1"
@@ -96,6 +100,11 @@ jobs:
         env:
           PYTHONDONTWRITEBYTECODE: "1"
         run: python -m unittest discover -s scripts -p 'test_receipt_command.py' -v
+      - name: Test bounded receipt artifact search
+        if: runner.os != 'Windows'
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python -m unittest discover -s scripts -p 'test_receipt_search.py' -v
       - name: Validate repository
         env:
           PYTHONDONTWRITEBYTECODE: "1"

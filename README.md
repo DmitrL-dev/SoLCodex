@@ -47,6 +47,10 @@ export SOL_CODEX_PACK_THRESHOLD_BYTES=6144
 
 The [context-efficiency research map](docs/research/2026-09-23-context-efficiency.md) compares related work and ranks experiments. It does not change the released plugin or claim that published results transfer to SoL Codex.
 
+The [retrieval-economics research note](docs/research/2026-09-24-retrieval-economics.md) reviews newer agent-memory evidence and tests whether an agent can recover a decisive line hidden by a bounded receipt. It keeps quality, provider tokens, retrieval work, and elapsed time separate.
+
+A separate [bounded artifact-search prototype](docs/measurements/receipt-adapter.md#bounded-artifact-search) prevents broad literal queries from replaying an entire saved command result. It is opt-in research code, outside the installed plugin.
+
 The [hook result boundary study](docs/research/2026-09-24-hook-result-boundary.md) records the code-mode limitation, related upstream work, and the safe control-flow change in 0.1.9.
 
 The [existing-task hook refresh study](docs/research/2026-09-24-live-hook-refresh.md) records a successful same-task, next-turn refresh after upgrade, without restarting the app. The code-mode script still received the original result.

@@ -29,6 +29,23 @@ In a controlled local code-mode call, a child emitted 8,015 bytes; the adapter r
 
 The [frozen three-pair A/B pilot](2026-09-24-explicit-adapter-pilot.md) found equal verifier success and much shorter first tool results, but mixed per-task token and time effects. The [two-pair real-repository pilot](2026-09-24-real-repo-pilot.md) found that a 640-byte direct result became a 1,066-byte receipt, while a 13,104-byte result became 1,151 bytes. Select commands expected to produce large or noisy output; run predictably short checks directly. Do not execute a command twice merely to decide whether it needed a receipt.
 
+A later [retrieval-forcing pilot](../research/2026-09-24-retrieval-economics.md) passed its repair checks but used more total tokens and time with the adapter. Two broad artifact searches each returned the entire 128-line diagnostic, despite the small first receipt. Keep artifact reads bounded; a path and a request for targeted search alone do not guarantee targeted output.
+
+### Bounded artifact search
+
+`scripts/receipt_search.py` is a separate POSIX research prototype for exact artifacts created by the adapter. Pass the `path` and `sha256` from a receipt and one literal substring:
+
+```sh
+python3 scripts/receipt_search.py \
+  --artifact /private/path/to/output.bin \
+  --sha256 RECEIPT_SHA256 \
+  --literal 'expected_type_rejection=True'
+```
+
+It verifies the full artifact hash before returning matched content, rejects symlinks and artifacts larger than 64 MiB, counts all matching lines, emits at most four matches and 2,048 JSON bytes, and explicitly marks truncation. The response does not echo the artifact path or search literal. Lines longer than 240 bytes are omitted from previews; shorter lines use the adapter's best-effort credential redaction. The unredacted source remains on disk. It is a diagnostic convenience, not a sandbox or proof that the child command was correct.
+
+On the frozen 13,055-byte ZIP diagnostic, searching the common field name produced `match_count=128`, `truncated=true`, and a 682-byte response; searching `expected_type_rejection=True` produced one 315-byte response containing the decisive middle line. Five focused tests cover the output bound, exact recovery, hash mismatch, long-line/redaction behavior, and symlink rejection. This deterministic check does not establish that agents will choose selective literals or save task-level tokens. The tool is not packaged in the installed plugin.
+
 In a local 12-sample process microbenchmark on this Mac, a 640-byte output took median 14.1 ms directly versus 50.0 ms through the adapter; a 13,104-byte output took 14.8 versus 51.7 ms. The adapter's local overhead was about 36–37 ms in these cases. This does not explain the much larger task-time differences in the A/B pilots, where model trajectories diverged. An automatic raw passthrough for short output is deferred: it would make the CLI result alternate between raw child text and JSON, and child text could imitate a receipt. A separately versioned, structured adaptive mode would need explicit status, byte, privacy, and failure semantics before testing.
 
-Next, run repeated balanced pairs that require targeted recovery from private artifacts, using the [A/B trace protocol](ab-trace.md). Keep the automatic hook's blocking path out of this comparison; it is a different treatment. This prototype should not be treated as a default or packaged into the installed plugin until that evaluation is complete.
+Next, run repeated balanced pairs that require targeted recovery through the bounded search prototype, using the [A/B trace protocol](ab-trace.md). Keep the automatic hook's blocking path out of this comparison; it is a different treatment. Neither research prototype should be treated as a default or packaged into the installed plugin until that evaluation is complete.

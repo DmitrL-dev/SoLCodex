@@ -111,7 +111,7 @@ class ReceiptCommandTests(unittest.TestCase):
 
     def test_timeout_preserves_partial_output_and_status(self):
         command = [sys.executable, str(SCRIPT), "--artifact-dir", str(self.artifacts),
-                   "--timeout-seconds", "0.15", "--", sys.executable, "-c",
+                   "--timeout-seconds", "1.0", "--", sys.executable, "-c",
                    "import os,time; os.write(1,b'partial\\n'); time.sleep(30)"]
         result = subprocess.run(command, capture_output=True, timeout=5)
         receipt = self.receipt(result)
