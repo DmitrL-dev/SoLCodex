@@ -18,7 +18,7 @@ HOOKS = PLUGIN / "hooks" / "hooks.json"
 
 
 def commands() -> tuple[str, str]:
-    pin = hashlib.sha256(BOOTSTRAP.read_bytes()).hexdigest()
+    pin = hashlib.sha256(BOOTSTRAP.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
     inline = f'''import hashlib, os, sys
 from pathlib import Path
 try:
@@ -31,7 +31,7 @@ try:
             raw = path.read_bytes()
         except FileNotFoundError:
             continue
-        if hashlib.sha256(raw).hexdigest() == "{pin}":
+        if hashlib.sha256(raw.replace(b"\\r\\n", b"\\n")).hexdigest() == "{pin}":
             exec(compile(raw, str(path), "exec"), {{"__name__": "__main__", "__file__": str(path), "BOOTSTRAP_BYTES": raw}})
             break
     else:

@@ -62,6 +62,18 @@ class HookCommandTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn("hookSpecificOutput", json.loads(result.stdout))
 
+    def test_crlf_checkout_keeps_bootstrap_pin_valid(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            base = Path(directory)
+            root = base / "cache"
+            self.fixture(root, "crlf")
+            bootstrap = root / "scripts" / "sol_bootstrap.py"
+            normalized = bootstrap.read_bytes().replace(b"\r\n", b"\n")
+            bootstrap.write_bytes(normalized.replace(b"\n", b"\r\n"))
+            result = self.invoke(root, base / "data")
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual(json.loads(result.stdout)["runtime"], "crlf")
+
     def test_removed_cache_before_first_use_fails_open_with_diagnostic(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
