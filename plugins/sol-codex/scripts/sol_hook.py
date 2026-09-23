@@ -916,18 +916,19 @@ def cleanup_old_artifacts(root: Path, max_age_days: int = 7) -> None:
 
 
 def cleanup_verifier_status(root: Path, event: Dict[str, Any], store: StateStore) -> None:
-    status_root = verifier_status_root(root)
-    session_dir = status_root / session_key(event)
-    if session_dir.exists() and not session_dir.is_symlink() and session_dir.is_dir():
-        for path in session_dir.glob("*.status"):
+    if os.name != "nt":
+        status_root = verifier_status_root(root)
+        session_dir = status_root / session_key(event)
+        if session_dir.exists() and not session_dir.is_symlink() and session_dir.is_dir():
+            for path in session_dir.glob("*.status"):
+                with contextlib.suppress(OSError):
+                    info = path.lstat()
+                    if stat.S_ISREG(info.st_mode) and not stat.S_ISLNK(info.st_mode):
+                        path.unlink()
             with contextlib.suppress(OSError):
-                info = path.lstat()
-                if stat.S_ISREG(info.st_mode) and not stat.S_ISLNK(info.st_mode):
-                    path.unlink()
+                session_dir.rmdir()
         with contextlib.suppress(OSError):
-            session_dir.rmdir()
-    with contextlib.suppress(OSError):
-        status_root.rmdir()
+            status_root.rmdir()
     with store.locked() as state:
         state.pop("pending_verifiers", None)
 

@@ -13,8 +13,13 @@ import sys
 import tempfile
 import time
 import unittest
+from contextlib import contextmanager
 from pathlib import Path
+from types import SimpleNamespace
 from typing import Any, Dict, Optional
+from unittest.mock import patch
+
+import sol_hook
 
 
 SCRIPT = Path(__file__).with_name("sol_hook.py")
@@ -88,6 +93,19 @@ class SolHookTests(unittest.TestCase):
         self.assertEqual(payload.get("continue"), True)
         self.assertNotIn("decision", payload)
         self.assertIn(f"verification {status}", payload.get("systemMessage", "").lower())
+
+    def test_windows_session_end_cleanup_does_not_require_posix_uid(self) -> None:
+        state = {"pending_verifiers": {"unfinished": {"generation": 1}}}
+
+        class Store:
+            @contextmanager
+            def locked(self):
+                yield state
+
+        # Windows has no POSIX uid and never creates Bash verifier sidecars.
+        with patch.object(sol_hook, "os", SimpleNamespace(name="nt")):
+            sol_hook.cleanup_verifier_status(self.data, event("SessionEnd"), Store())
+        self.assertNotIn("pending_verifiers", state)
 
     def test_pending_stop_warns_without_blocking_final_answer(self) -> None:
         self.record_code_change()
