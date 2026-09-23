@@ -144,6 +144,7 @@ class SolHookTests(unittest.TestCase):
         blocked = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
         self.assert_pending_stop(blocked)
 
+    @unittest.skipIf(os.name == "nt", "requires a POSIX shell")
     def test_stale_sidecar_verifier_cannot_clear_new_code_change(self) -> None:
         self.record_code_change()
         source = Path(self.temporary.name) / "sample.py"
@@ -169,6 +170,7 @@ class SolHookTests(unittest.TestCase):
         blocked = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
         self.assert_pending_stop(blocked)
 
+    @unittest.skipIf(os.name == "nt", "requires a POSIX shell")
     def test_pre_tool_use_records_real_verifier_status_for_string_response(self) -> None:
         self.record_code_change()
         source = Path(self.temporary.name) / "sample.py"
@@ -204,6 +206,7 @@ class SolHookTests(unittest.TestCase):
         allowed = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
         self.assertEqual(allowed, {"continue": True})
 
+    @unittest.skipIf(os.name == "nt", "requires a POSIX shell")
     def test_pre_tool_use_nonzero_status_keeps_debt(self) -> None:
         self.record_code_change()
         source = Path(self.temporary.name) / "sample.py"
@@ -308,6 +311,7 @@ class SolHookTests(unittest.TestCase):
         blocked = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
         self.assert_pending_stop(blocked)
 
+    @unittest.skipIf(os.name == "nt", "requires a POSIX shell")
     def test_verifier_wrapper_preserves_errexit_inside_shell_function(self) -> None:
         self.record_code_change()
         original = "pytest"
@@ -336,6 +340,7 @@ class SolHookTests(unittest.TestCase):
         blocked = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
         self.assert_pending_stop(blocked)
 
+    @unittest.skipIf(os.name == "nt", "requires POSIX process signals")
     def test_interrupted_verifier_cannot_clear_debt(self) -> None:
         self.record_code_change()
         source = Path(self.temporary.name)
@@ -562,7 +567,8 @@ class SolHookTests(unittest.TestCase):
         self.assertIsNotNone(match)
         artifact = Path(match.group(1))
         self.assertEqual(artifact.read_text(encoding="utf-8"), output)
-        self.assertEqual(stat.S_IMODE(artifact.stat().st_mode), 0o600)
+        if os.name != "nt":
+            self.assertEqual(stat.S_IMODE(artifact.stat().st_mode), 0o600)
         digest = hashlib.sha256(output.encode("utf-8")).hexdigest()
         self.assertIn(f"sha256={digest}", receipt)
 

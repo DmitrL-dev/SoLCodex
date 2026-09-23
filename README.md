@@ -10,7 +10,7 @@ The plugin changes model-visible tool output and, in `bypassPermissions` mode, w
 
 ## Quick start
 
-Prerequisites: Codex with plugin and hooks support, Python 3.9 or newer, and macOS or Linux. The hook contract was validated against Codex `0.155.0-alpha.9.2`.
+Prerequisites: Codex with plugin and hooks support and Python 3.9 or newer. This local Windows port uses `C:/Python311/python.exe` for hook commands; the upstream release supports macOS and Linux. The hook contract was validated upstream against Codex `0.155.0-alpha.9.2`.
 
 ```bash
 codex plugin marketplace add DmitrL-dev/SoLCodex
@@ -59,7 +59,7 @@ In a [local historical snapshot](docs/savings.md), 355 packed events contained 8
 
 Exact local artifacts can contain credentials, source code, or personal data. They use private filesystem modes and are never uploaded by this plugin, but anyone with access to the account or storage may still read them. Review [docs/security.md](docs/security.md) before enabling hooks on sensitive work.
 
-Windows is unsupported because the implementation requires Python's `fcntl`. Hook failures are fail-open so a plugin error does not take down Codex; this also means verification enforcement is advisory when the hook is degraded. See [docs/troubleshooting.md](docs/troubleshooting.md) for hook conflicts, trust prompts, cache versions, and missing data paths.
+This local Windows port uses `msvcrt` for file locking and inherits NTFS permissions for local artifacts. Bash verifier wrapping and its Unix signal tests apply only on macOS and Linux; Windows verification can use a recognized structured exit status from `exec_command`. Hook failures are fail-open so a plugin error does not take down Codex; verification enforcement is advisory when the hook is degraded. See [docs/troubleshooting.md](docs/troubleshooting.md) for hook conflicts, trust prompts, cache versions, and missing data paths.
 
 ## Remove
 

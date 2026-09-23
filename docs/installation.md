@@ -4,9 +4,9 @@
 
 - Codex with plugin and hooks support
 - Python 3.9 or newer available as `python3`
-- macOS or Linux
+- macOS or Linux for the upstream release, or this tested local Windows port with `C:/Python311/python.exe`
 
-Windows is unsupported because `plugins/sol-codex/scripts/sol_hook.py` imports `fcntl` for file locking.
+This local Windows port substitutes `msvcrt` file locking and supplies `commandWindows` for all seven hooks. Install it from this checkout with `codex plugin marketplace add <path-to-this-checkout>` followed by `codex plugin add sol-codex@sol-codex`. The GitHub marketplace commands below install the upstream release, which does not support Windows.
 
 The hook contract was validated against Codex `0.155.0-alpha.9.2`. Runtime compatibility is capability-based: a large plain-string `PostToolUse` result can be packed with `exit_code=unknown`, while a recognized top-level structured status can be used directly. In `bypassPermissions` mode, `PreToolUse` also captures actual Bash verifier status in a private sidecar. The hook does not rewrite commands in approval-capable modes. Host-side truncation before `PostToolUse` may keep a result below the packing threshold.
 
