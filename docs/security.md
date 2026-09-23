@@ -32,6 +32,6 @@ The sidecar is a workflow signal, not a security attestation. The verifier and i
 
 ## Trust
 
-Review `/hooks` before approving the plugin. The expected commands invoke `python3 "$PLUGIN_ROOT/scripts/sol_hook.py"` on macOS/Linux or the bundled `sol_hook.cmd` launcher on Windows. A changed hash after an update is expected only when hook configuration or referenced files changed; inspect the diff before trusting it.
+Review `/hooks` before approving the plugin. The expected commands check that the script exists, then invoke `python3 "$PLUGIN_ROOT/scripts/sol_hook.py"` on macOS/Linux or the bundled `sol_hook.cmd` launcher on Windows. A missing script is fail-open so a removed cache path cannot block a tool call in tasks started on this release. A changed hash after an update is expected only when hook configuration or referenced files changed; inspect the diff before trusting it.
 
 Vulnerability disclosure instructions are in the repository [security policy](../SECURITY.md).

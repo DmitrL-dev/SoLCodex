@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented here.
 
+## [0.1.4] - 2026-09-23
+
+### Fixed
+
+- Lifecycle commands now exit successfully when an already-running task points to a plugin cache removed by a later update. New tasks still run the hook normally; already-loaded commands from older releases cannot be changed retroactively.
+
 ## [0.1.2] - 2026-09-23
 
 ### Fixed

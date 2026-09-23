@@ -29,6 +29,28 @@ class WindowsHookTests(unittest.TestCase):
         self.assertEqual(len(set(commands)), 1)
         self.assertTrue(all("sol_hook.cmd" in command for command in commands))
 
+    def test_removed_cache_does_not_block_tools(self) -> None:
+        config = json.loads((PLUGIN_ROOT / "hooks" / "hooks.json").read_text(encoding="utf-8"))
+        commands = [
+            hook["commandWindows"]
+            for matchers in config["hooks"].values()
+            for matcher in matchers
+            for hook in matcher["hooks"]
+        ]
+        with tempfile.TemporaryDirectory() as directory:
+            environment = os.environ.copy()
+            environment["PLUGIN_ROOT"] = str(Path(directory) / "removed-cache")
+            environment["PLUGIN_DATA"] = str(Path(directory) / "data")
+            for command in commands:
+                with self.subTest(command=command):
+                    result = subprocess.run(
+                        command, input="{}", text=True, capture_output=True,
+                        shell=True, env=environment, check=False,
+                    )
+                    self.assertEqual(result.returncode, 0, result.stderr)
+                    self.assertEqual(result.stdout, "")
+                    self.assertEqual(result.stderr, "")
+
     def test_session_start_windows_command_runs(self) -> None:
         config = json.loads((PLUGIN_ROOT / "hooks" / "hooks.json").read_text(encoding="utf-8"))
         command = config["hooks"]["SessionStart"][0]["hooks"][0]["commandWindows"]

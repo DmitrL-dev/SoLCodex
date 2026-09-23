@@ -34,7 +34,7 @@ codex plugin remove sol-codex@sol-codex
 codex plugin add sol-codex@sol-codex
 ```
 
-Open `/hooks` again. Changed hook files produce a new trust hash and must be reviewed. Start a new task after an update; running tasks retain the hooks they started with.
+Open `/hooks` again. Changed hook files produce a new trust hash and must be reviewed. Start a new task after an update; running tasks retain the hooks they started with. Avoid updating while old tasks are still active: removing their versioned cache path can break hook commands loaded before `0.1.4`. See [troubleshooting](troubleshooting.md) if an old task is already blocked.
 
 ## Environment overrides
 

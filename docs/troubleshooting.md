@@ -16,6 +16,10 @@ The plugin ships hooks in `plugins/sol-codex/hooks/hooks.json`. If the same comm
 
 Codex binds trust to the resolved hook content. Marketplace upgrades and new cachebuster versions can change that hash. Inspect the installed manifest and hook file, then approve the new hash only if they match the reviewed release.
 
+## An old task calls a removed cache path
+
+Running tasks retain their resolved, versioned hook commands. A plugin update can remove that cache path while an old task is still open. Release `0.1.4` guards its hook commands so a missing script exits successfully instead of blocking tools. That guard cannot change commands already loaded by older releases. Start a new task after updating, and avoid updating while other tasks using the old version are active. If an old task is already blocked, restore its exact reviewed cache path temporarily or move the work to a new task; do not change the plugin data directory. Remove any temporary compatibility path only after those tasks have ended.
+
 ## Marketplace name collision
 
 `sol-codex@sol-codex` means plugin `sol-codex` from marketplace `sol-codex`. If another configured marketplace has the same name, list marketplaces with the commands available under `codex plugin marketplace --help`, remove or rename the conflicting source, then reinstall with the fully qualified name.

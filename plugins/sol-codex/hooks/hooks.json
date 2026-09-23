@@ -7,11 +7,11 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$PLUGIN_ROOT/scripts/sol_hook.py\"",
+            "command": "if [ -f \"$PLUGIN_ROOT/scripts/sol_hook.py\" ]; then python3 \"$PLUGIN_ROOT/scripts/sol_hook.py\"; fi",
             "timeout": 5,
             "statusMessage": "Loading efficient-loop state",
             "additionalContextLimit": 1200,
-            "commandWindows": "cmd.exe /d /c call \"%PLUGIN_ROOT%\\scripts\\sol_hook.cmd\""
+            "commandWindows": "cmd.exe /d /c if exist \"%PLUGIN_ROOT%\\scripts\\sol_hook.cmd\" (call \"%PLUGIN_ROOT%\\scripts\\sol_hook.cmd\") else (exit /b 0)"
           }
         ]
       }
@@ -22,10 +22,10 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$PLUGIN_ROOT/scripts/sol_hook.py\"",
+            "command": "if [ -f \"$PLUGIN_ROOT/scripts/sol_hook.py\" ]; then python3 \"$PLUGIN_ROOT/scripts/sol_hook.py\"; fi",
             "timeout": 10,
             "statusMessage": "Recording verifier status",
-            "commandWindows": "cmd.exe /d /c call \"%PLUGIN_ROOT%\\scripts\\sol_hook.cmd\""
+            "commandWindows": "cmd.exe /d /c if exist \"%PLUGIN_ROOT%\\scripts\\sol_hook.cmd\" (call \"%PLUGIN_ROOT%\\scripts\\sol_hook.cmd\") else (exit /b 0)"
           }
         ]
       }
@@ -36,11 +36,11 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$PLUGIN_ROOT/scripts/sol_hook.py\"",
+            "command": "if [ -f \"$PLUGIN_ROOT/scripts/sol_hook.py\" ]; then python3 \"$PLUGIN_ROOT/scripts/sol_hook.py\"; fi",
             "timeout": 10,
             "statusMessage": "Preserving verification evidence",
             "additionalContextLimit": 1800,
-            "commandWindows": "cmd.exe /d /c call \"%PLUGIN_ROOT%\\scripts\\sol_hook.cmd\""
+            "commandWindows": "cmd.exe /d /c if exist \"%PLUGIN_ROOT%\\scripts\\sol_hook.cmd\" (call \"%PLUGIN_ROOT%\\scripts\\sol_hook.cmd\") else (exit /b 0)"
           }
         ]
       }
@@ -51,9 +51,9 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$PLUGIN_ROOT/scripts/sol_hook.py\"",
+            "command": "if [ -f \"$PLUGIN_ROOT/scripts/sol_hook.py\" ]; then python3 \"$PLUGIN_ROOT/scripts/sol_hook.py\"; fi",
             "timeout": 5,
-            "commandWindows": "cmd.exe /d /c call \"%PLUGIN_ROOT%\\scripts\\sol_hook.cmd\""
+            "commandWindows": "cmd.exe /d /c if exist \"%PLUGIN_ROOT%\\scripts\\sol_hook.cmd\" (call \"%PLUGIN_ROOT%\\scripts\\sol_hook.cmd\") else (exit /b 0)"
           }
         ]
       }
@@ -64,9 +64,9 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$PLUGIN_ROOT/scripts/sol_hook.py\"",
+            "command": "if [ -f \"$PLUGIN_ROOT/scripts/sol_hook.py\" ]; then python3 \"$PLUGIN_ROOT/scripts/sol_hook.py\"; fi",
             "timeout": 5,
-            "commandWindows": "cmd.exe /d /c call \"%PLUGIN_ROOT%\\scripts\\sol_hook.cmd\""
+            "commandWindows": "cmd.exe /d /c if exist \"%PLUGIN_ROOT%\\scripts\\sol_hook.cmd\" (call \"%PLUGIN_ROOT%\\scripts\\sol_hook.cmd\") else (exit /b 0)"
           }
         ]
       }
@@ -76,10 +76,10 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$PLUGIN_ROOT/scripts/sol_hook.py\"",
+            "command": "if [ -f \"$PLUGIN_ROOT/scripts/sol_hook.py\" ]; then python3 \"$PLUGIN_ROOT/scripts/sol_hook.py\"; fi",
             "timeout": 5,
             "statusMessage": "Checking verification debt",
-            "commandWindows": "cmd.exe /d /c call \"%PLUGIN_ROOT%\\scripts\\sol_hook.cmd\""
+            "commandWindows": "cmd.exe /d /c if exist \"%PLUGIN_ROOT%\\scripts\\sol_hook.cmd\" (call \"%PLUGIN_ROOT%\\scripts\\sol_hook.cmd\") else (exit /b 0)"
           }
         ]
       }
@@ -89,9 +89,9 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$PLUGIN_ROOT/scripts/sol_hook.py\"",
+            "command": "if [ -f \"$PLUGIN_ROOT/scripts/sol_hook.py\" ]; then python3 \"$PLUGIN_ROOT/scripts/sol_hook.py\"; fi",
             "timeout": 3,
-            "commandWindows": "cmd.exe /d /c call \"%PLUGIN_ROOT%\\scripts\\sol_hook.cmd\""
+            "commandWindows": "cmd.exe /d /c if exist \"%PLUGIN_ROOT%\\scripts\\sol_hook.cmd\" (call \"%PLUGIN_ROOT%\\scripts\\sol_hook.cmd\") else (exit /b 0)"
           }
         ]
       }
