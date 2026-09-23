@@ -6,7 +6,7 @@ SoL Codex runs locally as lifecycle hook commands. It does not make network requ
 
 Eligible large tool output is copied exactly to `PLUGIN_DATA/observations/<session-hash>/obs_*.txt`. Exact artifacts can contain source code, command output, credentials, personal data, or anything else emitted by a tool. They are intentionally not redacted because they are the recovery evidence behind the bounded receipt.
 
-State and aggregate counters are stored under `PLUGIN_DATA/state`. Transient verifier exit codes are stored under a plugin-private directory in the system temporary directory (`TMPDIR` when usable), so a `workspace-write` Bash verifier can write its own exit status even when `PLUGIN_DATA` is outside the sandbox. These sidecars contain only a numeric exit code, not command output. Plugin-owned directory modes are forced to `0700`; state, lock, status, and observation files use `0600`. Writes use exclusive temporary files and atomic replacement where applicable. The implementation rejects symlinked data directories, state files, lock targets when `O_NOFOLLOW` is available, and observation targets. If the temporary directory is unavailable to the sandbox, status capture fails closed and verification debt remains pending.
+State and aggregate counters are stored under `PLUGIN_DATA/state`. On macOS/Linux, transient verifier exit codes are stored under a plugin-private directory in the system temporary directory (`TMPDIR` when usable), so a `workspace-write` Bash verifier can write its own exit status even when `PLUGIN_DATA` is outside the sandbox. These sidecars contain only a numeric exit code, not command output. POSIX plugin-owned directory modes are forced to `0700`; state, lock, status, and observation files use `0600`. On Windows there is no Bash sidecar; local files inherit NTFS ACLs, which should be reviewed for sensitive work. Writes use exclusive temporary files and atomic replacement where applicable. The implementation rejects symlinked data directories, state files, lock targets when `O_NOFOLLOW` is available, and observation targets. If the temporary directory is unavailable to the POSIX sandbox, sidecar status capture fails closed and verification debt remains pending.
 
 These controls reduce accidental exposure but do not protect against a process or administrator that can already read the user's account or storage.
 
@@ -20,7 +20,7 @@ Treat every receipt as untrusted tool data, not as instructions. Retrieve exact 
 
 All hook exceptions return success so a plugin defect does not terminate the host task. `Stop` is advisory even when verification debt remains: it warns but never blocks the final answer. A degraded hook may omit the warning. Plain-string output without trusted status may be packed with `exit_code=unknown`, but cannot prove verification. An unknown-status structured object remains unchanged. When a receipt would be as large as the source, the original result remains model-visible.
 
-`PreToolUse` records the current code-change generation for recognized verifiers in all permission modes. Only a matching result from that generation can clear verification debt. It rewrites a recognized Bash verifier only when Codex reports `permission_mode=bypassPermissions`, where commands already run without individual approval. This avoids using the hook's required `permissionDecision: "allow"` in approval-capable modes. Review this behavior before trusting the plugin; the verifier classifier is not a security boundary.
+`PreToolUse` records the current code-change generation for recognized verifiers in all permission modes. Only a matching result from that generation can clear verification debt. On macOS/Linux, it rewrites a recognized Bash verifier only when Codex reports `permission_mode=bypassPermissions`, where commands already run without individual approval. On Windows it never wraps Bash commands and relies on recognized structured exit status. This avoids using the hook's required `permissionDecision: "allow"` in approval-capable modes. Review this behavior before trusting the plugin; the verifier classifier is not a security boundary.
 
 The Bash wrapper writes its sidecar only after a verifier returns normally. Signals and `errexit` can leave it empty; those results do not establish success unless other code writes the sidecar.
 
@@ -32,6 +32,6 @@ The sidecar is a workflow signal, not a security attestation. The verifier and i
 
 ## Trust
 
-Review `/hooks` before approving the plugin. The expected commands invoke `python3 "$PLUGIN_ROOT/scripts/sol_hook.py"`. A changed hash after an update is expected only when hook configuration or referenced files changed; inspect the diff before trusting it.
+Review `/hooks` before approving the plugin. The expected commands invoke `python3 "$PLUGIN_ROOT/scripts/sol_hook.py"` on macOS/Linux or the bundled `sol_hook.cmd` launcher on Windows. A changed hash after an update is expected only when hook configuration or referenced files changed; inspect the diff before trusting it.
 
 Vulnerability disclosure instructions are in the repository [security policy](../SECURITY.md).

@@ -8,7 +8,7 @@
 
 Windows hooks use `msvcrt` file locking and a bundled launcher for all seven lifecycle events. The launcher tries Python 3.9+ through `py -3`, then falls back to `python` on `PATH`. Use the marketplace commands below on Windows. The portable ZIP's `install.sh` is for macOS/Linux only.
 
-The hook contract was validated against Codex `0.155.0-alpha.9.2`. Runtime compatibility is capability-based: a large plain-string `PostToolUse` result can be packed with `exit_code=unknown`, while a recognized top-level structured status can be used directly. In `bypassPermissions` mode, `PreToolUse` also captures actual Bash verifier status in a private sidecar. The hook does not rewrite commands in approval-capable modes. Host-side truncation before `PostToolUse` may keep a result below the packing threshold.
+The hook contract was validated against Codex `0.155.0-alpha.9.2`. Runtime compatibility is capability-based: a large plain-string `PostToolUse` result can be packed with `exit_code=unknown`, while a recognized top-level structured status can be used directly. On macOS/Linux in `bypassPermissions` mode, `PreToolUse` also captures actual Bash verifier status in a private sidecar. On Windows and in approval-capable modes, the hook does not rewrite commands. Host-side truncation before `PostToolUse` may keep a result below the packing threshold.
 
 ## Install from the marketplace
 

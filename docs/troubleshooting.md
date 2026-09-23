@@ -51,11 +51,11 @@ Plain-string responses may be packed with `exit_code=unknown`. If Codex truncate
 
 ## Verification debt remains
 
-Run the smallest relevant test, lint, typecheck, or build command after the latest code patch. Free-form claims and commands outside the recognized verifier patterns do not clear debt. A failed verifier keeps the debt pending. The verifier must have a matching `PreToolUse` event; an older or unmatched result cannot clear newer debt. For plain-string Bash results, automatic status capture requires `bypassPermissions`; the hook will not rewrite a verifier in an approval-capable mode. A structured response with a recognized exit code can clear debt when matched to that start event.
+Run the smallest relevant test, lint, typecheck, or build command after the latest code patch. Free-form claims and commands outside the recognized verifier patterns do not clear debt. A failed verifier keeps the debt pending. The verifier must have a matching `PreToolUse` event; an older or unmatched result cannot clear newer debt. On macOS/Linux, plain-string Bash results can use automatic status capture in `bypassPermissions`; the hook will not rewrite a verifier on Windows or in an approval-capable mode. A structured response with a recognized exit code can clear debt when matched to that start event.
 
 Run the verifier as a single top-level shell command. Compound commands, command substitutions, wrappers, and informational invocations such as `--help` or `--version` are intentionally not trusted to clear debt because their final exit status does not prove that the check itself passed.
 
-If Bash was interrupted by a signal or aborted under `set -e`, the status sidecar stays unset. Run the verifier again; the interrupted result cannot clear debt.
+On macOS/Linux, if Bash was interrupted by a signal or aborted under `set -e`, the status sidecar stays unset. Run the verifier again; the interrupted result cannot clear debt.
 
 Dry-run, listing, configuration-display, allow-empty, and error-suppression options are also fail-closed across recognized tool families. Run a real check without those modes if debt should be cleared automatically.
 

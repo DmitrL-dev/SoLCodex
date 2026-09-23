@@ -27,7 +27,7 @@ Open `/hooks`, review the resolved commands, and trust the plugin when Codex ask
 - `PreCompact`, `PostCompact`, and `SessionStart` keep the debt reminder across Codex compaction. `Stop` warns about pending or failed verification without blocking the final answer; the agent must report checks accurately.
 - Aggregate source, receipt, and saved byte counts are recorded per model. These byte counts are not token, cost, quota, latency, or quality measurements.
 
-Plain-string `PostToolUse` results can be packed if the hook receives enough bytes, but their receipt says `exit_code=unknown` unless a verifier sidecar supplies status. `PreToolUse` records the current code-change generation for recognized verifiers. In `bypassPermissions` mode only, it also wraps recognized Bash verifiers to capture status; in approval-capable modes, it does not rewrite or auto-approve commands. Structured responses can supply status directly. In code-mode, host-side truncation before `PostToolUse` limits what the plugin can archive or count.
+Plain-string `PostToolUse` results can be packed if the hook receives enough bytes, but their receipt says `exit_code=unknown` unless a verifier sidecar supplies status. `PreToolUse` records the current code-change generation for recognized verifiers. On macOS/Linux in `bypassPermissions` mode only, it also wraps recognized Bash verifiers to capture status; on Windows or in approval-capable modes, it does not rewrite commands. Structured responses can supply status directly. In code-mode, host-side truncation before `PostToolUse` limits what the plugin can archive or count.
 
 The full flow is documented in [architecture](docs/architecture.md).
 
@@ -57,7 +57,7 @@ In a [local historical snapshot](docs/savings.md), 355 packed events contained 8
 
 ## Security and limits
 
-Exact local artifacts can contain credentials, source code, or personal data. They use private filesystem modes and are never uploaded by this plugin, but anyone with access to the account or storage may still read them. Review [docs/security.md](docs/security.md) before enabling hooks on sensitive work.
+Exact local artifacts can contain credentials, source code, or personal data. The plugin never uploads them. It uses private filesystem modes on macOS/Linux and inherited NTFS ACLs on Windows; anyone with access to the account or storage may still read them. Review [docs/security.md](docs/security.md) before enabling hooks on sensitive work.
 
 On Windows, hooks use `msvcrt` for file locking and inherit NTFS permissions for local artifacts. Bash verifier wrapping and its Unix signal tests apply only on macOS and Linux; Windows verification can use a recognized structured exit status from `exec_command`. Hook failures are fail-open so a plugin error does not take down Codex; verification enforcement is advisory when the hook is degraded. See [docs/troubleshooting.md](docs/troubleshooting.md) for hook conflicts, trust prompts, cache versions, and missing data paths.
 
