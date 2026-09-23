@@ -107,7 +107,7 @@ def normalized_root(value: str) -> str:
     return os.path.normcase(os.path.normpath(os.path.abspath(value)))
 
 
-def choose_runtime(root: Path, event: dict, plugin_root: str) -> bytes:
+def choose_runtime(root: Path, event: dict, plugin_root: str, bootstrap: bytes) -> bytes:
     source = Path(plugin_root) / "scripts" / "sol_hook.py"
     root_id = digest(normalized_root(plugin_root).encode("utf-8", "surrogatepass"))
     session = str(event.get("session_id") or "unknown-session")
@@ -117,6 +117,7 @@ def choose_runtime(root: Path, event: dict, plugin_root: str) -> bytes:
     index = directory(directory(root / "roots") / root_id)
 
     with locked(root):
+        publish(root / "bootstrap.py", bootstrap)
         try:
             current = read_file(source)
         except FileNotFoundError:
@@ -155,12 +156,11 @@ def main() -> int:
         data_path = os.environ["PLUGIN_DATA"]
         plugin_root = os.environ["PLUGIN_ROOT"]
         root = directory(directory(Path(data_path)) / "runtime-v1")
-        # The inline command verifies these bytes before executing this loader.
-        publish(root / "bootstrap.py", BOOTSTRAP_BYTES)
         incoming = sys.stdin.read()
         decoded = json.loads(incoming or "{}")
         event = decoded if isinstance(decoded, dict) else {}
-        runtime = choose_runtime(root, event, plugin_root)
+        # The inline command verifies these bytes before executing this loader.
+        runtime = choose_runtime(root, event, plugin_root, BOOTSTRAP_BYTES)
         sys.stdin = io.StringIO(incoming)
         exec(compile(runtime, "sol_hook.py", "exec"), {"__name__": "__main__", "__file__": "sol_hook.py"})
     except Exception as error:

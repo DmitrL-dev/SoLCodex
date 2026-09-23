@@ -146,6 +146,7 @@ class WindowsHookTests(unittest.TestCase):
             with ThreadPoolExecutor(max_workers=6) as pool:
                 for result in pool.map(run_hook, range(18)):
                     self.assertEqual(result.returncode, 0, result.stderr)
+                    self.assertNotIn("hook degraded safely", result.stderr)
 
             state_file = next((Path(data) / "state").glob("*.json"))
             state = json.loads(state_file.read_text(encoding="utf-8"))
