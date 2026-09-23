@@ -6,7 +6,7 @@ SoL Codex runs locally as lifecycle hook commands. It does not make network requ
 
 Eligible large tool output is copied exactly to `PLUGIN_DATA/observations/<session-hash>/obs_*.txt`. Exact artifacts can contain source code, command output, credentials, personal data, or anything else emitted by a tool. They are intentionally not redacted because they are the recovery evidence behind the bounded receipt.
 
-State and aggregate counters are stored under `PLUGIN_DATA/state`. Transient verifier exit codes are stored under `PLUGIN_DATA/verifier-status` and consumed after the matching tool result. Directory modes are forced to `0700`; state, lock, status, and observation files use `0600`. Writes use exclusive temporary files and atomic replacement where applicable. The implementation rejects symlinked data directories, state files, lock targets when `O_NOFOLLOW` is available, and observation targets.
+State and aggregate counters are stored under `PLUGIN_DATA/state`. Transient verifier exit codes are stored under a plugin-private directory in the system temporary directory (`TMPDIR` when usable), so a `workspace-write` Bash verifier can write its own exit status even when `PLUGIN_DATA` is outside the sandbox. These sidecars contain only a numeric exit code, not command output. Plugin-owned directory modes are forced to `0700`; state, lock, status, and observation files use `0600`. Writes use exclusive temporary files and atomic replacement where applicable. The implementation rejects symlinked data directories, state files, lock targets when `O_NOFOLLOW` is available, and observation targets. If the temporary directory is unavailable to the sandbox, status capture fails closed and verification debt remains pending.
 
 These controls reduce accidental exposure but do not protect against a process or administrator that can already read the user's account or storage.
 
@@ -22,11 +22,13 @@ All hook exceptions return success so a plugin defect does not terminate the hos
 
 `PreToolUse` records the current code-change generation for recognized verifiers in all permission modes. Only a matching result from that generation can clear verification debt. It rewrites a recognized Bash verifier only when Codex reports `permission_mode=bypassPermissions`, where commands already run without individual approval. This avoids using the hook's required `permissionDecision: "allow"` in approval-capable modes. Review this behavior before trusting the plugin; the verifier classifier is not a security boundary.
 
-The Bash sidecar is written only after a verifier returns normally. Signals and `errexit` can leave it empty; those results do not prove success.
+The Bash wrapper writes its sidecar only after a verifier returns normally. Signals and `errexit` can leave it empty; those results do not establish success unless other code writes the sidecar.
+
+The sidecar is a workflow signal, not a security attestation. The verifier and its subprocesses run as the same user and can access the temporary status path; adversarial project code could forge a zero status. Treat automatic debt clearing as protection against accidental omissions, not as proof against malicious test code. Inspect the actual tool result and code when that threat matters.
 
 ## Retention
 
-`SessionEnd` removes regular observation files older than seven days. This cleanup is best effort and does not remove state files. Abrupt termination can delay cleanup. For stricter retention, inspect and remove the confirmed plugin-specific `PLUGIN_DATA` directory outside a running task.
+`SessionEnd` removes regular observation files older than seven days and transient verifier sidecars for that session. This cleanup is best effort and does not remove state files. Abrupt termination can delay cleanup; the operating system may also purge temporary files. For stricter retention, inspect the confirmed plugin-specific `PLUGIN_DATA` and temporary status directories outside a running task.
 
 ## Trust
 

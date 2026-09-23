@@ -14,6 +14,7 @@ import secrets
 import shlex
 import stat
 import sys
+import tempfile
 import time
 from pathlib import Path
 from typing import Any, Callable, Dict, Iterable, Iterator, List, Optional, Tuple
@@ -575,8 +576,22 @@ def debt_generation(state: Dict[str, Any]) -> int:
     return value if isinstance(value, int) and not isinstance(value, bool) and value >= 0 else 0
 
 
+def verifier_status_root(root: Path) -> Path:
+    namespace = hashlib.sha256(str(root).encode("utf-8", "surrogatepass")).hexdigest()[:16]
+    directory = Path(tempfile.gettempdir()) / f"sol-codex-verifier-status-{os.getuid()}-{namespace}"
+    try:
+        directory.mkdir(mode=0o700)
+    except FileExistsError:
+        pass
+    info = directory.lstat()
+    if not stat.S_ISDIR(info.st_mode) or info.st_uid != os.getuid():
+        raise RuntimeError(f"unsafe verifier status directory: {directory}")
+    os.chmod(directory, 0o700)
+    return directory
+
+
 def verifier_status_path(root: Path, event: Dict[str, Any], nonce: str) -> Path:
-    directory = private_dir(private_dir(root / "verifier-status") / session_key(event))
+    directory = private_dir(verifier_status_root(root) / session_key(event))
     return directory / f"{nonce}.status"
 
 
@@ -872,7 +887,8 @@ def cleanup_old_artifacts(root: Path, max_age_days: int = 7) -> None:
 
 
 def cleanup_verifier_status(root: Path, event: Dict[str, Any], store: StateStore) -> None:
-    session_dir = root / "verifier-status" / session_key(event)
+    status_root = verifier_status_root(root)
+    session_dir = status_root / session_key(event)
     if session_dir.exists() and not session_dir.is_symlink() and session_dir.is_dir():
         for path in session_dir.glob("*.status"):
             with contextlib.suppress(OSError):
@@ -881,6 +897,8 @@ def cleanup_verifier_status(root: Path, event: Dict[str, Any], store: StateStore
                     path.unlink()
         with contextlib.suppress(OSError):
             session_dir.rmdir()
+    with contextlib.suppress(OSError):
+        status_root.rmdir()
     with store.locked() as state:
         state.pop("pending_verifiers", None)
 

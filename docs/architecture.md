@@ -59,5 +59,5 @@ Before compaction, the hook confirms that durable state is readable. After compa
 | `scripts/sol_hook.py` | Dispatches events, stores state/artifacts, builds receipts, and reports aggregate bytes. |
 | `skills/efficient-agent-loop` | Teaches the agent to fuse deterministic edits with narrow verification and retrieve only targeted artifact evidence. |
 | `PLUGIN_DATA/state` | Private per-session verification and aggregate metric state. |
-| `PLUGIN_DATA/verifier-status` | Private transient exit-code sidecars for recognized Bash verifiers in `bypassPermissions` mode. |
+| System temporary directory (`TMPDIR` when usable) | Private transient exit-code sidecars for recognized Bash verifiers in `bypassPermissions` mode. |
 | `PLUGIN_DATA/observations` | Exact local artifacts retained for bounded recall and cleaned after seven days when session-end cleanup runs. |

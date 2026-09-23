@@ -22,10 +22,13 @@ SCRIPT = Path(__file__).with_name("sol_hook.py")
 class HookHarness:
     def __init__(self, data: Path) -> None:
         self.data = data
+        self.temp_root = data.parent / "sandbox-temp"
+        self.temp_root.mkdir(mode=0o700)
 
     def run(self, event: Dict[str, Any], threshold: Optional[int] = None) -> subprocess.CompletedProcess[str]:
         environment = os.environ.copy()
         environment["PLUGIN_DATA"] = str(self.data)
+        environment["TMPDIR"] = str(self.temp_root)
         environment.pop("SOL_CODEX_PACK_THRESHOLD_BYTES", None)
         if threshold is not None:
             environment["SOL_CODEX_PACK_THRESHOLD_BYTES"] = str(threshold)
@@ -41,6 +44,7 @@ class HookHarness:
     def report(self) -> subprocess.CompletedProcess[str]:
         environment = os.environ.copy()
         environment["PLUGIN_DATA"] = str(self.data)
+        environment["TMPDIR"] = str(self.temp_root)
         return subprocess.run(
             ["python3", str(SCRIPT), "--report"],
             text=True,
@@ -204,6 +208,56 @@ class SolHookTests(unittest.TestCase):
         allowed = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
         self.assertEqual(allowed, {"continue": True})
 
+    def test_verifier_status_uses_configured_temp_root(self) -> None:
+        self.record_code_change()
+        source = Path(self.temporary.name) / "test_smoke.py"
+        source.write_text(
+            "import unittest\n\n"
+            "class TestSmoke(unittest.TestCase):\n"
+            "    def test_ok(self):\n"
+            "        self.assertEqual(1 + 1, 2)\n",
+            encoding="utf-8",
+        )
+        before = self.harness.run(event(
+            "PreToolUse", tool_name="Bash", tool_use_id="exec-sandbox-status",
+            permission_mode="bypassPermissions",
+            tool_input={"command": "python3 -m unittest test_smoke.TestSmoke.test_ok"},
+        ))
+        wrapped = json.loads(before.stdout)["hookSpecificOutput"]["updatedInput"]["command"]
+        statuses = list(self.harness.temp_root.rglob("*.status"))
+        self.assertEqual(len(statuses), 1)
+        self.assertFalse((self.data / "verifier-status").exists())
+        self.assertIn(str(statuses[0]), wrapped)
+        self.assertEqual(stat.S_IMODE(statuses[0].stat().st_mode), 0o600)
+        self.assertEqual(stat.S_IMODE(statuses[0].parent.stat().st_mode), 0o700)
+        self.assertEqual(stat.S_IMODE(statuses[0].parent.parent.stat().st_mode), 0o700)
+
+        status = statuses[0]
+        ran = subprocess.run(
+            wrapped, shell=True, executable="/bin/sh", cwd=source.parent,
+            text=True, capture_output=True, check=False,
+        )
+        self.assertEqual(ran.returncode, 0, ran.stderr)
+        self.assertEqual(status.read_text(encoding="utf-8"), "0\n")
+        self.harness.run(event(
+            "PostToolUse", tool_name="Bash", tool_use_id="exec-sandbox-status",
+            tool_input={"command": wrapped}, tool_response=ran.stdout + ran.stderr,
+        ))
+        self.assertFalse(status.exists())
+        allowed = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
+        self.assertEqual(allowed, {"continue": True})
+
+    def test_session_end_removes_unconsumed_temp_status(self) -> None:
+        before = self.harness.run(event(
+            "PreToolUse", tool_name="Bash", tool_use_id="exec-abandoned-status",
+            permission_mode="bypassPermissions",
+            tool_input={"command": "python3 -m unittest test_smoke"},
+        ))
+        self.assertIn("updatedInput", json.loads(before.stdout)["hookSpecificOutput"])
+        status = next(self.harness.temp_root.rglob("*.status"))
+        self.harness.run(event("SessionEnd"))
+        self.assertFalse(status.exists())
+
     def test_pre_tool_use_nonzero_status_keeps_debt(self) -> None:
         self.record_code_change()
         source = Path(self.temporary.name) / "sample.py"
@@ -249,7 +303,7 @@ class SolHookTests(unittest.TestCase):
             tool_input={"command": "python3 -m py_compile sample.py"},
         ))
         updated = json.loads(before.stdout)["hookSpecificOutput"]["updatedInput"]["command"]
-        status = next((self.data / "verifier-status").rglob("*.status"))
+        status = next(self.harness.temp_root.rglob("*.status"))
         status.unlink()
         after = self.harness.run(event(
             "PostToolUse", tool_name="Bash", tool_use_id="exec-status-deleted",
@@ -275,7 +329,7 @@ class SolHookTests(unittest.TestCase):
             tool_input={"command": "python3 -m pytest -q"},
         ))
         self.assertEqual(result.stdout, "")
-        self.assertFalse((self.data / "verifier-status").exists())
+        self.assertEqual(list(self.harness.temp_root.rglob("*.status")), [])
 
     def test_pre_tool_use_rejects_non_bash_command_shape(self) -> None:
         result = self.harness.run(event(
@@ -284,7 +338,7 @@ class SolHookTests(unittest.TestCase):
             tool_input={"cmd": "python3 -m pytest -q"},
         ))
         self.assertEqual(result.stdout, "")
-        self.assertFalse((self.data / "verifier-status").exists())
+        self.assertEqual(list(self.harness.temp_root.rglob("*.status")), [])
 
     def test_verifier_rejects_shell_expansion_that_hides_help_mode(self) -> None:
         self.record_code_change()
