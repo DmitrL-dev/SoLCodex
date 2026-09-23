@@ -11,6 +11,7 @@ All notable changes to this project are documented here.
 - Increased the existing adapter timeout-test window so child startup under a busy CI host does not erase the expected partial-output fixture.
 - Recorded a same-fixture bounded-search development pair with equal verification and lower observed provider tokens/time, while keeping it separate from held-out evidence.
 - Recorded a separate cache-boundary repair pair with equal verification, fewer observed provider tokens, and longer elapsed time; expanded the research review with prompt-cache economics.
+- Recorded a historical CRLF loader pair whose apparent ON success failed a broader behavior matrix; added regression tests for source-line-ending invariance and bootstrap pin integrity.
 - Added a cost-frontier research protocol based on provider-billed coding-agent studies and independent Astra review.
 - Extended the opt-in artifact search with bounded line-range retrieval and explicit reporting when long matched lines are omitted.
 - Recorded a two-pair real-repository receipt pilot, aggregate-only evidence, and invalid exploratory attempts.

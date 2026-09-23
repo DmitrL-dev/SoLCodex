@@ -1,0 +1,76 @@
+{
+  "adapter_sha256": "067ee9df409b84f52da3646df69c693253d9de2e46c8d9da0ed9df3507f80f1d",
+  "arms": {
+    "off": {
+      "all_command_result_bytes": 46846,
+      "artifact_read_commands": 0,
+      "elapsed_seconds": 40.12,
+      "first_diagnostic_result_bytes": 7369,
+      "initial_narrow_verifier_passed": false,
+      "posthoc_full_matrix_passed": false,
+      "process_exit_code": 0,
+      "source_runtime_matrix": {
+        "crlf/crlf": true,
+        "crlf/lf": false,
+        "lf/crlf": false,
+        "lf/lf": true
+      },
+      "tokens": {
+        "cache_write_input_tokens": 0,
+        "cached_input_tokens": 135680,
+        "input_tokens": 167777,
+        "output_tokens": 699,
+        "reasoning_output_tokens": 0,
+        "total_input_output_tokens": 168476,
+        "uncached_input_tokens": 32097
+      },
+      "tool_calls": 5
+    },
+    "on": {
+      "all_command_result_bytes": 47589,
+      "artifact_read_commands": 2,
+      "elapsed_seconds": 63.1,
+      "first_diagnostic_result_bytes": 894,
+      "initial_narrow_verifier_passed": true,
+      "posthoc_full_matrix_passed": false,
+      "process_exit_code": 0,
+      "source_runtime_matrix": {
+        "crlf/crlf": false,
+        "crlf/lf": false,
+        "lf/crlf": true,
+        "lf/lf": true
+      },
+      "tokens": {
+        "cache_write_input_tokens": 0,
+        "cached_input_tokens": 196096,
+        "input_tokens": 220350,
+        "output_tokens": 1767,
+        "reasoning_output_tokens": 0,
+        "total_input_output_tokens": 222117,
+        "uncached_input_tokens": 24254
+      },
+      "tool_calls": 17
+    }
+  },
+  "confirmatory_eligible": false,
+  "date": "2026-09-24",
+  "fixture_sha256": "3cc86181946b8c673ebae6e411871740fb97b2e2a9719d1353ff7007560bce34",
+  "gold_control": {
+    "crlf/crlf": true,
+    "crlf/lf": true,
+    "lf/crlf": true,
+    "lf/lf": true
+  },
+  "historical_parent": "15583dd84b3e0c35e5ffaec84508c35fce709c2d",
+  "limitations": "Both repairs fail a posthoc full generation/runtime newline matrix. Fixed order, task-specific diagnostic, different prompts, and an absolute tool path exposing the live fixed checkout; exploratory only.",
+  "measurement_complete": true,
+  "model": "gpt-6-luna",
+  "order": [
+    "on",
+    "off"
+  ],
+  "reasoning_effort": "low",
+  "schema_version": 1,
+  "search_sha256": "1cdbe1278e59e20655b66dc366f1e962bc2418907c4d3d5e8011d45b937abb4c",
+  "study": "historical-crlf-development"
+}

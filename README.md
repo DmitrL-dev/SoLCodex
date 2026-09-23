@@ -55,6 +55,8 @@ The [bounded-search development pair](docs/measurements/2026-09-24-bounded-searc
 
 A [cache-boundary development pair](docs/measurements/2026-09-24-cache-boundary-development.md) passed both repair checks on a different defect with 10.3% fewer provider tokens, while taking 19.7% longer. It is exploratory evidence, not a billing or general-efficiency claim.
 
+A [historical CRLF development pair](docs/measurements/2026-09-24-historical-crlf-development.md) exposed a verifier gap: both repairs failed the complete source/runtime newline matrix, even though ON passed the initial narrow check. ON used 31.8% more provider tokens. The full matrix now informs the regression tests and future task acceptance.
+
 The [hook result boundary study](docs/research/2026-09-24-hook-result-boundary.md) records the code-mode limitation, related upstream work, and the safe control-flow change in 0.1.9.
 
 The [existing-task hook refresh study](docs/research/2026-09-24-live-hook-refresh.md) records a successful same-task, next-turn refresh after upgrade, without restarting the app. The code-mode script still received the original result.

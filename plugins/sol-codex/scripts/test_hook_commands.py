@@ -10,6 +10,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 
 PLUGIN_ROOT = Path(__file__).resolve().parents[1]
@@ -36,6 +37,34 @@ class HookCommandTests(unittest.TestCase):
             self.assertEqual(self.commands[0], expected)
         finally:
             sys.path.pop(0)
+
+    def test_crlf_source_generates_same_pinned_commands(self) -> None:
+        sys.path.insert(0, str(PLUGIN_ROOT.parents[1] / "scripts"))
+        try:
+            import generate_hook_commands as generator
+
+            source = generator.BOOTSTRAP.read_bytes().replace(b"\r\n", b"\n")
+            with tempfile.TemporaryDirectory() as directory:
+                bootstrap = Path(directory) / "sol_bootstrap.py"
+                with patch.object(generator, "BOOTSTRAP", bootstrap):
+                    bootstrap.write_bytes(source)
+                    lf_commands = generator.commands()
+                    bootstrap.write_bytes(source.replace(b"\n", b"\r\n"))
+                    self.assertEqual(generator.commands(), lf_commands)
+        finally:
+            sys.path.pop(0)
+
+    def test_changed_bootstrap_contents_fail_pin_check(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            base = Path(directory)
+            root = base / "cache"
+            self.fixture(root, "changed-bootstrap")
+            bootstrap = root / "scripts" / "sol_bootstrap.py"
+            bootstrap.write_bytes(bootstrap.read_bytes() + b"\n# modified bootstrap\n")
+            result = self.invoke(root, base / "data")
+            self.assertEqual(result.returncode, 0)
+            self.assertEqual(result.stdout, "")
+            self.assertIn("verified hook bootstrap unavailable", result.stderr)
 
     def invoke(self, root: Path, data: Path, session: str = "same-task") -> subprocess.CompletedProcess[str]:
         environment = os.environ.copy()
