@@ -49,7 +49,7 @@ The [context-efficiency research map](docs/research/2026-09-23-context-efficienc
 
 The [hook result boundary study](docs/research/2026-09-24-hook-result-boundary.md) records the code-mode limitation, related upstream work, and the safe control-flow change in 0.1.9.
 
-The [existing-task hook refresh study](docs/research/2026-09-24-live-hook-refresh.md) records why the current turn retained an old hook after upgrade and why the next turn in the same task is the first refresh attempt to verify.
+The [existing-task hook refresh study](docs/research/2026-09-24-live-hook-refresh.md) records a successful same-task, next-turn refresh after upgrade, without restarting the app. The code-mode script still received the original result.
 
 The [real-repository receipt pilot](docs/measurements/2026-09-24-real-repo-pilot.md) records two paired repairs, their aggregate trace data, and invalid exploratory attempts. Both pairs passed independent checks; token and time effects differed by task.
 
