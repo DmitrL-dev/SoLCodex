@@ -42,7 +42,7 @@ codex plugin remove sol-codex@sol-codex
 codex plugin add sol-codex@sol-codex
 ```
 
-Open `/hooks` again. Changed hook files produce a new trust hash and must be reviewed. Running tasks retain their loaded hook definitions; Codex does not provide a plugin-side way to register new hooks in those tasks. The updater keeps their old scripts available, so work can continue in the same task with the old behavior. Start a new task when the new hook definitions are required. A manual remove/add deletes old cache paths; use the updater while old tasks are open. See [troubleshooting](troubleshooting.md) if an old task is already blocked.
+Open `/hooks` again. Changed hook files produce a new trust hash and must be reviewed. A live task retains its loaded hook definitions; the updater keeps its old script paths available so work can continue. In a controlled CLI check with hook trust bypassed, a **new Codex process** running `codex exec resume <session-id>` reloaded a changed project hook while keeping the same session ID and history. This has not been established for updated plugin hooks in Desktop. A [reported Desktop bug](https://github.com/openai/codex/issues/36605) shows that disabling and re-enabling a plugin in an open task can leave its old hook engine active. If you restart Desktop and reopen the same task, verify the resolved hooks in `/hooks` and a real hook event before relying on the new release. A manual remove/add deletes old cache paths; use the updater while old tasks are open. See [troubleshooting](troubleshooting.md) if an old task is already blocked.
 
 ## Environment overrides
 
