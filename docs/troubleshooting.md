@@ -6,7 +6,7 @@ Open `/hooks` and confirm that SoL Codex is listed and trusted. Review unresolve
 
 If `/hooks` lists no SoL Codex entries on version `0.1.1`, update to `0.1.2` and reinstall. Codex `0.155.0-alpha.16` ignores plugin hooks when a root `plugin.json` is present alongside `.codex-plugin/plugin.json`.
 
-Confirm that `python3 --version` reports Python 3.9 or newer and that the resolved `PLUGIN_ROOT/scripts/sol_hook.py` exists. Windows is unsupported because Python `fcntl` is unavailable.
+On macOS or Linux, confirm that `python3 --version` reports Python 3.9 or newer. On Windows, check `py -3 --version` or `python --version` and ensure the working interpreter is on `PATH`. On every platform, confirm that the resolved `PLUGIN_ROOT/scripts/sol_hook.py` exists; on Windows also check `PLUGIN_ROOT/scripts/sol_hook.cmd`.
 
 ## Hooks run twice
 

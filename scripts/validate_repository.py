@@ -32,6 +32,7 @@ ARCHIVE_ALLOWED_FILES = frozenset(
         "plugins/sol-codex/LICENSE",
         "plugins/sol-codex/hooks/hooks.json",
         "plugins/sol-codex/scripts/sol_hook.py",
+        "plugins/sol-codex/scripts/sol_hook.cmd",
         "plugins/sol-codex/skills/efficient-agent-loop/SKILL.md",
         "plugins/sol-codex/skills/efficient-agent-loop/agents/openai.yaml",
     }

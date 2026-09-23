@@ -3,10 +3,10 @@
 ## Requirements
 
 - Codex with plugin and hooks support
-- Python 3.9 or newer available as `python3`
-- macOS or Linux
+- Python 3.9 or newer: `python3` on macOS/Linux; `py -3` or `python` on Windows
+- macOS, Linux, or Windows
 
-Windows is unsupported because `plugins/sol-codex/scripts/sol_hook.py` imports `fcntl` for file locking.
+Windows hooks use `msvcrt` file locking and a bundled launcher for all seven lifecycle events. The launcher tries Python 3.9+ through `py -3`, then falls back to `python` on `PATH`. Use the marketplace commands below on Windows. The portable ZIP's `install.sh` is for macOS/Linux only.
 
 The hook contract was validated against Codex `0.155.0-alpha.9.2`. Runtime compatibility is capability-based: a large plain-string `PostToolUse` result can be packed with `exit_code=unknown`, while a recognized top-level structured status can be used directly. In `bypassPermissions` mode, `PreToolUse` also captures actual Bash verifier status in a private sidecar. The hook does not rewrite commands in approval-capable modes. Host-side truncation before `PostToolUse` may keep a result below the packing threshold.
 

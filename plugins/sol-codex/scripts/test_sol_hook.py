@@ -9,6 +9,7 @@ import re
 import signal
 import stat
 import subprocess
+import sys
 import tempfile
 import time
 import unittest
@@ -33,7 +34,7 @@ class HookHarness:
         if threshold is not None:
             environment["SOL_CODEX_PACK_THRESHOLD_BYTES"] = str(threshold)
         return subprocess.run(
-            ["python3", str(SCRIPT)],
+            [sys.executable, str(SCRIPT)],
             input=json.dumps(event),
             text=True,
             capture_output=True,
@@ -46,7 +47,7 @@ class HookHarness:
         environment["PLUGIN_DATA"] = str(self.data)
         environment["TMPDIR"] = str(self.temp_root)
         return subprocess.run(
-            ["python3", str(SCRIPT), "--report"],
+            [sys.executable, str(SCRIPT), "--report"],
             text=True,
             capture_output=True,
             check=True,
@@ -148,6 +149,7 @@ class SolHookTests(unittest.TestCase):
         blocked = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
         self.assert_pending_stop(blocked)
 
+    @unittest.skipIf(os.name == "nt", "requires a POSIX shell")
     def test_stale_sidecar_verifier_cannot_clear_new_code_change(self) -> None:
         self.record_code_change()
         source = Path(self.temporary.name) / "sample.py"
@@ -173,6 +175,7 @@ class SolHookTests(unittest.TestCase):
         blocked = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
         self.assert_pending_stop(blocked)
 
+    @unittest.skipIf(os.name == "nt", "requires a POSIX shell")
     def test_pre_tool_use_records_real_verifier_status_for_string_response(self) -> None:
         self.record_code_change()
         source = Path(self.temporary.name) / "sample.py"
@@ -258,6 +261,7 @@ class SolHookTests(unittest.TestCase):
         self.harness.run(event("SessionEnd"))
         self.assertFalse(status.exists())
 
+    @unittest.skipIf(os.name == "nt", "requires a POSIX shell")
     def test_pre_tool_use_nonzero_status_keeps_debt(self) -> None:
         self.record_code_change()
         source = Path(self.temporary.name) / "sample.py"
@@ -362,6 +366,7 @@ class SolHookTests(unittest.TestCase):
         blocked = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
         self.assert_pending_stop(blocked)
 
+    @unittest.skipIf(os.name == "nt", "requires a POSIX shell")
     def test_verifier_wrapper_preserves_errexit_inside_shell_function(self) -> None:
         self.record_code_change()
         original = "pytest"
@@ -390,6 +395,7 @@ class SolHookTests(unittest.TestCase):
         blocked = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
         self.assert_pending_stop(blocked)
 
+    @unittest.skipIf(os.name == "nt", "requires POSIX process signals")
     def test_interrupted_verifier_cannot_clear_debt(self) -> None:
         self.record_code_change()
         source = Path(self.temporary.name)
@@ -616,7 +622,8 @@ class SolHookTests(unittest.TestCase):
         self.assertIsNotNone(match)
         artifact = Path(match.group(1))
         self.assertEqual(artifact.read_text(encoding="utf-8"), output)
-        self.assertEqual(stat.S_IMODE(artifact.stat().st_mode), 0o600)
+        if os.name != "nt":
+            self.assertEqual(stat.S_IMODE(artifact.stat().st_mode), 0o600)
         digest = hashlib.sha256(output.encode("utf-8")).hexdigest()
         self.assertIn(f"sha256={digest}", receipt)
 

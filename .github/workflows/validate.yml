@@ -42,7 +42,24 @@ jobs:
       - name: Build and inspect release
         env:
           PYTHONDONTWRITEBYTECODE: "1"
-        run: |
-          scripts/build_release.sh
-          unzip -t dist/sol-codex-portable-0.1.2-codex.20260923094500.zip
-          python scripts/validate_repository.py --archive dist/sol-codex-portable-0.1.2-codex.20260923094500.zip
+        run: scripts/build_release.sh
+
+  validate-windows:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Test hooks and Windows commands
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python -m unittest discover -s plugins/sol-codex/scripts -p 'test_*.py' -v
+      - name: Validate repository
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python scripts/validate_repository.py

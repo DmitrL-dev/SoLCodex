@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import contextlib
 import datetime as dt
-import fcntl
 import hashlib
 import json
 import os
@@ -18,6 +17,33 @@ import tempfile
 import time
 from pathlib import Path
 from typing import Any, Callable, Dict, Iterable, Iterator, List, Optional, Tuple
+
+if os.name == "nt":
+    import msvcrt
+else:
+    import fcntl
+
+
+def private_descriptor(descriptor: int) -> None:
+    # Windows permissions are inherited NTFS ACLs, not POSIX mode bits.
+    if hasattr(os, "fchmod"):
+        os.fchmod(descriptor, 0o600)
+
+
+def lock_descriptor(descriptor: int, unlock: bool = False) -> None:
+    if os.name != "nt":
+        fcntl.flock(descriptor, fcntl.LOCK_UN if unlock else fcntl.LOCK_EX)
+        return
+    deadline = time.monotonic() + 2
+    while True:
+        try:
+            os.lseek(descriptor, 0, os.SEEK_SET)
+            msvcrt.locking(descriptor, msvcrt.LK_UNLCK if unlock else msvcrt.LK_NBLCK, 1)
+            return
+        except OSError:
+            if unlock or time.monotonic() >= deadline:
+                raise
+            time.sleep(0.02)
 
 
 SCHEMA_VERSION = 1
@@ -121,7 +147,7 @@ def plugin_data_root() -> Path:
     if configured:
         root = Path(configured).expanduser()
     else:
-        root = Path(os.environ.get("TMPDIR", "/tmp")) / "sol-codex-plugin-data"
+        root = Path(tempfile.gettempdir()) / "sol-codex-plugin-data"
     return private_dir(root)
 
 
@@ -173,8 +199,8 @@ class StateStore:
             flags |= os.O_NOFOLLOW
         descriptor = os.open(str(self.lock_path), flags, 0o600)
         try:
-            os.fchmod(descriptor, 0o600)
-            fcntl.flock(descriptor, fcntl.LOCK_EX)
+            private_descriptor(descriptor)
+            lock_descriptor(descriptor)
             state = self._read()
             yield state
             state["updated_at"] = utc_now()
@@ -183,7 +209,7 @@ class StateStore:
             self._write(state)
         finally:
             with contextlib.suppress(OSError):
-                fcntl.flock(descriptor, fcntl.LOCK_UN)
+                lock_descriptor(descriptor, unlock=True)
             os.close(descriptor)
 
     def _read(self) -> Dict[str, Any]:
@@ -212,7 +238,7 @@ class StateStore:
                 handle.write(payload)
                 handle.flush()
                 os.fsync(handle.fileno())
-            os.fchmod(descriptor, 0o600)
+            private_descriptor(descriptor)
         finally:
             os.close(descriptor)
         os.replace(str(temp), str(self.state_path))
@@ -485,7 +511,7 @@ def archive_observation(root: Path, event: Dict[str, Any], text: str) -> Tuple[P
             handle.write(payload)
             handle.flush()
             os.fsync(handle.fileno())
-        os.fchmod(descriptor, 0o600)
+        private_descriptor(descriptor)
     finally:
         os.close(descriptor)
     return path, digest, len(payload)
@@ -609,7 +635,10 @@ def handle_pre_tool_use(event: Dict[str, Any], root: Path, store: StateStore) ->
         return
     # Rewriting requires an allow decision. Capture the start generation in
     # every mode, but rewrite only when permissions are already bypassed.
-    should_wrap = tool_name == "Bash" and event.get("permission_mode") == "bypassPermissions"
+    should_wrap = (
+        os.name != "nt" and tool_name == "Bash"
+        and event.get("permission_mode") == "bypassPermissions"
+    )
     entry: Dict[str, Any] = {
         "command_sha256": hashlib.sha256(command.encode("utf-8", "surrogatepass")).hexdigest(),
     }

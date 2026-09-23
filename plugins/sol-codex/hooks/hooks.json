@@ -10,7 +10,8 @@
             "command": "python3 \"$PLUGIN_ROOT/scripts/sol_hook.py\"",
             "timeout": 5,
             "statusMessage": "Loading efficient-loop state",
-            "additionalContextLimit": 1200
+            "additionalContextLimit": 1200,
+            "commandWindows": "cmd.exe /d /c call \"%PLUGIN_ROOT%\\scripts\\sol_hook.cmd\""
           }
         ]
       }
@@ -23,7 +24,8 @@
             "type": "command",
             "command": "python3 \"$PLUGIN_ROOT/scripts/sol_hook.py\"",
             "timeout": 10,
-            "statusMessage": "Recording verifier status"
+            "statusMessage": "Recording verifier status",
+            "commandWindows": "cmd.exe /d /c call \"%PLUGIN_ROOT%\\scripts\\sol_hook.cmd\""
           }
         ]
       }
@@ -37,7 +39,8 @@
             "command": "python3 \"$PLUGIN_ROOT/scripts/sol_hook.py\"",
             "timeout": 10,
             "statusMessage": "Preserving verification evidence",
-            "additionalContextLimit": 1800
+            "additionalContextLimit": 1800,
+            "commandWindows": "cmd.exe /d /c call \"%PLUGIN_ROOT%\\scripts\\sol_hook.cmd\""
           }
         ]
       }
@@ -49,7 +52,8 @@
           {
             "type": "command",
             "command": "python3 \"$PLUGIN_ROOT/scripts/sol_hook.py\"",
-            "timeout": 5
+            "timeout": 5,
+            "commandWindows": "cmd.exe /d /c call \"%PLUGIN_ROOT%\\scripts\\sol_hook.cmd\""
           }
         ]
       }
@@ -61,7 +65,8 @@
           {
             "type": "command",
             "command": "python3 \"$PLUGIN_ROOT/scripts/sol_hook.py\"",
-            "timeout": 5
+            "timeout": 5,
+            "commandWindows": "cmd.exe /d /c call \"%PLUGIN_ROOT%\\scripts\\sol_hook.cmd\""
           }
         ]
       }
@@ -73,7 +78,8 @@
             "type": "command",
             "command": "python3 \"$PLUGIN_ROOT/scripts/sol_hook.py\"",
             "timeout": 5,
-            "statusMessage": "Checking verification debt"
+            "statusMessage": "Checking verification debt",
+            "commandWindows": "cmd.exe /d /c call \"%PLUGIN_ROOT%\\scripts\\sol_hook.cmd\""
           }
         ]
       }
@@ -84,7 +90,8 @@
           {
             "type": "command",
             "command": "python3 \"$PLUGIN_ROOT/scripts/sol_hook.py\"",
-            "timeout": 3
+            "timeout": 3,
+            "commandWindows": "cmd.exe /d /c call \"%PLUGIN_ROOT%\\scripts\\sol_hook.cmd\""
           }
         ]
       }
