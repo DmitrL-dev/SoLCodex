@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented here.
 
+## [0.1.5] - 2026-09-23
+
+### Fixed
+
+- Lifecycle launchers now exit successfully if the plugin script disappears between the cache check and Python loading it on macOS, Linux, or Windows.
+
 ## [0.1.4] - 2026-09-23
 
 ### Fixed

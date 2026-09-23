@@ -18,7 +18,7 @@ Codex binds trust to the resolved hook content. Marketplace upgrades and new cac
 
 ## An old task calls a removed cache path
 
-Running tasks retain their resolved, versioned hook commands. A plugin update can remove that cache path while an old task is still open. Release `0.1.4` guards its hook commands so a missing script exits successfully instead of blocking tools. That guard cannot change commands already loaded by older releases. Start a new task after updating, and avoid updating while other tasks using the old version are active. If an old task is already blocked, restore its exact reviewed cache path temporarily or move the work to a new task; do not change the plugin data directory. Remove any temporary compatibility path only after those tasks have ended.
+Running tasks retain their resolved, versioned hook commands. A plugin update can remove that cache path while an old task is still open. Release `0.1.4` guards against a missing script; release `0.1.5` also handles removal between the shell check and Python loading the script. These guards cannot change commands already loaded by older releases. Start a new task after updating, and avoid updating while other tasks using the old version are active. If an old task is already blocked, restore its exact reviewed cache path temporarily or move the work to a new task; do not change the plugin data directory. Remove any temporary compatibility path only after those tasks have ended.
 
 ## Marketplace name collision
 

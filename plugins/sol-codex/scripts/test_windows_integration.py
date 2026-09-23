@@ -51,6 +51,24 @@ class WindowsHookTests(unittest.TestCase):
                     self.assertEqual(result.stdout, "")
                     self.assertEqual(result.stderr, "")
 
+    def test_missing_python_script_does_not_block_tools(self) -> None:
+        config = json.loads((PLUGIN_ROOT / "hooks" / "hooks.json").read_text(encoding="utf-8"))
+        command = config["hooks"]["SessionStart"][0]["hooks"][0]["commandWindows"]
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            scripts = root / "scripts"
+            scripts.mkdir()
+            shutil.copy2(PLUGIN_ROOT / "scripts" / "sol_hook.cmd", scripts / "sol_hook.cmd")
+            environment = os.environ.copy()
+            environment.update({"PLUGIN_ROOT": str(root), "PLUGIN_DATA": str(root / "data")})
+            result = subprocess.run(
+                command, input="{}", text=True, capture_output=True,
+                shell=True, env=environment, check=False,
+            )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(result.stdout, "")
+        self.assertEqual(result.stderr, "")
+
     def test_session_start_windows_command_runs(self) -> None:
         config = json.loads((PLUGIN_ROOT / "hooks" / "hooks.json").read_text(encoding="utf-8"))
         command = config["hooks"]["SessionStart"][0]["hooks"][0]["commandWindows"]

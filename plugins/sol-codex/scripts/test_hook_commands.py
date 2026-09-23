@@ -4,7 +4,9 @@ from __future__ import annotations
 
 import json
 import os
+import shutil
 import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -52,6 +54,35 @@ class PosixHookCommandTests(unittest.TestCase):
             )
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn("hookSpecificOutput", json.loads(result.stdout))
+
+    def test_cache_removed_after_shell_check_does_not_block_tools(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            scripts = root / "cache" / "scripts"
+            scripts.mkdir(parents=True)
+            hook = scripts / "sol_hook.py"
+            shutil.copy2(PLUGIN_ROOT / "scripts" / "sol_hook.py", hook)
+            fake_bin = root / "bin"
+            fake_bin.mkdir()
+            python = fake_bin / "python3"
+            python.write_text(
+                '#!/bin/sh\nrm "$PLUGIN_ROOT/scripts/sol_hook.py"\n'
+                f'exec "{sys.executable}" "$@"\n', encoding="utf-8",
+            )
+            python.chmod(0o755)
+            environment = os.environ.copy()
+            environment.update({
+                "PLUGIN_ROOT": str(scripts.parent),
+                "PLUGIN_DATA": str(root / "data"),
+                "PATH": str(fake_bin) + os.pathsep + environment["PATH"],
+            })
+            result = subprocess.run(
+                self.commands[0], input="{}", text=True, capture_output=True,
+                shell=True, env=environment, check=False,
+            )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(result.stdout, "")
+        self.assertEqual(result.stderr, "")
 
 
 if __name__ == "__main__":
