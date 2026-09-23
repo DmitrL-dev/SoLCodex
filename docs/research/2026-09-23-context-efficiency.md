@@ -10,7 +10,7 @@ SoL Codex 0.1.8 archives eligible `PostToolUse` output, returns a bounded receip
 flowchart LR
   A[Tool output] --> B[Codex host boundary]
   B --> C[PostToolUse hook]
-  C --> D[Exact received bytes in PLUGIN_DATA]
+  C --> D[Received or extracted text in PLUGIN_DATA]
   C --> E[Bounded receipt]
   E --> F[Model context]
   F --> G[Provider-managed prompt cache]
@@ -18,7 +18,7 @@ flowchart LR
   H --> F
 ```
 
-The current hook can replace the current tool result, but cannot rewrite earlier model-visible messages, choose provider cache breakpoints, or initiate Codex compaction. The [Codex hook contract](https://learn.chatgpt.com/docs/hooks) documents the current `PostToolUse` replacement behavior and compaction events. The [OpenAI prompt-caching guide](https://developers.openai.com/api/docs/guides/prompt-caching) says cache reuse depends on a matching prefix and that compaction may reduce reuse. These API-level facts do not establish how much cache a Desktop task actually reuses.
+The current hook can replace the current tool result, but cannot rewrite earlier model-visible messages, choose provider cache breakpoints, or initiate Codex compaction. A structured result is flattened to extracted text before archival, so its artifact does not preserve the original object structure. In observed code-mode calls, `decision: block` rejected a nested Promise after the command had executed; this is a separate capability risk to measure before widening receipt packing. The [Codex hook contract](https://learn.chatgpt.com/docs/hooks) documents the current `PostToolUse` replacement behavior and compaction events. The [OpenAI prompt-caching guide](https://developers.openai.com/api/docs/guides/prompt-caching) says cache reuse depends on a matching prefix and that compaction may reduce reuse. These API-level facts do not establish how much cache a Desktop task actually reuses.
 
 ## Relevant work
 
@@ -36,7 +36,7 @@ All reported percentages and scores belong to the cited authors' tasks, models, 
 
 ## Ranked experiments
 
-1. **Measure total work before changing compression.** Extend the A/B recorder, without storing prompts or observation text, to collect provider-reported cached input, uncached input, cache writes where exposed, output tokens, elapsed time, tool calls, repeated commands, artifact retrievals, and hidden-verifier success. Keep the current 0.1.8 behavior as control. Report unavailable provider fields as unavailable, not zero.
+1. **Measure total work before changing compression.** The [aggregate-only A/B trace parser](../measurements/ab-trace.md) now records provider-reported cached input, uncached input, cache writes where exposed, output tokens, elapsed time, tool calls, repeated commands, artifact retrievals, and verifier results. Keep the current 0.1.8 behavior as control. The next experiment must also record interrupted code-mode chains and timeouts outside the trace. Report unavailable provider fields as unavailable, not zero.
 2. **Test evidence-first receipts.** For known-status build and test output, compare today's bounded head/tail/signals with a deterministic extractor that prioritizes failing test names, assertions, error spans, file/line references, and exit status while retaining an exact artifact handle. Preserve today's unknown-status test-output exception. Escape or redact displayed lines; never turn a log's claims into trusted instructions or infer success from prose. Fall back to the current receipt or original output if extraction fails or is larger.
 3. **Test exact retrieval ergonomics.** Prototype a small local command that lists an artifact's metadata and retrieves bounded line ranges or literal matches with line numbers and digest verification. Keep private file permissions and the existing retention policy. Compare retrieval success and extra calls with ordinary `rg`/`sed` on the stored file; only add a new interface if it measurably helps.
 4. **Then test adaptive thresholds.** Compare current fixed 4/6 KiB defaults with a rule based on output type and measured evidence density. Predeclare task-quality floors. Do not tune on the held-out tasks or use byte savings as the acceptance criterion.

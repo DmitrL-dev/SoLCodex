@@ -21,14 +21,14 @@ Open `/hooks`, review the resolved commands, and trust the plugin when Codex ask
 
 ## What it does
 
-- `PostToolUse` watches shell and patch results. Eligible output larger than 6 KiB is written exactly under `PLUGIN_DATA`; `gpt-6-astra` uses a 4 KiB threshold.
+- `PostToolUse` watches shell and patch results. Eligible extracted text larger than 6 KiB is written under `PLUGIN_DATA`; `gpt-6-astra` uses a 4 KiB threshold. For structured results, the artifact is extracted text, not a byte-for-byte copy of the response object.
 - The model receives a bounded receipt with status (or `unknown`), hashes, diagnostic lines, and a small preview. Receipt redaction is best effort; the exact local artifact is not redacted.
 - Successful code patches create verification debt. A recognized verifier clears it only when its matching `PreToolUse` ran after the latest code patch and a structured exit code or private status sidecar reports exit code zero. Sidecars are a workflow aid, not a security attestation against malicious project code.
 - `PreCompact`, `PostCompact`, and `SessionStart` keep the debt reminder across Codex compaction. `Stop` warns about pending or failed verification without blocking the final answer; the agent must report checks accurately.
 - A pinned loader saves the invoked hook runtime under `PLUGIN_DATA` so an initialized task can keep working after Codex prunes its old plugin cache. A refreshed hook root can select a new runtime in the same task.
 - Aggregate source, receipt, and saved byte counts are recorded per model. These byte counts are not token, cost, quota, latency, or quality measurements.
 
-Plain-string `PostToolUse` results can be packed if the hook receives enough bytes, but their receipt says `exit_code=unknown` unless a verifier sidecar supplies status. `PreToolUse` records the current code-change generation for recognized verifiers. On macOS/Linux in `bypassPermissions` mode only, it also wraps recognized Bash verifiers to capture status; on Windows or in approval-capable modes, it does not rewrite commands. Structured responses can supply status directly. In code-mode, host-side truncation before `PostToolUse` limits what the plugin can archive or count.
+Plain-string `PostToolUse` results can be packed if the hook receives enough bytes, but their receipt says `exit_code=unknown` unless a verifier sidecar supplies status. `PreToolUse` records the current code-change generation for recognized verifiers. On macOS/Linux in `bypassPermissions` mode only, it also wraps recognized Bash verifiers to capture status; on Windows or in approval-capable modes, it does not rewrite commands. Structured responses can supply status directly. In code-mode, host-side truncation before `PostToolUse` limits what the plugin can archive or count. A packed `decision: block` can reject a nested code-mode Promise after the command ran; treat its exit status as unknown and inspect before repeating side effects.
 
 The full flow is documented in [architecture](docs/architecture.md).
 
@@ -46,6 +46,8 @@ export SOL_CODEX_PACK_THRESHOLD_BYTES=6144
 ## Reports
 
 The [context-efficiency research map](docs/research/2026-09-23-context-efficiency.md) compares related work and ranks experiments. It does not change the released plugin or claim that published results transfer to SoL Codex.
+
+The [A/B trace accounting guide](docs/measurements/ab-trace.md) documents an aggregate-only `codex exec --json` parser, private manifest format, quality checks, and limits of the earlier five-pair pilot.
 
 Run the hook script with the same `PLUGIN_DATA` directory shown by the installed hook environment:
 

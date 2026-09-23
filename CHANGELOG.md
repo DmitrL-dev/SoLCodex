@@ -7,6 +7,11 @@ All notable changes to this project are documented here.
 ### Documentation
 
 - Added a source-linked research map and ranked A/B plan for context efficiency, provider caching, and retrieval cost.
+- Clarified that structured artifacts contain extracted text and documented the observed code-mode Promise rejection after packed tool results.
+
+### Added
+
+- Aggregate-only parser for paired `codex exec --json` traces, with private-manifest methodology, focused tests, and CI coverage on Python 3.9–3.12.
 
 ## [0.1.8] - 2026-09-23
 
