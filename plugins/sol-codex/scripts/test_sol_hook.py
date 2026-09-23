@@ -211,6 +211,7 @@ class SolHookTests(unittest.TestCase):
         allowed = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
         self.assertEqual(allowed, {"continue": True})
 
+    @unittest.skipIf(os.name == "nt", "requires a POSIX shell")
     def test_verifier_status_uses_configured_temp_root(self) -> None:
         self.record_code_change()
         source = Path(self.temporary.name) / "test_smoke.py"
@@ -250,6 +251,7 @@ class SolHookTests(unittest.TestCase):
         allowed = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
         self.assertEqual(allowed, {"continue": True})
 
+    @unittest.skipIf(os.name == "nt", "requires a POSIX shell")
     def test_session_end_removes_unconsumed_temp_status(self) -> None:
         before = self.harness.run(event(
             "PreToolUse", tool_name="Bash", tool_use_id="exec-abandoned-status",
@@ -284,6 +286,7 @@ class SolHookTests(unittest.TestCase):
         blocked = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
         self.assert_pending_stop(blocked, "failed")
 
+    @unittest.skipIf(os.name == "nt", "requires a POSIX shell")
     def test_missing_pre_tool_use_status_cannot_clear_debt(self) -> None:
         self.record_code_change()
         before = self.harness.run(event(
@@ -299,6 +302,7 @@ class SolHookTests(unittest.TestCase):
         blocked = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
         self.assert_pending_stop(blocked)
 
+    @unittest.skipIf(os.name == "nt", "requires a POSIX shell")
     def test_deleted_status_file_degrades_without_losing_the_shell_result(self) -> None:
         self.record_code_change()
         before = self.harness.run(event(

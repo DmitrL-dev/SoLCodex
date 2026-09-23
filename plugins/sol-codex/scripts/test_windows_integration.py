@@ -44,7 +44,7 @@ class WindowsHookTests(unittest.TestCase):
                 env=environment,
                 check=False,
             )
-        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn("hookSpecificOutput", json.loads(result.stdout))
 
     def test_windows_command_handles_spaces_and_python_fallback(self) -> None:
@@ -74,7 +74,7 @@ class WindowsHookTests(unittest.TestCase):
                 env=environment,
                 check=False,
             )
-        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn("hookSpecificOutput", json.loads(result.stdout))
 
     def test_concurrent_hook_updates_are_not_lost(self) -> None:
