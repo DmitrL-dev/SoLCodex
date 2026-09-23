@@ -17,7 +17,7 @@ codex plugin marketplace add DmitrL-dev/SoLCodex
 codex plugin add sol-codex@sol-codex
 ```
 
-Open `/hooks`, review the resolved commands, and trust the plugin when Codex asks. Start a new task so the lifecycle hooks are loaded. See [installation](docs/installation.md) for updates, removal, and cache details.
+Open `/hooks`, review the resolved commands, and trust the plugin when Codex asks. Hooks can refresh in the same task on a Codex build with plugin hook hot reload; confirm the new release with a real hook event. The stable loader also recovers a previously initialized task after its old plugin cache is pruned. See [installation](docs/installation.md) for updates, removal, and limits.
 
 ## What it does
 

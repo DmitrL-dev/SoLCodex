@@ -2,11 +2,11 @@
 
 ## Hooks do not run
 
-Open `/hooks` and confirm that SoL Codex is listed and trusted. Review unresolved commands or a changed trust hash. After installation or update, start a new task; existing tasks do not reload lifecycle hooks.
+Open `/hooks` and confirm that SoL Codex is listed and trusted. Review unresolved commands or a changed trust hash, then confirm a real hook event. Codex builds with plugin hook refresh can load an update into an existing task; otherwise reopen that task.
 
 If `/hooks` lists no SoL Codex entries on version `0.1.1`, update to `0.1.2` and reinstall. Codex `0.155.0-alpha.16` ignores plugin hooks when a root `plugin.json` is present alongside `.codex-plugin/plugin.json`.
 
-On macOS or Linux, confirm that `python3 --version` reports Python 3.9 or newer. On Windows, check `py -3 --version` or `python --version` and ensure the working interpreter is on `PATH`. On every platform, confirm that the resolved `PLUGIN_ROOT/scripts/sol_hook.py` exists; on Windows also check `PLUGIN_ROOT/scripts/sol_hook.cmd`.
+On macOS or Linux, confirm that `python3 --version` reports Python 3.9 or newer. On Windows, check `py -3 --version` or `python --version` and ensure the working interpreter is on `PATH`. Before the first hook event, confirm that `PLUGIN_ROOT/scripts/sol_bootstrap.py` and `sol_hook.py` exist. After the first event, `PLUGIN_DATA/runtime-v1` should contain the verified bootstrap and a runtime snapshot.
 
 ## Hooks run twice
 
@@ -18,7 +18,7 @@ Codex binds trust to the resolved hook content. Marketplace upgrades and new cac
 
 ## An old task calls a removed cache path
 
-Running tasks retain their resolved, versioned hook commands. A plugin update can remove that cache path while an old task is still open. Release `0.1.4` guards against a missing script; release `0.1.5` also handles removal between the shell check and Python loading the script. These guards cannot change commands already loaded by older releases. Start a new task after updating, and avoid updating while other tasks using the old version are active. If an old task is already blocked, restore its exact reviewed cache path temporarily or move the work to a new task; do not change the plugin data directory. Remove any temporary compatibility path only after those tasks have ended.
+Release `0.1.8` runs a pinned bootstrap from `PLUGIN_DATA/runtime-v1` after its first successful invocation. It loads the runtime snapshot bound to the task and lexical `PLUGIN_ROOT`, even after that cache path is removed. If both cache and bootstrap are missing before first use, recovery is impossible. If a removed root has several snapshots and no task binding, the loader refuses to guess. Reusing the same root path with changed runtime bytes in the same task also degrades safely. Keep `PLUGIN_DATA` intact and inspect the hook's diagnostic. Older loaded commands cannot adopt the new bootstrap; restore their exact reviewed cache path temporarily or reopen the task. The cache-preserving updater remains useful during this transition.
 
 ## Marketplace name collision
 

@@ -221,10 +221,10 @@ class StateStore:
             raise RuntimeError("unsafe state file")
         try:
             data = json.loads(self.state_path.read_text(encoding="utf-8"))
-        except (OSError, ValueError):
-            return default_state(self.event)
+        except (OSError, ValueError) as error:
+            raise RuntimeError("unreadable hook state; preserving existing verification debt") from error
         if not isinstance(data, dict) or data.get("schema_version") != SCHEMA_VERSION:
-            return default_state(self.event)
+            raise RuntimeError("unsupported hook state schema; preserving existing verification debt")
         return data
 
     def _write(self, state: Dict[str, Any]) -> None:

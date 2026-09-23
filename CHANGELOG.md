@@ -2,6 +2,17 @@
 
 All notable changes to this project are documented here.
 
+## [0.1.8] - 2026-09-23
+
+### Added
+
+- A pinned, stable hook bootstrap stores immutable runtime snapshots in `PLUGIN_DATA` and binds them to a task and its lexical `PLUGIN_ROOT`. Previously loaded hooks can recover after a cache path is pruned, while a newly resolved root selects the new runtime in the same task.
+- Explicit diagnostics for unavailable or ambiguous snapshots and for a cache path reused with different runtime bytes.
+
+### Fixed
+
+- Unsupported or unreadable state schemas no longer silently clear pending verification debt.
+
 ## [0.1.6] - 2026-09-23
 
 ### Changed

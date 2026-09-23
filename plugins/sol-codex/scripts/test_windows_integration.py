@@ -27,7 +27,7 @@ class WindowsHookTests(unittest.TestCase):
         ]
         self.assertEqual(len(commands), 7)
         self.assertEqual(len(set(commands)), 1)
-        self.assertTrue(all("sol_hook.cmd" in command for command in commands))
+        self.assertTrue(all("py -3 -c" in command and "python -c" in command for command in commands))
 
     def test_removed_cache_does_not_block_tools(self) -> None:
         config = json.loads((PLUGIN_ROOT / "hooks" / "hooks.json").read_text(encoding="utf-8"))
@@ -49,7 +49,7 @@ class WindowsHookTests(unittest.TestCase):
                     )
                     self.assertEqual(result.returncode, 0, result.stderr)
                     self.assertEqual(result.stdout, "")
-                    self.assertEqual(result.stderr, "")
+                    self.assertIn("verified hook bootstrap unavailable", result.stderr)
 
     def test_missing_python_script_does_not_block_tools(self) -> None:
         config = json.loads((PLUGIN_ROOT / "hooks" / "hooks.json").read_text(encoding="utf-8"))
@@ -58,7 +58,7 @@ class WindowsHookTests(unittest.TestCase):
             root = Path(directory)
             scripts = root / "scripts"
             scripts.mkdir()
-            shutil.copy2(PLUGIN_ROOT / "scripts" / "sol_hook.cmd", scripts / "sol_hook.cmd")
+            shutil.copy2(PLUGIN_ROOT / "scripts" / "sol_bootstrap.py", scripts / "sol_bootstrap.py")
             environment = os.environ.copy()
             environment.update({"PLUGIN_ROOT": str(root), "PLUGIN_DATA": str(root / "data")})
             result = subprocess.run(
@@ -67,7 +67,7 @@ class WindowsHookTests(unittest.TestCase):
             )
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(result.stdout, "")
-        self.assertEqual(result.stderr, "")
+        self.assertIn("runtime unavailable or ambiguous", result.stderr)
 
     def test_session_start_windows_command_runs(self) -> None:
         config = json.loads((PLUGIN_ROOT / "hooks" / "hooks.json").read_text(encoding="utf-8"))
@@ -94,7 +94,7 @@ class WindowsHookTests(unittest.TestCase):
             root = Path(directory) / "plugin root"
             scripts = root / "scripts"
             scripts.mkdir(parents=True)
-            for name in ("sol_hook.py", "sol_hook.cmd"):
+            for name in ("sol_hook.py", "sol_bootstrap.py"):
                 shutil.copy2(PLUGIN_ROOT / "scripts" / name, scripts / name)
             fake_bin = Path(directory) / "fake bin"
             fake_bin.mkdir()

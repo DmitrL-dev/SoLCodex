@@ -89,6 +89,19 @@ class SolHookTests(unittest.TestCase):
         ))
         self.assertEqual(result.stdout, "")
 
+    def test_unknown_state_schema_preserves_verification_debt(self) -> None:
+        self.harness.run(event("SessionStart"))
+        self.record_code_change()
+        state_path = next((self.data / "state").glob("*.json"))
+        state = json.loads(state_path.read_text(encoding="utf-8"))
+        self.assertTrue(state["verification_debt"]["pending"])
+        state["schema_version"] = 999
+        state_path.write_text(json.dumps(state), encoding="utf-8")
+        result = self.harness.run(event("Stop"))
+        self.assertIn("unsupported hook state schema", result.stderr)
+        self.assertEqual(json.loads(result.stdout), {"continue": True})
+        self.assertEqual(json.loads(state_path.read_text(encoding="utf-8")), state)
+
     def assert_pending_stop(self, payload: Dict[str, Any], status: str = "pending") -> None:
         self.assertEqual(payload.get("continue"), True)
         self.assertNotIn("decision", payload)

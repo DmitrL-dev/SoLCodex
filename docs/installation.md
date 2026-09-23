@@ -6,7 +6,7 @@
 - Python 3.9 or newer: `python3` on macOS/Linux; `py -3` or `python` on Windows
 - macOS, Linux, or Windows
 
-Windows hooks use `msvcrt` file locking and a bundled launcher for all seven lifecycle events. The launcher tries Python 3.9+ through `py -3`, then falls back to `python` on `PATH`. Use the marketplace commands below on Windows. The portable ZIP's `install.sh` is for macOS/Linux only.
+Windows hooks use `msvcrt` file locking. The hook command tries Python 3.9+ through `py -3`, then falls back to `python` on `PATH`. Use the marketplace commands below on Windows. The portable ZIP's `install.sh` is for macOS/Linux only.
 
 The hook contract was validated against Codex `0.155.0-alpha.9.2`. Runtime compatibility is capability-based: a large plain-string `PostToolUse` result can be packed with `exit_code=unknown`, while a recognized top-level structured status can be used directly. On macOS/Linux in `bypassPermissions` mode, `PreToolUse` also captures actual Bash verifier status in a private sidecar. On Windows and in approval-capable modes, the hook does not rewrite commands. Host-side truncation before `PostToolUse` may keep a result below the packing threshold.
 
@@ -17,7 +17,7 @@ codex plugin marketplace add DmitrL-dev/SoLCodex
 codex plugin add sol-codex@sol-codex
 ```
 
-Open `/hooks` after installation. Review the commands resolved from `hooks/hooks.json`, then approve the trust prompt. Create a new task to load `SessionStart` and the other lifecycle hooks.
+Open `/hooks` after installation. Review the commands resolved from `hooks/hooks.json`, then approve the trust prompt. Confirm a real hook event. If the host has not refreshed the active task's hook engine, reopen the task after installing.
 
 ## Update
 
@@ -27,7 +27,7 @@ From a checkout of this repository, use the cache-preserving updater:
 python3 scripts/upgrade_preserve_cache.py
 ```
 
-It saves the exact existing SoL Codex cache entries, refreshes the marketplace, reinstalls only when the version changed, and restores old paths without overwriting the new installation. This keeps hook commands already bound by open tasks pointing at their original files. The tool refuses unexpected cache entries or links outside this plugin's cache. Keep its backup directory if a restore fails.
+It saves the exact existing SoL Codex cache entries, refreshes the marketplace, reinstalls only when the version changed, and restores old paths without overwriting the new installation. This also protects tasks whose loaded hook commands predate the new bootstrap. The tool refuses unexpected cache entries or links outside this plugin's cache. Keep its backup directory if a restore fails.
 
 For a manual update, refresh the marketplace checkout first:
 
@@ -42,7 +42,7 @@ codex plugin remove sol-codex@sol-codex
 codex plugin add sol-codex@sol-codex
 ```
 
-Open `/hooks` again. Changed hook files produce a new trust hash and must be reviewed. A live task retains its loaded hook definitions; the updater keeps its old script paths available so work can continue. In a controlled CLI check with hook trust bypassed, a **new Codex process** running `codex exec resume <session-id>` reloaded a changed project hook while keeping the same session ID and history. This has not been established for updated plugin hooks in Desktop. A [reported Desktop bug](https://github.com/openai/codex/issues/36605) shows that disabling and re-enabling a plugin in an open task can leave its old hook engine active. If you restart Desktop and reopen the same task, verify the resolved hooks in `/hooks` and a real hook event before relying on the new release. A manual remove/add deletes old cache paths; use the updater while old tasks are open. See [troubleshooting](troubleshooting.md) if an old task is already blocked.
+Open `/hooks` again. Review any changed trust hash. Codex [added plugin hook refresh](https://github.com/openai/codex/pull/42990); a controlled app-server check on `0.155.0-alpha.16` observed a new plugin hook in the same process and session ID after a plugin update. The Desktop UI's enable/disable path is a separate behavior; verify a real hook event after updating. SoL Codex `0.1.8` keeps an immutable copy of each invoked runtime in `PLUGIN_DATA/runtime-v1` and binds it to the task and original `PLUGIN_ROOT`. If a later plugin operation prunes that cache path, the old command still runs its bound runtime. A new root selects its new runtime when the host refreshes hooks. The loader protocol and its pinned bootstrap command are intended to stay unchanged across runtime-only releases. Tasks that loaded `0.1.7` or older commands cannot gain recovery retroactively. See [troubleshooting](troubleshooting.md) for edge cases.
 
 ## Environment overrides
 

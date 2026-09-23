@@ -1,4 +1,4 @@
-"""Lifecycle commands must fail open when an old plugin cache is removed."""
+"""Verify durable hook commands and generation binding across cache removal."""
 
 from __future__ import annotations
 
@@ -15,74 +15,139 @@ from pathlib import Path
 PLUGIN_ROOT = Path(__file__).resolve().parents[1]
 
 
-@unittest.skipIf(os.name == "nt", "POSIX hook commands")
-class PosixHookCommandTests(unittest.TestCase):
+class HookCommandTests(unittest.TestCase):
     def setUp(self) -> None:
         config = json.loads((PLUGIN_ROOT / "hooks" / "hooks.json").read_text(encoding="utf-8"))
+        key = "commandWindows" if os.name == "nt" else "command"
         self.commands = [
-            hook["command"]
+            hook[key]
             for matchers in config["hooks"].values()
             for matcher in matchers
             for hook in matcher["hooks"]
         ]
-
-    def test_removed_cache_does_not_block_tools(self) -> None:
         self.assertEqual(len(self.commands), 7)
-        with tempfile.TemporaryDirectory() as directory:
-            environment = os.environ.copy()
-            environment["PLUGIN_ROOT"] = str(Path(directory) / "removed-cache")
-            environment["PLUGIN_DATA"] = str(Path(directory) / "data")
-            for command in self.commands:
-                with self.subTest(command=command):
-                    result = subprocess.run(
-                        command, input="{}", text=True, capture_output=True,
-                        shell=True, env=environment, check=False,
-                    )
-                    self.assertEqual(result.returncode, 0, result.stderr)
-                    self.assertEqual(result.stdout, "")
-                    self.assertEqual(result.stderr, "")
+        self.assertEqual(len(set(self.commands)), 1)
 
-    def test_existing_hook_still_runs(self) -> None:
+    def test_commands_match_pinned_bootstrap(self) -> None:
+        sys.path.insert(0, str(PLUGIN_ROOT.parents[1] / "scripts"))
+        try:
+            from generate_hook_commands import commands
+            expected = commands()[0 if os.name != "nt" else 1]
+            self.assertEqual(self.commands[0], expected)
+        finally:
+            sys.path.pop(0)
+
+    def invoke(self, root: Path, data: Path, session: str = "same-task") -> subprocess.CompletedProcess[str]:
+        environment = os.environ.copy()
+        environment.update({"PLUGIN_ROOT": str(root), "PLUGIN_DATA": str(data), "PYTHONDONTWRITEBYTECODE": "1"})
+        return subprocess.run(
+            self.commands[0],
+            input=json.dumps({"session_id": session, "hook_event_name": "SessionStart"}),
+            text=True, capture_output=True, shell=True, env=environment, check=False,
+        )
+
+    def fixture(self, root: Path, version: str) -> None:
+        scripts = root / "scripts"
+        scripts.mkdir(parents=True)
+        shutil.copy2(PLUGIN_ROOT / "scripts" / "sol_bootstrap.py", scripts / "sol_bootstrap.py")
+        (scripts / "sol_hook.py").write_text(
+            "import json,sys\n"
+            f"print(json.dumps({{'runtime': {version!r}, 'event': json.load(sys.stdin)['hook_event_name']}}))\n",
+            encoding="utf-8",
+        )
+
+    def test_fresh_cache_runs_real_hook(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
-            environment = os.environ.copy()
-            environment["PLUGIN_ROOT"] = str(PLUGIN_ROOT)
-            environment["PLUGIN_DATA"] = directory
-            result = subprocess.run(
-                self.commands[0],
-                input=json.dumps({"session_id": "posix-command-smoke", "hook_event_name": "SessionStart"}),
-                text=True, capture_output=True, shell=True, env=environment, check=False,
-            )
+            result = self.invoke(PLUGIN_ROOT, Path(directory) / "data")
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn("hookSpecificOutput", json.loads(result.stdout))
 
-    def test_cache_removed_after_shell_check_does_not_block_tools(self) -> None:
+    def test_removed_cache_before_first_use_fails_open_with_diagnostic(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            scripts = root / "cache" / "scripts"
-            scripts.mkdir(parents=True)
-            hook = scripts / "sol_hook.py"
-            shutil.copy2(PLUGIN_ROOT / "scripts" / "sol_hook.py", hook)
-            fake_bin = root / "bin"
-            fake_bin.mkdir()
-            python = fake_bin / "python3"
-            python.write_text(
-                '#!/bin/sh\nrm "$PLUGIN_ROOT/scripts/sol_hook.py"\n'
-                f'exec "{sys.executable}" "$@"\n', encoding="utf-8",
-            )
-            python.chmod(0o755)
-            environment = os.environ.copy()
-            environment.update({
-                "PLUGIN_ROOT": str(scripts.parent),
-                "PLUGIN_DATA": str(root / "data"),
-                "PATH": str(fake_bin) + os.pathsep + environment["PATH"],
-            })
-            result = subprocess.run(
-                self.commands[0], input="{}", text=True, capture_output=True,
-                shell=True, env=environment, check=False,
-            )
-        self.assertEqual(result.returncode, 0, result.stderr)
+            result = self.invoke(root / "missing", root / "data")
+        self.assertEqual(result.returncode, 0)
         self.assertEqual(result.stdout, "")
-        self.assertEqual(result.stderr, "")
+        self.assertIn("verified hook bootstrap unavailable", result.stderr)
+
+    def test_snapshot_survives_prune_and_new_root_selects_new_runtime(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            base = Path(directory)
+            old = base / "old cache"
+            new = base / "new cache"
+            data = base / "plugin data"
+            self.fixture(old, "old")
+            first = self.invoke(old, data)
+            self.assertEqual(first.returncode, 0, first.stderr)
+            self.assertEqual(json.loads(first.stdout)["runtime"], "old")
+            shutil.rmtree(old)
+            after_prune = self.invoke(old, data)
+            self.assertEqual(after_prune.returncode, 0, after_prune.stderr)
+            self.assertEqual(json.loads(after_prune.stdout)["runtime"], "old")
+            self.fixture(new, "new")
+            upgraded = self.invoke(new, data)
+            self.assertEqual(upgraded.returncode, 0, upgraded.stderr)
+            self.assertEqual(json.loads(upgraded.stdout)["runtime"], "new")
+            old_inflight = self.invoke(old, data)
+            self.assertEqual(json.loads(old_inflight.stdout)["runtime"], "old")
+            shutil.rmtree(new)
+            new_after_prune = self.invoke(new, data)
+            self.assertEqual(json.loads(new_after_prune.stdout)["runtime"], "new")
+
+    def test_new_task_recovers_unique_snapshot_for_removed_root(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            base = Path(directory)
+            root = base / "cache"
+            data = base / "data"
+            self.fixture(root, "saved")
+            self.assertEqual(self.invoke(root, data).returncode, 0)
+            shutil.rmtree(root)
+            result = self.invoke(root, data, session="later-task")
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual(json.loads(result.stdout)["runtime"], "saved")
+
+    def test_same_root_changed_runtime_is_rejected_for_bound_task(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            base = Path(directory)
+            root = base / "cache"
+            data = base / "data"
+            self.fixture(root, "old")
+            self.assertEqual(self.invoke(root, data).returncode, 0)
+            (root / "scripts" / "sol_hook.py").write_text("print('changed')\n", encoding="utf-8")
+            result = self.invoke(root, data)
+            self.assertEqual(result.returncode, 0)
+            self.assertEqual(result.stdout, "")
+            self.assertIn("plugin root reused with different runtime", result.stderr)
+
+    def test_corrupt_snapshot_is_rejected_after_prune(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            base = Path(directory)
+            root = base / "cache"
+            data = base / "data"
+            self.fixture(root, "saved")
+            self.assertEqual(self.invoke(root, data).returncode, 0)
+            snapshot = next((data / "runtime-v1" / "snapshots").glob("*.py"))
+            snapshot.write_text("print('corrupt')\n", encoding="utf-8")
+            shutil.rmtree(root)
+            result = self.invoke(root, data)
+            self.assertEqual(result.returncode, 0)
+            self.assertEqual(result.stdout, "")
+            self.assertIn("runtime snapshot digest mismatch", result.stderr)
+
+    def test_ambiguous_unbound_root_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            base = Path(directory)
+            root = base / "cache"
+            data = base / "data"
+            self.fixture(root, "first")
+            self.assertEqual(self.invoke(root, data, session="first-task").returncode, 0)
+            (root / "scripts" / "sol_hook.py").write_text("print('second')\n", encoding="utf-8")
+            self.assertEqual(self.invoke(root, data, session="second-task").returncode, 0)
+            shutil.rmtree(root)
+            result = self.invoke(root, data, session="unbound-task")
+            self.assertEqual(result.returncode, 0)
+            self.assertEqual(result.stdout, "")
+            self.assertIn("runtime unavailable or ambiguous", result.stderr)
 
 
 if __name__ == "__main__":

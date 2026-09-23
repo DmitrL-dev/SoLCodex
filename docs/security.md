@@ -32,6 +32,6 @@ The sidecar is a workflow signal, not a security attestation. The verifier and i
 
 ## Trust
 
-Review `/hooks` before approving the plugin. The expected commands check that the script exists, then invoke `python3 "$PLUGIN_ROOT/scripts/sol_hook.py"` on macOS/Linux or the bundled `sol_hook.cmd` launcher on Windows. A missing script is fail-open so a removed cache path cannot block a tool call in tasks started on this release. A changed hash after an update is expected only when hook configuration or referenced files changed; inspect the diff before trusting it.
+Review `/hooks` before approving the plugin. Each hook command embeds a SHA-256 pin for `sol_bootstrap.py`; the command verifies a copy from `PLUGIN_DATA/runtime-v1` or the installed plugin before executing it. The bootstrap snapshots `sol_hook.py` by its SHA-256 digest and binds that snapshot to the task and lexical `PLUGIN_ROOT`. This protects already bound snapshots against accidental corruption and keeps old tasks on their original runtime after cache pruning. It does not authenticate a newly installed runtime independently of the plugin installation. A changed trust hash still needs review. A missing or ambiguous runtime fails open with a diagnostic; verification enforcement is then unavailable for that event.
 
 Vulnerability disclosure instructions are in the repository [security policy](../SECURITY.md).
