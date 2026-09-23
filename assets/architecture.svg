@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1480 760" role="img" aria-labelledby="title description">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1480 1060" role="img" aria-labelledby="title description">
   <title id="title">SoL Codex runtime and verification architecture</title>
-  <desc id="description">Two data-flow lanes show how PostToolUse selects a model-aware threshold, stores exact hook-visible output, returns a bounded receipt, reports aggregate bytes, and preserves verification debt using a trusted exit status across Codex compaction.</desc>
+  <desc id="description">Three lanes show output packing, verification debt across compaction, and hook runtime recovery from immutable snapshots after the plugin cache is removed.</desc>
   <defs>
     <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#071426"/>
@@ -33,7 +33,7 @@
     </style>
   </defs>
 
-  <rect width="1480" height="760" fill="url(#background)" rx="24"/>
+  <rect width="1480" height="1060" fill="url(#background)" rx="24"/>
   <rect x="42" y="36" width="1396" height="318" class="lane"/>
   <text x="76" y="78" class="subheading">RUNTIME DATA FLOW</text>
   <text x="76" y="111" class="heading">Keep the evidence. Shrink the replay.</text>
@@ -142,4 +142,36 @@
   <text x="1179" y="652" class="label">Compact resume</text>
   <text x="1179" y="672" class="small">SessionStart restores</text>
   <text x="1179" y="690" class="small">debt reminder</text>
+
+  <rect x="42" y="746" width="1396" height="268" class="lane"/>
+  <text x="76" y="788" class="subheading">HOOK RUNTIME RECOVERY</text>
+  <text x="76" y="821" class="heading">A pruned cache path still has a bound runtime.</text>
+
+  <path class="edge" d="M260 904 H312"/>
+  <path class="edge-accent" d="M506 904 H558"/>
+  <path class="edge-accent" d="M812 904 H864"/>
+  <path class="edge-accent" d="M1110 904 H1162"/>
+  <path class="edge" d="M685 940 V976 H986 V940"/>
+
+  <rect x="76" y="868" width="184" height="72" class="node"/>
+  <text x="168" y="897" class="label">Codex hook command</text>
+  <text x="168" y="919" class="small">same loader protocol</text>
+
+  <rect x="312" y="868" width="194" height="72" class="node-accent"/>
+  <text x="409" y="897" class="label">Pinned bootstrap</text>
+  <text x="409" y="919" class="small">verified SHA-256</text>
+
+  <rect x="558" y="868" width="254" height="72" class="node"/>
+  <text x="685" y="896" class="label">Task + lexical root</text>
+  <text x="685" y="919" class="small">bind the runtime digest</text>
+
+  <rect x="864" y="868" width="246" height="72" class="node-accent"/>
+  <text x="987" y="896" class="label">Immutable snapshot</text>
+  <text x="987" y="919" class="small">private PLUGIN_DATA</text>
+
+  <rect x="1162" y="868" width="224" height="72" class="node-accent"/>
+  <text x="1274" y="896" class="label">Bound hook runtime</text>
+  <text x="1274" y="919" class="small">survives cache pruning</text>
+
+  <text x="784" y="971" class="edge-label">refreshed root selects a new snapshot</text>
 </svg>

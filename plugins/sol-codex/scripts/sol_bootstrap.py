@@ -55,7 +55,8 @@ def publish(path: Path, data: bytes) -> None:
     flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_NOFOLLOW", 0)
     descriptor = os.open(str(temporary), flags, 0o600)
     try:
-        with os.fdopen(descriptor, "wb", closefd=False) as handle:
+        with os.fdopen(descriptor, "wb") as handle:
+            descriptor = -1
             handle.write(data)
             handle.flush()
             os.fsync(handle.fileno())
@@ -63,7 +64,7 @@ def publish(path: Path, data: bytes) -> None:
         if os.name != "nt":
             os.chmod(path, 0o600)
     finally:
-        with contextlib.suppress(OSError):
+        if descriptor >= 0:
             os.close(descriptor)
         with contextlib.suppress(FileNotFoundError):
             temporary.unlink()

@@ -4,6 +4,21 @@ SoL Codex is a local Codex hook plugin. It observes supported lifecycle events, 
 
 The editable diagram source is [`assets/architecture.mmd`](../assets/architecture.mmd). The README-ready render is [`assets/architecture.svg`](../assets/architecture.svg).
 
+## Hook runtime recovery
+
+```mermaid
+flowchart LR
+  A[Codex hook command] --> B[Pinned bootstrap]
+  B --> C{Session ID + lexical PLUGIN_ROOT}
+  C -->|first use| D[Immutable runtime snapshot in PLUGIN_DATA]
+  C -->|cache pruned| D
+  C -->|new root after refresh| E[Snapshot new runtime]
+  D --> F[Bound hook runtime]
+  E --> F
+```
+
+The seven hook commands carry the same bootstrap protocol and pin its SHA-256 digest. The command verifies the bootstrap in `PLUGIN_DATA/runtime-v1` or the installed plugin before executing it. The loader stores the runtime by content digest, then binds that digest to the session ID and lexical `PLUGIN_ROOT`. A pruned cache path can be recovered from the bound snapshot; a different root can use its new runtime in the same session when Codex refreshes the hook engine. The bootstrap protocol can remain byte-for-byte stable as the runtime evolves. Recovery requires the first invocation to have completed while the cache was still available. Reusing one root path with different runtime bytes in the same session, or having multiple snapshots for a removed unbound root, produces a fail-open diagnostic. A host that keeps invoking a disabled plugin is outside the loader's control.
+
 ## Runtime data flow
 
 ```mermaid
@@ -56,7 +71,9 @@ Before compaction, the hook confirms that durable state is readable. After compa
 | Component | Responsibility |
 |---|---|
 | `hooks/hooks.json` | Registers session, tool, compaction, stop, and session-end handlers. |
+| `scripts/sol_bootstrap.py` | Stable, pinned loader that selects a verified runtime snapshot for the task and root. |
 | `scripts/sol_hook.py` | Dispatches events, stores state/artifacts, builds receipts, and reports aggregate bytes. |
+| `PLUGIN_DATA/runtime-v1` | Private bootstrap copy, immutable runtime snapshots, and task/root bindings. |
 | `skills/efficient-agent-loop` | Teaches the agent to fuse deterministic edits with narrow verification and retrieve only targeted artifact evidence. |
 | `PLUGIN_DATA/state` | Private per-session verification and aggregate metric state. |
 | System temporary directory (`TMPDIR` when usable) | Private transient exit-code sidecars for recognized Bash verifiers in `bypassPermissions` mode. |

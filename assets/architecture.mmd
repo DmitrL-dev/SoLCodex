@@ -1,4 +1,15 @@
 flowchart TB
+  subgraph runtime_recovery[Hook runtime recovery]
+    direction LR
+    V[Codex hook command] --> W[Pinned bootstrap]
+    W --> X{Session ID and lexical PLUGIN_ROOT}
+    X -->|first use| Y[Immutable runtime snapshot in PLUGIN_DATA]
+    X -->|cache pruned| Y
+    Y --> Z[Bound hook runtime]
+    X -->|new root after refresh| AA[Snapshot new runtime]
+    AA --> Z
+  end
+
   subgraph runtime[Runtime data flow]
     direction LR
     A[Codex tool result] --> B[PostToolUse]
