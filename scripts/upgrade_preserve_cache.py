@@ -112,7 +112,7 @@ def upgrade(codex: str, cache_root: Path) -> None:
             else:
                 print(f"Cache backup retained at {backup}; restore it before closing old tasks.", file=sys.stderr)
     print(f"Installed {new_version}; retained {len(entries)} previous cache paths.")
-    print("Review /hooks and trust changed definitions. Open tasks keep their loaded hooks.")
+    print("Review /hooks and trust changed definitions. Verify a new hook event in the open task.")
 
 
 def main() -> int:

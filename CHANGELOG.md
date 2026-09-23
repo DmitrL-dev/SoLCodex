@@ -13,6 +13,12 @@ All notable changes to this project are documented here.
 
 - Unsupported or unreadable state schemas no longer silently clear pending verification debt.
 
+## [0.1.7] - 2026-09-23
+
+### Changed
+
+- The default packing threshold changed from 12 KiB to 6 KiB to fit observed host-truncated hook output. The Astra-specific threshold remains 4 KiB. The released threshold was not measured end to end.
+
 ## [0.1.6] - 2026-09-23
 
 ### Changed

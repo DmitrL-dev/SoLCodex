@@ -10,7 +10,7 @@ On macOS or Linux, confirm that `python3 --version` reports Python 3.9 or newer.
 
 ## Hooks run twice
 
-The plugin ships hooks in `plugins/sol-codex/hooks/hooks.json`. If the same commands were also copied into a user or project `config.toml`, Codex can invoke both registrations. Remove the manual duplicate, keep the plugin-managed hooks, review `/hooks`, and start a new task.
+The plugin ships hooks in `plugins/sol-codex/hooks/hooks.json`. If the same commands were also copied into a user or project `config.toml`, Codex can invoke both registrations. Remove the manual duplicate, keep the plugin-managed hooks, review `/hooks`, and verify a new hook event in the open task. Reopen the task only if the host has not refreshed its hook engine.
 
 ## Hook trust changed after an update
 
@@ -34,7 +34,7 @@ codex plugin remove sol-codex@sol-codex
 codex plugin add sol-codex@sol-codex
 ```
 
-Then inspect `/hooks` for the resolved cache path and start a new task. Do not edit cachebuster directories by hand.
+Then inspect `/hooks` for the resolved cache path and verify a new hook event in the open task. Reopen it only if the host has not refreshed its hook engine. Do not edit cachebuster directories by hand.
 
 ## `PLUGIN_DATA` appears missing
 
