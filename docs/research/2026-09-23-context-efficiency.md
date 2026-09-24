@@ -11,14 +11,16 @@ flowchart LR
   A[Tool output] --> B[Codex host boundary]
   B --> C[PostToolUse hook]
   C --> D[Received or extracted text in PLUGIN_DATA]
-  C --> E[Bounded receipt]
-  E --> F[Model context]
-  F --> G[Provider-managed prompt cache]
+  C --> E[Bounded receipt emitted]
+  B --> F[Host result handling]
+  E --> F
+  F --> G[Model context]
+  G --> I[Provider-managed prompt cache]
   D --> H[Targeted local retrieval]
-  H --> F
+  H --> G
 ```
 
-The current hook can replace the current tool result, but cannot rewrite earlier model-visible messages, choose provider cache breakpoints, or initiate Codex compaction. A structured result is flattened to extracted text before archival, so its artifact does not preserve the original object structure. In observed code-mode calls, `decision: block` rejected a nested Promise after the command had executed; this is a separate capability risk to measure before widening receipt packing. The [Codex hook contract](https://learn.chatgpt.com/docs/hooks) documents the current `PostToolUse` replacement behavior and compaction events. The [OpenAI prompt-caching guide](https://developers.openai.com/api/docs/guides/prompt-caching) says cache reuse depends on a matching prefix and that compaction may reduce reuse. These API-level facts do not establish how much cache a Desktop task actually reuses.
+The hook can emit a bounded receipt, but the tested host still passed the original result into the next model request with the released non-blocking response; the [boundary study](2026-09-24-hook-result-boundary.md) records the direct and code-mode counterexamples. It cannot rewrite earlier model-visible messages, choose provider cache breakpoints, or initiate Codex compaction. A structured result is flattened to extracted text before archival, so its artifact does not preserve the original object structure. In observed code-mode calls, `decision: block` rejected a nested Promise after the command had executed. The [Codex hook contract](https://learn.chatgpt.com/docs/hooks) describes `PostToolUse` behavior and compaction events. The [OpenAI prompt-caching guide](https://developers.openai.com/api/docs/guides/prompt-caching) says cache reuse depends on a matching prefix and that compaction may reduce reuse. These API-level facts do not establish how much cache a Desktop task actually reuses.
 
 ## Relevant work
 

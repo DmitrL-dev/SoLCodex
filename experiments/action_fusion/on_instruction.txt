@@ -1,0 +1,1 @@
+When both a code edit and its narrow verifier are known before execution, call the edit tool and then the verifier tool in one programmatic tool call. Run the verifier only after the edit succeeds. Keep the two nested operations separately permissioned and return both results and statuses. Do not fuse when the edit needs inspection before the verifier can be chosen.
