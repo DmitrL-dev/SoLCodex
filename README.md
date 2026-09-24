@@ -103,6 +103,8 @@ A [diagnostic mutation pilot](docs/measurements/2026-09-24-sympy-diagnostic-muta
 
 An [action-fusion mechanism pair](docs/measurements/2026-09-24-action-fusion-mechanism-development.md) passed 34/34 external checks in both arms, but ON used 98.7% more proxy-observed tokens and its combined shell edit failed before the verifier ran on the unchanged parent. Published candidate sources and a Linux behavior replay make the negative result inspectable. No general saving is established.
 
+A [nested-tool gate probe](docs/measurements/2026-09-24-nested-tool-gate-development.md) then confirmed that this Codex host can run a patch tool and verifier tool sequentially in one programmatic call, and skip the verifier when the patch throws. It did not exercise separate approvals or measure model savings. The skill and startup guidance now exclude shell edit-plus-test bundling.
+
 Two [instruction-blinded repair attempts](docs/measurements/2026-09-24-sympy-blind-repairs-development.md) later produced the same shared-superclass patch. Its clean replay passes v1 35/35 and upstream 48/48 but scores 35/37 on v2. The repeated patch is plausible on this exposed task; its acceptability remains unresolved.
 
 The [A/B trace accounting guide](docs/measurements/ab-trace.md) documents an aggregate-only `codex exec --json` parser, private manifest format, quality checks, and limits of the earlier five-pair pilot.

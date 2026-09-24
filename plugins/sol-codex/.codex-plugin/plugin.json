@@ -1,6 +1,6 @@
 {
   "name": "sol-codex",
-  "version": "0.1.9+codex.20260924",
+  "version": "0.1.10+codex.20260924",
   "description": "Local Codex hooks for bounded receipt feedback, verification tracking, and compaction recovery.",
   "author": {
     "name": "Spectorn"
@@ -19,6 +19,6 @@
       "Astra-aware packing and per-model savings",
       "Verification debt tracking"
     ],
-    "defaultPrompt": "Use SoL Codex to complete this coding task with fused verification."
+    "defaultPrompt": "Use SoL Codex to complete this coding task with verified evidence and safe tool boundaries."
   }
 }

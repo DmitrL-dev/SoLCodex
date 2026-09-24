@@ -9,7 +9,7 @@ Finish the requested work with fewer model round trips without skipping evidence
 
 ## Fuse deterministic work
 
-When a code mutation and its narrow verifier are both known before execution, run them in one programmatic tool call: apply the patch first, and only after it succeeds run the verifier. Keep the two operations as separately permissioned nested tool calls. Do not fuse when the mutation needs inspection before choosing the next command, the verifier is unknown, either action is destructive, or the commands have materially different authorization boundaries.
+When a code mutation and its narrow verifier are both known before execution, use one programmatic tool call only if it can invoke the patch tool and verifier tool as distinct, separately authorized nested calls. Await and confirm the patch result before invoking the verifier. A failed, declined, or unknown patch result stops the sequence. Never put the edit and verifier in one shell command: the verifier may run after an edit failure. Use separate tool calls when the nested-tool boundary or edit status cannot be confirmed. Do not fuse when the mutation needs inspection before choosing the next command, the verifier is unknown, either action is destructive, or the commands have materially different authorization boundaries.
 
 Prefer the smallest verifier that can falsify the change. A passing focused check can be followed by broader validation when the blast radius warrants it. A failed verifier is evidence to diagnose, not a reason to hide or summarize away the failure.
 

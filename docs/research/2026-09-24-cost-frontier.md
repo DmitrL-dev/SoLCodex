@@ -56,6 +56,8 @@ An [exposed packaging PreToolUse repair pair](../measurements/2026-09-24-packagi
 
 A separate [action-fusion mechanism development pair](../measurements/2026-09-24-action-fusion-mechanism-development.md) tested the edit-plus-verifier instruction alone on one synthetic task. Both candidates passed 34/34 external checks, but ON used 98.7% more proxy-observed tokens. Its first combined shell command failed to edit yet continued to run the verifier, so the desired separately gated fusion was not established. Do not use this pair as evidence of savings or of the installed hook's effect.
 
+A [nested-tool gate probe](../measurements/2026-09-24-nested-tool-gate-development.md) subsequently observed a successful patch → verifier sequence and a patch exception that suppressed the verifier in the current code-mode host. Independent approval decisions and live model adherence remain untested; this is not an economy result.
+
 ## Confirmation design
 
 1. Freeze tool versions, model, effort, Codex version, exact prompts, command-selection policy, timeouts, and independent verifiers **before** held-out runs. Any treatment change starts a new series. Keep all three existing pairs in development only. The current experiments test an external adapter plus instructions with hooks disabled; they do not measure the installed plugin as a whole.
