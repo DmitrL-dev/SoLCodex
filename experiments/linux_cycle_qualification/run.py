@@ -479,6 +479,11 @@ def run(output: Path) -> int:
                 upstream.wait(timeout=5)
         report["cleanup_complete"] = cleanup and (upstream is None or upstream.poll() is not None)
     report["passed"] = "failure" not in report and report["cleanup_complete"]
+    if "failure" in report:
+        print("::error title=Linux cycle qualification::" +
+              report["failure"]["stage"] + ":" + report["failure"]["type"])
+    elif not report["cleanup_complete"]:
+        print("::error title=Linux cycle qualification::cleanup_incomplete")
     output.parent.mkdir(parents=True, exist_ok=True)
     with output.open("x") as stream:
         json.dump(report, stream, indent=2, sort_keys=True)
