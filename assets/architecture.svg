@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1480 1060" role="img" aria-labelledby="title description">
   <title id="title">SoL Codex runtime and verification architecture</title>
-  <desc id="description">Three lanes show non-blocking receipt feedback with a code-mode limitation, verification debt across compaction, and hook runtime recovery from immutable snapshots after the plugin cache is removed.</desc>
+  <desc id="description">Three lanes show non-blocking receipt feedback with direct and code-mode limitations, verification debt across compaction, and hook runtime recovery from immutable snapshots after the plugin cache is removed.</desc>
   <defs>
     <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#071426"/>
@@ -90,7 +90,7 @@
   <rect x="1288" y="238" width="146" height="58" class="node"/>
   <text x="1361" y="263" class="label">per-model report</text>
   <text x="1361" y="282" class="small">aggregate bytes</text>
-  <text x="740" y="343" class="small">Code mode may retain the original nested output; explicit capture provides a bounded result.</text>
+  <text x="740" y="343" class="small">The tested host may retain original output in both modes; explicit capture provides a bounded result.</text>
 
   <rect x="42" y="384" width="1396" height="332" class="lane"/>
   <text x="76" y="426" class="subheading">VERIFICATION DEBT + COMPACTION LIFECYCLE</text>

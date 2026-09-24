@@ -21,7 +21,7 @@ flowchart TB
     F -->|yes| G[exact local artifact]
     G --> H[sanitized bounded receipt]
     H --> I[Non-blocking PostToolUse feedback]
-    I --> IA[Direct result may use receipt]
+    I --> IA[Direct mode may retain original]
     I --> IB[Code-mode script may retain original]
     G --> J[per-model report]
     F -->|no| K[Original result unchanged]
