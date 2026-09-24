@@ -3,7 +3,7 @@
   "candidate_source": "nebius/SWE-rebench-V2",
   "candidate_revision": "475dd5e8703bb5fb22dd3c60b5d038b019eba1e0",
   "predicate": "language == 'python'",
-  "source_candidate_sha256": "f0ce40acd96554d66554e0896152eb3e8fc741a626be74da29bc884",
+  "source_candidate_sha256": "f0ce40acd96554d66554e0896152eb3e5fcc77b3e8fc741a626be74da29bc884",
   "projection_code_sha256": "bd4336f7dbd8af629c52daa5d35cb83342dcff8af74f17b6f873929cbab69749",
   "dependency_sha256": {
     "rank_confirm_candidates.py": "e868e18111ae652d8478874960030dc551ce873321a13c40b191bba1bf814410",
