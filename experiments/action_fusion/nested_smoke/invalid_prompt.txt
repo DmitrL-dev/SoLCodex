@@ -1,0 +1,23 @@
+This is a tool-dispatch smoke on an exposed fixture, not an independent repair task. Use code mode to issue exactly ONE programmatic outer tool call. Execute the JavaScript below as written. Its patch and verifier are distinct nested tools. Do not call either tool directly outside this program, do not edit through shell, inspect files first, retry, or repair after failure. Do not edit tests, use subagents, access the internet, read outside this workspace, or commit.
+
+The patch is deliberately inapplicable. The verifier must not run when patch fails.
+
+```javascript
+const patch = "*** Begin Patch\n*** Update File: duration.py\n@@\n-nonexistent_parent_line_for_negative_control\n+return 0\n*** End Patch";
+const report = {edit: "unknown", verifier: "not_called"};
+try {
+  const edit = await tools.apply_patch(patch);
+  report.edit = edit && edit.isError ? "failed" : "completed";
+} catch (_error) {
+  report.edit = "failed";
+}
+if (report.edit === "completed") {
+  try {
+    const check = await tools.exec_command({cmd: "python3 -m unittest discover -s tests -v", max_output_tokens: 500});
+    report.verifier = typeof check.exit_code === "number" ? check.exit_code : "unknown";
+  } catch (_error) {
+    report.verifier = "tool_error";
+  }
+}
+text(JSON.stringify(report));
+```
