@@ -47,6 +47,8 @@ export SOL_CODEX_PACK_THRESHOLD_BYTES=6144
 
 The [context-efficiency research map](docs/research/2026-09-23-context-efficiency.md) compares related work and ranks experiments. It does not change the released plugin or claim that published results transfer to SoL Codex.
 
+The [Unreal Agent review](docs/research/2026-09-24-unreal-agent.md) checks its reported 39.23% Terminal-Bench cost difference against the linked Harbor run and separates asynchronous harness orchestration from this plugin's receipt mechanism.
+
 The [retrieval-economics research note](docs/research/2026-09-24-retrieval-economics.md) reviews newer agent-memory evidence and tests whether an agent can recover a decisive line hidden by a bounded receipt. It keeps quality, provider tokens, retrieval work, and elapsed time separate.
 
 A separate [bounded artifact-search prototype](docs/measurements/receipt-adapter.md#bounded-artifact-search) prevents broad literal queries from replaying an entire saved command result. It is opt-in research code, outside the installed plugin.
@@ -56,6 +58,8 @@ The [bounded-search development pair](docs/measurements/2026-09-24-bounded-searc
 A [cache-boundary development pair](docs/measurements/2026-09-24-cache-boundary-development.md) passed both repair checks on a different defect with 10.3% fewer provider tokens, while taking 19.7% longer. It is exploratory evidence, not a billing or general-efficiency claim.
 
 A [historical CRLF development pair](docs/measurements/2026-09-24-historical-crlf-development.md) exposed a verifier gap: both repairs failed the complete source/runtime newline matrix, even though ON passed the initial narrow check. ON used 31.8% more provider tokens. The full matrix now informs the regression tests and future task acceptance.
+
+A [macOS isolation probe](docs/measurements/2026-09-24-agent-isolation-probe.md) found a development path for denying agents access to a live fixed checkout during historical-task experiments; broader filesystem isolation still needs validation before a confirmatory campaign.
 
 The [hook result boundary study](docs/research/2026-09-24-hook-result-boundary.md) records the code-mode limitation, related upstream work, and the safe control-flow change in 0.1.9.
 
