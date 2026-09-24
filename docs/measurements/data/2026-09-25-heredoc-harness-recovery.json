@@ -1,0 +1,36 @@
+{
+  "affected_model_result_sha256": "1ff8882977cfe5af52695309358a1f1de63b37416472c9990338cc05a0f011bb",
+  "affected_trace_sha256": "3c467460780f5e4f12661421320572c56443988aa8cd0760e6e3585021e4355b",
+  "old_live_pilot_sha256": "308509cc801de1a173a7d29a54df26dbf4de9b6efaca5f80615fb6fc00eaf8cb",
+  "old_model_result_reclassified": false,
+  "revised_live_pilot_sha256": "fb4c35f8ff4436c6053216923a692c1cd56086db8b3d3e3d2ff85a0daa997744",
+  "sandbox_reproduction": {
+    "after": {
+      "cleanup_verified": true,
+      "exit_code": 0,
+      "expected_error": false,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_match": true,
+      "timed_out": false
+    },
+    "before": {
+      "cleanup_verified": true,
+      "exit_code": 1,
+      "expected_error": true,
+      "stderr_sha256": "8e72b3647297aa0a699fb15d4707fa08de0e36885c4c48fd63e9b4af6da310c7",
+      "stdout_match": false,
+      "timed_out": false
+    }
+  },
+  "schema": "solcodex.heredoc-harness-recovery.v1",
+  "scope": "posthoc_exposed_model_run_and_no_model_smoke",
+  "synthetic_smoke": {
+    "canaries_sha256": "e921796b190911d051abdd4ed24e5c8b6462c57985372f773e24174714b6bd91",
+    "cleanup_verified": true,
+    "heredoc_canary_ok": true,
+    "provider_errors": 0,
+    "provider_requests": 2,
+    "reconciliation_complete": true,
+    "trace_sha256": "c8f700d4919b8b15aad21a098fb596c8c8046b9660b414611488f078be272842"
+  }
+}
