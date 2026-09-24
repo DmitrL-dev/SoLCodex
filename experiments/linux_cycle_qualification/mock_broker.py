@@ -14,6 +14,10 @@ SCENARIOS = frozenset({"normal", "worker_killed", "broker_killed",
                        "timeout_checkpoint", "duplicate", "conflict", "no_completion"})
 
 
+def connect_upstream(host: str, port: int) -> http.client.HTTPConnection:
+    return http.client.HTTPConnection(host, port, timeout=60)
+
+
 class Handler(BaseHTTPRequestHandler):
     def do_GET(self) -> None:
         if self.path != "/health":
@@ -48,8 +52,7 @@ class Handler(BaseHTTPRequestHandler):
                 ledger.close()
             self.send_error(503)
             return
-        connection = http.client.HTTPConnection(self.server.upstream_host,
-                                                self.server.upstream_port, timeout=60)
+        connection = connect_upstream(self.server.upstream_host, self.server.upstream_port)
         completed = False
         disconnected = False
         try:
@@ -67,7 +70,11 @@ class Handler(BaseHTTPRequestHandler):
             except (BrokenPipeError, ConnectionResetError, OSError):
                 disconnected = True
             pending = b""
+            buffered = bytearray()
             while chunk := upstream.read1(65536):
+                buffered.extend(chunk)
+                if len(buffered) > 65536:
+                    raise ValueError("mock response exceeds buffer limit")
                 pending += chunk
                 while b"\n\n" in pending:
                     frame, pending = pending.split(b"\n\n", 1)
@@ -87,12 +94,15 @@ class Handler(BaseHTTPRequestHandler):
                                  ("conflict-" + attempt_id)).write_text("rejected\n")
                                 raise
                             completed = True
-                if not disconnected:
-                    try:
-                        self.wfile.write(chunk)
-                        self.wfile.flush()
-                    except (BrokenPipeError, ConnectionResetError, OSError):
-                        disconnected = True
+            if pending:
+                raise ValueError("incomplete mock SSE frame")
+            # Hold worker-visible completion until every frame is checked.
+            if not disconnected:
+                try:
+                    self.wfile.write(buffered)
+                    self.wfile.flush()
+                except (BrokenPipeError, ConnectionResetError, OSError):
+                    disconnected = True
         except (OSError, RuntimeError, KeyError, TypeError, ValueError):
             pass
         finally:

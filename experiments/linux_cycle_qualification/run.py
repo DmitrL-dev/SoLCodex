@@ -92,7 +92,7 @@ def confirmed_absent(kind: str, name: str) -> bool:
 
 
 def read_worker_file(path: Path) -> bytes:
-    descriptor = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_CLOEXEC)
+    descriptor = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_CLOEXEC | os.O_NONBLOCK)
     try:
         status = os.fstat(descriptor)
         if not stat.S_ISREG(status.st_mode) or status.st_size > 128 * 1024:
@@ -538,6 +538,25 @@ def run(output: Path) -> int:
               report["failure"]["stage"] + ":" + report["failure"]["type"])
     elif not report["cleanup_complete"]:
         print("::error title=Linux cycle qualification::cleanup_incomplete")
+    else:
+        scenarios = report["scenarios"].values()
+        observed = {key: sum(item["reconciliation"]["mock_observed_usage"][key]
+                             for item in scenarios if "reconciliation" in item)
+                    for key in ("input_tokens", "output_tokens", "cached_input_tokens")}
+        aggregate = {
+            "schema": "solcodex.linux-cycle-development-aggregate.v1",
+            "protocol_sha256": report["protocol_sha256"],
+            "scenarios_passed": len(report["scenarios"]),
+            "mock_accepted_attempts": sum(item.get("accepted_attempts", 1)
+                                          for item in scenarios),
+            "mock_observed_usage": observed,
+            "behavior": report["behavior"],
+            "model_requests": 0,
+            "provider_billing_complete": False,
+            "target_worker_qualified": False,
+        }
+        print("::notice title=Linux cycle development aggregate::" +
+              json.dumps(aggregate, sort_keys=True, separators=(",", ":")))
     output.parent.mkdir(parents=True, exist_ok=True)
     with output.open("x") as stream:
         json.dump(report, stream, indent=2, sort_keys=True)

@@ -37,6 +37,10 @@ class CheckpointCaptureTest(unittest.TestCase):
             root = Path(directory)
             with self.assertRaises(ValueError):
                 read_worker_file(root)
+            fifo = root / "fifo"
+            os.mkfifo(fifo)
+            with self.assertRaises(ValueError):
+                read_worker_file(fifo)
             source = root / "worker.py"
             source.write_bytes(b"x" * (128 * 1024 + 1))
             with self.assertRaises(ValueError):

@@ -12,10 +12,11 @@ import tempfile
 import threading
 import time
 import unittest
+from unittest.mock import patch
 from urllib.request import Request, urlopen
 
 from experiments.linux_cycle_qualification.mock_broker import Handler
-from experiments.linux_cycle_qualification.mock_upstream import MockUpstream
+from experiments.linux_cycle_qualification.mock_upstream import MockUpstream, completion_frame
 from experiments.linux_cycle_qualification.reconcile import (
     ReconciliationLedger, read_provider_journal)
 
@@ -101,6 +102,36 @@ class BrokerIntegrationTest(unittest.TestCase):
             self.assertEqual(ledger.summary()["mock_observed_usage"]["output_tokens"], 20)
         finally:
             ledger.close()
+
+    def test_split_conflict_never_exposes_first_completion(self) -> None:
+        class SplitResponse:
+            status = 200
+
+            def __init__(self):
+                self.chunks = iter((completion_frame("split_response"),
+                                    completion_frame("split_response", 21), b""))
+
+            def read1(self, _size):
+                return next(self.chunks)
+
+        class SplitConnection:
+            def request(self, *_args, **_kwargs):
+                pass
+
+            def getresponse(self):
+                return SplitResponse()
+
+            def close(self):
+                pass
+
+        with patch("experiments.linux_cycle_qualification.mock_broker.connect_upstream",
+                   return_value=SplitConnection()):
+            body = self.request("conflict")
+        self.assertEqual(body, b"")
+        with sqlite3.connect(self.local_db) as db:
+            row = db.execute("SELECT attempt_id,state,output_tokens FROM attempts").fetchone()
+        self.assertEqual(row[1:], ("completed", 20))
+        self.assertTrue((self.root / ("conflict-" + row[0])).is_file())
 
     def test_missing_completion_stays_unknown(self) -> None:
         _body, record = self.drive("no_completion")
