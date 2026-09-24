@@ -49,7 +49,8 @@ def receipt_run(adapter, artifact_dir, code, count, seconds=5):
 
 def artifact_bytes(receipt, artifact_dir):
     path = Path(receipt['path'])
-    check(path.is_relative_to(artifact_dir) and path.is_file(), 'artifact path')
+    check(path.resolve().is_relative_to(artifact_dir.resolve()) and path.is_file(),
+          'artifact path')
     data = path.read_bytes()
     check(len(data) == receipt['bytes'], 'artifact byte count')
     check(digest(data) == receipt['sha256'], 'artifact hash')
