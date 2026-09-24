@@ -1,0 +1,99 @@
+{
+  "arms": [
+    {
+      "arm": "off",
+      "artifact": null,
+      "bridge_stopped": true,
+      "broker_stopped": true,
+      "child_executions": 1,
+      "cleanup_verified": true,
+      "cli_exit_code": 0,
+      "first_request_skill_flag": false,
+      "installed_cache_present": false,
+      "installed_script_matches_package": null,
+      "package_sha256": null,
+      "provider_errors": 0,
+      "provider_requests": 2,
+      "receipt_bytes": null,
+      "receipt_complete": null,
+      "receipt_exit_code": null,
+      "receipt_status": null,
+      "reconciliation_complete": true,
+      "request_body_bytes": [
+        50108,
+        53905
+      ],
+      "request_marker_flags": [
+        false,
+        true
+      ],
+      "request_receipt_flags": [
+        false,
+        false
+      ],
+      "scope": "no_model_installed_explicit_package",
+      "tool_calls": 1,
+      "tool_command_uses_installed_script": false,
+      "tool_exit_codes": [
+        0
+      ],
+      "tool_output_bytes": 8461,
+      "tool_output_marker": true,
+      "trace_sha256": "630ba54e190948a3bc67536d67a5b9963df6f6935136ce4d07c8573e87fd6cf0"
+    },
+    {
+      "arm": "on",
+      "artifact": {
+        "bytes": 8461,
+        "marker_present": true,
+        "sha256_matches": true
+      },
+      "bridge_stopped": true,
+      "broker_stopped": true,
+      "child_executions": 1,
+      "cleanup_verified": true,
+      "cli_exit_code": 0,
+      "first_request_skill_flag": true,
+      "installed_cache_present": true,
+      "installed_script_matches_package": true,
+      "package_sha256": "e712a6498410592191aa34f1987e89353bcbb13c672ab224bb498812e83da7ae",
+      "provider_errors": 0,
+      "provider_requests": 2,
+      "receipt_bytes": 8461,
+      "receipt_complete": true,
+      "receipt_exit_code": 0,
+      "receipt_status": "completed",
+      "reconciliation_complete": true,
+      "request_body_bytes": [
+        51164,
+        53583
+      ],
+      "request_marker_flags": [
+        false,
+        false
+      ],
+      "request_receipt_flags": [
+        false,
+        true
+      ],
+      "scope": "no_model_installed_explicit_package",
+      "tool_calls": 1,
+      "tool_command_uses_installed_script": true,
+      "tool_exit_codes": [
+        0
+      ],
+      "tool_output_bytes": 907,
+      "tool_output_marker": false,
+      "trace_sha256": "c8a73f5f022c1c55946dbdfb6cf466aa7f2f9b04423281daaa759a837cde6e1d"
+    }
+  ],
+  "expectations_sha256": "166d0dd88c2d933dbb25c094641bca537e6a11d45399adce13badcef8e8198fa",
+  "model_usage_is_synthetic": true,
+  "request_2_bytes_delta_on_minus_off": -322,
+  "request_body_bytes_delta_on_minus_off": 734,
+  "request_body_bytes_total": {
+    "off": 104013,
+    "on": 104747
+  },
+  "schema": "solcodex.explicit-package-control-result.v1"
+}
