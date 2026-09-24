@@ -8,6 +8,8 @@ The primary treatment is an **assignment** to the opt-in explicit receipt adapte
 
 The [host-boundary probe](2026-09-24-hook-result-boundary.md) found that non-blocking `PostToolUse` feedback did not guarantee bounded model input in either tested mode. An adapter result cannot establish savings from the installed plugin. That needs its own randomized installed-plugin ON/OFF study after a behavioral replacement-capability gate.
 
+The later [exposed packaging PreToolUse repair pair](../measurements/2026-09-24-packaging-prehook-repair-development.md) used a temporary hook and observed higher full-task tokens and time despite equal measured repair behavior. Its adherence rule was amended after both runs, and a subsequent diagnostic-selector change was chosen after seeing the failure. These are separate development treatments. Neither may be pooled with the opt-in adapter campaign or used as a prospective confirmation result; the selector must be frozen and retested before any new arm.
+
 ## Candidate pool and once-only selection
 
 One candidate source is [SWE-rebench V2](https://huggingface.co/datasets/nebius/SWE-rebench-V2), `train`, revision `475dd5e8703bb5fb22dd3c60b5d038b019eba1e0`. The [authors report](https://arxiv.org/abs/2602.23866) 32,079 tasks from 3,617 repositories with reproducible environments. It is a public training corpus: independent from *our development selection* does not mean unseen by the model. Qualify repository licenses, images, descriptions, and verifiers before treating a row as usable.

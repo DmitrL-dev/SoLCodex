@@ -90,7 +90,72 @@ class ReceiptCommandTests(unittest.TestCase):
         _, receipt = self.run_code(code)
         self.assertEqual(receipt["diagnostics"][0]["line"], 101)
         self.assertEqual(receipt["diagnostics"][0]["text"],
-                         "ERROR on overlong line; inspect private artifact")
+                         "Diagnostic on overlong line; inspect private artifact")
+
+    def test_explicit_diagnostics_displace_early_weak_matches(self):
+        decoys = [b"test_case[exception-%d] PASSED [ 70%%]\n" % index for index in range(6)]
+        self.assertTrue(all(adapter.ERROR_SIGNAL.search(line) for line in decoys))
+        explicit = [b"ERROR build failed", b"E    assert actual == expected",
+                    b"FATAL broken state", b"> assert value is not None",
+                    b"Traceback (most recent call last):", b"PANIC unrecoverable"]
+        payload = (b"".join(decoys) + b"noise\n" * 5300 +
+                   b"warning: many\n" * 20 +
+                   b"\n".join(explicit) + b"\n" +
+                   b"later weak exception\n" * 20)
+        expected_lines = [item.decode() for item in explicit]
+        for chunk_size in (1, 37, 65536):
+            with self.subTest(chunk_size=chunk_size):
+                summary = adapter.Summary()
+                for start in range(0, len(payload), chunk_size):
+                    summary.feed(payload[start:start + chunk_size])
+                summary.finish()
+                self.assertEqual([item["text"] for item in summary.diagnostics],
+                                 expected_lines)
+                self.assertEqual(summary.size, len(payload))
+                self.assertEqual(summary.digest.hexdigest(), hashlib.sha256(payload).hexdigest())
+        payload_file = self.root / "verbose-output.bin"
+        payload_file.write_bytes(payload)
+        result, receipt = self.run_code(
+            "import os,pathlib,sys; os.write(1,pathlib.Path(sys.argv[1]).read_bytes())",
+            str(payload_file))
+        self.assertEqual(result.returncode, 0)
+        self.assertTrue(receipt["capture_complete"])
+        self.assertEqual([item["text"] for item in receipt["diagnostics"]], expected_lines)
+
+    def test_compiler_error_remains_above_warning_with_error_word(self):
+        summary = adapter.Summary()
+        summary.feed(b"warning: Exception may be thrown\n"
+                     b"src/main.c:22: error: unknown token\n"
+                     b"ERROR service refused request\n")
+        summary.finish()
+        self.assertEqual([item["text"] for item in summary.diagnostics], [
+            "src/main.c:22: error: unknown token", "ERROR service refused request",
+            "warning: Exception may be thrown"])
+
+    def test_early_compiler_error_survives_later_explicit_noise(self):
+        summary = adapter.Summary()
+        summary.feed(b"src/main.c:22: error: undefined symbol\n" +
+                     b"ERROR unrelated follow-up\n" * 6)
+        summary.finish()
+        self.assertEqual(summary.diagnostics[0]["text"],
+                         "src/main.c:22: error: undefined symbol")
+
+    def test_long_explicit_placeholders_do_not_displace_short_error(self):
+        payload = (b"> assert " + b"x" * 300 + b"\n") * 6 + b"ERROR decisive root cause\n"
+        payload_file = self.root / "overlong-output.bin"
+        payload_file.write_bytes(payload)
+        _, receipt = self.run_code(
+            "import os,pathlib,sys; os.write(1,pathlib.Path(sys.argv[1]).read_bytes())",
+            str(payload_file))
+        self.assertEqual(receipt["diagnostics"][0]["text"], "ERROR decisive root cause")
+        self.assertTrue(all("xxxx" not in item["text"] for item in receipt["diagnostics"]))
+
+    def test_overlong_warning_placeholder_is_neutral(self):
+        summary = adapter.Summary()
+        summary.feed(b"warning: " + b"x" * 300 + b"\n")
+        summary.finish()
+        self.assertEqual(summary.diagnostics[0]["text"],
+                         "Diagnostic on overlong line; inspect private artifact")
 
     def test_long_line_diagnostic_does_not_leak_secret_after_clipping(self):
         token = "DUMMY_PRIVATE_VALUE"

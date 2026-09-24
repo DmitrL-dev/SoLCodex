@@ -37,6 +37,12 @@ DIAGNOSTICS = 6
 STOP_GRACE_SECONDS = 0.5
 ERROR_SIGNAL = re.compile(rb"\b(?:error|fatal|fail(?:ed|ure)?|exception|traceback|panic|assertion)\b", re.I)
 WARNING_SIGNAL = re.compile(rb"\bwarning\b", re.I)
+EXPLICIT_SIGNAL = re.compile(
+    rb"^(?:[ \t]*(?:ERROR|FATAL|PANIC|FAIL(?:ED|URE)?|Traceback)\b"
+    rb"|E[ \t]{2,}\S|[ \t]*>?[ \t]*assert\b"
+    rb"|[ \t]*[\w.]+(?:Error|Exception):"
+    rb"|[ \t]*(?:[A-Za-z]:)?[^:\n]{1,160}:[0-9]+(?::[0-9]+)?:[ \t]*(?:fatal[ \t]+)?error\b)", re.I)
+WARNING_PREFIX = re.compile(rb"^[ \t]*warning\b", re.I)
 SECRET_SUBSTITUTIONS = (
     (re.compile(r"(?i)(authorization\s*[:=]\s*)[^\r\n]*"), r"\1[REDACTED]"),
     (re.compile(r"\bsk-[A-Za-z0-9_-]{12,}\b"), "[REDACTED]"),
@@ -60,8 +66,7 @@ class Summary:
         self.lines = 0
         self.head = []
         self.tail = deque(maxlen=2)
-        self.errors = []
-        self.warnings = []
+        self.candidates = []
         self.prefix = b""
         self.overlap = b""
         self.line_size = 0
@@ -91,19 +96,36 @@ class Summary:
         if len(self.head) < 2:
             self.head.append(item)
         self.tail.append(item)
-        if self.error and len(self.errors) < DIAGNOSTICS:
+        priority = 0
+        if EXPLICIT_SIGNAL.search(self.prefix):
+            priority = 3
+        elif WARNING_PREFIX.search(self.prefix):
+            priority = 1
+        elif self.error:
+            priority = 2
+        elif self.warning:
+            priority = 1
+        if priority:
             if item["truncated"]:
-                item = dict(item, text="ERROR on overlong line; inspect private artifact")
-            self.errors.append(item)
-        elif self.warning and len(self.warnings) < DIAGNOSTICS:
-            self.warnings.append(item)
+                priority = min(priority, 2)
+                item = dict(item, text="Diagnostic on overlong line; inspect private artifact")
+            candidate = (priority, item["line"], item)
+            if len(self.candidates) < DIAGNOSTICS:
+                self.candidates.append(candidate)
+            else:
+                weakest = min(range(len(self.candidates)),
+                              key=lambda index: (self.candidates[index][0],
+                                                 -self.candidates[index][1]))
+                if priority > self.candidates[weakest][0]:
+                    self.candidates[weakest] = candidate
         self.prefix = self.overlap = b""
         self.line_size = 0
         self.error = self.warning = False
 
     @property
     def diagnostics(self):
-        return (self.errors + self.warnings)[:DIAGNOSTICS]
+        return [item for _, _, item in sorted(self.candidates,
+                                               key=lambda entry: (-entry[0], entry[1]))]
 
     def finish(self):
         if self.line_size:
