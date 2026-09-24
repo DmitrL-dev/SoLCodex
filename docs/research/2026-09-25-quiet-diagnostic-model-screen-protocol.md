@@ -1,5 +1,7 @@
 # Quiet diagnostic: exposed model screen protocol
 
+Superseded for subsequent requests by [revision 2](2026-09-25-quiet-diagnostic-model-screen-protocol-v2.md) after a provider compatibility check. No four-run screen was launched under this revision.
+
 Status: frozen before model requests under this screen. This is an exposed
 development check on two known Python issues, not a held-out estimate of token
 savings or quality noninferiority. The machine-readable schedule, thresholds,
