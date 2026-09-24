@@ -71,6 +71,8 @@ The [OTel usage probes](docs/measurements/2026-09-24-otel-usage-boundary.md) fou
 
 An [HTTP proxy development probe](docs/measurements/2026-09-24-http-proxy-usage-development.md) observed final response usage after the CLI was killed. A live SQLite journal preserved that case, while killing the proxy after upstream HTTP 200 left a pending request with unknown usage. None of these results validates provider billing or general savings.
 
+The [provider-reconciliation note](docs/research/2026-09-24-provider-reconciliation.md) separates ChatGPT-plan accounting from API Platform usage and lists the missing access and joins for a complete claim.
+
 The [existing-task hook refresh study](docs/research/2026-09-24-live-hook-refresh.md) records a successful same-task, next-turn refresh after upgrade, without restarting the app. The code-mode script still received the original result.
 
 The [real-repository receipt pilot](docs/measurements/2026-09-24-real-repo-pilot.md) records two paired repairs, their aggregate trace data, and invalid exploratory attempts. Both pairs passed independent checks; token and time effects differed by task.
