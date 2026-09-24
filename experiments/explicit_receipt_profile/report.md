@@ -50,3 +50,15 @@ Recompute the token arithmetic and accounting checks from the published rows wit
 A separate [exporter](export_model_dev_attempts.py) reconciled each retained private delivery row with its upstream completion, checked the published trace hashes and totals, then emitted [deidentified per-attempt usage](model_dev_attempts.json). The [public reducer](reduce_model_dev_attempts.py) checks its arithmetic. This breakdown was chosen **after** seeing the pair and does not change its frozen outcome.
 
 ON's first provider request used 352 more input tokens. After the assigned diagnostic, ON's second request used 1,811 fewer input tokens than OFF's; through two attempts ON had used 1,302 fewer input-plus-output tokens. The trajectories then diverged: ON finished with 10 attempts versus OFF's 8 and 19,139 more total tokens. The shorter first tool result therefore produced a local context saving, but it did not lower full-repair usage in this pair. The data do not isolate whether the extra attempts were caused by the receipt, plugin instructions, or ordinary model variation.
+
+## Frozen no-model SHAM decomposition
+
+The [tri-arm plan](sham_expectations.json) and [control](fixtures/frozen_sham_package_control.py) were pushed as `26fe3f5` before execution. All arms used the real Codex CLI and the same synthetic two-request provider sequence. OFF had no package and ran the child directly; SHAM exposed the installed package and ran it directly; ON exposed the same package and wrapped the child with `receipt_command.py`. Each child ran once, and all three request ledgers reconciled. The [aggregate](sham_result.json) is checked by `python3 experiments/explicit_receipt_profile/reduce_sham_result.py`.
+
+| Serialized provider request bytes | OFF | SHAM | ON |
+| --- | ---: | ---: | ---: |
+| First request | 50,108 | 50,571 | 51,164 |
+| Second request | 53,907 | 54,370 | 53,583 |
+| Both requests | 104,015 | 104,941 | 104,747 |
+
+Across the two requests, package exposure added **926 bytes** (SHAM minus OFF). The explicit receipt saved **194 bytes** relative to SHAM, leaving ON **732 bytes larger** than OFF. On the second request alone ON was 787 bytes below SHAM, but its longer first command and package context consumed that advantage. The output-only marker appeared in OFF and SHAM's second requests and only in ON's verified full local artifact. These are request bytes under fixed synthetic provider responses, not observed model tokens, billed cost, or repair quality. The previous two-arm run is a separate control and need not have byte-identical dynamic metadata.
