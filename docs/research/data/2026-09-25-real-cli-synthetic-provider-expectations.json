@@ -1,0 +1,108 @@
+{
+  "case": "packaging_quiet_baseline_diagnostic",
+  "cli_binary_sha256": "c67698d0990aae05211d9c43ab343ad9517e406824dea77eca103a2806232b3a",
+  "cli_version": "codex-cli 0.155.0-alpha.16.3",
+  "evaluator_runtime_tree_sha256": "5a9a72a2ee60a188ac820f73b0baefc591926e0c6b72b8f1849d315bfb69640c",
+  "expected_observations": {
+    "bridge_stopped": true,
+    "broker_stopped": true,
+    "checkpoint_status": "captured",
+    "cleanup_verified": true,
+    "diagnostic_signature": true,
+    "exit_code": 0,
+    "first_command": {
+      "commands_observed": 1,
+      "first_command_completed": true,
+      "first_command_exact": true,
+      "first_exit_code": 1,
+      "malformed_lines": 0,
+      "other_prior_actions": [],
+      "status": "observed",
+      "trace_complete": true
+    },
+    "provider_errors": 0,
+    "provider_requests": 2,
+    "quality_status": "fail",
+    "reconciliation_complete": true,
+    "request_items": [
+      [],
+      [
+        {
+          "call_id": "call_synthetic_1",
+          "type": "custom_tool_call"
+        },
+        {
+          "call_id": "call_synthetic_1",
+          "type": "custom_tool_call_output"
+        }
+      ]
+    ],
+    "scope": "exploratory_synthetic_provider_real_cli",
+    "source_unchanged": true,
+    "technical_ok": true,
+    "timed_out": false,
+    "trace_event_shapes": [
+      [
+        "thread.started",
+        null,
+        null
+      ],
+      [
+        "turn.started",
+        null,
+        null
+      ],
+      [
+        "item.started",
+        "command_execution",
+        "in_progress"
+      ],
+      [
+        "item.completed",
+        "command_execution",
+        "failed"
+      ],
+      [
+        "turn.completed",
+        null,
+        null
+      ]
+    ],
+    "usage": {
+      "cached_input_tokens": 190,
+      "input_tokens": 320,
+      "output_tokens": 80
+    }
+  },
+  "model_run_authorized": false,
+  "private_source_sha256": {
+    "audit.py": "57f20738820b61cbb0cd73f60ad68ecd2035689d806cb1174dedb5006b0bec8b",
+    "broker_route.py": "6befd0bfe804ee451e132de4978b09f54f8d2ba5d09ba0f173c92e752c55bdb2",
+    "cli_toolcall_probe.py": "2416fe6a65f9f35a9fc0b8908a55ff6f86146f223e4101acd514b047ec7a9b5e",
+    "evaluate.py": "0706611b51ce9d4ea1d56d1973868f0a04d26441f658ee204d2747f5986a6922",
+    "frozen_cli_probe.py": "ad64b5bdde7fb4114f7967bc75ec45881dc2a5293b02bec7048c3115c0018265",
+    "host_bridge.py": "285cd479136dce51670661d09ee84f76e3f4038cb4419857412552be09bfaa5a",
+    "isolation.py": "1d066b85412899338bde0a350adf74331515b6c1a0799cfac164e1df9209de7f",
+    "live_pilot.py": "7665a711a3529bd9b2c30550be7a78d15d520fc29f8b9d032dec633b72e6d19d",
+    "pilot.py": "efd4ea9b97a564199fe66bf1c45d61ea6dbd0f6386b6148063e6bbdd3f8a94ee",
+    "process.py": "f38eb548f6e1326513f1e4745bf8c16d6a2785f1fc453b078001419af6a8f5a1",
+    "protocol_gate.py": "26310f67dd99ea15fe2b6f0581d41588bd60622a5f902a191ea4862aabae3c07",
+    "quality-assets/lock.json": "e61fee1904c164eabcba731a509394d45b9dbf8b6d517c4b7e39380aac40fd90",
+    "quality-assets/verify_packaging.py": "841776fda08a41df4f0c652dda02a0b440d8b08dbaf5e16231520d3dcc1d4324",
+    "runtime_manifest.py": "d75109adcc217b3ec0049f5f67bb66913f94192cfa19bf7341073a816bcbc41c",
+    "safe_tree.py": "d308e37c198afbd5bd7d13c5dcd030ef665210f3e979cdad046a5d8755d84b43",
+    "selftest-protocol.json": "daa7604d54c88be6d96f8b6e04ff352d4ee1d4569ef1ca023cdfad46d9208fe2",
+    "snapshot.py": "016d29cd0f24141478eeab6d8b1d0e94228a22de2754a40bf8d01d01a1189e9c",
+    "test_host_bridge.py": "e370cec67991890045f7444660f617aec4079004bc5da9e762a90271b8607414"
+  },
+  "python_version": "3.12.14",
+  "runtime_tree_sha256": "c3302c0f5c59a7b8fe6c164c927cc3be03810967fbbc4b6e097849ed07b18d17",
+  "schedule_row": {
+    "arm": "quiet",
+    "id": "03-packaging-on",
+    "task": "packaging"
+  },
+  "schema": "solcodex.real-cli-synthetic-provider-expectations.v1",
+  "source_tree_sha256": "1ac9eb290502fbf5b3425d790e4b00b0cb17112f4940fabaa80544f4078f5045",
+  "status": "prospective_no_model_development_control"
+}
