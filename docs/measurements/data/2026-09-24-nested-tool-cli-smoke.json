@@ -1,0 +1,74 @@
+{
+  "arms": {
+    "invalid": {
+      "artifact_sha256": {
+        "design": "8746c638da8bbc416810b1c5e56f980752ad8e775df2fdfa257954406089547b",
+        "external_evaluation": null,
+        "process": "b7fbb77f810b3d9a13eb73d084542666190c935e5d58ad189d21a846ed162e5d",
+        "proxy_summary": "9fafb74653f93ec6ee1703e68bcf6505409bdaed8279aed2f3ceac506f64682e",
+        "response_items": "6a267f3d487ec4c654c30baa315a8074f63076d793cca56432c9936d5bdf8135",
+        "stderr": "aaa56b20a54c9447ea5ef9baf703559808b00d72b983439020a3f6e062bfa0e5",
+        "trace": "2b577fcdd2171c484f6bc81434f763405e1ff6c6f928400d415a563552f8e4d1"
+      },
+      "completed_command_items": 0,
+      "completed_file_change_items": 0,
+      "elapsed_seconds": 10.486,
+      "external_passed": null,
+      "external_total": null,
+      "model_requests": 2,
+      "nested_caller_linked": false,
+      "observer_errors": 0,
+      "outer_tool_calls": 1,
+      "proxy_observed_usage": {
+        "cached_input_tokens": 13824,
+        "input_plus_output_tokens": 20097,
+        "input_tokens": 19863,
+        "output_tokens": 234,
+        "uncached_input_tokens": 6039
+      },
+      "public_verifier_exit": null,
+      "source_bytes": 395,
+      "source_sha256": "cba812ea43e3005bc1937a88d5696bdcbb6ef011c4e6ea11589651cd7ee8f0b2"
+    },
+    "valid": {
+      "artifact_sha256": {
+        "design": "68a0c6fee4fd7e1234de4d1d0130a77b8563eb1b5f57fd8c952500fd83efc6fe",
+        "external_evaluation": "c8ae9bfa4c956ce9533366adea43a5413f6e0e8e5fa409a32b107de6cf5b5e2f",
+        "process": "fac6450094128a1767b86733d4846600a622f1dd0aeaa749034289d0449a77f4",
+        "proxy_summary": "f53ed53a00e4ae9fbb3fd2ce81dcfc6ef448af7202a008861c10fa26ab410891",
+        "response_items": "e5cfb6e3d3f90506b54ab4d2b6e28fafe173d2d67a5e2fd3ce38eed229479eef",
+        "stderr": "1aa26269eb1cc57f86b235a03cda53c004edb5b1e9fc99d4da4f00843293d721",
+        "trace": "beb840f1ff3a5d95bbf662d2ce4aab6b3baa555d5a71e6ed28c303be3334bd8f"
+      },
+      "completed_command_items": 1,
+      "completed_file_change_items": 1,
+      "elapsed_seconds": 17.864,
+      "external_passed": 34,
+      "external_total": 34,
+      "model_requests": 2,
+      "nested_caller_linked": false,
+      "observer_errors": 0,
+      "outer_tool_calls": 1,
+      "proxy_observed_usage": {
+        "cached_input_tokens": 6912,
+        "input_plus_output_tokens": 20644,
+        "input_tokens": 20270,
+        "output_tokens": 374,
+        "uncached_input_tokens": 13358
+      },
+      "public_verifier_exit": 0,
+      "source_bytes": 699,
+      "source_sha256": "9896aa3d83c745a7e91c32256cfe1c4cdd93a89c6a14c0268ca8ecb267cdc26f"
+    }
+  },
+  "codex_cli": "0.155.0-alpha.16.3",
+  "efficiency_effect": "NOT ESTIMATED",
+  "failed_patch_stops_verifier": "VERIFIED",
+  "frozen_protocol_commit": "269e38a6709094b3027ce297c447692f1de5a4a2",
+  "model": "gpt-6-luna",
+  "one_program_nested_attribution": "INCONCLUSIVE",
+  "protocol_sha256": "c03ceec6bd4d173c403a3011a2abbc3ce02f401f9a5fd19d9b10d81e20217055",
+  "schema": "solcodex.nested-tool-cli-smoke-result.v1",
+  "separate_approval_decisions": "NOT TESTED",
+  "tool_sequence": "VERIFIED"
+}

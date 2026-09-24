@@ -8,6 +8,7 @@ on:
       - .github/workflows/action-fusion-replay.yml
       - experiments/action_fusion/**
       - docs/measurements/data/2026-09-24-action-fusion-mechanism-dev.json
+      - docs/measurements/data/2026-09-24-nested-tool-cli-smoke.json
 
 permissions:
   contents: read
@@ -24,3 +25,7 @@ jobs:
         env:
           PYTHONDONTWRITEBYTECODE: "1"
         run: python3 -m experiments.action_fusion.replay_behavior
+      - name: Replay nested-tool candidate in isolated containers
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python3 -m experiments.action_fusion.nested_smoke.replay_behavior
