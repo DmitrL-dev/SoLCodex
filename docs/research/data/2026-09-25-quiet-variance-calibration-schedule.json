@@ -1,0 +1,28 @@
+{
+  "schema": "solcodex.quiet-variance-calibration-schedule.v1",
+  "status": "schedule_frozen_measurement_pending",
+  "model_run_authorized": false,
+  "scope": "exposed_development_click_and_packaging_only",
+  "seed": "56c3d03a969bd2a5718b3c31c475f4c8",
+  "assignment_algorithm": "Python random.Random(int(seed,16)); shuffle click_first_arm initialized [verbose,verbose,quiet,quiet]; shuffle first_task initialized [click,click,packaging,packaging]; packaging first arm is opposite Click in each block; append first_task pair then other task pair",
+  "timeout_seconds_per_run": 600,
+  "request_cap_per_run": 32,
+  "schedule": [
+    {"id":"01-b1-packaging-verbose","block":1,"task":"packaging","arm":"verbose"},
+    {"id":"02-b1-packaging-quiet","block":1,"task":"packaging","arm":"quiet"},
+    {"id":"03-b1-click-quiet","block":1,"task":"click","arm":"quiet"},
+    {"id":"04-b1-click-verbose","block":1,"task":"click","arm":"verbose"},
+    {"id":"05-b2-click-verbose","block":2,"task":"click","arm":"verbose"},
+    {"id":"06-b2-click-quiet","block":2,"task":"click","arm":"quiet"},
+    {"id":"07-b2-packaging-quiet","block":2,"task":"packaging","arm":"quiet"},
+    {"id":"08-b2-packaging-verbose","block":2,"task":"packaging","arm":"verbose"},
+    {"id":"09-b3-packaging-quiet","block":3,"task":"packaging","arm":"quiet"},
+    {"id":"10-b3-packaging-verbose","block":3,"task":"packaging","arm":"verbose"},
+    {"id":"11-b3-click-verbose","block":3,"task":"click","arm":"verbose"},
+    {"id":"12-b3-click-quiet","block":3,"task":"click","arm":"quiet"},
+    {"id":"13-b4-click-quiet","block":4,"task":"click","arm":"quiet"},
+    {"id":"14-b4-click-verbose","block":4,"task":"click","arm":"verbose"},
+    {"id":"15-b4-packaging-verbose","block":4,"task":"packaging","arm":"verbose"},
+    {"id":"16-b4-packaging-quiet","block":4,"task":"packaging","arm":"quiet"}
+  ]
+}

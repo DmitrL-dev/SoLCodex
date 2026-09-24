@@ -1,0 +1,161 @@
+{
+  "observations": {
+    "fake_success": {
+      "accepted": false,
+      "error": "JSONDecodeError"
+    },
+    "ledgers": {
+      "late_provider_completion": {
+        "complete": true,
+        "missing_upstream_attempt_ids": [],
+        "provider_billing_complete": false,
+        "unexpected_upstream_attempt_ids": [],
+        "usage": {
+          "cached_input_tokens": 0,
+          "input_tokens": 10,
+          "output_tokens": 2
+        }
+      },
+      "missing_upstream_id": {
+        "complete": false,
+        "missing_upstream_attempt_ids": [
+          "a"
+        ],
+        "provider_billing_complete": false,
+        "unexpected_upstream_attempt_ids": [
+          "b"
+        ],
+        "usage": null
+      },
+      "missing_usage": {
+        "complete": false,
+        "missing_upstream_attempt_ids": [],
+        "provider_billing_complete": false,
+        "unexpected_upstream_attempt_ids": [],
+        "usage": null
+      },
+      "partial_usage": {
+        "complete": false,
+        "missing_upstream_attempt_ids": [],
+        "provider_billing_complete": false,
+        "unexpected_upstream_attempt_ids": [],
+        "usage": null
+      },
+      "upstream_unknown": {
+        "complete": false,
+        "missing_upstream_attempt_ids": [],
+        "provider_billing_complete": false,
+        "unexpected_upstream_attempt_ids": [],
+        "usage": null
+      }
+    },
+    "traces": {
+      "baseline_exit_mismatch": {
+        "first_command_completed": true,
+        "first_command_exact": false,
+        "first_exit_code": 0,
+        "status": "violated",
+        "trace_complete": true
+      },
+      "complete_exit_0": {
+        "first_command_completed": true,
+        "first_command_exact": true,
+        "first_exit_code": 0,
+        "status": "observed",
+        "trace_complete": true
+      },
+      "complete_exit_1": {
+        "first_command_completed": true,
+        "first_command_exact": true,
+        "first_exit_code": 1,
+        "status": "observed",
+        "trace_complete": true
+      },
+      "duplicate_completion": {
+        "first_command_completed": true,
+        "first_command_exact": false,
+        "first_exit_code": 1,
+        "status": "unknown",
+        "trace_complete": false
+      },
+      "error_item": {
+        "first_command_completed": true,
+        "first_command_exact": false,
+        "first_exit_code": 1,
+        "status": "unknown",
+        "trace_complete": false
+      },
+      "malformed_json": {
+        "first_command_completed": true,
+        "first_command_exact": false,
+        "first_exit_code": 1,
+        "status": "unknown",
+        "trace_complete": false
+      },
+      "missing_command_id": {
+        "first_command_completed": true,
+        "first_command_exact": false,
+        "first_exit_code": 1,
+        "status": "unknown",
+        "trace_complete": true
+      },
+      "missing_thread_start": {
+        "first_command_completed": true,
+        "first_command_exact": false,
+        "first_exit_code": 1,
+        "status": "unknown",
+        "trace_complete": false
+      },
+      "missing_turn_completion": {
+        "first_command_completed": true,
+        "first_command_exact": false,
+        "first_exit_code": 1,
+        "status": "unknown",
+        "trace_complete": false
+      },
+      "prior_file_change": {
+        "first_command_completed": true,
+        "first_command_exact": false,
+        "first_exit_code": 1,
+        "status": "violated",
+        "trace_complete": true
+      },
+      "signal_exit": {
+        "first_command_completed": true,
+        "first_command_exact": false,
+        "first_exit_code": -9,
+        "status": "violated",
+        "trace_complete": true
+      },
+      "unfinished_command": {
+        "first_command_completed": false,
+        "first_command_exact": false,
+        "first_exit_code": null,
+        "status": "unknown",
+        "trace_complete": false
+      },
+      "wrong_command": {
+        "first_command_completed": true,
+        "first_command_exact": false,
+        "first_exit_code": 1,
+        "status": "violated",
+        "trace_complete": true
+      },
+      "wrong_status": {
+        "first_command_completed": true,
+        "first_command_exact": false,
+        "first_exit_code": 1,
+        "status": "unknown",
+        "trace_complete": false
+      }
+    }
+  },
+  "schema": "solcodex.quiet-measurement-unit-probe.v1",
+  "scope": "direct_no_model_probes_only",
+  "source_sha256": {
+    "audit.py": "f9125a16217434990356c94f16a4bf39cd498abbd61199ce45953dc47885ed56",
+    "evaluate.py": "0706611b51ce9d4ea1d56d1973868f0a04d26441f658ee204d2747f5986a6922",
+    "live_pilot.py": "fb4c35f8ff4436c6053216923a692c1cd56086db8b3d3e3d2ff85a0daa997744",
+    "qualification_probe.py": "c4cd3adc607e8fce5bb4b85481d2fcfb488be2460a8dc6959eaa19ca5086ee7a"
+  }
+}
