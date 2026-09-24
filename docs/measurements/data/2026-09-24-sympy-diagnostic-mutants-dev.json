@@ -1,5 +1,5 @@
 {
-  "baseline_aggregate_sha256": "0682d0e3074d1bbe5e8a5a1c8cc8dd140e1c39b52a33347fd0a189d1f83de799",
+  "baseline_aggregate_sha256": "b718c0bfd596d63f103a666211dce12799e22a91292e50bfc563b7b8c12474ce",
   "exposed_development_task": true,
   "historical_fix_revision": "6760acef2209c9538a3f1b3a286b0275e9420b98",
   "independent_quality_estimate": false,
@@ -138,8 +138,10 @@
     }
   },
   "mutants_selected_after_v2_known": true,
+  "mutation_kill_rate_interpretable": false,
   "parent_revision": "530149cc7256a98c5963bcccc43cec19a9d04d09",
-  "schema": "solcodex.sympy-26807-diagnostic-mutant-pilot.v1",
+  "schema": "solcodex.sympy-26807-diagnostic-mutant-pilot.v2",
+  "sibling_class_variants_acceptability": "unresolved",
   "six_distinct_diagnostic_vectors_observed": true,
   "six_plausible_wrong_fix_qualification_complete": false,
   "upstream_selection_sha256": "73b69e8310644b7005f3b0c7d4ee5f5ccd0357100ed1c701f32311c1cca15225",

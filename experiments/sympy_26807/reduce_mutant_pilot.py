@@ -126,11 +126,13 @@ def reduce_pilot(baseline_roots: dict[str, Path], baseline_reports: Path,
     if len(set(failure_vectors)) != 6 or any(not vector for vector in failure_vectors):
         raise ValueError("diagnostic variants are not distinguished by v2")
     return {
-        "schema": "solcodex.sympy-26807-diagnostic-mutant-pilot.v1",
+        "schema": "solcodex.sympy-26807-diagnostic-mutant-pilot.v2",
         "exposed_development_task": True,
         "mutants_selected_after_v2_known": True,
         "six_distinct_diagnostic_vectors_observed": True,
         "six_plausible_wrong_fix_qualification_complete": False,
+        "sibling_class_variants_acceptability": "unresolved",
+        "mutation_kill_rate_interpretable": False,
         "independent_quality_estimate": False,
         "baseline_aggregate_sha256": sha(baseline_raw),
         "parent_revision": baseline["parent_revision"],

@@ -14,6 +14,7 @@ PARENT_EXPORT = "bd900fce6a20f1a4fa15991ee179d1c7ff362743ac9435eb9c503972f6f7113
 KINDS = (
     "superclass_noniterable", "array_symbol_property", "rank_one_only",
     "concrete_extent_only", "identifier_only", "zero_sibling", "one_sibling",
+    "blind_superclass_before_shape",
 )
 
 
@@ -32,7 +33,10 @@ def export_digest(root: Path) -> tuple[int, str]:
 
 
 def variant(source: str, kind: str) -> str:
-    if kind == "superclass_noniterable":
+    if kind == "blind_superclass_before_shape":
+        before = "class _ArrayExpr(Expr):\n"
+        after = before + "    _iterable = False\n"
+    elif kind == "superclass_noniterable":
         before = "class _ArrayExpr(Expr):\n    shape: tTuple[Expr, ...]\n"
         after = before + "    _iterable = False\n"
     elif kind == "array_symbol_property":

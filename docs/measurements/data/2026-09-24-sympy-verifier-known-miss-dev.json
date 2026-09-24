@@ -103,7 +103,8 @@
   "known_superclass_mutant_rejected_v2": true,
   "known_superclass_mutant_survived_v1": true,
   "parent_revision": "530149cc7256a98c5963bcccc43cec19a9d04d09",
-  "schema": "solcodex.sympy-26807-verifier-known-miss-development.v1",
+  "schema": "solcodex.sympy-26807-verifier-known-miss-development.v2",
+  "sibling_controls_api_requirement_established": false,
   "six_mutant_qualification_complete": false,
   "source": {
     "alternative": {
@@ -123,6 +124,7 @@
       "source_key_sha256": "7fd73e42818311aa07d4eb73a7f067e72aee959e03a19b561905e6e07b163beb"
     }
   },
+  "superclass_patch_acceptability": "unresolved",
   "upstream": {
     "alternative": {
       "passed": 48,

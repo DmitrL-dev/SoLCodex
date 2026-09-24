@@ -1,0 +1,63 @@
+{
+  "attempts": {
+    "a": {
+      "changed_regular_paths": [
+        "sympy/tensor/array/expressions/array_expressions.py",
+        "sympy/utilities/tests/test_lambdify.py"
+      ],
+      "self_written_test_sha256": "f6956e7ecd47ebc94c7e3a514ad85b4c4978e9a2f51bc6999e3ad08add270548",
+      "source_key_sha256": "32baae5ef099a8e48e7f5c2675cb076646160844a41e944197133a4dedd158bc"
+    },
+    "b": {
+      "changed_regular_paths": [
+        "sympy/tensor/array/expressions/array_expressions.py"
+      ],
+      "self_written_test_sha256": null,
+      "source_key_sha256": "32baae5ef099a8e48e7f5c2675cb076646160844a41e944197133a4dedd158bc"
+    }
+  },
+  "baseline_aggregate_sha256": "b718c0bfd596d63f103a666211dce12799e22a91292e50bfc563b7b8c12474ce",
+  "distinct_source_patches": 1,
+  "evaluation": {
+    "behavior": {
+      "v1": {
+        "failed_ids": [],
+        "passed": 35,
+        "private_report_sha256": "139e32ef4e0105939e55361bd9e7b27789be02e1778746171d94df7da26859b6",
+        "total": 35
+      },
+      "v2": {
+        "failed_ids": [
+          "C19_zero_array_iterable_preserved",
+          "C20_one_array_iterable_preserved"
+        ],
+        "passed": 35,
+        "private_report_sha256": "ba32eae65a75a9c6b4baa898f5d6553c2184cf3da9c7d30b3aac58e786733db9",
+        "total": 37
+      }
+    },
+    "source_export_sha256": "7b2229e7abc672e53057d748ad5c28330ccf417a1239a56a30409c5cf88f0914",
+    "source_key_sha256": "32baae5ef099a8e48e7f5c2675cb076646160844a41e944197133a4dedd158bc",
+    "upstream": {
+      "passed": 48,
+      "private_junit_sha256": "e4887634b7b6a3e59c84829f568f44c017e72e75db18065d7cc76fc0e1e89666",
+      "private_run_manifest_sha256": "de3788d687b85e4152c53cb7ed9539d0d94a80fd3c669742985af565dcd7b17d",
+      "total": 48
+    },
+    "upstream_selection_sha256": "73b69e8310644b7005f3b0c7d4ee5f5ccd0357100ed1c701f32311c1cca15225",
+    "verifier_sha256": {
+      "v1": "12e01e759417210f3d9168a97e909911e81aaee1eb564c7e8a3c76842b97edd7",
+      "v2": "7ee8cb3a6b7ddf15257a551ac4f8a8855b96757e4e05c73dce76d1383b0017a2"
+    }
+  },
+  "exposed_development_task": true,
+  "filesystem_blinding_enforced": false,
+  "gold_and_verifier_withheld_by_instruction": true,
+  "historical_fix_revision": "6760acef2209c9538a3f1b3a286b0275e9420b98",
+  "independent_quality_estimate": false,
+  "parent_revision": "530149cc7256a98c5963bcccc43cec19a9d04d09",
+  "provider_usage_recorded": false,
+  "schema": "solcodex.sympy-26807-blind-repair-development.v2",
+  "separate_agent_attempts": 2,
+  "source_patch_acceptability": "unresolved"
+}

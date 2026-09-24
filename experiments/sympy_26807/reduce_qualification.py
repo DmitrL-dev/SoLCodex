@@ -245,9 +245,11 @@ def reduce(roots: dict[str, Path], reports: Path, upstream_reports: Path) -> dic
         elif ids != upstream_ids:
             raise ValueError("upstream test set differs across source variants")
         upstream[name] = report
-    return {"schema": "solcodex.sympy-26807-verifier-known-miss-development.v1",
+    return {"schema": "solcodex.sympy-26807-verifier-known-miss-development.v2",
             "exposed_development_task": True,
             "independent_quality_estimate": False,
+            "sibling_controls_api_requirement_established": False,
+            "superclass_patch_acceptability": "unresolved",
             "six_mutant_qualification_complete": False,
             "external_review_complete": False,
             "parent_revision": "530149cc7256a98c5963bcccc43cec19a9d04d09",

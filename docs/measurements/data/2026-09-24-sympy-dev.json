@@ -16,7 +16,7 @@
       "measurement_complete": true,
       "model": "gpt-6-sol",
       "off": {
-        "accepted_after_review": false,
+        "accepted_after_review": null,
         "adapter_artifact_count": 0,
         "adapter_invocation_count": 0,
         "all_command_output_bytes": 211712,
@@ -76,7 +76,7 @@
         "verifier_exit_code": 0
       },
       "on": {
-        "accepted_after_review": false,
+        "accepted_after_review": null,
         "adapter_artifact_count": 1,
         "adapter_invocation_count": 1,
         "all_command_output_bytes": 55905,
@@ -156,8 +156,8 @@
       "parent_commit": "530149cc7256a98c5963bcccc43cec19a9d04d09",
       "posthoc_preservation": {
         "accepted_tasks_after_review": {
-          "off": 0,
-          "on": 0
+          "off": null,
+          "on": null
         },
         "augmented_matrix": {
           "gold": "37/37",
@@ -169,12 +169,13 @@
         "check_added_after_run": true,
         "check_sha256": "0b8c6a46e8cc108900983e38a05c766549804c079bfe27e84e0b4b28e34c7175",
         "gold_passed": 2,
-        "interpretation": "Frozen verified=true records original 35-check verifier success; both patches fail later preservation checks. CLI usage is complete for the recorded turns, but request-level provider and billing completeness is not independently established.",
+        "interpretation": "Both patches fail two later compatibility checks, but the changed ZeroArray/OneArray behavior has no independently established preservation requirement. Repair acceptance is unresolved. CLI usage covers completed turns only; provider request and billing completeness are not independently established.",
         "off_passed": 0,
         "on_passed": 0,
         "parent_passed": 2,
         "subject": "ZeroArray and OneArray iterable, sequence, and flatten behavior",
-        "total": 2
+        "total": 2,
+        "api_contract_status": "unresolved; checks detect behavior change, not established defect"
       },
       "reasoning_effort": "high"
     }
@@ -199,11 +200,16 @@
   "python_version": "Python 3.12.14",
   "reproducer_sha256": "f30906c370867b35e0a2360c86c7160b5b013e80810b991e4582ec1fad201bb3",
   "runner_sha256": "13e6789eba3b7d54806f9afdc040ffc576854fb08db88fb06352c9e6698283e9",
-  "schema_version": 1,
+  "schema_version": 2,
   "search_sha256": "1cdbe1278e59e20655b66dc366f1e962bc2418907c4d3d5e8011d45b937abb4c",
   "source_fixture_manifest_sha256": "560f66cbe1bf6edb044e85a838099b08b59f1c502fdfe8c34cdfb9efe76444af",
   "study_kind": "development; exposed historical tasks",
   "verifier_sha256": {
     "sympy": "12e01e759417210f3d9168a97e909911e81aaee1eb564c7e8a3c76842b97edd7"
+  },
+  "interpretation_correction": {
+    "supersedes_aggregate_sha256": "779b80e7b925975a491d512fdad046cd6db4c621ed37957911b316ab37d5feb5",
+    "reason": "Independent API-contract review did not establish that the post-hoc neighboring-class behavior must be preserved. The previous false acceptance values and zero accepted-task counts were unsupported.",
+    "adjudicated_acceptance": "unresolved"
   }
 }

@@ -1,6 +1,6 @@
 # Exposed SymPy #26807 verifier probe
 
-This directory reproduces the known superclass-regression miss described in the [measurement](../../docs/measurements/2026-09-24-sympy-verifier-known-miss-development.md). It is development material. Do not reuse this issue as a held-out confirmation task.
+This directory reproduces the [SymPy source-level verifier probe](../../docs/measurements/2026-09-24-sympy-verifier-known-miss-development.md). The shared-superclass patch scores 35/35 on v1 and 35/37 on v2; the [API-contract reassessment](../../docs/measurements/2026-09-24-sympy-contract-reassessment.md) leaves its acceptability unresolved. This is development material. Do not reuse this issue as a held-out confirmation task.
 
 Fetch source exports for parent [`530149cc7256a98c5963bcccc43cec19a9d04d09`](https://github.com/sympy/sympy/commit/530149cc7256a98c5963bcccc43cec19a9d04d09) and historical fix [`6760acef2209c9538a3f1b3a286b0275e9420b98`](https://github.com/sympy/sympy/commit/6760acef2209c9538a3f1b3a286b0275e9420b98). Their regular-file export digests must be `bd900fce6a20f1a4fa15991ee179d1c7ff362743ac9435eb9c503972f6f71132` and `31b282f6b5c61f241f7126ceadf6d54ca31848d9888aa8978d502bda890c4c36`, using `SHA256(JSON([[relative POSIX path, file SHA256], ...]))`, sorted by path and compact JSON separators. Each export has 2,061 regular files. `materialize_variants.py` rejects a mismatched parent.
 
@@ -42,3 +42,9 @@ python experiments/sympy_26807/reduce_mutant_pilot.py \
 ```
 
 All referenced variables are user-provided absolute paths outside this repository. The reducer first recomputes the earlier published baseline aggregate and refuses a mismatch. It then verifies each exact one-file edit, v2 result vector and failure reason, matched environment, source import, upstream runner manifest, and 48-case JUnit inventory. Its output is a path-free fixed-field aggregate; the stored private reports are unavailable for independent audit.
+
+## Instruction-blinded repair follow-up
+
+Two later agents, asked to repair the exposed issue without seeing either verifier or the historical fix, produced identical source changes. The [development report](../../docs/measurements/2026-09-24-sympy-blind-repairs-development.md) preserves the measured score difference and its isolation limit. `materialize_variants.py --kind blind_superclass_before_shape` reproduces their common source edit on a pinned parent export. Run `verifier_v1.py` and `verifier_v2.py` against that clean export, saving `blind-sympy-v1.json` and `blind-sympy-v2.json`; run `run_upstream.py --name m1` in a new private upstream report directory. The first verifier returns 0, the second returns 1 with a complete JSON report, and the upstream runner returns 0.
+
+`reduce_blind_repair_pilot.py` takes the four earlier baseline roots and their reports, both private agent checkouts (`--attempt-a` and `--attempt-b`), the clean replay (`--evaluation`), and the new behavior/upstream report directories. It rejects extra durable source changes, checks the exact failed assertion reasons and 48 selected upstream cases, and emits the fixed-field aggregate. The two original agent checkouts and raw traces are private; a public reader can reproduce the common patch's behavior but cannot independently verify how the agents arrived at it.
