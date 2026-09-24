@@ -1,0 +1,80 @@
+{
+  "external_repair_quality_measured": false,
+  "harness_declared_code_mode": true,
+  "harness_declared_plugin_version": "0.1.9+codex.20260924",
+  "harness_declared_workspace_write": true,
+  "hook_permission_mode_independently_attested": false,
+  "hook_trust_bypass_for_plugin": true,
+  "host_cli_version_independently_verified": false,
+  "normal_hook_trust_qualified": false,
+  "provider_billing_complete": false,
+  "runs": {
+    "control": {
+      "blocked_non_model_connections": 0,
+      "child_executions": 1,
+      "cli_trace_sha256": "8341abd0c61c6a74f1b9a04c58993362635cfe586b0d5ba78cecdc0a7ce8579d",
+      "driver_sha256": "7eea85e60fc3d1d840416cc6fcc224292330e425dbe346f77fd52fc34a8232c7",
+      "fixture_template_sha256": "39938a454cb75f47131fbb86acd19a0fb0ab80eabc048073cc17d4cd197a421c",
+      "harness_manifest_sha256": "ffa60a324c6789dafc28858c54ccd576a4c7afe424624f2172da0582b9b36213",
+      "local_plugin_byte_counters": null,
+      "next_request_body_bytes": 64646,
+      "next_request_usage": {
+        "cached_tokens": 8320,
+        "input_tokens": 11787,
+        "output_tokens": 22
+      },
+      "packaged_hook_rewrite_observed": false,
+      "plugin_config_sha256": null,
+      "plugin_hook_sha256": null,
+      "prompt_sha256": "8bf64e75585615da2a09ef448ae902d899d3324322130bfe72897cb0c3ee54d8",
+      "proxy_observed_total_usage": {
+        "cached_input_tokens": 8320,
+        "input_tokens": 22395,
+        "output_tokens": 130
+      },
+      "proxy_summary_sha256": "348ce9818d5b5d912b18dee967be8e632f5ccb83d3f9164910f4c86069703812",
+      "request_marker_flags": [
+        false,
+        true
+      ],
+      "tool_result_bytes": 8180,
+      "verifier_command_sha256": "a2889db7dcd99803ac4ccab7dc9d2ee44354ab7e23a8abdfdf85b10924c9981d"
+    },
+    "plugin": {
+      "blocked_non_model_connections": 4,
+      "child_executions": 1,
+      "cli_trace_sha256": "4efaee9609743b22f3cddc9d5265f3dc93688c0c9a991035a4ece06888091b1e",
+      "driver_sha256": "7eea85e60fc3d1d840416cc6fcc224292330e425dbe346f77fd52fc34a8232c7",
+      "fixture_template_sha256": "39938a454cb75f47131fbb86acd19a0fb0ab80eabc048073cc17d4cd197a421c",
+      "harness_manifest_sha256": "0dc092b7ad23674d2460b91cddaf5058a48d8a20a0249f10927168b35e514331",
+      "local_plugin_byte_counters": {
+        "receipt_bytes": 1213,
+        "saved_bytes": 6967,
+        "source_bytes": 8180
+      },
+      "next_request_body_bytes": 65676,
+      "next_request_usage": {
+        "cached_tokens": 8320,
+        "input_tokens": 12018,
+        "output_tokens": 22
+      },
+      "packaged_hook_rewrite_observed": true,
+      "plugin_config_sha256": "4b29ea3f9eb5f8e1f508e04c8c755bb0b5b5211c1c85d18cd23bfed949f69404",
+      "plugin_hook_sha256": "5fb61b3f6fd8b16ca0ea09937f9c3709497c4db17823ab42254f904462d21dd0",
+      "prompt_sha256": "8bf64e75585615da2a09ef448ae902d899d3324322130bfe72897cb0c3ee54d8",
+      "proxy_observed_total_usage": {
+        "cached_input_tokens": 8320,
+        "input_tokens": 22831,
+        "output_tokens": 118
+      },
+      "proxy_summary_sha256": "ce97af02d6874d20787dd8842f2bb3bec20a05e5b7f7bbac4919cab625a6d9c2",
+      "request_marker_flags": [
+        false,
+        true
+      ],
+      "tool_result_bytes": 8180,
+      "verifier_command_sha256": "a2889db7dcd99803ac4ccab7dc9d2ee44354ab7e23a8abdfdf85b10924c9981d"
+    }
+  },
+  "schema": "solcodex.packaged-plugin-request-development.v1"
+}
