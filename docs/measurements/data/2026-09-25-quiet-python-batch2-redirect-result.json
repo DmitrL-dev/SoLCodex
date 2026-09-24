@@ -1,0 +1,23 @@
+{
+  "ancestry_independently_verified": false,
+  "controller_sha256": "6af21d9dd38d27e25668990522cb5fbc609c31f3431773d163c4a3a10569f0c4",
+  "fork_true_count": 0,
+  "http_attempt_count": 4,
+  "id_matches_endpoint_count": 4,
+  "journal_sha256": "80e0c64747b2d226dc319d1b790119cf91fc3c68ba4f68d600e065ca1910af95",
+  "model_run_authorized": false,
+  "observed_target_count": 4,
+  "parent_present_count": 0,
+  "queue_sha256": "af8ee9b806d7990e79a0496848721748b99452f15d1f171bf435ccd7139ae147",
+  "redirect_helper_sha256": "1baf07a2d738fb7fe6b7b2f9aad7588c10b97c1ed5ec0f072a77e5b84a295d6b",
+  "redirect_source_count": 5,
+  "response_status_counts": {
+    "200": 4
+  },
+  "sample_selected": false,
+  "schema": "solcodex.quiet-python-batch2-redirect-aggregate.v1",
+  "source_journal_sha256": "4f4e2fea0f74763bd7a1279c10a6082281284c806faf9f674e655750eff786e0",
+  "source_present_count": 0,
+  "target_endpoint_count": 4,
+  "valid_200_metadata_count": 4
+}

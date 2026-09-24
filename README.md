@@ -129,6 +129,8 @@ A [20-repository GitHub metadata pilot](docs/measurements/2026-09-25-quiet-pytho
 
 A [prospectively fixed second batch](docs/measurements/2026-09-25-quiet-python-repository-batch2.md) captured 40 more repository names: 35 direct metadata responses and five redirects. The contiguous captured prefix is 60/687; factual ancestry review and independent approval remain pending.
 
+A [four-request follow-up](docs/measurements/2026-09-25-quiet-python-batch2-redirect-result.md) captured metadata for the four unique GitHub endpoints behind those five redirects. All endpoint IDs matched; lineage relationships remain unreviewed.
+
 A [benchmark-source review](docs/research/2026-09-25-benchmark-source-robustness.md) adds SWE-bench-Live and SetUpAgent evidence on repository diversity, executable environments and contamination risk. It does not change the pinned held-out source or authorize sample selection.
 
 The separate [exposed quiet-diagnostic model screen protocol, revision 2](docs/research/2026-09-25-quiet-diagnostic-model-screen-protocol-v2.md) froze four development runs on the already studied Click and packaging issues, with exact CLI, runtime, runner, evaluator and decision-rule pins. The [four-run result](docs/measurements/2026-09-25-quiet-diagnostic-model-screen-development.md) failed its independent quality and frozen first-command gates. Lower observed aggregate token use therefore does not establish qualified or general savings. Two initial provider compatibility attempts had unknown usage and are disclosed in the protocol revision.
