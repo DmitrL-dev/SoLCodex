@@ -105,6 +105,8 @@ A separate [SymPy development pair](docs/measurements/2026-09-24-natural-history
 
 A [prospective held-out quiet-diagnostic screen](docs/research/2026-09-25-heldout-quiet-screen-proposal.md) is proposed for 24 new repository lineages. Its selection and approval gates remain pending; no task has been selected or run under that proposal.
 
+The dedicated [24-task selector](docs/research/2026-09-25-quiet-screen-selector.md) fixes eight tasks per family and blocks local sample output until the private review, shared matching code and two independent curator attestations are bound by a separate approval. Its current approval is pending.
+
 A [benchmark-source review](docs/research/2026-09-25-benchmark-source-robustness.md) adds SWE-bench-Live and SetUpAgent evidence on repository diversity, executable environments and contamination risk. It does not change the pinned held-out source or authorize sample selection.
 
 The separate [exposed quiet-diagnostic model screen protocol, revision 2](docs/research/2026-09-25-quiet-diagnostic-model-screen-protocol-v2.md) froze four development runs on the already studied Click and packaging issues, with exact CLI, runtime, runner, evaluator and decision-rule pins. The [four-run result](docs/measurements/2026-09-25-quiet-diagnostic-model-screen-development.md) failed its independent quality and frozen first-command gates. Lower observed aggregate token use therefore does not establish qualified or general savings. Two initial provider compatibility attempts had unknown usage and are disclosed in the protocol revision.

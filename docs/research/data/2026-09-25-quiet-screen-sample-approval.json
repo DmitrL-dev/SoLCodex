@@ -1,0 +1,11 @@
+{
+  "schema": "solcodex.quiet-screen-sample-approval.v1",
+  "status": "pending",
+  "lineage_ranking_sha256": null,
+  "task_review_sha256": null,
+  "selector_sha256": null,
+  "core_selector_sha256": null,
+  "metadata_helper_sha256": null,
+  "rules_sha256": null,
+  "independent_curators": []
+}
