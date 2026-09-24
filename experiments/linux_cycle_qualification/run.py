@@ -11,6 +11,7 @@ import select
 import shutil
 import socket
 import sqlite3
+import stat
 import subprocess
 import sys
 import tempfile
@@ -90,10 +91,48 @@ def confirmed_absent(kind: str, name: str) -> bool:
     return ("not found" in message or "No such network" in message) and name in message
 
 
+def read_worker_file(path: Path) -> bytes:
+    descriptor = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_CLOEXEC)
+    try:
+        status = os.fstat(descriptor)
+        if not stat.S_ISREG(status.st_mode) or status.st_size > 128 * 1024:
+            raise ValueError("worker file type or size invalid")
+        chunks = []
+        remaining = status.st_size + 1
+        while remaining:
+            chunk = os.read(descriptor, remaining)
+            if not chunk:
+                break
+            chunks.append(chunk)
+            remaining -= len(chunk)
+        raw = b"".join(chunks)
+        if len(raw) != status.st_size:
+            raise ValueError("worker file changed during read")
+        return raw
+    finally:
+        os.close(descriptor)
+
+
+def checkpoint_snapshot(source: Path, root: Path) -> Path:
+    raw = read_worker_file(source)
+    root.mkdir(mode=0o700)
+    path = root / "duration.py"
+    descriptor = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_CLOEXEC, 0o600)
+    try:
+        with os.fdopen(descriptor, "wb") as stream:
+            stream.write(raw)
+            stream.flush()
+            os.fsync(stream.fileno())
+    except BaseException:
+        path.unlink(missing_ok=True)
+        raise
+    return path
+
+
 def evaluate_behavior(checkpoint: Path) -> dict:
     parent = one(BASE / "fixture/duration.py")
     gold = one(HERE / "../action_fusion/nested_smoke/results/valid/duration.py")
-    saved = one(checkpoint / "duration.py")
+    saved = one(checkpoint)
     manifest = json.loads((BASE / "controls_manifest.json").read_text())
     cases = {name: (invocation, expected) for name, invocation, expected in CASES}
     rejected = 0
@@ -405,14 +444,14 @@ def run(output: Path) -> int:
                 exit_code = int(docker("wait", worker_name, timeout=15).stdout.strip())
                 expected_exits = ({137} if targeted_worker_kill else
                                   {3, 4} if scenario == "broker_killed" else
-                                  {4} if scenario == "no_completion" else {0})
+                                  {4} if scenario in {"conflict", "no_completion"} else {0})
                 if exit_code not in expected_exits:
                     raise RuntimeError("worker exit differs from scenario")
                 logs = worker_logs(worker_name)
                 preflight = next((item for item in logs if item.get("phase") == "preflight"), None)
                 if preflight is None or not all(preflight["checks"].values()):
                     raise RuntimeError("worker containment checks failed")
-                if scenario in {"broker_killed", "no_completion"} and any(
+                if scenario in {"broker_killed", "conflict", "no_completion"} and any(
                         item.get("phase") == "finished" and item.get("completion_seen")
                         for item in logs):
                     raise RuntimeError("failed request was reported as completed")
@@ -435,7 +474,7 @@ def run(output: Path) -> int:
                         summary["provider_billing_complete"] is not False):
                     raise RuntimeError("reconciliation completeness invalid")
                 stage = scenario + ":checkpoint_integrity"
-                source = (work / "duration.py").read_bytes()
+                source = read_worker_file(work / "duration.py")
                 expected_source = (GOLD_SHA256 if scenario in {"normal", "timeout_checkpoint"}
                                    else PARENT_SHA256)
                 if sha(source) != expected_source:
@@ -443,7 +482,7 @@ def run(output: Path) -> int:
                 if scenario == "timeout_checkpoint":
                     if (set(path.name for path in work.iterdir()) !=
                             {"duration.py", ".checkpoint_ready", "forged-evaluation.json"} or
-                            json.loads((work / "forged-evaluation.json").read_text()) !=
+                            json.loads(read_worker_file(work / "forged-evaluation.json")) !=
                             {"accepted": False}):
                         raise RuntimeError("checkpoint shape changed")
                 if scenario == "conflict" and not (ledger_dir / ("conflict-" + attempt)).is_file():
@@ -458,7 +497,9 @@ def run(output: Path) -> int:
                 docker("rm", "-f", worker_name, check=False)
                 docker("rm", "-f", broker_name, check=False)
             stage = "external_evaluation"
-            report["behavior"] = evaluate_behavior(root / "timeout_checkpoint-work")
+            snapshot = checkpoint_snapshot(root / "timeout_checkpoint-work/duration.py",
+                                           root / "trusted-checkpoint")
+            report["behavior"] = evaluate_behavior(snapshot)
             report["checks"]["checkpoint_evaluated_outside_worker"] = True
             report["checks"]["forged_worker_result_ignored"] = True
             report["checks"]["all_scenarios_passed"] = len(report["scenarios"]) == len(SCENARIOS)

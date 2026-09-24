@@ -24,7 +24,7 @@ jobs:
       - name: Check mock accounting invariants
         env:
           PYTHONDONTWRITEBYTECODE: "1"
-        run: python3 -m unittest experiments.linux_cycle_qualification.test_reconcile experiments.linux_cycle_qualification.test_mock_upstream experiments.linux_cycle_qualification.test_mock_broker experiments.linux_cycle_qualification.test_scripted_worker -v
+        run: python3 -m unittest experiments.linux_cycle_qualification.test_reconcile experiments.linux_cycle_qualification.test_mock_upstream experiments.linux_cycle_qualification.test_mock_broker experiments.linux_cycle_qualification.test_scripted_worker experiments.linux_cycle_qualification.test_run -v
       - name: Recheck container containment controls
         env:
           PYTHONDONTWRITEBYTECODE: "1"

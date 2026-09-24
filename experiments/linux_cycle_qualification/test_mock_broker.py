@@ -93,6 +93,7 @@ class BrokerIntegrationTest(unittest.TestCase):
 
     def test_conflict_rejected_without_double_counting(self) -> None:
         _body, record = self.drive("conflict")
+        self.assertEqual(_body, b"")
         self.assertTrue((self.root / ("conflict-" + record["attempt_id"])).is_file())
         ledger = ReconciliationLedger(self.local_db)
         try:
