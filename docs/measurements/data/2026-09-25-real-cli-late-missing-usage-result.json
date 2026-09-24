@@ -1,0 +1,145 @@
+{
+  "bridge_stopped": true,
+  "broker_attempts": 3,
+  "broker_stopped": true,
+  "broker_usage_status": "unknown",
+  "checkpoint_status": "captured",
+  "checkpoint_tree_sha256": "ad9f932ad4671fa1c3d080fc96bc042722c88d6bdfd06bf15ed7590b7841d62d",
+  "cleanup_verified": true,
+  "diagnostic_signature": true,
+  "exit_code": -15,
+  "expectations_sha256": "fc139bd14f2d3b4ced1e5eb078521b98c97b2c3431291d50739cbb3d9f9d285a",
+  "first_command": {
+    "commands_observed": 1,
+    "first_command_completed": true,
+    "first_command_exact": true,
+    "first_exit_code": 1,
+    "malformed_lines": 0,
+    "other_prior_actions": [],
+    "status": "observed",
+    "trace_complete": false
+  },
+  "late_completion_after_runner": true,
+  "ledger_errors": {
+    "bridge": false,
+    "broker": false
+  },
+  "mismatched_fields": [
+    "trace_event_shapes"
+  ],
+  "predeclared_match": false,
+  "private_source_sha256": {
+    "audit.py": "f9125a16217434990356c94f16a4bf39cd498abbd61199ce45953dc47885ed56",
+    "broker_route.py": "6befd0bfe804ee451e132de4978b09f54f8d2ba5d09ba0f173c92e752c55bdb2",
+    "cli_late_checkpoint_probe.py": "e41c3e16013741f4881b31883f32b4969b1f412f3c230448308fdea4567f7ab0",
+    "cli_late_missing_usage_probe.py": "d8e1d1f7d55e928285ca90ac9f7ac5927d2d31e7d7b108a6a3292585559130f5",
+    "cli_toolcall_probe.py": "2416fe6a65f9f35a9fc0b8908a55ff6f86146f223e4101acd514b047ec7a9b5e",
+    "evaluate.py": "0706611b51ce9d4ea1d56d1973868f0a04d26441f658ee204d2747f5986a6922",
+    "frozen_cli_late_missing_usage.py": "010da9b33fdac7034408fb8bcf657099b1a66c09561037c77b6a39e73efe422d",
+    "host_bridge.py": "285cd479136dce51670661d09ee84f76e3f4038cb4419857412552be09bfaa5a",
+    "isolation.py": "1d066b85412899338bde0a350adf74331515b6c1a0799cfac164e1df9209de7f",
+    "live_pilot.py": "fb4c35f8ff4436c6053216923a692c1cd56086db8b3d3e3d2ff85a0daa997744",
+    "pilot.py": "efd4ea9b97a564199fe66bf1c45d61ea6dbd0f6386b6148063e6bbdd3f8a94ee",
+    "process.py": "f38eb548f6e1326513f1e4745bf8c16d6a2785f1fc453b078001419af6a8f5a1",
+    "protocol_gate.py": "26310f67dd99ea15fe2b6f0581d41588bd60622a5f902a191ea4862aabae3c07",
+    "runtime_manifest.py": "d75109adcc217b3ec0049f5f67bb66913f94192cfa19bf7341073a816bcbc41c",
+    "safe_tree.py": "d308e37c198afbd5bd7d13c5dcd030ef665210f3e979cdad046a5d8755d84b43",
+    "selftest-protocol.json": "daa7604d54c88be6d96f8b6e04ff352d4ee1d4569ef1ca023cdfad46d9208fe2",
+    "snapshot.py": "016d29cd0f24141478eeab6d8b1d0e94228a22de2754a40bf8d01d01a1189e9c",
+    "test_harness.py": "8eb0e5876f81c80677e296790d2f1145caa68aa78cf69711abc723e546ed90ff",
+    "test_host_bridge.py": "e370cec67991890045f7444660f617aec4079004bc5da9e762a90271b8607414"
+  },
+  "provider_billing_complete": false,
+  "provider_errors": 0,
+  "provider_requests": 3,
+  "public_head": "9e376e9feb21e9a69b20cf3d46af83c3232c5944",
+  "quality_status": "pass",
+  "reconciliation_complete": false,
+  "reconciliation_ids_match": true,
+  "request_items": [
+    [],
+    [
+      {
+        "call_id": "call_synthetic_1",
+        "type": "custom_tool_call"
+      },
+      {
+        "call_id": "call_synthetic_1",
+        "type": "custom_tool_call_output"
+      }
+    ],
+    [
+      {
+        "call_id": "call_synthetic_1",
+        "type": "custom_tool_call"
+      },
+      {
+        "call_id": "call_synthetic_1",
+        "type": "custom_tool_call_output"
+      },
+      {
+        "call_id": "call_synthetic_2",
+        "type": "custom_tool_call"
+      },
+      {
+        "call_id": "call_synthetic_2",
+        "type": "custom_tool_call_output"
+      }
+    ]
+  ],
+  "schema": "solcodex.real-cli-late-missing-usage-observations.v1",
+  "scope": "no_model_real_cli_late_missing_usage",
+  "technical_ok": false,
+  "third_request_seen": true,
+  "third_upstream": {
+    "error": "invalid_sse",
+    "response_bytes_positive": true,
+    "send_attempted": true,
+    "state": "unknown",
+    "upstream_status": 200
+  },
+  "timed_out": true,
+  "trace_event_shapes": [
+    [
+      "thread.started",
+      null,
+      null
+    ],
+    [
+      "turn.started",
+      null,
+      null
+    ],
+    [
+      "item.started",
+      "command_execution",
+      "in_progress"
+    ],
+    [
+      "item.completed",
+      "command_execution",
+      "failed"
+    ],
+    [
+      "item.started",
+      "file_change",
+      "in_progress"
+    ],
+    [
+      "item.completed",
+      "file_change",
+      "completed"
+    ]
+  ],
+  "upstream_observed_completed_usage": {
+    "cached_input_tokens": 190,
+    "input_tokens": 320,
+    "output_tokens": 80
+  },
+  "upstream_states": {
+    "completed": 2,
+    "pending": 0,
+    "unknown": 1
+  },
+  "usage": null
+}

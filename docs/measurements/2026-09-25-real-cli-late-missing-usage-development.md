@@ -1,0 +1,9 @@
+# Real-CLI late missing-usage control: first scored run
+
+**The frozen v1 gate failed.** The [plan, controller, gate, reducer, and expected observations](../research/2026-09-25-real-cli-late-missing-usage-plan.md) were pushed in commit `9e376e9` before execution. Preflight passed on that pushed commit. The single scored no-model run produced the [public aggregate](data/2026-09-25-real-cli-late-missing-usage-result.json); the [frozen reducer](../../scripts/reduce_real_cli_late_missing_usage_probe.py) reports `no_model_negative_control_pass=false`.
+
+The gate reported `trace_event_shapes` as its only mismatch. In memory the controller held tuples, while the JSON expectation held lists. The gate compared them before serializing, so semantically equal traces compared unequal. The saved JSON trace shape equals the predeclared shape exactly, and every other expected public observation also matches. This explains the failure; it does **not** retroactively pass the frozen v1 gate. The published result retains `predeclared_match=false` and its original mismatch.
+
+The observed path included three synthetic provider attempts, a real-CLI first diagnostic with exit 1, a captured gold repair accepted by the external evaluator, and a third upstream HTTP 200 response after CLI cancellation. That response contained bytes but no usage; the bridge recorded `invalid_sse` and one unknown attempt. Both ledger errors were false and attempt IDs matched. The first two attempts' subtotal was 320 input tokens (190 cached) plus 80 output tokens; whole-run usage remained `null`, reconciliation incomplete, and technical admission false. Provider billing was not checked. These are development observations on an exposed task, not a model A/B result or a general savings claim.
+
+A corrected comparator requires a new prospective gate and a new scored run. The earlier four-run quiet diagnostic screen remains failed, and the 16-run calibration remains unlaunched.
