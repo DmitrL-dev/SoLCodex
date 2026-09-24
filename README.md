@@ -93,6 +93,8 @@ A separate [SymPy development pair](docs/measurements/2026-09-24-natural-history
 
 An [exposed source-level verifier probe](docs/measurements/2026-09-24-sympy-verifier-known-miss-development.md) reproduces the miss: the superclass wrong fix passes the original 35/35 and selected upstream 48/48, but fails the two added preservation checks. The verifiers and source-variant generator are public.
 
+A [diagnostic mutation pilot](docs/measurements/2026-09-24-sympy-diagnostic-mutants-development.md) records six distinct v2 failure vectors with source and report hashes. Several variants were tailored to known checks or share one failure mechanism, so the six-plausible-wrong-fix qualification gate remains unmet.
+
 The [A/B trace accounting guide](docs/measurements/ab-trace.md) documents an aggregate-only `codex exec --json` parser, private manifest format, quality checks, and limits of the earlier five-pair pilot.
 
 An [explicit command receipt prototype](docs/measurements/receipt-adapter.md) captures output before tool return and preserves code-mode control flow in a local test. Use it for expected large or noisy output; short checks can cost more bytes as receipts. It is opt-in, POSIX-only, and separate from the installed plugin while its task-level value is measured.

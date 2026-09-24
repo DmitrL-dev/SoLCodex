@@ -25,7 +25,8 @@ def main() -> int:
     parser.add_argument("--python", required=True, type=Path)
     parser.add_argument("--report-dir", required=True, type=Path)
     parser.add_argument("--name", required=True,
-                        choices=("parent", "gold", "m1", "alt"))
+                        choices=("parent", "gold", "m1", "alt", "m2", "m3",
+                                 "m4", "m5", "m6"))
     args = parser.parse_args()
     source = args.source.resolve(strict=True)
     script_dir = Path(__file__).resolve().parent

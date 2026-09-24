@@ -11,6 +11,10 @@ import shutil
 SOURCE_FILE = Path("sympy/tensor/array/expressions/array_expressions.py")
 EXPECTED = "1736959e0f0f29997274200f099c233809d1ecd7afc73062bfba90fdd460daeb"
 PARENT_EXPORT = "bd900fce6a20f1a4fa15991ee179d1c7ff362743ac9435eb9c503972f6f71132"
+KINDS = (
+    "superclass_noniterable", "array_symbol_property", "rank_one_only",
+    "concrete_extent_only", "identifier_only", "zero_sibling", "one_sibling",
+)
 
 
 def export_digest(root: Path) -> tuple[int, str]:
@@ -34,18 +38,36 @@ def variant(source: str, kind: str) -> str:
     elif kind == "array_symbol_property":
         before = "class ArraySymbol(_ArrayExpr):\n    \"\"\"\n    Symbol representing an array expression\n    \"\"\"\n\n"
         after = before + "    @property\n    def _iterable(self):\n        return False\n\n"
+    elif kind in {"rank_one_only", "concrete_extent_only", "identifier_only",
+                  "zero_sibling", "one_sibling"}:
+        before = "class ArraySymbol(_ArrayExpr):\n    \"\"\"\n    Symbol representing an array expression\n    \"\"\"\n\n"
+        body = {
+            "rank_one_only": "    @property\n    def _iterable(self):\n        return len(self.shape) != 1\n\n",
+            "concrete_extent_only": "    @property\n    def _iterable(self):\n        return not all(i.is_Integer for i in self.shape)\n\n",
+            "identifier_only": "    @property\n    def _iterable(self):\n        return not self.name.name.isidentifier()\n\n",
+            "zero_sibling": "    _iterable = False\n\n",
+            "one_sibling": "    _iterable = False\n\n",
+        }[kind]
+        after = before + body
     else:
         raise ValueError(kind)
     if source.count(before) != 1:
         raise ValueError("expected source anchor exactly once")
-    return source.replace(before, after)
+    changed = source.replace(before, after)
+    if kind in {"zero_sibling", "one_sibling"}:
+        sibling = "ZeroArray" if kind == "zero_sibling" else "OneArray"
+        anchor = f"class {sibling}(_ArrayExpr):\n"
+        if changed.count(anchor) != 1:
+            raise ValueError("expected sibling source anchor exactly once")
+        changed = changed.replace(anchor, anchor + "    _iterable = False\n")
+    return changed
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--parent", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--kind", choices=["superclass_noniterable", "array_symbol_property"], required=True)
+    parser.add_argument("--kind", choices=KINDS, required=True)
     args = parser.parse_args()
     repo = Path(__file__).resolve().parents[2]
     if args.output.resolve().is_relative_to(repo):
