@@ -6,6 +6,7 @@ All notable changes to this project are documented here.
 
 ### Research and documentation
 
+- Added an independently preflighted SymPy ArraySymbol development pair. Both arms passed the frozen 35 external and 48 selected upstream checks; ON used fewer provider-reported tokens and took longer. A post-hoc check found an overbroad `_ArrayExpr` change and the same `ZeroArray`/`OneArray` regression in both arms, invalidating an accepted-repair economy claim. Added two primary studies on agent instruction adherence to the cost-frontier review.
 - Recorded natural historical development runs on Click, packaging, and SQLGlot with aggregate-only telemetry. Click and packaging exposed adapter instruction nonadherence; the first SQLGlot pair lost OFF usage to a timeout, while a second fully metered pair failed ON quality. Strengthened the research protocol with an adherence gate and retained verifier limitations.
 - Reviewed RRSI's held-out transfer and token-cost evidence, audited its public selection code, and added a frozen-task/complete-telemetry gate to the research protocol; no plugin runtime change.
 - Reviewed Unreal Agent's Terminal-Bench claim against its public Harbor job and source; documented the benchmark's cost-audit limits and a separate harness-level A/B design.

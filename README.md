@@ -71,6 +71,8 @@ The [real-repository receipt pilot](docs/measurements/2026-09-24-real-repo-pilot
 
 [Natural historical development runs](docs/measurements/2026-09-24-natural-history-development.md) found that Click and packaging ON agents never invoked the opt-in adapter and used more tokens despite passing external checks. A first SQLGlot pair captured a large traceback but lost OFF usage to a timeout. A second, fully metered SQLGlot pair passed 13/13 in OFF while ON stopped without a repair. None establishes a compression or cost saving.
 
+A separate [SymPy development pair](docs/measurements/2026-09-24-natural-history-development.md#sympy-arraysymbol-apparent-token-reduction-post-hoc-regression) used the adapter and initially passed 35/35 external checks and 48/48 selected upstream tests in both arms. ON used 31.8% fewer provider-reported tokens while taking 5.4% longer, but a post-hoc preservation check found the same `ZeroArray`/`OneArray` regression in both repairs. This is a verifier failure, not an accepted efficiency result.
+
 The [A/B trace accounting guide](docs/measurements/ab-trace.md) documents an aggregate-only `codex exec --json` parser, private manifest format, quality checks, and limits of the earlier five-pair pilot.
 
 An [explicit command receipt prototype](docs/measurements/receipt-adapter.md) captures output before tool return and preserves code-mode control flow in a local test. Use it for expected large or noisy output; short checks can cost more bytes as receipts. It is opt-in, POSIX-only, and separate from the installed plugin while its task-level value is measured.
