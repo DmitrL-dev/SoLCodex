@@ -1,0 +1,44 @@
+{
+  "schema": "solcodex.two-attempt-transport-expectations.v1",
+  "status": "development_matrix",
+  "model_run_authorized": false,
+  "wall_time_boundary": "cli_launch_to_upstream_closure",
+  "positive": {
+    "provider_receipts": 2,
+    "distinct_attempt_ids": true,
+    "broker_first_delivery_failed": true,
+    "broker_second_delivery_complete": true,
+    "upstream_completed": 2,
+    "upstream_unknown": 0,
+    "usage": {
+      "input_tokens": 320,
+      "output_tokens": 80,
+      "cached_input_tokens": 190
+    },
+    "reconciliation_complete": true,
+    "late_completion_after_cli": true,
+    "first_command_exact": true,
+    "checkpoint_captured": true,
+    "source_unchanged": true,
+    "quality_qualified": false,
+    "provider_billing_complete": false
+  },
+  "missing_first_usage": {
+    "provider_receipts": 2,
+    "distinct_attempt_ids": true,
+    "upstream_completed": 1,
+    "upstream_unknown": 1,
+    "usage": null,
+    "observed_subtotal": {
+      "input_tokens": 200,
+      "output_tokens": 50,
+      "cached_input_tokens": 150
+    },
+    "reconciliation_complete": false,
+    "first_command_exact": true,
+    "checkpoint_captured": true,
+    "source_unchanged": true,
+    "quality_qualified": false,
+    "provider_billing_complete": false
+  }
+}

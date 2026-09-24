@@ -20,6 +20,8 @@ Before the first arm, freeze the exact model and reasoning effort, CLI binary an
 
 After freezing the sample, record a seed and exact assignment algorithm. Within each family, assign four pairs OFF→ON and four ON→OFF, run pairs sequentially on an idle worker, and separate source, HOME, temporary files, and local caches. Provider cache may still carry across runs; report cached and uncached input separately by order. The estimand is for this sequential regime, not a proven cold-cache regime.
 
+Measure wall time from CLI launch until all upstream attempts finish or the shared deadline closes them; report CLI completion time separately. This retains the [exposed protocol's convention](2026-09-25-quiet-diagnostic-model-screen-protocol.md) and includes late accounting in the denominator. The [two-attempt development matrix](2026-09-25-two-attempt-transport-qualification-plan.md) tests this boundary without model calls.
+
 ## Quality and accounting
 
 Before any agent run, the parent must fail an independent defect witness and the historical fix must pass. Add preservation checks justified by a public API contract, documentation, consumer behavior, or maintainer intent; mere agreement between parent and fix is insufficient. Resolve ambiguous specifications before admission.
