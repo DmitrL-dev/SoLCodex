@@ -111,6 +111,8 @@ The [no-model unit-probe result](docs/measurements/2026-09-25-quiet-measurement-
 
 A [two-attempt transport qualification matrix](docs/research/2026-09-25-two-attempt-transport-qualification-plan.md) fixes a synthetic late provider completion plus retry and a missing-usage negative control. Its status is development-only; no held-out model run is authorized.
 
+The [two-attempt synthetic result](docs/measurements/2026-09-25-two-attempt-transport-development.md) matches the frozen matrix: two completed upstream attempts count 400 input-plus-output tokens; removing first-attempt usage leaves total cost unknown despite a 250-token known subtotal. The public reducer reproduces these limited aggregates.
+
 The dedicated [24-task selector](docs/research/2026-09-25-quiet-screen-selector.md) fixes eight tasks per family and blocks local sample output until the private review, shared matching code and two independent curator attestations are bound by a separate approval. Its current approval is pending.
 
 A [benchmark-source review](docs/research/2026-09-25-benchmark-source-robustness.md) adds SWE-bench-Live and SetUpAgent evidence on repository diversity, executable environments and contamination risk. It does not change the pinned held-out source or authorize sample selection.

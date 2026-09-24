@@ -1,0 +1,61 @@
+{
+  "missing_first_usage": {
+    "checkpoint_captured": true,
+    "distinct_attempt_ids": true,
+    "first_command_exact": true,
+    "observed_subtotal": {
+      "cached_input_tokens": 150,
+      "input_tokens": 200,
+      "output_tokens": 50
+    },
+    "provider_billing_complete": false,
+    "provider_receipts": 2,
+    "quality_qualified": false,
+    "reconciliation_complete": false,
+    "source_unchanged": true,
+    "upstream_completed": 1,
+    "upstream_unknown": 1,
+    "usage": null
+  },
+  "model_run_authorized": false,
+  "positive": {
+    "broker_first_delivery_failed": true,
+    "broker_second_delivery_complete": true,
+    "checkpoint_captured": true,
+    "distinct_attempt_ids": true,
+    "first_command_exact": true,
+    "late_completion_after_cli": true,
+    "provider_billing_complete": false,
+    "provider_receipts": 2,
+    "quality_qualified": false,
+    "reconciliation_complete": true,
+    "source_unchanged": true,
+    "upstream_completed": 2,
+    "upstream_unknown": 0,
+    "usage": {
+      "cached_input_tokens": 190,
+      "input_tokens": 320,
+      "output_tokens": 80
+    }
+  },
+  "schema": "solcodex.two-attempt-transport-probe.v1",
+  "scope": "synthetic_no_model_transport",
+  "source_sha256": {
+    "audit.py": "57f20738820b61cbb0cd73f60ad68ecd2035689d806cb1174dedb5006b0bec8b",
+    "broker_route.py": "6befd0bfe804ee451e132de4978b09f54f8d2ba5d09ba0f173c92e752c55bdb2",
+    "evaluate.py": "0706611b51ce9d4ea1d56d1973868f0a04d26441f658ee204d2747f5986a6922",
+    "host_bridge.py": "285cd479136dce51670661d09ee84f76e3f4038cb4419857412552be09bfaa5a",
+    "isolation.py": "1d066b85412899338bde0a350adf74331515b6c1a0799cfac164e1df9209de7f",
+    "live_pilot.py": "7665a711a3529bd9b2c30550be7a78d15d520fc29f8b9d032dec633b72e6d19d",
+    "pilot.py": "efd4ea9b97a564199fe66bf1c45d61ea6dbd0f6386b6148063e6bbdd3f8a94ee",
+    "process.py": "f38eb548f6e1326513f1e4745bf8c16d6a2785f1fc453b078001419af6a8f5a1",
+    "qualify_two_attempt_transport.py": "7c5ec2400881387a7ca99ae86bd1cfe8e4932397cf567ff7a43a530bc4446b18",
+    "runtime_manifest.py": "d75109adcc217b3ec0049f5f67bb66913f94192cfa19bf7341073a816bcbc41c",
+    "selftest-protocol.json": "daa7604d54c88be6d96f8b6e04ff352d4ee1d4569ef1ca023cdfad46d9208fe2",
+    "snapshot.py": "016d29cd0f24141478eeab6d8b1d0e94228a22de2754a40bf8d01d01a1189e9c",
+    "test_host_bridge.py": "e370cec67991890045f7444660f617aec4079004bc5da9e762a90271b8607414",
+    "test_live_pilot.py": "a85b9b05a6dad78b855f363b7dab94da9da320ed8a2e8ab0a800f0182eb303d7",
+    "usage_attempt_ledger.py": "1da10986547580b9e9afeb34d92b1f649a1fa5bfb36ac6a7aa2e26d7d99c565f"
+  },
+  "wall_time_boundary": "cli_launch_to_upstream_closure"
+}
