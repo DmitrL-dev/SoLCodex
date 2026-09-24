@@ -1,0 +1,35 @@
+name: Linux worker lifecycle qualification
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/linux-cycle-qualification.yml
+      - experiments/linux_cycle_qualification/**
+      - scripts/usage_attempt_ledger.py
+      - experiments/action_fusion/**
+
+permissions:
+  contents: read
+
+jobs:
+  lifecycle:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Check mock accounting invariants
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python3 -m unittest experiments.linux_cycle_qualification.test_reconcile experiments.linux_cycle_qualification.test_mock_upstream experiments.linux_cycle_qualification.test_mock_broker -v
+      - name: Recheck container containment controls
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python3 experiments/linux_worker_preflight/run.py --output "$RUNNER_TEMP/sol-linux-containment.json"
+      - name: Run disposable worker lifecycle scenarios
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python3 -m experiments.linux_cycle_qualification.run --output "$RUNNER_TEMP/sol-linux-cycle.json"

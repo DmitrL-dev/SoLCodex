@@ -1,0 +1,26 @@
+{
+  "schema": "solcodex.linux-cycle-qualification-protocol.v1",
+  "status": "development-predeclared",
+  "image": "python@sha256:2f17fc044b579bab302c2e8054d3a686e2cb9a83de48e70534b94cd8ebbe06a9",
+  "model_requests": 0,
+  "scenarios_in_order": [
+    "normal",
+    "worker_killed",
+    "broker_killed",
+    "timeout_checkpoint",
+    "retry",
+    "duplicate",
+    "conflict",
+    "no_completion",
+    "reconciliation_unavailable",
+    "ledger_write_failure"
+  ],
+  "usage": {
+    "input_tokens": 120,
+    "output_tokens": 20,
+    "cached_input_tokens": 80
+  },
+  "unknown_usage_rule": "unknown is never zero; independent mock evidence is a separate append-only reconciliation record",
+  "behavior_gate": "parent fails exact frozen vector; gold and timeout checkpoint pass 34/34; all published wrong-fix witnesses rejected",
+  "scope": "synthetic Linux lifecycle qualification only; no real provider billing, model, or accepted-repair economy estimate"
+}
