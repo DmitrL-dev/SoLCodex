@@ -107,6 +107,8 @@ A [prospective held-out quiet-diagnostic screen](docs/research/2026-09-25-heldou
 
 The [no-model measurement qualification matrix](docs/research/2026-09-25-quiet-measurement-qualification-plan.md) fixes expected synthetic trace, ledger and fake-success outcomes. It is a partial development check and does not authorize a model run.
 
+The [no-model unit-probe result](docs/measurements/2026-09-25-quiet-measurement-unit-probe.md) matches that matrix on 14 trace cases, five ledger cases and fake-success rejection. The published reducer reproduces this limited decision; full measurement-path qualification remains pending.
+
 The dedicated [24-task selector](docs/research/2026-09-25-quiet-screen-selector.md) fixes eight tasks per family and blocks local sample output until the private review, shared matching code and two independent curator attestations are bound by a separate approval. Its current approval is pending.
 
 A [benchmark-source review](docs/research/2026-09-25-benchmark-source-robustness.md) adds SWE-bench-Live and SetUpAgent evidence on repository diversity, executable environments and contamination risk. It does not change the pinned held-out source or authorize sample selection.
