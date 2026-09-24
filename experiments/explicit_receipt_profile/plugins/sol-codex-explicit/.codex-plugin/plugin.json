@@ -1,0 +1,18 @@
+{
+  "name": "sol-codex-explicit",
+  "version": "0.1.0",
+  "description": "Experimental opt-in command receipts and bounded artifact retrieval.",
+  "author": {
+    "name": "SoL Codex research"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "SoL Codex Explicit (Experimental)",
+    "shortDescription": "Capture selected command output before tool return.",
+    "longDescription": "Opt-in POSIX command capture and bounded artifact search for controlled experiments. It does not automatically intercept tools or claim token savings.",
+    "developerName": "SoL Codex research",
+    "category": "Productivity",
+    "capabilities": ["Explicit command capture", "Bounded artifact retrieval"],
+    "defaultPrompt": "Use the experimental explicit receipt tools only when requested for this task."
+  }
+}

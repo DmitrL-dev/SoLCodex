@@ -1,0 +1,49 @@
+{
+  "arm_order": [
+    "off",
+    "on"
+  ],
+  "cli_binary_sha256": "c67698d0990aae05211d9c43ab343ad9517e406824dea77eca103a2806232b3a",
+  "cli_version": "codex-cli 0.155.0-alpha.16.3",
+  "evaluator_runtime_tree_sha256": "5a9a72a2ee60a188ac820f73b0baefc591926e0c6b72b8f1849d315bfb69640c",
+  "expected_observations": "frozen in frozen_explicit_package_control.py; fail closed on any mismatch",
+  "model_run_authorized": false,
+  "package_sha256": {
+    "plugins/sol-codex-explicit/.codex-plugin/plugin.json": "e712a6498410592191aa34f1987e89353bcbb13c672ab224bb498812e83da7ae",
+    "plugins/sol-codex-explicit/scripts/receipt_command.py": "2c472a4dc54149aa4335c077191a0214bfeff55b53ae4dd03cf972492a16fbf8",
+    "plugins/sol-codex-explicit/scripts/receipt_search.py": "1cdbe1278e59e20655b66dc366f1e962bc2418907c4d3d5e8011d45b937abb4c",
+    "plugins/sol-codex-explicit/skills/explicit-receipts/SKILL.md": "dbfac94b3098b2672d331be21ff49deeb87fd6846786f6274dc60b509201c790"
+  },
+  "private_source_sha256": {
+    "audit.py": "f9125a16217434990356c94f16a4bf39cd498abbd61199ce45953dc47885ed56",
+    "broker_route.py": "6befd0bfe804ee451e132de4978b09f54f8d2ba5d09ba0f173c92e752c55bdb2",
+    "cli_toolcall_probe.py": "2416fe6a65f9f35a9fc0b8908a55ff6f86146f223e4101acd514b047ec7a9b5e",
+    "evaluate.py": "0706611b51ce9d4ea1d56d1973868f0a04d26441f658ee204d2747f5986a6922",
+    "explicit_package_probe.py": "5ad1e38cee777f6356e333652810732cddb34b92e43684c0ac10b3b8bb071039",
+    "frozen_explicit_package_control.py": "548aa3d1adbd93dd42ea5267de8a07fcdc5c4b8b8e2011d744c1c8d8a758e33a",
+    "host_bridge.py": "285cd479136dce51670661d09ee84f76e3f4038cb4419857412552be09bfaa5a",
+    "isolation.py": "1d066b85412899338bde0a350adf74331515b6c1a0799cfac164e1df9209de7f",
+    "live_pilot.py": "308509cc801de1a173a7d29a54df26dbf4de9b6efaca5f80615fb6fc00eaf8cb",
+    "pilot.py": "efd4ea9b97a564199fe66bf1c45d61ea6dbd0f6386b6148063e6bbdd3f8a94ee",
+    "process.py": "f38eb548f6e1326513f1e4745bf8c16d6a2785f1fc453b078001419af6a8f5a1",
+    "protocol_gate.py": "26310f67dd99ea15fe2b6f0581d41588bd60622a5f902a191ea4862aabae3c07",
+    "quality-assets/lock.json": "e61fee1904c164eabcba731a509394d45b9dbf8b6d517c4b7e39380aac40fd90",
+    "quality-assets/verify_packaging.py": "841776fda08a41df4f0c652dda02a0b440d8b08dbaf5e16231520d3dcc1d4324",
+    "runtime_manifest.py": "d75109adcc217b3ec0049f5f67bb66913f94192cfa19bf7341073a816bcbc41c",
+    "safe_tree.py": "d308e37c198afbd5bd7d13c5dcd030ef665210f3e979cdad046a5d8755d84b43",
+    "selftest-protocol.json": "daa7604d54c88be6d96f8b6e04ff352d4ee1d4569ef1ca023cdfad46d9208fe2",
+    "snapshot.py": "016d29cd0f24141478eeab6d8b1d0e94228a22de2754a40bf8d01d01a1189e9c",
+    "test_harness.py": "8eb0e5876f81c80677e296790d2f1145caa68aa78cf69711abc723e546ed90ff",
+    "test_host_bridge.py": "e370cec67991890045f7444660f617aec4079004bc5da9e762a90271b8607414"
+  },
+  "python_version": "3.12.14",
+  "runtime_tree_sha256": "c3302c0f5c59a7b8fe6c164c927cc3be03810967fbbc4b6e097849ed07b18d17",
+  "schedule_row": {
+    "arm": "quiet",
+    "id": "03-packaging-on",
+    "task": "packaging"
+  },
+  "schema": "solcodex.explicit-package-control-plan.v1",
+  "source_tree_sha256": "1ac9eb290502fbf5b3425d790e4b00b0cb17112f4940fabaa80544f4078f5045",
+  "status": "prospective_no_model_development_control"
+}

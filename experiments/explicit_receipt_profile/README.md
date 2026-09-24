@@ -1,0 +1,9 @@
+# Experimental explicit receipt profile
+
+This directory holds a **separate, opt-in test package**, not the released SoL Codex plugin. It copies the existing `scripts/receipt_command.py` and `scripts/receipt_search.py` without changes, and adds an `explicit-receipts` skill. The adapters capture a selected noninteractive POSIX command before returning to Codex and support bounded retrieval from its private artifact. They do not intercept ordinary tool calls.
+
+The planned intervention is the package plus an explicit command rule. OFF executes the preselected child argv directly; ON executes the same child argv through the installed package's `receipt_command.py`, with the same cwd, environment, sandbox and permissions. The controller supplies the exact installed package path and a private artifact directory. Retrieval calls and all prompt overhead count as part of ON. Automatic `PostToolUse` packing is disabled in both arms. This tests explicit capture, not the released hook.
+
+The package is not enabled by the repository and has no marketplace entry here. A no-model CLI control must show one child execution in each arm, OFF output-only evidence in the next provider request, ON evidence only in the local artifact, a bounded ON receipt in that request, valid status and hash, complete attempt accounting, and clean teardown. Missing evidence or usage blocks the control. A smaller receipt does not establish lower full-task tokens, billed cost, time, or equal repair quality; those require independent behavioral A/B testing on held-out tasks.
+
+The packaged scripts must remain byte-identical to their research counterparts until a separately reviewed change updates both. Validate the manifest and skill with the plugin and skill validators, then run the receipt test suite against the installed copies. No installation in the user's normal Codex home is part of this experiment.
