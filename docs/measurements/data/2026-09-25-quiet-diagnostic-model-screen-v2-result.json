@@ -1,0 +1,187 @@
+{
+  "limitations": [
+    "exposed development tasks",
+    "two Click repairs failed independent nested-scope cases",
+    "frozen trace parser misclassified status=failed with exit_code=1 as malformed",
+    "retrospective first-diagnostic observation does not change frozen screen decision",
+    "provider billing not independently reconciled",
+    "private full receipts and evaluator assets limit external reproduction"
+  ],
+  "private_summary_sha256": "56e021b80499830ec78a3828b3b7bf51b5ea2cf766ac19711521b3b8de0c8e8a",
+  "protocol_sha256": "aa80cfd0ee865bc888e8f2fd9b71ee81cb06885931be40afb654a4db082e3c42",
+  "provider_billing_complete": false,
+  "public_head_at_launch": "34043fb5063853ca358090046b520a4c0fd1a1cd",
+  "runs": [
+    {
+      "arm": "verbose",
+      "candidate_tree_sha256": "654f87d5680ef1c8d277d5069f0f15c7106bfa2f572fad8de4b6f84cc525f440",
+      "cli_elapsed_seconds": 66.04641849998734,
+      "elapsed_seconds": 66.1312601659738,
+      "exit_code": 0,
+      "failed_case_ids": [
+        "nested_inner_suppresses",
+        "nested_outer_suppresses"
+      ],
+      "first_command_frozen": {
+        "commands_observed": 10,
+        "first_command_completed": true,
+        "first_command_exact": false,
+        "first_exit_code": 1,
+        "malformed_lines": 1,
+        "other_prior_actions": [],
+        "status": "unknown",
+        "trace_complete": false
+      },
+      "first_diagnostic_retrospective_observed": true,
+      "id": "01-click-off",
+      "private_final_receipt_sha256": "c3ed43b9c87c12d6802f7f4821617c011810f489059a419c50b886bf63235713",
+      "quality": false,
+      "quality_cases_passed": 7,
+      "quality_cases_total": 9,
+      "quality_report_sha256": "0783de713f7cb3d09589c469ba090fe3e57efa3aa9e88ec8cdbe21196079e534",
+      "quality_status": "fail",
+      "reconciliation_complete": true,
+      "task": "click",
+      "technical_ok": true,
+      "timed_out": false,
+      "trace_sha256": "c69aa3856117a4632b6521477f8046a40bf9f83b05fded54b6243bf4aba38fae",
+      "usage": {
+        "cached_input_tokens": 87296,
+        "input_tokens": 211359,
+        "output_tokens": 1220
+      }
+    },
+    {
+      "arm": "quiet",
+      "candidate_tree_sha256": "654f87d5680ef1c8d277d5069f0f15c7106bfa2f572fad8de4b6f84cc525f440",
+      "cli_elapsed_seconds": 48.49321312500979,
+      "elapsed_seconds": 48.58825995901134,
+      "exit_code": 0,
+      "failed_case_ids": [
+        "nested_inner_suppresses",
+        "nested_outer_suppresses"
+      ],
+      "first_command_frozen": {
+        "commands_observed": 7,
+        "first_command_completed": true,
+        "first_command_exact": false,
+        "first_exit_code": 1,
+        "malformed_lines": 1,
+        "other_prior_actions": [],
+        "status": "unknown",
+        "trace_complete": false
+      },
+      "first_diagnostic_retrospective_observed": true,
+      "id": "02-click-on",
+      "private_final_receipt_sha256": "75c9050f11b84a02b99ab1d1832c8c6341ace4458ec13416aaa4d22f1ff0a205",
+      "quality": false,
+      "quality_cases_passed": 7,
+      "quality_cases_total": 9,
+      "quality_report_sha256": "4c2dceb649bd038ef78fecd86c818bb02bc93c7a7ddb302ee844c3e951f23986",
+      "quality_status": "fail",
+      "reconciliation_complete": true,
+      "task": "click",
+      "technical_ok": true,
+      "timed_out": false,
+      "trace_sha256": "dc97ef9a92205135cbd8ffea751f7339e5c0d43893d84c07d749a59329717b89",
+      "usage": {
+        "cached_input_tokens": 34560,
+        "input_tokens": 118039,
+        "output_tokens": 1075
+      }
+    },
+    {
+      "arm": "quiet",
+      "candidate_tree_sha256": "2aa2450402cd5f5cba3e1c0efa1598e88e3b939c6bfa88df5e59eba89381a7a2",
+      "cli_elapsed_seconds": 42.08055783298914,
+      "elapsed_seconds": 42.11390345799737,
+      "exit_code": 0,
+      "failed_case_ids": [],
+      "first_command_frozen": {
+        "commands_observed": 5,
+        "first_command_completed": true,
+        "first_command_exact": false,
+        "first_exit_code": 1,
+        "malformed_lines": 1,
+        "other_prior_actions": [],
+        "status": "unknown",
+        "trace_complete": false
+      },
+      "first_diagnostic_retrospective_observed": true,
+      "id": "03-packaging-on",
+      "private_final_receipt_sha256": "9069893225336fc08c1746e6e21fcc2c47184b256e8d37161b9f2d354f961c30",
+      "quality": true,
+      "quality_cases_passed": 14,
+      "quality_cases_total": 14,
+      "quality_report_sha256": "61ac5f56940f521fe942cb36704ab6e9f83cbba62769d44b46c25db4ba7d6254",
+      "quality_status": "pass",
+      "reconciliation_complete": true,
+      "task": "packaging",
+      "technical_ok": true,
+      "timed_out": false,
+      "trace_sha256": "daad9892978191b76ddb5e0589dea38dd9d3fdef24c94d91724f246753f2fa85",
+      "usage": {
+        "cached_input_tokens": 50432,
+        "input_tokens": 93450,
+        "output_tokens": 1196
+      }
+    },
+    {
+      "arm": "verbose",
+      "candidate_tree_sha256": "2aa2450402cd5f5cba3e1c0efa1598e88e3b939c6bfa88df5e59eba89381a7a2",
+      "cli_elapsed_seconds": 31.42070175000117,
+      "elapsed_seconds": 31.48183083400363,
+      "exit_code": 0,
+      "failed_case_ids": [],
+      "first_command_frozen": {
+        "commands_observed": 4,
+        "first_command_completed": true,
+        "first_command_exact": false,
+        "first_exit_code": 1,
+        "malformed_lines": 1,
+        "other_prior_actions": [],
+        "status": "unknown",
+        "trace_complete": false
+      },
+      "first_diagnostic_retrospective_observed": true,
+      "id": "04-packaging-off",
+      "private_final_receipt_sha256": "a9b8705d89fa550c8205fb2363ad3029970222a4091873eb298fd9ab54e66f57",
+      "quality": true,
+      "quality_cases_passed": 14,
+      "quality_cases_total": 14,
+      "quality_report_sha256": "18a5672565c29e030568ea121ac7a559e22dd74baecc625565339246b72884dc",
+      "quality_status": "pass",
+      "reconciliation_complete": true,
+      "task": "packaging",
+      "technical_ok": true,
+      "timed_out": false,
+      "trace_sha256": "155593e7affd45eca4ce6343617adbb40c9080e9f1d1b48be7628006c9ca9166",
+      "usage": {
+        "cached_input_tokens": 41472,
+        "input_tokens": 95144,
+        "output_tokens": 749
+      }
+    }
+  ],
+  "schema": "solcodex.quiet-model-screen-result-public.v1",
+  "screen": {
+    "gates": {
+      "all_cli_success": true,
+      "all_four_first_commands_verified": false,
+      "all_four_quality_pass": false,
+      "all_technical_ok": true,
+      "all_usage_observed": true,
+      "four_assigned_runs": true,
+      "max_total_token_ratio": true,
+      "max_wall_time_ratio": true,
+      "on_no_more_tokens_in_each_task": true
+    },
+    "off_seconds": 97.61309099997743,
+    "off_tokens": 308472,
+    "on_seconds": 90.7021634170087,
+    "on_tokens": 213760,
+    "pass": false,
+    "token_ratio": 0.6929640291501336,
+    "wall_time_ratio": 0.9292008119795088
+  }
+}
