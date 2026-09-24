@@ -81,6 +81,8 @@ A [Linux worker lifecycle development check](docs/measurements/2026-09-25-linux-
 
 A [complete-checkout packaging checkpoint pilot](docs/measurements/2026-09-25-packaging-checkpoint-development.md) passed six exposed, scripted development scenarios in Linux CI. Two equivalent alternative checkpoints built into installed wheels and passed 14/14 host-judged behavior cases; a wrong fix and a missing helper were rejected. It used no model requests and does not establish independent repair quality, billing completeness, or savings.
 
+A [quiet-pytest preflight](docs/measurements/2026-09-25-quiet-diagnostic-preflight.md) kept identical collected tests and outcomes while printing much shorter diagnostics on exposed packaging and Click parent/fix checkouts. It made no model requests; full-task token and quality effects remain unmeasured.
+
 The [metadata-only candidate ranking gate](docs/research/2026-09-24-candidate-ranking.md) published prior development exposures and a strict ranking script before the pinned metadata export. No candidate task has been selected, and no remaining candidate's gold or test patch has been inspected for this gate.
 
 The pinned metadata export produced [an aggregate of 32,079 rows](docs/measurements/data/2026-09-24-candidate-metadata-export.json); 282 directly exposed rows were excluded. Repository lineage and task eligibility remain unreviewed.
