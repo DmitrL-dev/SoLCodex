@@ -23,5 +23,5 @@ jobs:
         env:
           PYTHONDONTWRITEBYTECODE: "1"
         run: |
-          python3 -m unittest experiments.linux_worker_preflight.test_run -v
+          python3 -m unittest experiments.linux_worker_preflight.test_run experiments.linux_worker_preflight.test_reduce_ci_log -v
           python3 experiments/linux_worker_preflight/run.py --output "$RUNNER_TEMP/sol-linux-containment.json"

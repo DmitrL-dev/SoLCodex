@@ -1,0 +1,68 @@
+{
+  "ci_job_id": 107595811139,
+  "ci_run_url": "https://github.com/DmitrL-dev/SoLCodex/actions/runs/35988221556",
+  "raw_job_log_sha256": "22b61d51bc4267f8ca9769bd0e0b81bdcdbe8fd045fcad990c63d421e82df03b",
+  "report": {
+    "agent_checks": {
+      "broker_reachable": true,
+      "ci_tokens_absent": true,
+      "docker_socket_absent": true,
+      "egress_sidecar_denied": true,
+      "fake_auth_denied": true,
+      "gold_denied": true,
+      "host_denied": true,
+      "host_service_denied": true,
+      "leak_slot_denied": true,
+      "nonroot_uid": true,
+      "proc_root_denied": true,
+      "sibling_denied": true,
+      "symlink_denied": true,
+      "workspace_readable": true,
+      "workspace_writable": true
+    },
+    "checks": {
+      "agent_configuration": true,
+      "broker_egress_control": true,
+      "cleanup_complete": true,
+      "daemon_seccomp_enabled": true,
+      "deliberate_leak_detected": true,
+      "forbidden_canaries_live": true,
+      "host_control_live": true,
+      "host_service_positive_control": true,
+      "isolated_network_config": true,
+      "positive_agent_passed": true
+    },
+    "controller_sha256": "75e8a6532d48a5dea38da5c9f237b7920f33ab8f26e3a032ef6492ad5efae098",
+    "docker_server_version": "28.0.4",
+    "image": {
+      "architecture": "amd64",
+      "id": "sha256:9e87977b867847e186d066f531ef783b006d582a985c341c269446088d90f2c4",
+      "reference": "python@sha256:2f17fc044b579bab302c2e8054d3a686e2cb9a83de48e70534b94cd8ebbe06a9"
+    },
+    "model_requests": 0,
+    "passed": true,
+    "probe_sha256": "a7b89f3a0bdaa618cda4a3b7217587add9bfbdecb8ba9298c8f5794abf7f88b1",
+    "provider_billing_complete": false,
+    "resource_limits": {
+      "cpus": 2,
+      "memory_bytes": 2147483648,
+      "memory_swap_bytes": 2147483648,
+      "pids": 64,
+      "tmpfs_bytes": 67108864
+    },
+    "runner": {
+      "available_cpus": 4,
+      "host_memory_bytes": 16766406656,
+      "kernel": "6.17.0-1022-azure",
+      "machine": "x86_64"
+    },
+    "schema": "solcodex.linux-containment-development.v1",
+    "target_worker_qualified": false,
+    "unqualified_observations": {
+      "public_ipv4_connection_failed": true,
+      "public_ipv6_connection_failed": true
+    }
+  },
+  "schema": "solcodex.linux-preflight-ci-aggregate.v1",
+  "source_commit": "2c547bddaf516c97151b5f9c8583ce31d5110425"
+}

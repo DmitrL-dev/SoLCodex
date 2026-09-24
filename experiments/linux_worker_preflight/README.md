@@ -9,10 +9,10 @@ The agent container runs as a non-root user with a read-only root filesystem, no
 Run on a Linux x86-64 host with Docker Engine 28 or later:
 
 ```sh
-python3 -m unittest experiments.linux_worker_preflight.test_run -v
+python3 -m unittest experiments.linux_worker_preflight.test_run experiments.linux_worker_preflight.test_reduce_ci_log -v
 python3 experiments/linux_worker_preflight/run.py --output /tmp/sol-linux-containment.json
 ```
 
-The controller emits a path-free JSON result with its code hashes, image digest, host CPU/RAM, Docker/kernel versions, individual checks, and resource limits. Any missing or false check, unsupported isolated network mode, failed negative control, or incomplete cleanup makes the run fail. The workflow does not upload or commit the result; an independently inspected sanitized aggregate can be published after the first run.
+The controller emits a path-free JSON result with its code hashes, image digest, host CPU/RAM, Docker/kernel versions, individual checks, and resource limits. Any missing or false check, unsupported isolated network mode, failed negative control, or incomplete cleanup makes the run fail. The workflow does not upload or commit the result. The first [CI result and independently extracted aggregate](../../docs/measurements/2026-09-24-linux-worker-preflight.md) are published separately; the raw job log remains private.
 
 Passing this probe will **not** qualify the planned 4-vCPU/16-GiB, 60-minute, 128-request worker. It does not run untrusted repair code, a real credential broker, the external evaluator, interrupted-request accounting, storage exhaustion, or a full worker lifecycle. The image tag is resolved and recorded at runtime but is not preregistered for a confirmation campaign. Candidate selection and independent review approvals remain pending.

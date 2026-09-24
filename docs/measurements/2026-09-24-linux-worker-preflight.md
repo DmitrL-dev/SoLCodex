@@ -1,0 +1,15 @@
+# Disposable Linux worker containment preflight: development result (2026-09-24)
+
+The [controlled `main` push run](https://github.com/DmitrL-dev/SoLCodex/actions/runs/35988221556) at source commit `2c547bddaf516c97151b5f9c8583ce31d5110425` completed successfully. Its single Docker probe reported **15/15 agent checks and 10/10 controller checks true**, including a deliberate gold-canary leak that the agent detected, a live mock broker that the agent could reach, denied direct connections to a reachable egress sidecar and host service, and verified cleanup. All four then-current report-boundary unit tests passed in the CI job. The separate [repository validation run](https://github.com/DmitrL-dev/SoLCodex/actions/runs/35988221588) completed with 12/12 jobs successful.
+
+The [path-free aggregate](data/2026-09-24-linux-worker-preflight.json) contains the complete fixed-field probe report, CI run/job identity, source commit, and SHA-256 `22b61d51bc4267f8ca9769bd0e0b81bdcdbe8fd045fcad990c63d421e82df03b` of the 13,178-byte raw CI job log. The raw log is not republished. To reproduce the aggregate from that exact job's raw log, run:
+
+```sh
+python3 -m experiments.linux_worker_preflight.reduce_ci_log RAW_JOB_LOG docs/measurements/data/2026-09-24-linux-worker-preflight.json
+```
+
+The [reducer](../../experiments/linux_worker_preflight/reduce_ci_log.py) pins the source commit, controller/probe hashes, raw-log hash, field sets, all required true checks, image identity shape, and resource limits. It rejects an extra field, missing or false check, or duplicate report. The SHA-256 also binds the published output to the saved log bytes; anyone with access to the CI raw log can repeat the extraction. The raw log may contain CI metadata and is kept out of the repository.
+
+The observed runner was Linux x86-64 with four available CPUs and 16,766,406,656 bytes of host memory, Docker Engine `28.0.4`, and an `amd64` Python image recorded by digest. The agent container itself was limited to **two CPUs, 2 GiB RAM, 64 processes, and a 64 MiB temporary filesystem**. The recorded public IPv4 and IPv6 connection failures are *unqualified observations* because the probe had no positive external-endpoint control. The broker-to-sidecar and broker-to-host controls qualify only the two tested direct-denial paths. This is one disposable CI run, not a general isolation guarantee.
+
+The run made **zero model requests** and did not exercise repair code, a real credential broker, provider billing, interruption accounting, storage exhaustion, external evaluation, or the planned 4-vCPU/16-GiB worker lifecycle. The image digest was recorded at runtime, not preregistered. The report explicitly sets `target_worker_qualified=false` and `provider_billing_complete=false`. The [confirmation campaign](../research/2026-09-24-confirmation-campaign-draft.md) remains **NO-GO** pending independent lineage/sample approval, verifier qualification, full worker and broker tests, and durable provider usage reconciliation. This preflight says nothing about SoL Codex savings or repair quality.

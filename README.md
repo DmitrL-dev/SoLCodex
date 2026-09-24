@@ -75,6 +75,8 @@ A separate [packaged-plugin request probe](docs/measurements/2026-09-24-packaged
 
 The [independent confirmation draft](docs/research/2026-09-24-confirmation-campaign-draft.md) specifies a once-only 360-task planning target, stronger verifier qualification, isolation, and request accounting. It is a design, not completed evidence.
 
+A [disposable Linux containment preflight](docs/measurements/2026-09-24-linux-worker-preflight.md) passed 25 synthetic checks in CI, with a path-free aggregate and a pinned-log reducer. It used no model requests and does not qualify the confirmation worker or its provider accounting.
+
 The [metadata-only candidate ranking gate](docs/research/2026-09-24-candidate-ranking.md) published prior development exposures and a strict ranking script before the pinned metadata export. No candidate task has been selected, and no remaining candidate's gold or test patch has been inspected for this gate.
 
 The pinned metadata export produced [an aggregate of 32,079 rows](docs/measurements/data/2026-09-24-candidate-metadata-export.json); 282 directly exposed rows were excluded. Repository lineage and task eligibility remain unreviewed.
