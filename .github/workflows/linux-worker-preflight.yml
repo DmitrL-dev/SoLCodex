@@ -1,0 +1,27 @@
+name: Linux worker containment preflight
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/linux-worker-preflight.yml
+      - experiments/linux_worker_preflight/**
+
+permissions:
+  contents: read
+
+jobs:
+  containment:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Probe disposable Linux container topology
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: |
+          python3 -m unittest experiments.linux_worker_preflight.test_run -v
+          python3 experiments/linux_worker_preflight/run.py --output "$RUNNER_TEMP/sol-linux-containment.json"
