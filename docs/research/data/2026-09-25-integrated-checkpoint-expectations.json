@@ -1,0 +1,300 @@
+{
+  "case_order": [
+    "gold_complete",
+    "wrong_complete",
+    "gold_missing_usage",
+    "gold_cleanup_failure"
+  ],
+  "cases": {
+    "gold_cleanup_failure": {
+      "behavior_case_pass_vector": null,
+      "behavior_passed": null,
+      "behavior_total": null,
+      "checkpoint_status": "blocked_unverified_cleanup",
+      "checkpoint_tree_sha256": null,
+      "evaluator_call_count": 0,
+      "evaluator_called": false,
+      "evaluator_canaries": null,
+      "evaluator_report_present": false,
+      "evaluator_source_unchanged": null,
+      "evaluator_upstream_exit": null,
+      "evaluator_upstream_failed_call_count": null,
+      "evaluator_upstream_failed_call_ids_sha256": null,
+      "evaluator_upstream_inventory_sha256": null,
+      "evaluator_upstream_unexpected_skips": null,
+      "expected_candidate_tree_sha256": "ad9f932ad4671fa1c3d080fc96bc042722c88d6bdfd06bf15ed7590b7841d62d",
+      "injected_cleanup_failure": true,
+      "observed_completed_usage": {
+        "cached_input_tokens": 190,
+        "input_tokens": 320,
+        "output_tokens": 80
+      },
+      "quality": null,
+      "quality_status": null,
+      "reconciliation_complete": true,
+      "reported_cleanup_verified": false,
+      "source_unchanged_from_parent": null,
+      "supervisor_candidate_tree_sha256": "ad9f932ad4671fa1c3d080fc96bc042722c88d6bdfd06bf15ed7590b7841d62d",
+      "technical_ok": false,
+      "upstream_states": {
+        "completed": 2,
+        "pending": 0,
+        "unknown": 0
+      },
+      "usage": {
+        "cached_input_tokens": 190,
+        "input_tokens": 320,
+        "output_tokens": 80
+      }
+    },
+    "gold_complete": {
+      "behavior_case_pass_vector": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "behavior_passed": 14,
+      "behavior_total": 14,
+      "checkpoint_status": "captured",
+      "checkpoint_tree_sha256": "ad9f932ad4671fa1c3d080fc96bc042722c88d6bdfd06bf15ed7590b7841d62d",
+      "evaluator_call_count": 1,
+      "evaluator_called": true,
+      "evaluator_canaries": {
+        "host_read": true,
+        "host_write": true,
+        "network": true,
+        "source_write": true
+      },
+      "evaluator_report_present": true,
+      "evaluator_source_unchanged": true,
+      "evaluator_upstream_exit": 0,
+      "evaluator_upstream_failed_call_count": 0,
+      "evaluator_upstream_failed_call_ids_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "evaluator_upstream_inventory_sha256": "6da92136adbe79c030efa193028fb9190341e8e7203ce1c40efe24b9470111da",
+      "evaluator_upstream_unexpected_skips": [],
+      "expected_candidate_tree_sha256": "ad9f932ad4671fa1c3d080fc96bc042722c88d6bdfd06bf15ed7590b7841d62d",
+      "injected_cleanup_failure": false,
+      "observed_completed_usage": {
+        "cached_input_tokens": 190,
+        "input_tokens": 320,
+        "output_tokens": 80
+      },
+      "quality": true,
+      "quality_status": "pass",
+      "reconciliation_complete": true,
+      "reported_cleanup_verified": true,
+      "source_unchanged_from_parent": false,
+      "supervisor_candidate_tree_sha256": "ad9f932ad4671fa1c3d080fc96bc042722c88d6bdfd06bf15ed7590b7841d62d",
+      "technical_ok": true,
+      "upstream_states": {
+        "completed": 2,
+        "pending": 0,
+        "unknown": 0
+      },
+      "usage": {
+        "cached_input_tokens": 190,
+        "input_tokens": 320,
+        "output_tokens": 80
+      }
+    },
+    "gold_missing_usage": {
+      "behavior_case_pass_vector": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "behavior_passed": 14,
+      "behavior_total": 14,
+      "checkpoint_status": "captured",
+      "checkpoint_tree_sha256": "ad9f932ad4671fa1c3d080fc96bc042722c88d6bdfd06bf15ed7590b7841d62d",
+      "evaluator_call_count": 1,
+      "evaluator_called": true,
+      "evaluator_canaries": {
+        "host_read": true,
+        "host_write": true,
+        "network": true,
+        "source_write": true
+      },
+      "evaluator_report_present": true,
+      "evaluator_source_unchanged": true,
+      "evaluator_upstream_exit": 0,
+      "evaluator_upstream_failed_call_count": 0,
+      "evaluator_upstream_failed_call_ids_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "evaluator_upstream_inventory_sha256": "6da92136adbe79c030efa193028fb9190341e8e7203ce1c40efe24b9470111da",
+      "evaluator_upstream_unexpected_skips": [],
+      "expected_candidate_tree_sha256": "ad9f932ad4671fa1c3d080fc96bc042722c88d6bdfd06bf15ed7590b7841d62d",
+      "injected_cleanup_failure": false,
+      "observed_completed_usage": {
+        "cached_input_tokens": 150,
+        "input_tokens": 200,
+        "output_tokens": 50
+      },
+      "quality": true,
+      "quality_status": "pass",
+      "reconciliation_complete": false,
+      "reported_cleanup_verified": true,
+      "source_unchanged_from_parent": false,
+      "supervisor_candidate_tree_sha256": "ad9f932ad4671fa1c3d080fc96bc042722c88d6bdfd06bf15ed7590b7841d62d",
+      "technical_ok": false,
+      "upstream_states": {
+        "completed": 1,
+        "pending": 0,
+        "unknown": 1
+      },
+      "usage": null
+    },
+    "wrong_complete": {
+      "behavior_case_pass_vector": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        false,
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "behavior_passed": 6,
+      "behavior_total": 14,
+      "checkpoint_status": "captured",
+      "checkpoint_tree_sha256": "607c7f277ab7b7ff9bbe94a77feb5e6aee3f3e131cc3abc63d06d71d14b509b5",
+      "evaluator_call_count": 1,
+      "evaluator_called": true,
+      "evaluator_canaries": {
+        "host_read": true,
+        "host_write": true,
+        "network": true,
+        "source_write": true
+      },
+      "evaluator_report_present": true,
+      "evaluator_source_unchanged": true,
+      "evaluator_upstream_exit": 1,
+      "evaluator_upstream_failed_call_count": 13,
+      "evaluator_upstream_failed_call_ids_sha256": "e02c245d1f086f0e5ce5ea29c9742d119a2f35b80306a75c46d2866c9aed81d3",
+      "evaluator_upstream_inventory_sha256": "6da92136adbe79c030efa193028fb9190341e8e7203ce1c40efe24b9470111da",
+      "evaluator_upstream_unexpected_skips": [],
+      "expected_candidate_tree_sha256": "607c7f277ab7b7ff9bbe94a77feb5e6aee3f3e131cc3abc63d06d71d14b509b5",
+      "injected_cleanup_failure": false,
+      "observed_completed_usage": {
+        "cached_input_tokens": 190,
+        "input_tokens": 320,
+        "output_tokens": 80
+      },
+      "quality": false,
+      "quality_status": "fail",
+      "reconciliation_complete": true,
+      "reported_cleanup_verified": true,
+      "source_unchanged_from_parent": false,
+      "supervisor_candidate_tree_sha256": "607c7f277ab7b7ff9bbe94a77feb5e6aee3f3e131cc3abc63d06d71d14b509b5",
+      "technical_ok": true,
+      "upstream_states": {
+        "completed": 2,
+        "pending": 0,
+        "unknown": 0
+      },
+      "usage": {
+        "cached_input_tokens": 190,
+        "input_tokens": 320,
+        "output_tokens": 80
+      }
+    }
+  },
+  "common": {
+    "bridge_stopped": true,
+    "broker_attempts": 2,
+    "broker_bridge_attempt_ids_match": true,
+    "broker_first_delivery_failed": true,
+    "broker_second_delivery_complete": true,
+    "broker_stopped": true,
+    "diagnostic_baseline_probe_complete": true,
+    "diagnostic_command_exact": true,
+    "diagnostic_exit": 1,
+    "distinct_attempt_ids": true,
+    "first_command": {
+      "commands_observed": 1,
+      "first_command_exact": true,
+      "first_exit_code": 1,
+      "malformed_lines": 0,
+      "other_prior_actions": [],
+      "status": "observed",
+      "trace_complete": true
+    },
+    "provider_billing_complete": false,
+    "provider_errors": 0,
+    "provider_requests": 2,
+    "real_supervisor_cleanup_verified": true,
+    "runner_before_first_upstream_completion": true,
+    "runner_exit": 0,
+    "runner_timed_out": false,
+    "scope": "synthetic_no_model_controlled_child",
+    "upstream_attempts": 2,
+    "worker_sandbox_canaries_pass": true
+  },
+  "limits": [
+    "controlled child is not Codex CLI",
+    "synthetic trace and provider usage",
+    "private host execution cannot be replayed from public repository",
+    "development exposed task, not plugin ON/OFF"
+  ],
+  "model_run_authorized": false,
+  "runtime": {
+    "codex_cli": "not_executed",
+    "evaluator_venv_tree_sha256": "5a9a72a2ee60a188ac820f73b0baefc591926e0c6b72b8f1849d315bfb69640c",
+    "host_python": "3.12.14",
+    "pilot_venv_tree_sha256": "c3302c0f5c59a7b8fe6c164c927cc3be03810967fbbc4b6e097849ed07b18d17"
+  },
+  "schema": "solcodex.integrated-checkpoint-expectations.v1",
+  "source_sha256": {
+    "audit.py": "57f20738820b61cbb0cd73f60ad68ecd2035689d806cb1174dedb5006b0bec8b",
+    "broker_route.py": "6befd0bfe804ee451e132de4978b09f54f8d2ba5d09ba0f173c92e752c55bdb2",
+    "controlled_child": "ad87255a00850157adc7a2dc497b292d7230a1e343814aa570e8f5430e7f0837",
+    "evaluate.py": "0706611b51ce9d4ea1d56d1973868f0a04d26441f658ee204d2747f5986a6922",
+    "gold_patch": "7047733818c0d945335cb73ed49b61f3a141c34c1c65d8d8815ea252c72c2a53",
+    "host_bridge.py": "285cd479136dce51670661d09ee84f76e3f4038cb4419857412552be09bfaa5a",
+    "integrated_checkpoint_probe.py": "c9a78cac26135e2e7d12ae8ff24a9727f67fe1d509d40c18ef765102151bb0a2",
+    "isolation.py": "1d066b85412899338bde0a350adf74331515b6c1a0799cfac164e1df9209de7f",
+    "live_pilot.py": "7665a711a3529bd9b2c30550be7a78d15d520fc29f8b9d032dec633b72e6d19d",
+    "pilot.py": "efd4ea9b97a564199fe66bf1c45d61ea6dbd0f6386b6148063e6bbdd3f8a94ee",
+    "process.py": "f38eb548f6e1326513f1e4745bf8c16d6a2785f1fc453b078001419af6a8f5a1",
+    "protocol_gate.py": "26310f67dd99ea15fe2b6f0581d41588bd60622a5f902a191ea4862aabae3c07",
+    "quality-assets/lock.json": "e61fee1904c164eabcba731a509394d45b9dbf8b6d517c4b7e39380aac40fd90",
+    "quality-assets/verify_packaging.py": "841776fda08a41df4f0c652dda02a0b440d8b08dbaf5e16231520d3dcc1d4324",
+    "reducer": "9f0619756d304d19cc573cf67f3984a4fadbd12dac2ed7a5bb548b50e8358fc3",
+    "runtime_manifest.py": "d75109adcc217b3ec0049f5f67bb66913f94192cfa19bf7341073a816bcbc41c",
+    "safe_tree.py": "d308e37c198afbd5bd7d13c5dcd030ef665210f3e979cdad046a5d8755d84b43",
+    "selftest-protocol.json": "daa7604d54c88be6d96f8b6e04ff352d4ee1d4569ef1ca023cdfad46d9208fe2",
+    "snapshot.py": "016d29cd0f24141478eeab6d8b1d0e94228a22de2754a40bf8d01d01a1189e9c",
+    "test_host_bridge.py": "e370cec67991890045f7444660f617aec4079004bc5da9e762a90271b8607414",
+    "usage_attempt_ledger.py": "1da10986547580b9e9afeb34d92b1f649a1fa5bfb36ac6a7aa2e26d7d99c565f",
+    "wrong_patch": "a68157140f4dacdd02eb9dcd514f9180e4bbfb94af5c86501cb38b0a4c864bbf"
+  },
+  "status": "synthetic_development_no_model"
+}
