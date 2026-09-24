@@ -1,0 +1,177 @@
+{
+  "adapter_sha256": "067ee9df409b84f52da3646df69c693253d9de2e46c8d9da0ed9df3507f80f1d",
+  "codex_version": "codex-cli 0.155.0-alpha.16.3",
+  "environment": "allowlisted; PYTHONPATH=current arm src; user site disabled; model API via local allowlisted proxy",
+  "interpretation": "Counts describe these runs only. Exact command repetition is a proxy, not proof of reacquisition. Verifier codes and elapsed time come from the manifest. Missing usage fields are null; complete fields do not establish adequate sample size. This report does not estimate API cost or prove causality.",
+  "isolation_sha256": "1d066b85412899338bde0a350adf74331515b6c1a0799cfac164e1df9209de7f",
+  "measurement_complete_pairs": 0,
+  "pair_count": 1,
+  "pairs": [
+    {
+      "fixture_sha256": "4374c69891d8a67febcc7ebf35528b379a23ce2af59200b0ec8abb20e907982d",
+      "gold_commit": "22844841f1de93643f17ae51077ceac79b0ec69a",
+      "id": "historical-sqlglot-dev-1",
+      "measurement_complete": false,
+      "model": "gpt-6-luna",
+      "off": {
+        "adapter_artifact_count": 0,
+        "adapter_invocation_count": 0,
+        "all_command_output_bytes": 390836,
+        "artifact_read_commands": 0,
+        "behavior_summary": "TOTAL 5/9",
+        "changed_files": [
+          "sqlglot/optimizer/resolver.py",
+          "tests/test_optimizer.py"
+        ],
+        "commands_over_6144_output_bytes": 4,
+        "completed_turns": 0,
+        "diff_check_exit": 0,
+        "elapsed_seconds": 300.01,
+        "error_events": 0,
+        "failed_tool_items": 4,
+        "failed_turns": 0,
+        "first_command_output_bytes": 233616,
+        "first_command_protocol_ok": true,
+        "isolation_canaries": {
+          "direct_network_denied": true,
+          "github_proxy_denied": true,
+          "gold_read_denied": true,
+          "gold_write_denied": true,
+          "live_repo_denied": true,
+          "private_verifier_denied": true,
+          "shell_toolchain_ready": true,
+          "symlink_read_denied": true,
+          "work_read": true,
+          "work_write": true
+        },
+        "network_command_count": 0,
+        "nonzero_tool_exits": 4,
+        "patch_bytes": 2032,
+        "process_exit_code": null,
+        "prompt_sha256": "f443a837889c6dfabf34155dea1cf241e1ea5bb3e36c36e1ea84465838133554",
+        "proxy_allowed_count": 61,
+        "proxy_blocked_count": 0,
+        "repeated_exact_commands": 3,
+        "tokens": {
+          "cache_write_input_tokens": null,
+          "cached_input_tokens": null,
+          "input_tokens": null,
+          "output_tokens": null,
+          "reasoning_output_tokens": null,
+          "total_input_output_tokens": null,
+          "uncached_input_tokens": null
+        },
+        "tool_calls": 50,
+        "tool_calls_by_type": {
+          "command_execution": 35,
+          "file_change": 15
+        },
+        "untracked_file_count": 0,
+        "verification_failure": null,
+        "verified": false,
+        "verifier_exit_code": 1
+      },
+      "on": {
+        "adapter_artifact_count": 1,
+        "adapter_invocation_count": 1,
+        "all_command_output_bytes": 101058,
+        "artifact_read_commands": 4,
+        "behavior_summary": "TOTAL 9/9",
+        "changed_files": [
+          "sqlglot/optimizer/resolver.py",
+          "tests/test_optimizer.py"
+        ],
+        "commands_over_6144_output_bytes": 5,
+        "completed_turns": 1,
+        "diff_check_exit": 0,
+        "elapsed_seconds": 216.34,
+        "error_events": 0,
+        "failed_tool_items": 4,
+        "failed_turns": 0,
+        "first_command_output_bytes": 894,
+        "first_command_protocol_ok": true,
+        "isolation_canaries": {
+          "direct_network_denied": true,
+          "github_proxy_denied": true,
+          "gold_read_denied": true,
+          "gold_write_denied": true,
+          "live_repo_denied": true,
+          "private_verifier_denied": true,
+          "shell_toolchain_ready": true,
+          "symlink_read_denied": true,
+          "work_read": true,
+          "work_write": true
+        },
+        "network_command_count": 0,
+        "nonzero_tool_exits": 4,
+        "patch_bytes": 4743,
+        "process_exit_code": 0,
+        "prompt_sha256": "47ed5a908fa86a0ebf1ae0bcde2a195551d634d582075d0c4bf92890b42dd6b9",
+        "proxy_allowed_count": 35,
+        "proxy_blocked_count": 0,
+        "repeated_exact_commands": 0,
+        "tokens": {
+          "cache_write_input_tokens": 0,
+          "cached_input_tokens": 941312,
+          "input_tokens": 997363,
+          "output_tokens": 9523,
+          "reasoning_output_tokens": 3387,
+          "total_input_output_tokens": 1006886,
+          "uncached_input_tokens": 56051
+        },
+        "tool_calls": 30,
+        "tool_calls_by_type": {
+          "command_execution": 25,
+          "file_change": 5
+        },
+        "untracked_file_count": 0,
+        "verification_failure": null,
+        "verified": true,
+        "verifier_exit_code": 0
+      },
+      "on_minus_off": {
+        "artifact_read_commands": 4,
+        "cache_write_input_tokens": null,
+        "cached_input_tokens": null,
+        "elapsed_seconds": -83.66999999999999,
+        "failed_tool_items": 0,
+        "input_tokens": null,
+        "nonzero_tool_exits": 0,
+        "output_tokens": null,
+        "repeated_exact_commands": -3,
+        "tool_calls": -20,
+        "total_input_output_tokens": null,
+        "uncached_input_tokens": null
+      },
+      "order": [
+        "off",
+        "on"
+      ],
+      "parent_commit": "f3ba8e4d20311c4e657f4f763c3e354fa533ba47",
+      "reasoning_effort": "low"
+    }
+  ],
+  "proxy_allowed_hosts": [
+    "ab.chatgpt.com",
+    "api.openai.com",
+    "chatgpt.com"
+  ],
+  "proxy_sha256": "7db93bd452bdc7b3a2f76720f6cb1c41ac351d7aeccf5702c8b72de34d943fe8",
+  "python_packages": [
+    "iniconfig==2.3.0",
+    "packaging==26.3",
+    "pluggy==1.6.0",
+    "pretend==1.0.9",
+    "Pygments==2.21.0",
+    "pytest==8.4.2",
+    "tomli_w==1.2.0"
+  ],
+  "python_version": "Python 3.12.14",
+  "runner_sha256": "489b5a9882e510053290fbb71bd508a6075acf6c1a40ff4a594f3781f9ab186b",
+  "schema_version": 1,
+  "search_sha256": "1cdbe1278e59e20655b66dc366f1e962bc2418907c4d3d5e8011d45b937abb4c",
+  "study_kind": "development; exposed historical tasks",
+  "verifier_sha256": {
+    "sqlglot": "cb779d5093aceba5886d4bd3bcda064865a666db1120c0d148a5d7b7f9cb10b1"
+  }
+}

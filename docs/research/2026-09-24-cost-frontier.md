@@ -25,11 +25,13 @@ The cache studies also motivate a second falsifiable prediction: a shorter dynam
 
 ```mermaid
 flowchart LR
-  A[Noisy command] --> B[Direct result]
-  A --> C[Exact local artifact + receipt]
-  C --> D[Bounded literal or line-range retrieval]
+  A[Predeclared command policy] --> B[Direct result]
+  A --> C[ON assignment]
+  C --> D[Adapter invoked: exact artifact and receipt]
+  C --> X[No adapter call: adherence failure]
+  D --> I[Bounded literal or line-range retrieval]
   B --> E[Agent actions]
-  D --> E
+  I --> E
   E --> F[Independent behavior matrix and regression acceptance]
   E --> G[Cached and uncached tokens, output, retrievals, time]
   J[Host prompt-cache behavior] --> G
@@ -40,6 +42,8 @@ flowchart LR
 
 The narrow claim worth testing is that **for selected noisy commands with sparse decisive evidence**, an exact artifact plus bounded retrieval lowers provider-reported total input/output tokens per accepted task without degrading completion or materially increasing time. The selection policy must be specified before the command executes; running it twice to decide whether to capture would hide extra work. Short outputs and dense test failures remain direct controls.
 
+The [natural historical development runs](../measurements/2026-09-24-natural-history-development.md) add a separate adherence gate. Click and packaging agents completed repairs but made no adapter calls even when ON produced several outputs above 6 KiB. Their higher ON token use measures the assigned instructions and divergent agent behavior, not receipt compression. A forced first-command SQLGlot probe is a distinct development treatment; it cannot be pooled with those unexecuted-adapter pairs as one mechanism estimate. The 300-second timeout in its first OFF arm left no `turn.completed` usage. A second SQLGlot series captured complete usage but ON made no repair while OFF passed 13/13, showing why lower token use without accepted quality is insufficient.
+
 The search tool now reports omitted long matches and supports a four-line window by 1-based line number, so a single matching line can lead to nearby evidence. These changes are component behavior only. A model must independently choose useful queries and produce an accepted repair for them to count as agent benefit. The three development pairs all used a task-specific 128-case diagnostic with one middle mismatch; changing the defect does not make that retrieval pattern independent. Confirmation must let agents choose diagnostics and allow the direct arm to use normal shell filtering.
 
 ## Confirmation design
@@ -48,7 +52,7 @@ The search tool now reports omitted long matches and supports a four-line window
    Keep a [proposal history and rejection ledger](2026-09-24-rrsi.md) across revisions, including failed hypotheses and the task families already exposed. Once outcomes from a supposedly held-out family guide another candidate, move that family to development and select a new untouched confirmation set.
 2. Define the population and enumerate candidate historical fixes before selecting tasks. Use independent root causes from several repositories and dates, cluster follow-up fixes/reverts of one incident, verify the parent fails and the historical fix passes, and publish selection seed and exclusions before ON/OFF outcomes. Export each parent tree into a fresh one-commit repository; keep future commits, golden patches, hidden checks, and tool paths that expose a fixed checkout outside agent-visible filesystem scope. A one-commit Git export alone does not enforce that scope; the [macOS isolation probe](../measurements/2026-09-24-agent-isolation-probe.md) is only a development check. Without Docker, report the native OS/toolchain/dependency and filesystem-isolation limits explicitly.
 3. Use three families: noisy build/dependency failures, multi-file API changes with misleading symbol matches, and upgrade/state-recovery defects. Include natural short-output and no-evidence controls and cases requiring multiple adjacent lines. Do not count permutations of one defect or the same 128-case diagnostic template as independent tasks. Issue-style prompts should state symptoms without requiring a particular diagnostic or edit file.
-4. Randomize OFF/ON order within each family and isolate working copies and Codex homes. OFF can use ordinary shell filtering and redirection. ON receives the same task plus a predeclared rule for when to use the adapter/search; the extra instructions, unused adapter opportunities, and fallbacks remain part of the treatment. Run the arms sequentially with equal budgets and record order and cache categories. A third receipt-with-raw-search arm can isolate bounded search on a smaller development subset.
+4. Randomize OFF/ON order within each family and isolate working copies and Codex homes. OFF can use ordinary shell filtering and redirection. ON receives the same task plus a predeclared rule for when to use the adapter/search; the extra instructions, unused adapter opportunities, and fallbacks remain part of the treatment. Predeclare and audit whether the adapter was actually invoked on the intended command. A pair with no ON invocation may inform instruction adherence but cannot identify receipt compression's effect. Run the arms sequentially with equal budgets and record order, timeouts, and cache categories. A third receipt-with-raw-search arm can isolate bounded search on a smaller development subset.
 5. Accept a task only with independent functional and regression checks covering the stated behavior, including relevant boundary combinations and negative controls. Test the verifier on the parent and historical fixed tree before running either arm. Evaluate patches in a clean copy outside the agent's workspace; a passing existing suite alone is insufficient. The CRLF pair shows why this gate is necessary.
 6. Primary outcome: for each arm, sum **all attempts'** provider-reported input plus output tokens and divide by the number of independently accepted tasks. Failures and timeouts remain in the numerator. Report cached, uncached, cache-write, and output tokens separately, plus the four paired success outcomes. Actual billed dollars remain unavailable unless a provider bill becomes available. Secondary outcomes: full elapsed time per accepted task, tool calls, artifact reads, repeated commands, first-result bytes, evidence found before editing, and local search work. Publish a symbolic price break-even inequality from category deltas; apply a price schedule only after verifying its provider, model, and date.
 7. Account for incomplete telemetry before analysis. `turn.completed` usage can be absent after interruption even when work was consumed; never substitute zero or silently drop a failed attempt. Predefine an auditable billing source or conservative missing-cost bounds. If neither is available, the corresponding economy claim remains unresolved. Keep infra failures distinct from task and treatment failures.
