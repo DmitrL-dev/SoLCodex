@@ -117,8 +117,10 @@ def checkpoint_snapshot(source: Path, root: Path) -> Path:
     raw = read_worker_file(source)
     root.mkdir(mode=0o700)
     path = root / "duration.py"
-    descriptor = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_CLOEXEC, 0o600)
+    # The host directory is private; the isolated evaluator runs as UID 65534.
+    descriptor = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_CLOEXEC, 0o644)
     try:
+        os.fchmod(descriptor, 0o644)
         with os.fdopen(descriptor, "wb") as stream:
             stream.write(raw)
             stream.flush()

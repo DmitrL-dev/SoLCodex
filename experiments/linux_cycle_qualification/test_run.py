@@ -18,7 +18,7 @@ class CheckpointCaptureTest(unittest.TestCase):
             snapshot = checkpoint_snapshot(worker, root / "trusted")
             worker.write_bytes(b"changed candidate\n")
             self.assertEqual(snapshot.read_bytes(), b"trusted candidate\n")
-            self.assertEqual(os.stat(snapshot).st_mode & 0o777, 0o600)
+            self.assertEqual(os.stat(snapshot).st_mode & 0o777, 0o644)
             self.assertEqual(os.stat(snapshot.parent).st_mode & 0o777, 0o700)
 
     def test_symlink_outside_worker_is_rejected(self) -> None:
