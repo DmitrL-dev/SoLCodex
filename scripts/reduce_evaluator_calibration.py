@@ -28,10 +28,12 @@ def strict_json(raw):
 
 
 def reduce(expected, observed, expected_raw):
-    if (expected.get('schema') != 'solcodex.evaluator-calibration-expectations.v1' or
+    version = expected.get('schema', '').rsplit('.', 1)[-1]
+    if (version not in ('v1', 'v2') or
+            expected.get('schema') != 'solcodex.evaluator-calibration-expectations.' + version or
             expected.get('status') != 'exposed_development_no_model' or
             expected.get('model_run_authorized') is not False or
-            observed.get('schema') != 'solcodex.evaluator-calibration-observations.v1' or
+            observed.get('schema') != 'solcodex.evaluator-calibration-observations.' + version or
             observed.get('scope') != expected['status'] or
             observed.get('expected_sha256') != hashlib.sha256(expected_raw).hexdigest() or
             observed.get('source_sha256') != expected['source_sha256']):
@@ -72,7 +74,9 @@ def reduce(expected, observed, expected_raw):
             differences.append('canaries')
         if row.get('source_unchanged') is not required['source_unchanged']:
             differences.append('source_unchanged')
-        if row.get('upstream_exit') != required['upstream_exit_code']:
+        expected_exit = (required['upstream_exit_code'] if version == 'v1'
+                         else want['upstream_exit'])
+        if type(row.get('upstream_exit')) is not int or row['upstream_exit'] != expected_exit:
             differences.append('upstream_exit')
         if name == 'import_time_spoof':
             if row.get('upstream_wire_error') is not want['upstream_wire_error']:
@@ -82,8 +86,16 @@ def reduce(expected, observed, expected_raw):
                 differences.append('upstream_valid')
             if row.get('upstream_passed') is not want['upstream_passed']:
                 differences.append('upstream_passed')
-            if len(row['case_pass_vector']) != len(expected['expected'][task]['case_order']):
+            if (not isinstance(row.get('case_pass_vector'), list) or
+                    len(row['case_pass_vector']) != len(expected['expected'][task]['case_order'])):
                 differences.append('case_count')
+            if version == 'v2':
+                for key in ('upstream_inventory_sha256', 'upstream_failed_call_ids_sha256',
+                            'upstream_failed_call_count', 'upstream_unexpected_skips'):
+                    if row.get(key) != want[key]:
+                        differences.append(key)
+                if type(row.get('upstream_failed_call_count')) is not int:
+                    differences.append('upstream_failed_call_count_type')
         if differences:
             mismatches[name] = differences
     passed = not mismatches

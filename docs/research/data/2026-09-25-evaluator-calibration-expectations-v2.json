@@ -1,0 +1,242 @@
+{
+  "cleanup_checks": {
+    "persistent_external_open_handle": "cleanup_rejected",
+    "temporary_external_open_handle": "cleanup_verified"
+  },
+  "control_tree_sha256": {
+    "click": {
+      "gold": "679fc9073900f0184ca13aded1a70eaec9934525f792eb3ba512f6eccae7dd15",
+      "gold_source": "709a177312bf523524f39aa0255d3513ed88fa4d27f07f85a70ef979ac8e4ed8",
+      "parent": "6ab22715612fbcf9b079787f1589018a67c40f284de34b63ba18dce71487bbe3",
+      "wrong": "9ef6c0600f663e36dd8abd25e18ab8f4d7d9a20dd78e5dcfd57e06ba3c676ad7"
+    },
+    "import_time_spoof": "131d79b11f4260a678c8c63394476d2e046ebd0f07eb647fbd61d4adcc26f559",
+    "packaging": {
+      "gold": "ad9f932ad4671fa1c3d080fc96bc042722c88d6bdfd06bf15ed7590b7841d62d",
+      "gold_source": "84c36ca84b88ac65f5b3e35441dcfdb0467c313f0bfff2742ed2e27738af9355",
+      "parent": "1ac9eb290502fbf5b3425d790e4b00b0cb17112f4940fabaa80544f4078f5045",
+      "wrong": "607c7f277ab7b7ff9bbe94a77feb5e6aee3f3e131cc3abc63d06d71d14b509b5"
+    }
+  },
+  "expected": {
+    "click": {
+      "case_order": [
+        "direct_exception",
+        "scope_exception",
+        "nested_inner_suppresses",
+        "nested_outer_suppresses",
+        "nested_unsuppressed",
+        "cli_transaction_rollback",
+        "successful_exit",
+        "explicit_close",
+        "context_reuse"
+      ],
+      "gold": {
+        "case_pass_vector": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "quality": true,
+        "status": "pass",
+        "upstream_exit": 0,
+        "upstream_failed_call_count": 0,
+        "upstream_failed_call_ids_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "upstream_inventory_sha256": "284df0c9cb1f923d58911a2d92d924d58a21ffda121d56eb7a59c987cb53c3a4",
+        "upstream_passed": true,
+        "upstream_unexpected_skips": []
+      },
+      "parent": {
+        "case_pass_vector": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          true,
+          true,
+          true
+        ],
+        "quality": false,
+        "status": "fail",
+        "upstream_exit": 1,
+        "upstream_failed_call_count": 1,
+        "upstream_failed_call_ids_sha256": "6fced4234a0a1f38e8bca138f937a1cf352b92408486154f3ee7f073050b5b14",
+        "upstream_inventory_sha256": "284df0c9cb1f923d58911a2d92d924d58a21ffda121d56eb7a59c987cb53c3a4",
+        "upstream_passed": false,
+        "upstream_unexpected_skips": []
+      },
+      "wrong": {
+        "case_pass_vector": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          true,
+          true,
+          true
+        ],
+        "quality": false,
+        "status": "fail",
+        "upstream_exit": 1,
+        "upstream_failed_call_count": 1,
+        "upstream_failed_call_ids_sha256": "6fced4234a0a1f38e8bca138f937a1cf352b92408486154f3ee7f073050b5b14",
+        "upstream_inventory_sha256": "284df0c9cb1f923d58911a2d92d924d58a21ffda121d56eb7a59c987cb53c3a4",
+        "upstream_passed": false,
+        "upstream_unexpected_skips": []
+      }
+    },
+    "import_time_spoof": {
+      "case_pass_vector": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "quality": null,
+      "status": "unknown",
+      "upstream_exit": 0,
+      "upstream_wire_error": true
+    },
+    "packaging": {
+      "case_order": [
+        "nested-single",
+        "nested-whitespace",
+        "nested-and-or",
+        "nested-with",
+        "nested-ref",
+        "metadata-nested",
+        "simple",
+        "single-parens",
+        "invalid-1",
+        "invalid-2",
+        "invalid-3",
+        "invalid-4",
+        "invalid-5",
+        "invalid-6"
+      ],
+      "gold": {
+        "case_pass_vector": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "quality": true,
+        "status": "pass",
+        "upstream_exit": 0,
+        "upstream_failed_call_count": 0,
+        "upstream_failed_call_ids_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "upstream_inventory_sha256": "6da92136adbe79c030efa193028fb9190341e8e7203ce1c40efe24b9470111da",
+        "upstream_passed": true,
+        "upstream_unexpected_skips": []
+      },
+      "parent": {
+        "case_pass_vector": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "quality": false,
+        "status": "fail",
+        "upstream_exit": 1,
+        "upstream_failed_call_count": 1,
+        "upstream_failed_call_ids_sha256": "91f7f2a6f48fecd4147002c52ef3e70eecd49069c352d41d6bd1ab538e4d59bf",
+        "upstream_inventory_sha256": "6da92136adbe79c030efa193028fb9190341e8e7203ce1c40efe24b9470111da",
+        "upstream_passed": false,
+        "upstream_unexpected_skips": []
+      },
+      "wrong": {
+        "case_pass_vector": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          true,
+          false,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true
+        ],
+        "quality": false,
+        "status": "fail",
+        "upstream_exit": 1,
+        "upstream_failed_call_count": 13,
+        "upstream_failed_call_ids_sha256": "e02c245d1f086f0e5ce5ea29c9742d119a2f35b80306a75c46d2866c9aed81d3",
+        "upstream_inventory_sha256": "6da92136adbe79c030efa193028fb9190341e8e7203ce1c40efe24b9470111da",
+        "upstream_passed": false,
+        "upstream_unexpected_skips": []
+      }
+    }
+  },
+  "limitations": "Adaptive exposed-task development calibration. First frozen run remains failed. This does not qualify the full measurement path, adversarial Python isolation, or plugin savings.",
+  "model_run_authorized": false,
+  "required_for_all_controls": {
+    "isolation_canaries": true,
+    "source_unchanged": true
+  },
+  "revision_of": "a7641d0",
+  "revision_reason": "First frozen run failed: negative controls legitimately had upstream failures; one control was rejected on transient open-handle uncertainty. Exact observed failure-set hashes now form adaptive development expectations.",
+  "runtime": {
+    "evaluator_venv_tree_sha256": "5a9a72a2ee60a188ac820f73b0baefc591926e0c6b72b8f1849d315bfb69640c",
+    "host_python": "3.12.14"
+  },
+  "schema": "solcodex.evaluator-calibration-expectations.v2",
+  "source_sha256": {
+    "assets_lock": "e61fee1904c164eabcba731a509394d45b9dbf8b6d517c4b7e39380aac40fd90",
+    "calibration_runner": "3fa79e7499a67ac6dd40ec4bde9ba232053180389e59ad3f139e7ebcc3e53f2c",
+    "click_verifier": "12e844a5a801e6d1cc233c893472b5ac1a24d59beb1d313be2e91bc132b1b111",
+    "evaluator": "0706611b51ce9d4ea1d56d1973868f0a04d26441f658ee204d2747f5986a6922",
+    "isolation": "1d066b85412899338bde0a350adf74331515b6c1a0799cfac164e1df9209de7f",
+    "packaging_verifier": "841776fda08a41df4f0c652dda02a0b440d8b08dbaf5e16231520d3dcc1d4324",
+    "reducer": "aa4deca311362eb42e0d81b9e24dff265b045d25ee99365d782227c22b977a83",
+    "safe_tree": "d308e37c198afbd5bd7d13c5dcd030ef665210f3e979cdad046a5d8755d84b43",
+    "snapshot": "016d29cd0f24141478eeab6d8b1d0e94228a22de2754a40bf8d01d01a1189e9c"
+  },
+  "status": "exposed_development_no_model"
+}
