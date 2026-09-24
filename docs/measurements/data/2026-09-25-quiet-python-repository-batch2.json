@@ -1,0 +1,28 @@
+{
+  "ancestry_independently_verified": false,
+  "base_probe_code_sha256": "1009199b4e8bdb5ab53ea9335a9cbdbb9b8f811c07e888e2b8a3de9deda0b35f",
+  "batch_code_sha256": "dab7e6ac7930eaf917452a9b0d0769c190b59bdf45b1c42ef0926b325222b5fe",
+  "batch_repository_count": 40,
+  "batch_start_index": 20,
+  "casefold_name_difference_count": 0,
+  "first_batch_repository_count": 20,
+  "fork_true_count": 0,
+  "http_attempt_count": 40,
+  "journal_sha256": "4f4e2fea0f74763bd7a1279c10a6082281284c806faf9f674e655750eff786e0",
+  "model_run_authorized": false,
+  "observed_batch_entry_count": 40,
+  "parent_present_count": 0,
+  "projection_sha256": "4c5848034925a17d81b9423988391231e04f36305421cac94f6589dd4b674020",
+  "queue_sha256": "4b8e2896cb28d2e44f5d33715946100f3a672a326a4a97a5939b05bbd1637171",
+  "redirect_observed_count": 5,
+  "redirect_to_api_github_count": 5,
+  "response_status_counts": {
+    "200": 35,
+    "301": 5
+  },
+  "sample_selected": false,
+  "schema": "solcodex.quiet-python-repository-batch2-aggregate.v1",
+  "source_present_count": 0,
+  "total_observed_prefix_count": 60,
+  "valid_200_metadata_count": 35
+}
