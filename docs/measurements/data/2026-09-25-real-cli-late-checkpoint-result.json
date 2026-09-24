@@ -1,0 +1,108 @@
+{
+  "bridge_stopped": true,
+  "broker_attempts": 3,
+  "broker_stopped": true,
+  "checkpoint_status": "captured",
+  "checkpoint_tree_sha256": "ad9f932ad4671fa1c3d080fc96bc042722c88d6bdfd06bf15ed7590b7841d62d",
+  "cleanup_verified": true,
+  "diagnostic_signature": true,
+  "exit_code": -15,
+  "expectations_sha256": "ce73449e4e30e746aec624f208080cc92703af62655dcf866fa57ae7842b0a90",
+  "first_command": {
+    "commands_observed": 1,
+    "first_command_completed": true,
+    "first_command_exact": true,
+    "first_exit_code": 1,
+    "malformed_lines": 0,
+    "other_prior_actions": [],
+    "status": "observed",
+    "trace_complete": false
+  },
+  "gold_tree_sha256": "ad9f932ad4671fa1c3d080fc96bc042722c88d6bdfd06bf15ed7590b7841d62d",
+  "late_completion_after_runner": true,
+  "provider_errors": 0,
+  "provider_requests": 3,
+  "quality_report_sha256": "35f504349ba9c1065eaedf0f17f417960f42e387a409f555bfbc68fc6fcd4907",
+  "quality_status": "pass",
+  "reconciliation_complete": true,
+  "request_items": [
+    [],
+    [
+      {
+        "call_id": "call_synthetic_1",
+        "type": "custom_tool_call"
+      },
+      {
+        "call_id": "call_synthetic_1",
+        "type": "custom_tool_call_output"
+      }
+    ],
+    [
+      {
+        "call_id": "call_synthetic_1",
+        "type": "custom_tool_call"
+      },
+      {
+        "call_id": "call_synthetic_1",
+        "type": "custom_tool_call_output"
+      },
+      {
+        "call_id": "call_synthetic_2",
+        "type": "custom_tool_call"
+      },
+      {
+        "call_id": "call_synthetic_2",
+        "type": "custom_tool_call_output"
+      }
+    ]
+  ],
+  "schema": "solcodex.real-cli-late-checkpoint-observations.v1",
+  "scope": "exploratory_no_model_real_cli_late_checkpoint",
+  "source_unchanged": false,
+  "technical_ok": true,
+  "third_request_seen": true,
+  "timed_out": true,
+  "trace_event_shapes": [
+    [
+      "thread.started",
+      null,
+      null
+    ],
+    [
+      "turn.started",
+      null,
+      null
+    ],
+    [
+      "item.started",
+      "command_execution",
+      "in_progress"
+    ],
+    [
+      "item.completed",
+      "command_execution",
+      "failed"
+    ],
+    [
+      "item.started",
+      "file_change",
+      "in_progress"
+    ],
+    [
+      "item.completed",
+      "file_change",
+      "completed"
+    ]
+  ],
+  "trace_sha256": "5ae7e2d0bd239e2c3747c833eb1a16971ef9e454f3cf00c0808970365ca529fc",
+  "upstream_states": {
+    "completed": 3,
+    "pending": 0,
+    "unknown": 0
+  },
+  "usage": {
+    "cached_input_tokens": 195,
+    "input_tokens": 390,
+    "output_tokens": 90
+  }
+}
