@@ -1,0 +1,19 @@
+{
+  "cases": [
+    "nonzero_child",
+    "timeout",
+    "unsafe_storage",
+    "retrieval_and_hash_mismatch"
+  ],
+  "expectation": "Control script fails closed before writing result if any case violates its assertions.",
+  "model_run_authorized": false,
+  "package_sha256": {
+    ".codex-plugin/plugin.json": "e712a6498410592191aa34f1987e89353bcbb13c672ab224bb498812e83da7ae",
+    "scripts/receipt_command.py": "2c472a4dc54149aa4335c077191a0214bfeff55b53ae4dd03cf972492a16fbf8",
+    "scripts/receipt_search.py": "1cdbe1278e59e20655b66dc366f1e962bc2418907c4d3d5e8011d45b937abb4c",
+    "skills/explicit-receipts/SKILL.md": "dbfac94b3098b2672d331be21ff49deeb87fd6846786f6274dc60b509201c790"
+  },
+  "schema": "solcodex.installed-negative-plan.v1",
+  "script_sha256": "38134ee9c75440d91ae0ede6dcf691e90ba5cf482669ca0f1c4d71cc8faf7fd2",
+  "status": "prospective_local_no_model_controls"
+}
