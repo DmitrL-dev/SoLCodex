@@ -42,10 +42,14 @@ class ScriptedWorkerTest(unittest.TestCase):
             canaries.update({"UPSTREAM_GATEWAY": "127.0.0.1", "UPSTREAM_PORT": "1"})
             output = io.StringIO()
             original_path = Path
-            with (patch.dict(os.environ, canaries),
+            with (patch.dict(os.environ, canaries, clear=True),
                   patch.object(sys, "argv", ["worker", scenario]),
                   patch.object(scripted_worker, "Path",
-                               side_effect=lambda value: work if value == "/work" else original_path(value)),
+                               side_effect=lambda value: (
+                                   work if value == "/work" else
+                                   work / "socket-absent" if value == "/var/run/docker.sock" else
+                                   original_path(value))),
+                  patch.object(scripted_worker.os, "geteuid", return_value=1000),
                   patch.object(scripted_worker, "direct_upstream_denied", return_value=True),
                   patch.object(scripted_worker, "urlopen", return_value=Response(body)),
                   redirect_stdout(output)):
