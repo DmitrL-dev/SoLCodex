@@ -1,0 +1,35 @@
+{
+  "observations": {
+    "nonzero_child": {
+      "artifact_hash_verified": true,
+      "capture_complete": true,
+      "child_executions": 1,
+      "child_exit_code": 7,
+      "wrapper_exit_code": 7
+    },
+    "retrieval": {
+      "artifact_hash_verified": true,
+      "child_executions": 1,
+      "found_line": 65,
+      "receipt_omitted_needed_line": true,
+      "search_result_bytes": 279,
+      "wrong_hash_rejected": true
+    },
+    "timeout": {
+      "artifact_hash_verified": true,
+      "capture_complete": false,
+      "child_executions": 1,
+      "status": "timeout",
+      "wrapper_exit_code": 124
+    },
+    "unsafe_storage": {
+      "capture_complete": false,
+      "child_executions": 0,
+      "status": "capture_error",
+      "wrapper_exit_code": 125
+    }
+  },
+  "plan_sha256": "515130ece1b86fc56cb2e1d0b2be65215961b1400e00223f1293b6e29f2bcc50",
+  "schema": "solcodex.installed-negative-result.v1",
+  "scope": "local_no_model_installed_copy"
+}
