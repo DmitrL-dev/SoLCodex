@@ -1,0 +1,29 @@
+--- a/tests/test_context.py
++++ b/tests/test_context.py
+@@ -545,0 +546,26 @@
++
++
++def test_resource_exit_receives_original_exception():
++    class Manager:
++        def __init__(self):
++            self.exit_info = None
++
++        def __enter__(self):
++            return self
++
++        def __exit__(self, typ, value, tb):
++            self.exit_info = (typ, value, tb)
++            return False
++
++    manager = Manager()
++    ctx = click.Context(click.Command("probe"))
++    cause = RuntimeError("resource failure")
++    with pytest.raises(RuntimeError) as caught:
++        with ctx.scope():
++            ctx.with_resource(manager)
++            raise cause
++    assert caught.value is cause
++    assert manager.exit_info is not None
++    assert manager.exit_info[0] is RuntimeError
++    assert manager.exit_info[1] is cause
++    assert manager.exit_info[2] is not None

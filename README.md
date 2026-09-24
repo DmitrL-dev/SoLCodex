@@ -69,6 +69,8 @@ A [next-request probe](docs/measurements/2026-09-24-next-request-boundary-develo
 
 An [exposed packaging repair pair](docs/measurements/2026-09-24-packaging-prehook-repair-development.md) tested the temporary rewrite in a complete repair. Both patches matched the historical fix's AST and passed external checks, but the receipt run used 45.8% more proxy-observed input/output tokens and took 88.7% longer. The original adherence gate was revised after both runs, so this is development evidence, not a confirmatory saving.
 
+An [exposed Click selector repair pair](docs/measurements/2026-09-24-click-selector-repair-development.md) found that a revised receipt preview showed the decisive pytest failure but its patch passed only 7/9 external behavior checks, versus 9/9 for the old selector. The revised run used 11.4% more observed tokens and took 49.0% longer. This is a negative development result, not a general efficiency estimate.
+
 A separate [packaged-plugin request probe](docs/measurements/2026-09-24-packaged-plugin-request-development.md) found that the public 0.1.9 hook recorded 6,967 local `saved_bytes` while an output-only marker from the verifier result still reached the next model request. Local packing counters must not be read as model-input savings.
 
 The [independent confirmation draft](docs/research/2026-09-24-confirmation-campaign-draft.md) specifies a once-only 360-task planning target, stronger verifier qualification, isolation, and request accounting. It is a design, not completed evidence.

@@ -1,0 +1,33 @@
+{
+  "arm_differences": "old adapter at 5079223 vs new adapter at 254ac77; same prompt template, fixture and verifier",
+  "arm_order": [
+    "old",
+    "new"
+  ],
+  "design_status": "frozen before first repair arm after read-only review and repeated old/new live smoke",
+  "freeze_utc": "2026-09-24T09:57:19.016413+00:00",
+  "hashes": {
+    "audit.py": "265328cc04aadeee01dacacf90faf8bef7b6b1c10999855a445a13d587640f29",
+    "broker_route.py": "49017c049434646ebd79b49270b74b059c4b1e0e4e6b7bd1d3701c24b274868e",
+    "evaluate.py": "23394256d6377a562422ad0e519b2244c0885281a87c809ef8912802f7d16d3b",
+    "fixture/tests/test_context.py": "3314c5d3244d35089c86d6b0bae53895763e86cab6327049e65b86107e07a74b",
+    "pilot.py": "edda1f40ab3d830a38f2ed64f4fede3ffc837e7a6072ee952ce039bf4bed4ee1",
+    "safe_tree.py": "d308e37c198afbd5bd7d13c5dcd030ef665210f3e979cdad046a5d8755d84b43"
+  },
+  "limitations": [
+    "exposed task family",
+    "nonrandom fixed order",
+    "one pair",
+    "provider billing unavailable"
+  ],
+  "new_adapter_rev": "254ac778de8f2b35d65d1b4822f5935ec7f81024",
+  "new_adapter_sha256": "2c472a4dc54149aa4335c077191a0214bfeff55b53ae4dd03cf972492a16fbf8",
+  "old_adapter_rev": "507922341cb8cda56cd07d6b50983cbdb2b4265a",
+  "old_adapter_sha256": "067ee9df409b84f52da3646df69c693253d9de2e46c8d9da0ed9df3507f80f1d",
+  "preflight": "old/new live smoke passed complete receipt, hook, canaries, broker ledger; no repair arm yet",
+  "primary_cost": "broker observed completed usage tokens per arm, all requests accounted; elapsed secondary",
+  "primary_quality": "host external verifier 9/9 and full upstream pytest no failures",
+  "review_resolution": "hash binding, accepted connections, process-group cleanup, nonblocking anchored reads",
+  "study": "exposed Click #2447 selector development pair",
+  "verifier_sha256": "12e844a5a801e6d1cc233c893472b5ac1a24d59beb1d313be2e91bc132b1b111"
+}

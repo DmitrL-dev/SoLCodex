@@ -1,0 +1,158 @@
+{
+  "adapter_revisions": {
+    "new": "254ac778de8f2b35d65d1b4822f5935ec7f81024",
+    "old": "507922341cb8cda56cd07d6b50983cbdb2b4265a"
+  },
+  "confirmatory_pair": false,
+  "declared_model": "gpt-6-luna",
+  "declared_reasoning_effort": "low",
+  "historical_fix_external_checks": "9/9",
+  "historical_fix_revision": "36deba8a95a2585de1a2aa4475b7f054f52830ac",
+  "independent_task": false,
+  "installed_solcodex_plugin": false,
+  "new_minus_old": {
+    "agent_elapsed_seconds": 55.469,
+    "cached_input_tokens": 41984,
+    "command_executions": -1,
+    "input_plus_output_tokens": 25735,
+    "output_tokens": 1601,
+    "uncached_input_tokens": -17850
+  },
+  "parent_external_checks": "3/9",
+  "parent_revision": "16fe802a3f96c4c8fa3cd382f1a7577fda0c5321",
+  "protocol_sha256": "2d169ef2d4bb923e74d404881756bf85b2381305f1df7b2ebbd13878a5e0e576",
+  "provider_billing_complete": false,
+  "run_order": [
+    "old",
+    "new"
+  ],
+  "runs": {
+    "new": {
+      "accepted": false,
+      "agent_elapsed_seconds": 168.66,
+      "changed_paths": [
+        "src/click/core.py"
+      ],
+      "changed_source_ast_sha256": "934b193d68c7523c371dbae08ddbff2c528513058ecb56310d8d0b044a337f32",
+      "changed_source_sha256": "d9de2f4cb3f7836d019351a678ead565a6feb9bc518ff547c47d836fc4cf2978",
+      "command_executions": 16,
+      "completed_requests": 17,
+      "diagnostic_executions": 2,
+      "evidence_sha256": {
+        "audit": "1309cb3ef7d1b54a9bd3ca5b68718284cbee9683fb8fc30485e301ae1d58a572",
+        "delta": "d063e68c30d4026b3c47f372e7934b18996b5ddfb402806531fa0f0e73deae3c",
+        "design": "daf30aa3ec559b58dcea4d35af3f37cf0f251321d549b17965574eca2b04dd8a",
+        "evaluation": "2644db73a3f260aba187dfc19a719e0eb7ce12dba463a8f865ce979255bf049d",
+        "external_stdout": "607987cabaf990b9418f551b8adb666512c0ca7bcde269a1d5d4f5218c32cd35",
+        "process": "500a20492ca8f046d36a9f1a46c46821a123262e7d88c83bcc5a8f46edd5e208",
+        "proxy_summary": "688631a5f2855f2e04e8cc178bc3827f5dbe0aaac2c4069c1b3afcf9a136b514",
+        "trace": "5289f55be0588452b0f9e096f9abbdc01ebcff2c00d13ad8110369b0422d2521"
+      },
+      "external_case_results": {
+        "cli_transaction_rollback": true,
+        "context_reuse": true,
+        "direct_exception": true,
+        "explicit_close": true,
+        "nested_inner_suppresses": false,
+        "nested_outer_suppresses": false,
+        "nested_unsuppressed": true,
+        "scope_exception": true,
+        "successful_exit": true
+      },
+      "external_checks_passed": 7,
+      "external_checks_total": 9,
+      "first_diagnostic_lines": [
+        1337,
+        1338,
+        1339,
+        1340,
+        1344,
+        64
+      ],
+      "first_model_visible_result_bytes": 1789,
+      "first_saved_output_bytes": 121684,
+      "first_saved_output_sha256": "27ade78acee08b3726e263b92db6085eab3162c7a6de6dd145db28cc6c5a5cce",
+      "hook_exact_matches": 2,
+      "provider_observed_usage": {
+        "cached_input_tokens": 140032,
+        "input_plus_output_tokens": 250614,
+        "input_tokens": 245906,
+        "output_tokens": 4708,
+        "uncached_input_tokens": 105874
+      },
+      "qualified": true,
+      "upstream_result": "1283 passed, 22 skipped, 1 xfailed in 1.88s"
+    },
+    "old": {
+      "accepted": true,
+      "agent_elapsed_seconds": 113.191,
+      "changed_paths": [
+        "src/click/core.py"
+      ],
+      "changed_source_ast_sha256": "7ac02d305179e11415f78f13239f297646f1a782ad0a2d74f33c2d3a020497c2",
+      "changed_source_sha256": "5208b73d0530b3240d4d9f2b1d8064c932a71bfcdf02dbc38bc64d4cc212d94c",
+      "command_executions": 17,
+      "completed_requests": 15,
+      "diagnostic_executions": 2,
+      "evidence_sha256": {
+        "audit": "3521911aa95053b3e37200694936f2c9dd73739654a55436f6d1b94fb70e98ee",
+        "delta": "76cd725b1c832c4be3768519aa93cacb7d2e9e38785c951ad6daaeaf0f6b633e",
+        "design": "6e4124934c5e428701534fd82f8c378e6093d648ecd0e3e24833fbc9731e3366",
+        "evaluation": "4d2022966c38053397ac901f633372df1144e151fc4bedc542688597b8fff900",
+        "external_stdout": "7ef796983a74af473de63d36dc2f742e22459acc20d85da6ff63cfd2eb424c41",
+        "process": "3b99fb1b75b1560a3d10a488c0eb94548349523bb324bce1fa979e0fec58ec92",
+        "proxy_summary": "0d8cebbcc84adfcf6ea839e1da3e4bbd306947e04f91461d8d05e74edf279296",
+        "trace": "76006ade39c8130f8f9116e19b590d2224412400df85dc9657627bf4b77d2d54"
+      },
+      "external_case_results": {
+        "cli_transaction_rollback": true,
+        "context_reuse": true,
+        "direct_exception": true,
+        "explicit_close": true,
+        "nested_inner_suppresses": true,
+        "nested_outer_suppresses": true,
+        "nested_unsuppressed": true,
+        "scope_exception": true,
+        "successful_exit": true
+      },
+      "external_checks_passed": 9,
+      "external_checks_total": 9,
+      "first_diagnostic_lines": [
+        64,
+        65,
+        66,
+        67,
+        68,
+        69
+      ],
+      "first_model_visible_result_bytes": 2201,
+      "first_saved_output_bytes": 121684,
+      "first_saved_output_sha256": "a250ed95e105a97433b15504a5c000a84ae30bde42134ff2ca0220c5cc27a9f1",
+      "hook_exact_matches": 2,
+      "provider_observed_usage": {
+        "cached_input_tokens": 98048,
+        "input_plus_output_tokens": 224879,
+        "input_tokens": 221772,
+        "output_tokens": 3107,
+        "uncached_input_tokens": 123724
+      },
+      "qualified": true,
+      "upstream_result": "1283 passed, 22 skipped, 1 xfailed in 1.88s"
+    }
+  },
+  "schema": "solcodex.click-selector-repair-development.v1",
+  "shared_design_sha256": {
+    "audit_sha256": "265328cc04aadeee01dacacf90faf8bef7b6b1c10999855a445a13d587640f29",
+    "broker_sha256": "49017c049434646ebd79b49270b74b059c4b1e0e4e6b7bd1d3701c24b274868e",
+    "evaluate_sha256": "23394256d6377a562422ad0e519b2244c0885281a87c809ef8912802f7d16d3b",
+    "external_verifier_sha256": "12e844a5a801e6d1cc233c893472b5ac1a24d59beb1d313be2e91bc132b1b111",
+    "fixture_files_sha256": "8463798982396677c919e1a7020e6af5c5b204cdce060ea42143095d4c584a9a",
+    "fixture_tree": "4daccffdd8d5f7820b4775891b6e8b8819fd09c1",
+    "pilot_sha256": "edda1f40ab3d830a38f2ed64f4fede3ffc837e7a6072ee952ce039bf4bed4ee1",
+    "prompt_template_sha256": "74aecd8a808a4d6e5e3d11a51a21423f40313287b64192639c12f03f1d54504f",
+    "safe_tree_sha256": "d308e37c198afbd5bd7d13c5dcd030ef665210f3e979cdad046a5d8755d84b43",
+    "search_sha256": "1cdbe1278e59e20655b66dc366f1e962bc2418907c4d3d5e8011d45b937abb4c"
+  },
+  "task": "exposed Click #2447",
+  "temporary_prehook_plugin": true
+}
