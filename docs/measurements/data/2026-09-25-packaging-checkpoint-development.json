@@ -1,0 +1,16 @@
+{
+  "alternate_passed": [
+    14,
+    14
+  ],
+  "alternate_tree_sha256": "bd7fed69abdd63f098f854efdff96f391207fbce8f82063e5c53b4b66d9a7e1c",
+  "gold_passed": 14,
+  "model_requests": 0,
+  "parent_passed": 8,
+  "protocol_sha256": "c99137187e3030d000105f4f85011737cfbc31f19382ce0b15c1892240863bf9",
+  "provider_billing_complete": false,
+  "scenarios_passed": 6,
+  "schema": "solcodex.packaging-checkpoint-development-aggregate.v1",
+  "target_worker_qualified": false,
+  "wrong_fix_passed": 10
+}
