@@ -1,6 +1,6 @@
 # Independent confirmation campaign: preregistration draft (2026-09-24)
 
-**Status: design only.** No task IDs have been selected, no held-out outcome has been inspected, and no confirmatory run is authorized by this document. The design was challenged by a separate Astra review after the [natural-history development failures](../measurements/2026-09-24-natural-history-development.md). Freeze the manifest, code, verifier, analysis, and infrastructure before the first arm. If qualification fails, revise the design before looking at treatment outcomes.
+**Status: design only.** A [development exposure list and metadata-only ranking gate](2026-09-24-candidate-ranking.md) are now published. Six dataset preview rows displayed gold/test snippets and were excluded by lineage before selection. No task IDs have been selected from the remaining pool, and no confirmatory run is authorized by this document. The design was challenged by a separate Astra review after the [natural-history development failures](../measurements/2026-09-24-natural-history-development.md). Freeze the manifest, code, verifier, analysis, and infrastructure before the first arm. If qualification fails, revise the design before looking at treatment outcomes.
 
 ## Estimand and boundary
 

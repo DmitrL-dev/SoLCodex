@@ -1,0 +1,94 @@
+{
+  "schema": "solcodex.development-exposure.v1",
+  "selection_seed": "solcodex-confirm-2026-09-24-v1",
+  "candidate_source": "nebius/SWE-rebench-V2",
+  "candidate_revision": "475dd5e8703bb5fb22dd3c60b5d038b019eba1e0",
+  "lineages": [
+    {
+      "id": "solcodex",
+      "repositories": ["DmitrL-dev/SoLCodex"],
+      "evidence": [
+        "docs/measurements/2026-09-24-real-repo-pilot.md",
+        "docs/measurements/2026-09-24-bounded-search-development.md",
+        "docs/measurements/2026-09-24-cache-boundary-development.md",
+        "docs/measurements/2026-09-24-historical-crlf-development.md"
+      ]
+    },
+    {
+      "id": "click",
+      "repositories": ["pallets/click"],
+      "evidence": ["docs/measurements/2026-09-24-natural-history-development.md"]
+    },
+    {
+      "id": "packaging",
+      "repositories": ["pypa/packaging"],
+      "evidence": ["docs/measurements/2026-09-24-natural-history-development.md"]
+    },
+    {
+      "id": "sqlglot",
+      "repositories": ["tobymao/sqlglot"],
+      "evidence": ["docs/measurements/2026-09-24-natural-history-development.md"]
+    },
+    {
+      "id": "sympy",
+      "repositories": ["sympy/sympy"],
+      "evidence": ["docs/measurements/2026-09-24-natural-history-development.md"]
+    },
+    {
+      "id": "dataset-preview-elastic-synthetics",
+      "repositories": ["elastic/synthetics"],
+      "preview_instance_id": "elastic__synthetics-316",
+      "evidence": ["https://huggingface.co/datasets/nebius/SWE-rebench-V2"]
+    },
+    {
+      "id": "dataset-preview-wtforms",
+      "repositories": ["wtforms/wtforms"],
+      "preview_instance_id": "wtforms__wtforms-614",
+      "evidence": ["https://huggingface.co/datasets/nebius/SWE-rebench-V2"]
+    },
+    {
+      "id": "dataset-preview-copy-webpack-plugin",
+      "repositories": ["webpack-contrib/copy-webpack-plugin"],
+      "preview_instance_id": "webpack-contrib__copy-webpack-plugin-590",
+      "evidence": ["https://huggingface.co/datasets/nebius/SWE-rebench-V2"]
+    },
+    {
+      "id": "dataset-preview-crawler-commons",
+      "repositories": ["crawler-commons/crawler-commons"],
+      "preview_instance_id": "crawler-commons__crawler-commons-227",
+      "evidence": ["https://huggingface.co/datasets/nebius/SWE-rebench-V2"]
+    },
+    {
+      "id": "dataset-preview-cxx",
+      "repositories": ["dtolnay/cxx"],
+      "preview_instance_id": "dtolnay__cxx-839",
+      "evidence": ["https://huggingface.co/datasets/nebius/SWE-rebench-V2"]
+    },
+    {
+      "id": "dataset-preview-shadow",
+      "repositories": ["GradleUp/shadow"],
+      "preview_instance_id": "gradleup__shadow-1448",
+      "evidence": ["https://huggingface.co/datasets/nebius/SWE-rebench-V2"]
+    },
+    {
+      "id": "rrsi-research-code",
+      "repositories": ["google-research/rrsi"],
+      "evidence": ["docs/research/2026-09-24-rrsi.md"]
+    },
+    {
+      "id": "codex-research-code",
+      "repositories": ["openai/codex"],
+      "evidence": ["docs/research/2026-09-24-hook-result-boundary.md"]
+    },
+    {
+      "id": "unreal-agent-research-code",
+      "repositories": ["unreallabsai/unreal-agent"],
+      "evidence": ["docs/research/2026-09-24-unreal-agent.md"]
+    },
+    {
+      "id": "sol-pi-inspiration",
+      "repositories": ["NVlabs/SoL-Pi"],
+      "evidence": ["README.md"]
+    }
+  ]
+}

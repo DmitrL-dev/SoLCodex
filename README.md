@@ -67,6 +67,8 @@ The [hook result boundary study](docs/research/2026-09-24-hook-result-boundary.m
 
 The [independent confirmation draft](docs/research/2026-09-24-confirmation-campaign-draft.md) specifies a once-only 360-task planning target, stronger verifier qualification, isolation, and request accounting. It is a design, not completed evidence.
 
+The [metadata-only candidate ranking gate](docs/research/2026-09-24-candidate-ranking.md) publishes prior development exposures and a strict ranking script before any held-out task rows are inspected. No candidate IDs or outcomes have been selected.
+
 The [OTel usage probes](docs/measurements/2026-09-24-otel-usage-boundary.md) found WebSocket startup usage outside CLI turn totals and missing usage after abrupt termination. Published aggregates and a sanitized parser preserve these limits; they are not provider billing records.
 
 An [HTTP proxy development probe](docs/measurements/2026-09-24-http-proxy-usage-development.md) observed final response usage after the CLI was killed. A live SQLite journal preserved that case, while killing the proxy after upstream HTTP 200 left a pending request with unknown usage. None of these results validates provider billing or general savings.

@@ -48,6 +48,17 @@ jobs:
         env:
           PYTHONDONTWRITEBYTECODE: "1"
         run: python -m unittest scripts.test_audit_proxy_probe scripts.test_usage_attempt_ledger -v
+      - name: Test candidate ranking gate
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python -m unittest scripts.test_rank_confirm_candidates -v
+      - name: Test projected candidate export
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: |
+          python -m pip install -r scripts/requirements-candidate-export.txt
+          python -m unittest scripts.test_export_swe_rebench_metadata -v
       - name: Test explicit command receipt prototype
         env:
           PYTHONDONTWRITEBYTECODE: "1"
@@ -111,6 +122,10 @@ jobs:
         env:
           PYTHONDONTWRITEBYTECODE: "1"
         run: python -m unittest scripts.test_audit_proxy_probe scripts.test_usage_attempt_ledger -v
+      - name: Test candidate ranking gate
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python -m unittest scripts.test_rank_confirm_candidates -v
       - name: Test explicit command receipt prototype
         if: runner.os != 'Windows'
         env:
@@ -161,6 +176,10 @@ jobs:
         env:
           PYTHONDONTWRITEBYTECODE: "1"
         run: python -m unittest scripts.test_audit_proxy_probe scripts.test_usage_attempt_ledger -v
+      - name: Test candidate ranking gate
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python -m unittest scripts.test_rank_confirm_candidates -v
       - name: Validate repository
         env:
           PYTHONDONTWRITEBYTECODE: "1"
