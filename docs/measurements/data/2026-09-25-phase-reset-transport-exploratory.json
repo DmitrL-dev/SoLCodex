@@ -1,0 +1,88 @@
+{
+  "cli_sha256": "c67698d0990aae05211d9c43ab343ad9517e406824dea77eca103a2806232b3a",
+  "controller_sha256": "839e43a59e3adde9b34b7e3bbf4c658ee52bbf5426d959ac1f6a3a370321bb29",
+  "diagnosis_marker_in_reset_request": false,
+  "diagnosis_marker_in_resume_request": true,
+  "handoff_in_reset_request": true,
+  "passed": true,
+  "reset_new_session": true,
+  "reset_sessions_empty_before": true,
+  "resume_same_session": true,
+  "runs": {
+    "diagnosis": {
+      "accounted": true,
+      "bridge_stopped": true,
+      "broker_stopped": true,
+      "cleanup": true,
+      "event_types": [
+        "thread.started",
+        "turn.started",
+        "item.completed",
+        "turn.completed"
+      ],
+      "exit": 0,
+      "final_match": true,
+      "provider_errors": 0,
+      "provider_requests": 1,
+      "stderr_sha256": "1aa26269eb1cc57f86b235a03cda53c004edb5b1e9fc99d4da4f00843293d721",
+      "timeout": false,
+      "trace_sha256": "f71ec2f230429785eebd73699dc6ea7ac3796913a5b051cfbd3a61c24c81e627",
+      "usage": {
+        "cached_input_tokens": 0,
+        "input_tokens": 120,
+        "output_tokens": 20
+      }
+    },
+    "reset": {
+      "accounted": true,
+      "bridge_stopped": true,
+      "broker_stopped": true,
+      "cleanup": true,
+      "event_types": [
+        "thread.started",
+        "turn.started",
+        "item.completed",
+        "turn.completed"
+      ],
+      "exit": 0,
+      "final_match": true,
+      "provider_errors": 0,
+      "provider_requests": 1,
+      "stderr_sha256": "1aa26269eb1cc57f86b235a03cda53c004edb5b1e9fc99d4da4f00843293d721",
+      "timeout": false,
+      "trace_sha256": "bd408548c98452b186aad55441214c82423556b75c0423da89e79c35b76c1160",
+      "usage": {
+        "cached_input_tokens": 0,
+        "input_tokens": 120,
+        "output_tokens": 20
+      }
+    },
+    "resume": {
+      "accounted": true,
+      "bridge_stopped": true,
+      "broker_stopped": true,
+      "cleanup": true,
+      "event_types": [
+        "thread.started",
+        "turn.started",
+        "item.completed",
+        "turn.completed"
+      ],
+      "exit": 0,
+      "final_match": true,
+      "provider_errors": 0,
+      "provider_requests": 1,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "timeout": false,
+      "trace_sha256": "6c01847513ec6ceb8a595aaf56c75eca46757746d949420efd0c6e767d869408",
+      "usage": {
+        "cached_input_tokens": 0,
+        "input_tokens": 120,
+        "output_tokens": 20
+      }
+    }
+  },
+  "same_workspace_content": true,
+  "schema": "solcodex.phase-reset-transport-exploratory.v1",
+  "scope": "synthetic_provider_real_cli_no_model"
+}

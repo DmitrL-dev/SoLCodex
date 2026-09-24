@@ -89,6 +89,8 @@ The pinned metadata export produced [an aggregate of 32,079 rows](docs/measureme
 
 A [phase-reset development pilot](docs/measurements/2026-09-24-phase-reset-development.md) tested a fresh edit session against resuming after a shared diagnosis on one exposed packaging task. Both repairs passed external checks; the smaller reset CLI token total is exploratory and does not measure the installed plugin or provider billing.
 
+A later [no-model session transport probe](docs/measurements/2026-09-25-phase-reset-transport-exploratory.md) verified a truly fresh Codex home and an explicit handoff while accounting for all three synthetic provider requests. It is a mechanism check, not a savings measurement.
+
 The [OTel usage probes](docs/measurements/2026-09-24-otel-usage-boundary.md) found WebSocket startup usage outside CLI turn totals and missing usage after abrupt termination. Published aggregates and a sanitized parser preserve these limits; they are not provider billing records.
 
 An [HTTP proxy development probe](docs/measurements/2026-09-24-http-proxy-usage-development.md) observed final response usage after the CLI was killed. A live SQLite journal preserved that case, while killing the proxy after upstream HTTP 200 left a pending request with unknown usage. None of these results validates provider billing or general savings.
