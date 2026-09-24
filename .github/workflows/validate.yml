@@ -84,6 +84,10 @@ jobs:
         env:
           PYTHONDONTWRITEBYTECODE: "1"
         run: python -m unittest experiments.sympy_26807.test_qualification -v
+      - name: Test packaging PreToolUse aggregate accounting
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python -m unittest experiments.packaging_928.test_reduce_prehook_repair_dev -v
       - name: Test projected candidate export
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
         env:

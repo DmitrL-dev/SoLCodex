@@ -39,6 +39,54 @@ def ast_digest(data: bytes) -> str:
     return digest(ast.dump(ast.parse(data.decode("utf-8")), include_attributes=False).encode())
 
 
+def validate_request_accounting(proxy: dict) -> dict:
+    journal = proxy["journal"]
+    if (not proxy["all_proxy_handlers_done"] or not proxy["listener_stopped"] or
+            proxy["active_handlers"] != 0 or proxy["handler_errors"] != 0 or
+            proxy["rejected_client_auth"] != 0 or
+            proxy["auth_file_in_home"] is not False or
+            journal["all_attempts_have_observed_usage"] is not True or
+            journal["states"]["unknown"] != 0 or journal["states"]["pending"] != 0 or
+            journal["attempts"] != journal["states"]["completed"] or
+            journal["attempts"] <= 0):
+        raise ValueError("request accounting incomplete")
+    requests = proxy["sink_requests"]
+    if (len(requests) != journal["attempts"] or
+            proxy["broker_injected"] != len(requests)):
+        raise ValueError("request and journal counts differ")
+    attempt_ids = [request["attempt_id"] for request in requests]
+    response_ids = []
+    response_usage = {"input_tokens": 0, "output_tokens": 0, "cached_input_tokens": 0}
+    for request in requests:
+        if (request["method"] != "POST" or
+                request["path"] != "/backend-api/codex/responses" or
+                request["authorization_present"] is not True or
+                request["upstream_status"] != 200 or
+                request["done"] is not True or request["upstream_error"] is not None or
+                len(request["completions"]) != 1):
+            raise ValueError("request did not complete once")
+        completion = request["completions"][0]
+        if completion["id_present"] is not True:
+            raise ValueError("completion lacks response id")
+        response_ids.append(completion["response_id_sha256"])
+        for field, total_field in (("input_tokens", "input_tokens"),
+                                   ("output_tokens", "output_tokens"),
+                                   ("cached_tokens", "cached_input_tokens")):
+            value = completion[field]
+            if type(value) is not int or value < 0:
+                raise ValueError("invalid completion usage")
+            response_usage[total_field] += value
+    usage = journal["observed_completed_usage"]
+    if (len(set(attempt_ids)) != len(requests) or
+            len(set(response_ids)) != len(requests) or
+            any(response_usage[key] != usage[key] for key in response_usage)):
+        raise ValueError("response usage does not reconcile")
+    if (not all(type(usage[key]) is int and usage[key] >= 0 for key in response_usage) or
+            usage["cached_input_tokens"] > usage["input_tokens"]):
+        raise ValueError("invalid usage counters")
+    return journal
+
+
 def one(mode: str, host: Path) -> tuple[dict, dict]:
     design, design_sha = load(host, "design.json")
     process, process_sha = load(host, "process.json")
@@ -62,13 +110,7 @@ def one(mode: str, host: Path) -> tuple[dict, dict]:
     if (process["timed_out"] or process["exit_code"] != 0 or
             process["cleanup"]["verified"] is not True):
         raise ValueError("worker incomplete")
-    journal = proxy["journal"]
-    if (not proxy["all_proxy_handlers_done"] or not proxy["listener_stopped"] or
-            proxy["active_handlers"] != 0 or proxy["handler_errors"] != 0 or
-            proxy["rejected_client_auth"] != 0 or
-            journal["states"]["unknown"] != 0 or journal["states"]["pending"] != 0 or
-            journal["attempts"] != journal["states"]["completed"]):
-        raise ValueError("request accounting incomplete")
+    journal = validate_request_accounting(proxy)
     if (not delta["valid"] or delta["changed_paths"] != [SOURCE_PATH] or
             delta["changed_source_sha256"][SOURCE_PATH] != digest(overlay)):
         raise ValueError("source delta invalid")
@@ -90,9 +132,6 @@ def one(mode: str, host: Path) -> tuple[dict, dict]:
     input_tokens = usage["input_tokens"]
     output_tokens = usage["output_tokens"]
     cached_tokens = usage["cached_input_tokens"]
-    if not all(type(value) is int and value >= 0 for value in
-               (input_tokens, output_tokens, cached_tokens)) or cached_tokens > input_tokens:
-        raise ValueError("invalid usage counters")
     result = {
         "original_audit_qualified": False,
         "original_failed_checks": sorted(failed),
