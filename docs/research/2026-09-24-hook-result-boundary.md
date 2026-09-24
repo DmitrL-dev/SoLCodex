@@ -6,11 +6,13 @@ An automatic `PostToolUse` receipt is a late intervention: the tool has already 
 
 The documented `continue: false` path does not reject the Promise, but it does not guarantee that code-mode JavaScript receives the bounded feedback instead of the original typed result. In an isolated Codex CLI `0.155.0-alpha.16.3` probe with code mode enabled, a temporary `PostToolUse` hook returned `continue: false` and a bounded `stopReason`; the model still reported a random marker present only in the original large output. A `decision: "block"` arm hid the marker. The probe is a counterexample to guaranteed code-mode compaction on that host, not a measurement of all releases. [Upstream issue #36940](https://github.com/openai/codex/issues/36940) identifies `PostToolUseFeedbackOutput::code_mode_result()` returning `original` while the direct response path uses `model_visible`. The issue includes a one-line fix and regression evidence, but is closed as not planned and has no associated PR.
 
+A fresh isolated direct-mode probe on the same CLI explicitly disabled `code_mode`. One `cat` returned 8,033 aggregate bytes. A temporary `PostToolUse` hook ran once, received a 4,118-byte serialized response, and returned `continue: false` with a `stopReason` containing no hidden marker. The model nonetheless reported the random marker from the command output. This is a direct-mode counterexample for this hook response and host, not proof about every hook response, host version, or exact provider prompt bytes. The shorter hook input is consistent with host-side truncation before the plugin sees the result.
+
 The earlier [PR #20703](https://github.com/openai/codex/pull/20703) implemented a related `updatedToolOutput` path and was closed without merge. [Issue #34895](https://github.com/openai/codex/issues/34895) remains open for non-blocking model-visible replacement. `updatedMCPToolOutput` is [parsed but unsupported](https://learn.chatgpt.com/docs/hooks#posttooluse) in the current contract. These sources already cover the obvious host-side changes; repeating the same upstream patch locally would duplicate work without making an installed plugin version independent. [Issue #31015](https://github.com/openai/codex/issues/31015) separately describes original output reaching a transcript before hook redaction, so a model-input improvement must not be presented as a privacy boundary.
 
 ## Chosen boundary
 
-SoL Codex 0.1.9 uses non-blocking `continue: false` feedback to avoid intentionally rejecting a code-mode Promise. Its local `saved_bytes` value is the extracted-text minus receipt length and is not a measured reduction of code-mode model input. For commands that require a guaranteed bounded nested result, the opt-in [explicit command adapter](../measurements/receipt-adapter.md) captures output before the tool returns. Its [three-pair pilot](../measurements/2026-09-24-explicit-adapter-pilot.md) passed all verifiers and reduced aggregate token traffic, but increased aggregate time; it is not yet a default.
+SoL Codex 0.1.9 uses non-blocking `continue: false` feedback to avoid intentionally rejecting a code-mode Promise. Its local `saved_bytes` value is the extracted-text minus receipt length and is not a measured reduction of model input in either tested mode. For commands that require a guaranteed bounded tool result, the opt-in [explicit command adapter](../measurements/receipt-adapter.md) captures output before the tool returns. Its [three-pair pilot](../measurements/2026-09-24-explicit-adapter-pilot.md) passed all verifiers and reduced aggregate token traffic, but increased aggregate time; it is not yet a default.
 
 ```mermaid
 flowchart LR
@@ -18,7 +20,7 @@ flowchart LR
   B --> C{Hook response}
   C -->|block| D[Promise rejected after execution]
   C -->|continue false| E[Promise continues]
-  E --> F[Code mode may retain original]
+  E --> F[Host may retain original]
   G[Explicit adapter] --> H[Capture once before return]
   H --> I[Normal bounded tool result]
 ```

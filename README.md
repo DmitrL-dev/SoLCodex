@@ -22,13 +22,13 @@ Open `/hooks`, review the resolved commands, and trust the plugin when Codex ask
 ## What it does
 
 - `PostToolUse` watches shell and patch results. Eligible extracted text larger than 6 KiB is written under `PLUGIN_DATA`; `gpt-6-astra` uses a 4 KiB threshold. For structured results, the artifact is extracted text, not a byte-for-byte copy of the response object.
-- Direct tool results can use a bounded receipt with status (or `unknown`), hashes, diagnostic lines, and a small preview. In code mode the original nested result may remain available. Receipt redaction is best effort; the exact local artifact is not redacted.
+- The hook can emit a bounded receipt with status (or `unknown`), hashes, diagnostic lines, and a small preview. On the tested host, the original result remained visible in both direct and code-mode probes despite non-blocking feedback. Receipt redaction is best effort; the exact local artifact is not redacted.
 - Successful code patches create verification debt. A recognized verifier clears it only when its matching `PreToolUse` ran after the latest code patch and a structured exit code or private status sidecar reports exit code zero. Sidecars are a workflow aid, not a security attestation against malicious project code.
 - `PreCompact`, `PostCompact`, and `SessionStart` keep the debt reminder across Codex compaction. `Stop` warns about pending or failed verification without blocking the final answer; the agent must report checks accurately.
 - A pinned loader saves the invoked hook runtime under `PLUGIN_DATA` so an initialized task can keep working after Codex prunes its old plugin cache. A refreshed hook root can select a new runtime in the same task.
-- Aggregate source, receipt, and candidate byte differences are recorded per model. These byte counts do not measure code-mode model input, tokens, cost, quota, latency, or quality.
+- Aggregate source, receipt, and candidate byte differences are recorded per model. These byte counts do not measure model input, tokens, cost, quota, latency, or quality.
 
-Plain-string `PostToolUse` results can receive feedback if the hook sees enough bytes, but their receipt says `exit_code=unknown` unless a verifier sidecar supplies status. `PreToolUse` records the current code-change generation for recognized verifiers. On macOS/Linux in `bypassPermissions` mode only, it also wraps recognized Bash verifiers to capture status; on Windows or in approval-capable modes, it does not rewrite commands. Structured responses can supply status directly. Host-side truncation before `PostToolUse` limits what the plugin can archive or count. Since 0.1.9 the hook uses `continue: false` instead of `decision: block`, so it does not intentionally reject a code-mode Promise after execution. Current code-mode hosts may still pass the original result to the running script; use explicit capture for a guaranteed bounded nested result.
+Plain-string `PostToolUse` results can receive feedback if the hook sees enough bytes, but their receipt says `exit_code=unknown` unless a verifier sidecar supplies status. `PreToolUse` records the current code-change generation for recognized verifiers. On macOS/Linux in `bypassPermissions` mode only, it also wraps recognized Bash verifiers to capture status; on Windows or in approval-capable modes, it does not rewrite commands. Structured responses can supply status directly. Host-side truncation before `PostToolUse` limits what the plugin can archive or count. Since 0.1.9 the hook uses `continue: false` instead of `decision: block`, so it does not intentionally reject a code-mode Promise after execution. The tested host still exposed the original result in direct and code-mode probes; use explicit capture for a guaranteed bounded result.
 
 The full flow is documented in [architecture](docs/architecture.md).
 
@@ -63,7 +63,9 @@ A [historical CRLF development pair](docs/measurements/2026-09-24-historical-crl
 
 A [macOS isolation probe](docs/measurements/2026-09-24-agent-isolation-probe.md) found a development path for denying agents access to a live fixed checkout during historical-task experiments; broader filesystem isolation still needs validation before a confirmatory campaign.
 
-The [hook result boundary study](docs/research/2026-09-24-hook-result-boundary.md) records the code-mode limitation, related upstream work, and the safe control-flow change in 0.1.9.
+The [hook result boundary study](docs/research/2026-09-24-hook-result-boundary.md) records the direct and code-mode limitations, related upstream work, and the safe control-flow change in 0.1.9.
+
+The [independent confirmation draft](docs/research/2026-09-24-confirmation-campaign-draft.md) specifies a once-only 360-task planning target, stronger verifier qualification, isolation, and request accounting. It is a design, not completed evidence.
 
 The [existing-task hook refresh study](docs/research/2026-09-24-live-hook-refresh.md) records a successful same-task, next-turn refresh after upgrade, without restarting the app. The code-mode script still received the original result.
 

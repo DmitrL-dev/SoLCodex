@@ -1,6 +1,6 @@
 # Byte-savings methodology
 
-SoL Codex locally counts the serialized bytes of eligible extracted tool text and its bounded receipt. The `saved_bytes` field is their arithmetic difference for receipt events. In code mode the host may return the original nested result to JavaScript, so this counter does not establish model-visible bytes saved.
+SoL Codex locally counts the serialized bytes of eligible extracted tool text and its bounded receipt. The `saved_bytes` field is their arithmetic difference for receipt events. On the tested host, direct and code-mode calls could still expose the original result despite non-blocking hook feedback, so this counter does not establish model-visible bytes saved.
 
 They are not token counts, API costs, quota, time, or cache measurements, or evidence that task quality is unchanged.
 

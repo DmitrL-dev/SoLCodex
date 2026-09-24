@@ -1,0 +1,55 @@
+# Independent confirmation campaign: preregistration draft (2026-09-24)
+
+**Status: design only.** No task IDs have been selected, no held-out outcome has been inspected, and no confirmatory run is authorized by this document. The design was challenged by a separate Astra review after the [natural-history development failures](../measurements/2026-09-24-natural-history-development.md). Freeze the manifest, code, verifier, analysis, and infrastructure before the first arm. If qualification fails, revise the design before looking at treatment outcomes.
+
+## Estimand and boundary
+
+The primary treatment is an **assignment** to the opt-in explicit receipt adapter policy, compared with ordinary Codex repair work. Hooks/plugins are disabled in both arms. ON includes its extra instructions, unused opportunities, retrievals, and fallbacks. A comparison restricted to calls that used the adapter is descriptive, not the primary causal estimate. The target population is reproducible historical repairs in the three families below, under the frozen model, effort, runner, and environment. It is not all software development.
+
+The [host-boundary probe](2026-09-24-hook-result-boundary.md) found that non-blocking `PostToolUse` feedback did not guarantee bounded model input in either tested mode. An adapter result cannot establish savings from the installed plugin. That needs its own randomized installed-plugin ON/OFF study after a behavioral replacement-capability gate.
+
+## Candidate pool and once-only selection
+
+One candidate source is [SWE-rebench V2](https://huggingface.co/datasets/nebius/SWE-rebench-V2), `train`, revision `475dd5e8703bb5fb22dd3c60b5d038b019eba1e0`. The [authors report](https://arxiv.org/abs/2602.23866) 32,079 tasks from 3,617 repositories with reproducible environments. It is a public training corpus: independent from *our development selection* does not mean unseen by the model. Qualify repository licenses, images, descriptions, and verifiers before treating a row as usable.
+
+The planning target is **360 task pairs**, 120 in each family, one OFF and one ON run per task. Use only one task per repository lineage, grouping forks and project continuations across all families. A smaller number may fail the quality and cost precision gates; 360 itself does not guarantee success or statistical independence. If 120 qualified tasks per family cannot be found, do not start and do not lower quotas after seeing outcomes. The earlier 72-task zero-harm calculation is a lower precision bound, not a powered campaign design.
+
+Before examining candidate rows, publish the exposure list of development repositories, forks, related incidents, and selection code. Exclude those lineages. Include Python, Go, JavaScript, and TypeScript repairs of existing behavior; exclude pure features, documentation, and cosmetics. Two curators classify candidates independently without agent outcomes or selection rank. Reject prompts that reveal the historical fix or need hints from the gold patch. Publish exclusion reason codes.
+
+Sort candidate `instance_id` values by `SHA256("solcodex-confirm-2026-09-24-v1\n" + instance_id)` and qualify them in that order, with curator review blinded to outcomes. Select the first eligible distinct lineages meeting the 120/120/120 quotas. Priority for overlapping families is state recovery, then build/dependency, then API. Replace pre-run qualification failures by the next ranked eligible candidate. **No task substitution after the first arm starts.** Freeze exact IDs and hashes privately before execution; publish them after the once-only analysis when safe to do so.
+
+| Family | Inclusion | Required preservation checks |
+| --- | --- | --- |
+| Build/dependency | Existing build, installation, dependency, or version-compatibility defect | Clean artifact build/install, adjacent supported versions, and prevention of deleting functionality or disabling a check |
+| Multi-module API | Contract failure across components with plausible neighboring symbols or consumers | Specific values/types and neighboring subclasses, implementations, and callers; catch edits to a shared superclass |
+| Upgrade/state recovery | Migration, rerun, persisted state, recovery, or cache defect | Old-format preservation, idempotence, partial-operation recovery, and data integrity |
+
+Natural short-output and no-useful-diagnostic cases remain eligible. Do not select by expected receipt savings, gold-patch size, or model success. Artificial log inflation is disallowed. Baseline output size is a preregistered descriptive stratum.
+
+## Verifier qualification and isolation
+
+For each task, the parent must fail the defect check and the historical fix must pass. Preservation checks must pass **both** trees; the historical patch is evidence, not an absolute specification. Assert exact values, types, files, state, and side effects where relevant. A mere no-crash or nonempty-AST check is insufficient. Before the arms, execute at least six non-equivalent plausible wrong fixes, including an overbroad sibling/superclass change where applicable; the verifier must reject every one. Independent review maps each requirement to assertions and wrong-fix examples. Qualify the verifier and its infrastructure without consulting ON/OFF results.
+
+The agent receives only the parent snapshot, symptom, and needed dependencies in an ephemeral isolated worker. Gold patches, future Git objects, hidden checks, opposite-arm files, provider credentials, and evaluator code are inaccessible. Existing dataset images require inspection; an image label alone is not an isolation guarantee. Access canaries cover gold, sibling arm, host filesystem, credentials, and direct network. The evaluator runs candidate code in a separate fresh worker, from a complete allowed checkout including additions, deletions, modes, and safe symlinks. Hidden tests and result parsing remain outside candidate-controlled files. No hidden-verifier feedback returns to agents.
+
+After runs, blind review of both patches uses the same checklist. A real regression removes acceptance even if the frozen tests passed. Apply any post-hoc check to parent, historical fix, OFF, and ON; publish both original frozen and revised scores rather than silently changing the endpoint.
+
+## Frozen execution and accounting
+
+Freeze model, effort, CLI binary, prompts, adapter, analysis code, dependencies, image digests, tool permissions, deadlines, and SHA-256 manifests before executing either arm. The initial runner target is `gpt-6-sol` at `xhigh`, Linux x86-64, 4 vCPU and 16 GiB per worker, one run per arm, 60 minutes and at most 128 provider requests. These are **requirements to qualify**, not claims that such workers or request accounting already exist. If the final host/model differs, revise before outcomes.
+
+Run arms sequentially in isolated copies. Balance OFF→ON and ON→OFF to 60 each per family using a fixed hash assignment; interleave families over time. OFF may use ordinary shell filtering, redirection, and targeted reads. ON uses a frozen policy for classes of commands expected to produce noisy output. Agents choose their own diagnosis; no compulsory first reproducer. Never run a command once directly and again solely to obtain a receipt. Record every missed ON opportunity and adapter invocation.
+
+`turn.completed` usage is insufficient for interrupted runs. Before confirmation, establish a durable provider-request ledger outside the CLI process, with request IDs, dispatch, retries, cancellation, completion, and actual usage, reconciled to CLI traces. A CONNECT count is not token telemetry. Keep the agent and its tools away from ledger credentials. At timeout, save checkpoint and ledger, evaluate that checkpoint, and retain the attempt's cost. Do not rerun it for a cleaner record.
+
+Reconcile incomplete requests for a frozen period (proposed: 48 hours). Unknown usage is never zero. For a savings claim, use ON upper and OFF lower cost bounds. If no defensible finite upper bound exists, report the economic result as **inconclusive**. Sum provider input plus output once; retain cached/uncached, reasoning, and retry categories separately according to their actual accounting semantics. A bill-based money claim requires a matching bill or verified price schedule.
+
+## Analysis and decision gates
+
+For arm `a`, define `K_a = sum(all provider tokens spent in arm a) / number of independently accepted tasks in arm a`; `R = K_ON / K_OFF`. Failed attempts and timeouts contribute tokens. A zero acceptance denominator makes the ratio undefined. Report all four paired acceptance outcomes and each family separately.
+
+Use a frozen, stratified paired bootstrap of tasks (proposed: 100,000 draws) for the ratio. Do not discard draws with zero success in a denominator to manufacture a finite interval. Predeclare a paired score interval for `p_ON - p_OFF`, the random seed, repository/lineage sensitivity analysis, and the handling of missing usage. Report assignment-based and adherence diagnostics separately.
+
+Proposed gates for a claim of **some** token saving with noninferiority: point estimate `R <= 0.85`, upper 95% ratio bound `< 1`, lower 95% acceptance-difference bound `> -0.05`, no known accepted-patch regression, upper 95% full-time-per-accepted ratio `<= 1.25`, and passed isolation, verifier, adherence-audit, and accounting gates. For **at least 15%** saving, the upper ratio bound must be `< 0.85`. The five-percentage-point quality margin permits only “noninferior within 5 percentage points,” not literal proof of no quality loss. Publish all failures and timeouts, and do not expand sample size based on interim effect.
+
+The planning load is 720 agent runs. At 10–30 minutes per run, that is roughly 120–360 worker-hours; verifier design and independent review may require substantially more human time. This is a feasibility estimate, not observed performance or a monetary quote. First qualify isolation, verifier mutation checks, and request accounting on **exposed development tasks**. Only then freeze and open the once-only candidate sample.
