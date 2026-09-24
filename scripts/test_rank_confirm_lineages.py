@@ -90,19 +90,23 @@ class LineageRankingTests(unittest.TestCase):
         changed = b'{"schema":"solcodex.lineage-map.v1","lineages":[1]}'
         candidate_hash = "a" * 64
         exposure_hash = "b" * 64
+        ranker_hash = "c" * 64
         approval = {"schema": "solcodex.lineage-map-approval.v1", "status": "approved",
                     "candidate_ranking_sha256": candidate_hash,
                     "exposure_manifest_sha256": exposure_hash,
+                    "lineage_ranker_sha256": ranker_hash,
                     "lineage_map_sha256": hashlib.sha256(original).hexdigest(),
                     "independent_reviewers": ["reviewer-one", "reviewer-two"]}
-        verify_map_approval(original, candidate_hash, exposure_hash, approval)
+        verify_map_approval(original, candidate_hash, exposure_hash, ranker_hash, approval)
         with self.assertRaises(ValueError):
-            verify_map_approval(changed, candidate_hash, exposure_hash, approval)
+            verify_map_approval(changed, candidate_hash, exposure_hash, ranker_hash, approval)
         with self.assertRaises(ValueError):
-            verify_map_approval(original, candidate_hash, "c" * 64, approval)
+            verify_map_approval(original, candidate_hash, "d" * 64, ranker_hash, approval)
+        with self.assertRaises(ValueError):
+            verify_map_approval(original, candidate_hash, exposure_hash, "d" * 64, approval)
         approval["status"] = "pending"
         with self.assertRaises(ValueError):
-            verify_map_approval(original, candidate_hash, exposure_hash, approval)
+            verify_map_approval(original, candidate_hash, exposure_hash, ranker_hash, approval)
 
 
 if __name__ == "__main__":

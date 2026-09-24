@@ -30,11 +30,12 @@ def digest(value):
     return hashlib.sha256(value.encode("utf-8")).hexdigest()
 
 
-def verify_map_approval(map_bytes, candidate_sha256, exposure_sha256, approval):
+def verify_map_approval(map_bytes, candidate_sha256, exposure_sha256, ranker_sha256, approval):
     if not isinstance(approval, dict) or approval.get("schema") != "solcodex.lineage-map-approval.v1" or \
             approval.get("status") != "approved" or \
             approval.get("candidate_ranking_sha256") != candidate_sha256 or \
             approval.get("exposure_manifest_sha256") != exposure_sha256 or \
+            approval.get("lineage_ranker_sha256") != ranker_sha256 or \
             approval.get("lineage_map_sha256") != hashlib.sha256(map_bytes).hexdigest():
         raise ValueError("lineage map is not pinned by an approved public manifest")
     reviewers = approval.get("independent_reviewers")
@@ -120,6 +121,7 @@ def rank_lineages(ranked, lineage_map, exposed_repositories):
             "lineage_count": len(result), "candidate_count": len(candidates),
             "excluded_exposure_lineages": excluded_count,
             "eligible_lineage_count": len(result) - excluded_count,
+            "public_map_approval_checked": False,
             "ancestry_independently_verified": False,
             "family_qualification_complete": False, "sample_selected": False,
             "lineages": result}
@@ -142,10 +144,11 @@ def main():
     exposure_bytes = EXPOSURE_PATH.read_bytes()
     candidate_hash = hashlib.sha256(candidate_bytes).hexdigest()
     exposure_hash = hashlib.sha256(exposure_bytes).hexdigest()
+    ranker_hash = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
     if candidate_hash != PINNED_RANK_SHA256:
         parser.error("candidate ranking does not match the pinned private export")
     try:
-        verify_map_approval(map_bytes, candidate_hash, exposure_hash,
+        verify_map_approval(map_bytes, candidate_hash, exposure_hash, ranker_hash,
                             json.loads(APPROVAL_PATH.read_bytes()))
     except ValueError as error:
         parser.error(str(error))
@@ -155,9 +158,11 @@ def main():
     exposed = {canonical_repo(repo) for group in exposure["lineages"]
                for repo in group["repositories"]}
     report = rank_lineages(json.loads(candidate_bytes), json.loads(map_bytes), exposed)
+    report["public_map_approval_checked"] = True
     report["candidate_ranking_sha256"] = candidate_hash
     report["lineage_map_sha256"] = hashlib.sha256(map_bytes).hexdigest()
     report["exposure_manifest_sha256"] = exposure_hash
+    report["lineage_ranker_sha256"] = ranker_hash
     args.out.parent.mkdir(parents=True, exist_ok=True)
     fd, temp_path = tempfile.mkstemp(prefix=".lineage-rank-", dir=str(args.out.parent))
     try:

@@ -3,6 +3,7 @@
   "status": "pending",
   "candidate_ranking_sha256": "f0ce40acd96554d66554e0896152eb3e5fcc77b3e8fc741a626be74da29bc884",
   "exposure_manifest_sha256": "4be6bafa2bc325a61363a70e1fd5bf9ea0f99533ba376d946fd03c8caf8a31c0",
+  "lineage_ranker_sha256": null,
   "lineage_map_sha256": null,
   "independent_reviewers": []
 }

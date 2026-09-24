@@ -56,6 +56,10 @@ jobs:
         env:
           PYTHONDONTWRITEBYTECODE: "1"
         run: python -m unittest scripts.test_rank_confirm_lineages -v
+      - name: Test deterministic confirmation sample selector
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python -m unittest scripts.test_select_confirm_sample -v
       - name: Test paired acceptance precision sensitivity
         env:
           PYTHONDONTWRITEBYTECODE: "1"
