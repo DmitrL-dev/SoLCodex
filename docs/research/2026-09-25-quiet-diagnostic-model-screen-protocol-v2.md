@@ -28,3 +28,11 @@ A synthetic chunked response without `Content-Type` passed the complete
 transport and ledger tests before this revision was frozen. A separate
 compatibility smoke under revision 2 may be run before the four assigned
 development runs; it is excluded from their outcome and reported separately.
+
+That revision 2 compatibility smoke subsequently passed: one real provider
+attempt, CLI exit 0, completed upstream and delivery ledgers, 9,511 observed
+input tokens, 5 output tokens and 0 cached input tokens. CLI completion took
+2.893 seconds; completion plus accounting took 2.914 seconds. Provider billing
+was not independently reconciled. The private host receipt SHA-256 is
+`e0548664389ee752317f906e99cfaf69575da89db22f0978098c5acf673b6237`.
+It remains excluded from the four-run screen.
