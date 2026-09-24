@@ -44,6 +44,10 @@ jobs:
         env:
           PYTHONDONTWRITEBYTECODE: "1"
         run: python -m unittest discover -s scripts -p 'test_audit_otel_usage.py' -v
+      - name: Test proxy usage audit and attempt journal
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python -m unittest scripts.test_audit_proxy_probe scripts.test_usage_attempt_ledger -v
       - name: Test explicit command receipt prototype
         env:
           PYTHONDONTWRITEBYTECODE: "1"
@@ -103,6 +107,10 @@ jobs:
         env:
           PYTHONDONTWRITEBYTECODE: "1"
         run: python -m unittest discover -s scripts -p 'test_audit_otel_usage.py' -v
+      - name: Test proxy usage audit and attempt journal
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python -m unittest scripts.test_audit_proxy_probe scripts.test_usage_attempt_ledger -v
       - name: Test explicit command receipt prototype
         if: runner.os != 'Windows'
         env:
@@ -149,6 +157,10 @@ jobs:
         env:
           PYTHONDONTWRITEBYTECODE: "1"
         run: python -m unittest discover -s scripts -p 'test_audit_otel_usage.py' -v
+      - name: Test proxy usage audit and attempt journal
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python -m unittest scripts.test_audit_proxy_probe scripts.test_usage_attempt_ledger -v
       - name: Validate repository
         env:
           PYTHONDONTWRITEBYTECODE: "1"

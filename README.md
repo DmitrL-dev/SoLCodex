@@ -69,6 +69,8 @@ The [independent confirmation draft](docs/research/2026-09-24-confirmation-campa
 
 The [OTel usage probes](docs/measurements/2026-09-24-otel-usage-boundary.md) found WebSocket startup usage outside CLI turn totals and missing usage after abrupt termination. Published aggregates and a sanitized parser preserve these limits; they are not provider billing records.
 
+An [HTTP proxy development probe](docs/measurements/2026-09-24-http-proxy-usage-development.md) observed final response usage 12.352 seconds after the CLI was killed. A separate durable attempt-journal prototype passed restart tests; it has not been integrated into the live proxy or validated against provider billing.
+
 The [existing-task hook refresh study](docs/research/2026-09-24-live-hook-refresh.md) records a successful same-task, next-turn refresh after upgrade, without restarting the app. The code-mode script still received the original result.
 
 The [real-repository receipt pilot](docs/measurements/2026-09-24-real-repo-pilot.md) records two paired repairs, their aggregate trace data, and invalid exploratory attempts. Both pairs passed independent checks; token and time effects differed by task.

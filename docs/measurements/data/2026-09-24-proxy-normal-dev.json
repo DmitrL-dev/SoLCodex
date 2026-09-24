@@ -1,0 +1,26 @@
+{
+  "all_attempts_have_observed_usage": true,
+  "attempt_states": {
+    "client_disconnected": 0,
+    "missing_or_ambiguous_usage": 0,
+    "observed_completion": 1,
+    "upstream_200": 1,
+    "upstream_other": 0
+  },
+  "attempts": 1,
+  "cli_completed_usage": {
+    "cached_input_tokens": 3840,
+    "input_tokens": 9873,
+    "output_tokens": 5
+  },
+  "cli_exit_code": 0,
+  "cli_turn_completions": 1,
+  "durable_proxy_ledger_tested": false,
+  "kill_to_completion_seconds": [],
+  "observed_response_usage": {
+    "cached_input_tokens": 3840,
+    "input_tokens": 9873,
+    "output_tokens": 5
+  },
+  "provider_billing_complete": false
+}
