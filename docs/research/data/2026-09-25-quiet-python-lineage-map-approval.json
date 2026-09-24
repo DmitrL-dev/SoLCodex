@@ -1,0 +1,14 @@
+{
+  "schema": "solcodex.quiet-python-lineage-map-approval.v1",
+  "status": "pending",
+  "source_candidate_ranking_sha256": "f0ce40acd96554d66554e0896152eb3e5fcc77b3e8fc741a626be74da29bc884",
+  "projected_candidate_sha256": "4c5848034925a17d81b9423988391231e04f36305421cac94f6589dd4b674020",
+  "projection_code_sha256": "bd4336f7dbd8af629c52daa5d35cb83342dcff8af74f17b6f873929cbab69749",
+  "projection_dependency_sha256": null,
+  "lineage_map_sha256": null,
+  "ancestry_evidence_sha256": null,
+  "exposure_manifest_sha256": "4be6bafa2bc325a61363a70e1fd5bf9ea0f99533ba376d946fd03c8caf8a31c0",
+  "core_lineage_ranker_sha256": null,
+  "scoped_lineage_ranker_sha256": null,
+  "independent_reviewers": []
+}
