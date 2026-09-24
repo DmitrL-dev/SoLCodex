@@ -1,0 +1,28 @@
+{
+  "schema": "solcodex.linux-cycle-ci-aggregate.v1",
+  "source_commit": "adcb1de14b6f8ef45893a9bdb5a6c1d1bb0f4059",
+  "ci_run_url": "https://github.com/DmitrL-dev/SoLCodex/actions/runs/36010819960",
+  "ci_job_id": 107670746921,
+  "public_annotation": {
+    "schema": "solcodex.linux-cycle-development-aggregate.v1",
+    "protocol_sha256": "bd94e962b4c4fe4de3a1ba21a3a99e6f9a7d5150bf9a74d0a3e1362f1aa9fc9b",
+    "scenarios_passed": 10,
+    "mock_accepted_attempts": 10,
+    "mock_observed_usage": {
+      "input_tokens": 960,
+      "output_tokens": 160,
+      "cached_input_tokens": 640
+    },
+    "behavior": {
+      "parent_passed": 12,
+      "parent_total": 34,
+      "gold_passed": 34,
+      "checkpoint_passed": 34,
+      "wrong_fix_witnesses_rejected": 12,
+      "wrong_fix_witnesses_total": 12
+    },
+    "model_requests": 0,
+    "provider_billing_complete": false,
+    "target_worker_qualified": false
+  }
+}
