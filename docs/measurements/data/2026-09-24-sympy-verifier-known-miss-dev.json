@@ -1,0 +1,159 @@
+{
+  "behavior": {
+    "alternative": {
+      "v1": {
+        "failed_ids": [],
+        "passed": 35,
+        "private_report_sha256": "6212043af59820796c0ebbf6736e79c2bc9bb414a1cf542d0cbbe0f9156d1c69",
+        "total": 35
+      },
+      "v2": {
+        "failed_ids": [],
+        "passed": 37,
+        "private_report_sha256": "10edd27766c32db42dca38d4414291499f75d5ebb24a124c5aed16fc02336af8",
+        "total": 37
+      }
+    },
+    "gold": {
+      "v1": {
+        "failed_ids": [],
+        "passed": 35,
+        "private_report_sha256": "f646ca0882c0e17bb817125bf6d2a830c73b9b6025cecadad286f395a246865e",
+        "total": 35
+      },
+      "v2": {
+        "failed_ids": [],
+        "passed": 37,
+        "private_report_sha256": "7774adcd4448c54533253b752f9a468a0bfd35e5194a13be4f0f8953fe9916c0",
+        "total": 37
+      }
+    },
+    "parent": {
+      "v1": {
+        "failed_ids": [
+          "R01_issue_bare_argument_default_modules",
+          "R02_tuple_argument_integer_and_complex_identity",
+          "R03_list_argument_rank_two_identity",
+          "R04_symbolic_extent_identity",
+          "R05_cse_dummify_and_short_docstring",
+          "R06_vector_element_polynomial",
+          "R07_matrix_element_polynomial",
+          "R08_multiple_array_arguments",
+          "R09_list_output_values_and_structure",
+          "R10_dict_output_keys_values_and_structure",
+          "R11_nested_tuple_output",
+          "R12_array_element_implemented_function",
+          "R13_nonidentifier_name_with_dummify",
+          "R14_math_backend_with_python_list",
+          "R15_rank_three_identity",
+          "R16_array_symbols_not_iterable",
+          "R17_array_symbols_not_sequences"
+        ],
+        "passed": 18,
+        "private_report_sha256": "2c8a7019bf286d3c70d7b14e553546c3d55f345d92671f9b677bdef5d14e6168",
+        "total": 35
+      },
+      "v2": {
+        "failed_ids": [
+          "R01_issue_bare_argument_default_modules",
+          "R02_tuple_argument_integer_and_complex_identity",
+          "R03_list_argument_rank_two_identity",
+          "R04_symbolic_extent_identity",
+          "R05_cse_dummify_and_short_docstring",
+          "R06_vector_element_polynomial",
+          "R07_matrix_element_polynomial",
+          "R08_multiple_array_arguments",
+          "R09_list_output_values_and_structure",
+          "R10_dict_output_keys_values_and_structure",
+          "R11_nested_tuple_output",
+          "R12_array_element_implemented_function",
+          "R13_nonidentifier_name_with_dummify",
+          "R14_math_backend_with_python_list",
+          "R15_rank_three_identity",
+          "R16_array_symbols_not_iterable",
+          "R17_array_symbols_not_sequences"
+        ],
+        "passed": 20,
+        "private_report_sha256": "e8446ecbf2953b0fc962927d82f981d05a1cf0f0f39aa712a0cd93e6383caf42",
+        "total": 37
+      }
+    },
+    "superclass": {
+      "v1": {
+        "failed_ids": [],
+        "passed": 35,
+        "private_report_sha256": "5cecde2f8fb70b3d735556fed01563abd02d600fd2eb71a3e15ebbf9b20b40fb",
+        "total": 35
+      },
+      "v2": {
+        "failed_ids": [
+          "C19_zero_array_iterable_preserved",
+          "C20_one_array_iterable_preserved"
+        ],
+        "passed": 35,
+        "private_report_sha256": "4619269f00992fbc061fd814839897c63dcd0e9f34c9ded67614e92ba280aaf1",
+        "total": 37
+      }
+    }
+  },
+  "exposed_development_task": true,
+  "external_review_complete": false,
+  "historical_fix_revision": "6760acef2209c9538a3f1b3a286b0275e9420b98",
+  "independent_quality_estimate": false,
+  "known_superclass_mutant_rejected_v2": true,
+  "known_superclass_mutant_survived_v1": true,
+  "parent_revision": "530149cc7256a98c5963bcccc43cec19a9d04d09",
+  "schema": "solcodex.sympy-26807-verifier-known-miss-development.v1",
+  "six_mutant_qualification_complete": false,
+  "source": {
+    "alternative": {
+      "export_sha256": "1dd17dbfdcf5e098c2d424d0f5e5aa2ce0e2e1e7df6ee963f2bb5e0d385b37cb",
+      "source_key_sha256": "d3345e5deb4c830459831b7654745df90e64f15eb79795e146bc9b866901728f"
+    },
+    "gold": {
+      "export_sha256": "31b282f6b5c61f241f7126ceadf6d54ca31848d9888aa8978d502bda890c4c36",
+      "source_key_sha256": "9efc96244c04a300399cda926cac3c9a49173dfea81d281d884c0eea621eb446"
+    },
+    "parent": {
+      "export_sha256": "bd900fce6a20f1a4fa15991ee179d1c7ff362743ac9435eb9c503972f6f71132",
+      "source_key_sha256": "1736959e0f0f29997274200f099c233809d1ecd7afc73062bfba90fdd460daeb"
+    },
+    "superclass": {
+      "export_sha256": "f801574a8f3279c089f41bed173e024ec2c30c68d215e48299f99364b0c81973",
+      "source_key_sha256": "7fd73e42818311aa07d4eb73a7f067e72aee959e03a19b561905e6e07b163beb"
+    }
+  },
+  "upstream": {
+    "alternative": {
+      "passed": 48,
+      "private_junit_sha256": "860193b4ff92a31700136d0881d18d33cf0c442a2648fb62ed28636356a56d7e",
+      "private_run_manifest_sha256": "308333915ada2572d7deb0edb686388623480a9a7da27aef8bf2a72bc7eaf476",
+      "total": 48
+    },
+    "gold": {
+      "passed": 48,
+      "private_junit_sha256": "97c4bc5f093a892f4ae9a23eac4cdade5155ec2203e7b0624e2a0597de926d46",
+      "private_run_manifest_sha256": "aa04210de2f3c924ba13d5cc78e7b35c0f7446dc2ecb397da31fa246b1ed8858",
+      "total": 48
+    },
+    "parent": {
+      "passed": 48,
+      "private_junit_sha256": "70409b0ccaecb4ec34a9ab2454d88c0279b143d1121cc2c9e902735db41d8ffe",
+      "private_run_manifest_sha256": "bedcc137882ac0ab37dbfd88f5fc86bb5f6466dc1688fe2b60f9e438c658b87d",
+      "total": 48
+    },
+    "superclass": {
+      "passed": 48,
+      "private_junit_sha256": "4afc8c7c873062797331f41f2061e8d8b02fd06ba8620dba7a3364ba8f208473",
+      "private_run_manifest_sha256": "03edd405a619ce1863ab07b4b1bf2fa1c7d23b1a3011e5d1d3257876009c1f0e",
+      "total": 48
+    }
+  },
+  "upstream_inventory_sha256": "ab246fd2a8f6b65e0bd2450f839a169c195c50a6e0dad0bb0aa01242527d75e7",
+  "upstream_selection_sha256": "73b69e8310644b7005f3b0c7d4ee5f5ccd0357100ed1c701f32311c1cca15225",
+  "upstream_test_ids_sha256": "a819dce14cae8240a912ccd293e328475b5293e1c55a5d31dc3c9e3c54237ee6",
+  "verifier_sha256": {
+    "v1": "12e01e759417210f3d9168a97e909911e81aaee1eb564c7e8a3c76842b97edd7",
+    "v2": "7ee8cb3a6b7ddf15257a551ac4f8a8855b96757e4e05c73dce76d1383b0017a2"
+  }
+}

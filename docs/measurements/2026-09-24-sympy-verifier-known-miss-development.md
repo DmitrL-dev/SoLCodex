@@ -1,0 +1,16 @@
+# SymPy verifier known-miss probe (exposed development task, 2026-09-24)
+
+The original frozen verifier for [SymPy #26807](https://github.com/sympy/sympy/issues/26807) accepted both agent repairs at 35/35. Later review found that both placed `_iterable = False` on the shared `_ArrayExpr` superclass, changing `ZeroArray` and `OneArray` behavior. The augmented verifier adds two preservation checks for those classes. This probe reproduces that known miss with a **source-level** wrong fix built from the historical parent, then tests a different local fix that does not copy the gold line. The v2 checks were written after the agent outcomes; this is not a prospective mutation kill.
+
+| Source tree | Frozen v1 | Post-hoc v2 | Same selected upstream tests |
+| --- | ---: | ---: | ---: |
+| Parent `530149c` | 18/35 | 20/37 | 48/48 |
+| Historical fix `6760ace` | 35/35 | 37/37 | 48/48 |
+| Wrong superclass edit from parent | **35/35** | **35/37** | 48/48 |
+| Alternative `ArraySymbol` property from parent | 35/35 | 37/37 | 48/48 |
+
+The wrong edit adds only `_iterable = False` to `_ArrayExpr`. V1 accepts it; v2 rejects exactly `C19_zero_array_iterable_preserved` and `C20_one_array_iterable_preserved`. The alternative adds an `ArraySymbol._iterable` property returning `False`; both verifier versions and the upstream selection accept it. These are finite behavioral checks, not proof that the alternative is fully correct. The 24 pinned upstream node specifications resolve to 48 test cases in this environment and do not expose the superclass regression.
+
+The [public experiment code](../../experiments/sympy_26807/README.md) includes byte-identical copies of v1 and v2, the pinned upstream selection and its resolved 48-test inventory, a one-file source-variant materializer, an upstream runner, and a [fixed-field reducer](../../experiments/sympy_26807/reduce_qualification.py). The [aggregate](data/2026-09-24-sympy-verifier-known-miss-dev.json) records complete source-export, verifier, private report, JUnit, selection, and resolved-inventory hashes, all eight verifier scores, exact failed assertion IDs, and negative qualification flags. The reducer checks the parent and gold export digests, compares every other file in each variant to the parent, binds reports to source and verifier hashes, requires exact expected failure reasons, and rejects a substituted upstream test. The runner removes inherited pytest switches and overrides project `addopts`; a deliberately supplied deselection option was ignored in a fresh probe, which still ran the pinned 48 tests. Private raw reports contain local paths and detailed exceptions and are not published. The public code and pinned Git revisions permit a fresh reproduction, subject to reproducing the environment and checkout exports; the stored raw reports cannot be independently audited without access to them.
+
+This probe used macOS arm64, Python 3.12.13, NumPy 1.26.4, mpmath 1.3.0, pytest 8.2.2, and Hypothesis 6.108.8. The original agent pair used a different Python micro-version. The test does not qualify the requested Linux worker, the proposed six plausible wrong fixes per task, an alternative-fix diversity gate across tasks, independent reviewers, or any SoL token-saving claim. It shows why a verifier can pass the parent/fix preflight and several mutations yet still miss a damaging repair.

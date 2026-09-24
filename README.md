@@ -91,6 +91,8 @@ The [real-repository receipt pilot](docs/measurements/2026-09-24-real-repo-pilot
 
 A separate [SymPy development pair](docs/measurements/2026-09-24-natural-history-development.md#sympy-arraysymbol-apparent-token-reduction-post-hoc-regression) used the adapter and initially passed 35/35 external checks and 48/48 selected upstream tests in both arms. ON used 31.8% fewer provider-reported tokens while taking 5.4% longer, but a post-hoc preservation check found the same `ZeroArray`/`OneArray` regression in both repairs. This is a verifier failure, not an accepted efficiency result.
 
+An [exposed source-level verifier probe](docs/measurements/2026-09-24-sympy-verifier-known-miss-development.md) reproduces the miss: the superclass wrong fix passes the original 35/35 and selected upstream 48/48, but fails the two added preservation checks. The verifiers and source-variant generator are public.
+
 The [A/B trace accounting guide](docs/measurements/ab-trace.md) documents an aggregate-only `codex exec --json` parser, private manifest format, quality checks, and limits of the earlier five-pair pilot.
 
 An [explicit command receipt prototype](docs/measurements/receipt-adapter.md) captures output before tool return and preserves code-mode control flow in a local test. Use it for expected large or noisy output; short checks can cost more bytes as receipts. It is opt-in, POSIX-only, and separate from the installed plugin while its task-level value is measured.
