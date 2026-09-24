@@ -1,0 +1,30 @@
+{
+  "ancestry_independently_verified": false,
+  "base_probe_code_sha256": "1009199b4e8bdb5ab53ea9335a9cbdbb9b8f811c07e888e2b8a3de9deda0b35f",
+  "distinct_current_full_name_count": 6,
+  "fork_true_count": 0,
+  "model_run_authorized": false,
+  "parent_present_count": 0,
+  "redirect_http_limit": 6,
+  "redirect_probe_code_sha256": "1baf07a2d738fb7fe6b7b2f9aad7588c10b97c1ed5ec0f072a77e5b84a295d6b",
+  "response_id_matches_requested_id_count": 6,
+  "sample_selected": false,
+  "schema": "solcodex.quiet-python-redirect-probe-aggregate.v1",
+  "source_journal_sha256": "8f5483e7c15595217c22620571ff50cf51017c2a9d9856afa7f3b8ffa83c1967",
+  "source_name_differs_from_current_count": 6,
+  "source_pilot_aggregate_sha256": "e849399afdd87d1c33232fa2d6683938cfa2c1033934e7f3c51f25767afd1b85",
+  "source_present_count": 0,
+  "source_queue_sha256": "0db6eb7e2a8c805357b5ab45bb5d22adbb88babaef4a46cad6b1be4f2002823c",
+  "source_redirect_count": 6,
+  "summarizer_code_sha256": "c1299687e66159ba3fa6fbd92c1470581fa00bb6040c3d8bab0a9bbe16def817",
+  "target_http_attempt_count": 6,
+  "target_journal_sha256": "87196cbc7a675fd826dc00a7c6ff6ffe32bdd439618b97bf022c55707927e0ec",
+  "target_observed_queue_entry_count": 6,
+  "target_queue_sha256": "89dc01fff0a148ab3044a4c7f2794154a2c1284d2ca233ec41711d7fe6f90d53",
+  "target_response_status_counts": {
+    "200": 6
+  },
+  "unique_target_id_endpoint_count": 6,
+  "valid_200_target_metadata_count": 6,
+  "without_valid_200_target_metadata_count": 0
+}

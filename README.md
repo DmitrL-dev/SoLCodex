@@ -121,7 +121,7 @@ The [scoped Python lineage ranker](docs/research/2026-09-25-quiet-python-lineage
 
 The [scoped 24-task Python selector](docs/research/2026-09-25-quiet-python-sample-selector.md) replays the full lineage ranking and has its own pending curator approval. It has not selected tasks or authorized a model run.
 
-A [20-repository GitHub metadata pilot](docs/measurements/2026-09-25-quiet-python-repository-probe-pilot.md) captured 14 valid responses and six unresolved redirects from the private Python queue. It is a preliminary ancestry evidence collection, not a lineage approval or an estimate for all 687 repositories.
+A [20-repository GitHub metadata pilot](docs/measurements/2026-09-25-quiet-python-repository-probe-pilot.md) captured 14 direct metadata responses and six redirects from the private Python queue. A [bounded follow-up](docs/measurements/2026-09-25-quiet-python-redirect-probe-pilot.md) captured metadata for all six numeric redirect destinations. This remains preliminary ancestry evidence, not a lineage approval or an estimate for all 687 repositories.
 
 A [benchmark-source review](docs/research/2026-09-25-benchmark-source-robustness.md) adds SWE-bench-Live and SetUpAgent evidence on repository diversity, executable environments and contamination risk. It does not change the pinned held-out source or authorize sample selection.
 
