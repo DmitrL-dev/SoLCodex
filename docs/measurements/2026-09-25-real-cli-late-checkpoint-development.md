@@ -13,3 +13,5 @@ python3 scripts/reduce_real_cli_late_checkpoint_probe.py
 ```
 
 Provider replies and usage values were synthetic. This single controlled case does not qualify live billing, multiple task families, model repair behavior, a SoL Codex ON/OFF intervention, or token savings. The private sandbox execution and evaluator artifacts cannot be independently replayed from the public repository.
+
+A separate **exploratory, unscored** real-CLI probe removed `usage` from the first synthetic provider completion. The bridge recorded one unknown attempt and forwarded no completed response body; the CLI failed before any diagnostic command, with `usage=null`, incomplete reconciliation and `technical_ok=false`. This is evidence of fail-closed behavior for that one malformed response, not a frozen negative-case qualification. Its private controller SHA-256 is `203f6f0101b91225c30dd391160025acb33baf629ca01d542dac96d596014c98`; the CLI trace SHA-256 is `af8567e5e0d17b9ba5082aef56072f3cc277195498b227118bc36079ea1d15fa`.
