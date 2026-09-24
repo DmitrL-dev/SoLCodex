@@ -23,3 +23,24 @@ The OFF and ON paths differ in package exposure and explicit command wrapping. T
 The [negative control plan](negative_expectations.json) and [script](fixtures/installed_package_negative_control.py) were committed before execution. The first attempt stopped on the control script's macOS `/var` versus `/private/var` path comparison. The canonical-path fix and revised plan were committed as `e97ce2a` before the accepted run. No case result was published from the stopped attempt.
 
 The accepted [aggregate](negative_result.json) shows that a child exiting 7 stayed a failed command with one execution and a verified complete artifact; a timed-out child returned 124 with `capture_complete=false`; and a 0755 artifact directory failed before spawning the child. A necessary line omitted from the receipt was found at line 65 by bounded artifact search (279 response bytes), while a wrong SHA-256 was rejected. These are local subprocess controls against a copied installation, not model behavior or a security audit.
+
+## Exposed model repair pair
+
+The [one-pair plan](model_dev_plan.json) and [controller](fixtures/explicit_model_dev.py) were frozen and pushed as `bcd27fc` before the runs. ON ran first, then OFF, on the previously studied packaging #928 parent. Both used the same `pytest -v` child diagnostic, model, effort, runtime, 600-second limit, and external evaluator. The package was exposed only to ON. This is development evidence from one exposed task, with order and model-run variation unresolved.
+
+| Observation | ON: installed explicit package | OFF: direct command |
+| --- | ---: | ---: |
+| External behavior cases | 14/14 | 14/14 |
+| Provider attempts, all accounted | 10 | 8 |
+| Input tokens, cached included | 142,262 | 123,427 |
+| Cached input tokens | 59,136 | 53,760 |
+| Output tokens | 2,393 | 2,089 |
+| Total provider tokens | 144,655 | 125,516 |
+| First tool output bytes | 2,147 | 32,007 |
+| Wall seconds including accounting | 72.142 | 60.867 |
+
+The [published aggregate](model_dev_result.json) records **19,139 more provider tokens for ON** (15.25%) and 11.275 more seconds. Both repairs passed the frozen independent checks and their upstream suite. ON used the adapter once on the required first command; its 32,536-byte diagnostic artifact was complete and the child exit code 1 was preserved. ON made no bounded-search call and later ran a large test command without the adapter. These observations do not show a token benefit from this package on this repair.
+
+The frozen first-action auditor marked both runs `unknown`: the CLI emitted an `item.completed` warning about `code_mode` before `turn.started`, which its strict parser counted as malformed. A post-run inspection found that each first command's started and completed text matched its assigned prompt and exited 1, but this does **not** change the frozen auditor result. A future series must suppress or explicitly model that warning before freezing. Provider attempt usage was complete in both arms; billing was not independently reconciled. No held-out or general saving claim follows from this pair.
+
+Recompute the token arithmetic and accounting checks from the published rows with `python3 experiments/explicit_receipt_profile/reduce_model_dev_result.py`. The private traces and external evaluator assets are retained outside this repository, so this public reducer cannot independently replay the repairs.

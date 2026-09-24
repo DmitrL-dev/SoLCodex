@@ -1,0 +1,109 @@
+{
+  "both_quality_pass": true,
+  "plan_sha256": "05c855ebfd4d8b54a0d073de51b549a4cb589d02a8b1a948b774d651be981a42",
+  "provider_billing_complete": false,
+  "runs": [
+    {
+      "arm": "on",
+      "bridge_stopped": true,
+      "broker_stopped": true,
+      "cli_elapsed_seconds": 72.06020116602303,
+      "delivery_attempts": 10,
+      "elapsed_seconds": 72.14156829100102,
+      "exit_code": 0,
+      "first_command": {
+        "commands_observed": 8,
+        "first_command_completed": true,
+        "first_command_exact": false,
+        "first_exit_code": 1,
+        "malformed_lines": 1,
+        "other_prior_actions": [],
+        "status": "unknown",
+        "trace_complete": false
+      },
+      "first_command_verified": false,
+      "first_output_bytes": 2147,
+      "id": "01-packaging-on",
+      "outcome": "worker_completed",
+      "package_installed": true,
+      "provider_attempts": 10,
+      "provider_states": {
+        "completed": 10,
+        "pending": 0,
+        "unknown": 0
+      },
+      "quality": true,
+      "quality_report_sha256": "c91c49b47215a06fa82582ce4d85b35a38b0f444e3539160a3e2ccc88343b025",
+      "quality_status": "pass",
+      "receipt": {
+        "bytes": 32536,
+        "capture_complete": true,
+        "exit_code": 1,
+        "schema": "solcodex.command-receipt.v1",
+        "sha256": "0052d1129f503cd462966e268eccd3411f77bb462fca1bb17bfe599441f7fd74",
+        "status": "completed",
+        "wrapper_exit_code": 1
+      },
+      "reconciliation_complete": true,
+      "technical_ok": true,
+      "timed_out": false,
+      "trace_sha256": "3c467460780f5e4f12661421320572c56443988aa8cd0760e6e3585021e4355b",
+      "usage": {
+        "cached_input_tokens": 59136,
+        "input_tokens": 142262,
+        "output_tokens": 2393
+      }
+    },
+    {
+      "arm": "off",
+      "bridge_stopped": true,
+      "broker_stopped": true,
+      "cli_elapsed_seconds": 60.81243945899769,
+      "delivery_attempts": 8,
+      "elapsed_seconds": 60.866675209021196,
+      "exit_code": 0,
+      "first_command": {
+        "commands_observed": 7,
+        "first_command_completed": true,
+        "first_command_exact": false,
+        "first_exit_code": 1,
+        "malformed_lines": 1,
+        "other_prior_actions": [],
+        "status": "unknown",
+        "trace_complete": false
+      },
+      "first_command_verified": false,
+      "first_output_bytes": 32007,
+      "id": "02-packaging-off",
+      "outcome": "worker_completed",
+      "package_installed": false,
+      "provider_attempts": 8,
+      "provider_states": {
+        "completed": 8,
+        "pending": 0,
+        "unknown": 0
+      },
+      "quality": true,
+      "quality_report_sha256": "edf1747ab396db75660f7813ee33ed423767aad1f27f5961b3f5e724c624357c",
+      "quality_status": "pass",
+      "receipt": null,
+      "reconciliation_complete": true,
+      "technical_ok": true,
+      "timed_out": false,
+      "trace_sha256": "6ef5b3d45938faa4ecbba28aae2c2a6cd8fcab4bb67f8f9f4dd4d4a3c83b4992",
+      "usage": {
+        "cached_input_tokens": 53760,
+        "input_tokens": 123427,
+        "output_tokens": 2089
+      }
+    }
+  ],
+  "schema": "solcodex.explicit-model-dev-result.v1",
+  "scope": "exposed_single_packaging_repair_pair",
+  "token_delta_on_minus_off": 19139,
+  "total_provider_tokens": {
+    "off": 125516,
+    "on": 144655
+  },
+  "unstarted_arms": []
+}
