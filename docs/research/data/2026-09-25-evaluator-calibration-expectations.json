@@ -1,0 +1,55 @@
+{
+  "schema": "solcodex.evaluator-calibration-expectations.v1",
+  "status": "exposed_development_no_model",
+  "model_run_authorized": false,
+  "runtime": {
+    "host_python": "3.12.14",
+    "evaluator_venv_tree_sha256": "5a9a72a2ee60a188ac820f73b0baefc591926e0c6b72b8f1849d315bfb69640c"
+  },
+  "source_sha256": {
+    "calibration_runner": "9b23acc31f908edd5ffaa640024dae6967b134af5a7258a66dcfd5114e27f41a",
+    "evaluator": "0706611b51ce9d4ea1d56d1973868f0a04d26441f658ee204d2747f5986a6922",
+    "snapshot": "016d29cd0f24141478eeab6d8b1d0e94228a22de2754a40bf8d01d01a1189e9c",
+    "isolation": "1d066b85412899338bde0a350adf74331515b6c1a0799cfac164e1df9209de7f",
+    "safe_tree": "d308e37c198afbd5bd7d13c5dcd030ef665210f3e979cdad046a5d8755d84b43",
+    "assets_lock": "e61fee1904c164eabcba731a509394d45b9dbf8b6d517c4b7e39380aac40fd90",
+    "click_verifier": "12e844a5a801e6d1cc233c893472b5ac1a24d59beb1d313be2e91bc132b1b111",
+    "packaging_verifier": "841776fda08a41df4f0c652dda02a0b440d8b08dbaf5e16231520d3dcc1d4324"
+  },
+  "control_tree_sha256": {
+    "click": {
+      "gold_source": "709a177312bf523524f39aa0255d3513ed88fa4d27f07f85a70ef979ac8e4ed8",
+      "parent": "6ab22715612fbcf9b079787f1589018a67c40f284de34b63ba18dce71487bbe3",
+      "gold": "679fc9073900f0184ca13aded1a70eaec9934525f792eb3ba512f6eccae7dd15",
+      "wrong": "9ef6c0600f663e36dd8abd25e18ab8f4d7d9a20dd78e5dcfd57e06ba3c676ad7"
+    },
+    "packaging": {
+      "gold_source": "84c36ca84b88ac65f5b3e35441dcfdb0467c313f0bfff2742ed2e27738af9355",
+      "parent": "1ac9eb290502fbf5b3425d790e4b00b0cb17112f4940fabaa80544f4078f5045",
+      "gold": "ad9f932ad4671fa1c3d080fc96bc042722c88d6bdfd06bf15ed7590b7841d62d",
+      "wrong": "607c7f277ab7b7ff9bbe94a77feb5e6aee3f3e131cc3abc63d06d71d14b509b5"
+    },
+    "import_time_spoof": "131d79b11f4260a678c8c63394476d2e046ebd0f07eb647fbd61d4adcc26f559"
+  },
+  "expected": {
+    "click": {
+      "case_order": ["direct_exception", "scope_exception", "nested_inner_suppresses", "nested_outer_suppresses", "nested_unsuppressed", "cli_transaction_rollback", "successful_exit", "explicit_close", "context_reuse"],
+      "parent": {"status": "fail", "quality": false, "case_pass_vector": [false, false, false, false, false, false, true, true, true], "upstream_passed": true},
+      "gold": {"status": "pass", "quality": true, "case_pass_vector": [true, true, true, true, true, true, true, true, true], "upstream_passed": true},
+      "wrong": {"status": "fail", "quality": false, "case_pass_vector": [false, false, false, false, false, false, true, true, true], "upstream_passed": true}
+    },
+    "packaging": {
+      "case_order": ["nested-single", "nested-whitespace", "nested-and-or", "nested-with", "nested-ref", "metadata-nested", "simple", "single-parens", "invalid-1", "invalid-2", "invalid-3", "invalid-4", "invalid-5", "invalid-6"],
+      "parent": {"status": "fail", "quality": false, "case_pass_vector": [false, false, false, false, false, false, true, true, true, true, true, true, true, true], "upstream_passed": true},
+      "gold": {"status": "pass", "quality": true, "case_pass_vector": [true, true, true, true, true, true, true, true, true, true, true, true, true, true], "upstream_passed": true},
+      "wrong": {"status": "fail", "quality": false, "case_pass_vector": [false, false, false, false, false, false, true, false, true, true, false, true, true, true], "upstream_passed": true}
+    },
+    "import_time_spoof": {"status": "unknown", "quality": null, "case_pass_vector": [null, null, null, null, null, null, null, null, null, null, null, null, null, null], "upstream_wire_error": true}
+  },
+  "required_for_all_controls": {
+    "isolation_canaries": true,
+    "source_unchanged": true,
+    "upstream_exit_code": 0
+  },
+  "limitations": "This is an exposed-task development calibration with one wrong fix per task. It does not qualify the full measurement path, adversarial Python isolation, or plugin savings."
+}
