@@ -1,6 +1,6 @@
 # HTTP proxy usage boundary: development probes (2026-09-24)
 
-An independent local HTTP process can observe a final model response after the Codex CLI is terminated. This is a narrow development result, not an A/B comparison, a durable production ledger, or evidence of billed cost.
+An independent local HTTP process can observe a final model response after the Codex CLI is terminated. A SQLite journal can preserve that observation, while a proxy crash leaves a provider-accepted request with unknown final usage. These are narrow development results, not an A/B comparison, a complete production ledger, or evidence of billed cost.
 
 ## Setup and observations
 
@@ -19,6 +19,14 @@ The [fixed-field audit script](../../scripts/audit_proxy_probe.py) reduces priva
 
 ## Ledger boundary
 
-The [SQLite attempt-journal prototype](../../scripts/usage_attempt_ledger.py) writes an attempt intent before completion, commits final usage atomically, leaves interrupted attempts pending, rejects duplicate response IDs, and never infers zero usage from a missing completion. Its [tests](../../scripts/test_usage_attempt_ledger.py) reopen the journal after a forced process kill. **It was not connected to the live forwarding proxy in these probes.**
+The [SQLite attempt-journal prototype](../../scripts/usage_attempt_ledger.py) writes an attempt intent before completion, commits final usage atomically, leaves interrupted attempts pending, rejects duplicate response IDs, and never infers zero usage from a missing completion. Its [tests](../../scripts/test_usage_attempt_ledger.py) reopen the journal after a forced process kill. The first two runs above did not use it. A subsequent development run connected this journal to the same live proxy:
 
-The proxy's decision to continue reading after the CLI disconnect changes execution: it can allow the upstream model to generate more tokens than an unproxied cancelled request. A future A/B must apply the same policy to both arms. The observed `usage` is an SSE response field, not an independent record of invoice charges or ChatGPT quota debit. Proxy death, upstream interruption without a final usage event, retries, deduplication, and authorization refresh still need end-to-end tests. Those attempts remain unknown until reconciled against an independent provider record. No general savings claim follows from these probes.
+| Run | Final response seen by proxy | Journal after run | Boundary |
+| --- | --- | --- | --- |
+| [Normal with journal](data/2026-09-24-proxy-journal-normal-dev.json) | 9,873 input / 5 output / 3,840 cached input | 1 completed; totals match proxy and CLI | Completed request only |
+| [CLI killed with journal](data/2026-09-24-proxy-journal-killed-cli-dev.json) | 9,884 input / 620 output / 3,840 cached input, 18.229 seconds after CLI kill | 1 completed; totals match proxy; CLI has no completed turn | Proxy survived client death |
+| [Proxy killed after upstream HTTP 200](data/2026-09-24-proxy-journal-killed-proxy-dev.json) | No final event observed | 1 pending before kill and after journal reopen | Usage remains unknown |
+
+The first two rows were reduced by the same fixed-field audit script; it cross-checks journal counts and token totals against proxy observations. For the proxy-crash row, the controller waited until upstream returned HTTP 200, verified that one attempt intent was committed, sent `SIGKILL` to the proxy, and reopened the SQLite journal. The published JSON is a fixed-field summary of that check. Its zero `observed_completed_usage` is the sum of **completed** records; the pending request's usage is unknown, not zero. The crash controller removed its temporary authentication copy after the run.
+
+The proxy's decision to continue reading after the CLI disconnect changes execution: it can allow the upstream model to generate more tokens than an unproxied cancelled request. A future A/B must apply the same policy to both arms. The observed `usage` is an SSE response field, not an independent record of invoice charges or ChatGPT quota debit. The proxy-crash result demonstrates a remaining completeness gap even with a durable intent journal. Upstream interruption without a final usage event, retries, concurrent deduplication, and authorization refresh still need end-to-end tests. Unknown attempts require an independent provider record for reconciliation. No general savings claim follows from these probes.

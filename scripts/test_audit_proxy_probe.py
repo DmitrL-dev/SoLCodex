@@ -57,6 +57,19 @@ class AuditProxyProbeTests(unittest.TestCase):
              "output_tokens": 3, "cached_input_tokens": 999}}])
         self.assertIsNone(result["cli_completed_usage"])
 
+    def test_journal_summary_is_sanitized_and_cross_checked(self):
+        attempt = {"upstream_status": 200, "completions": [
+            {"input_tokens": 20, "output_tokens": 2, "cached_tokens": 10}]}
+        journal = {"attempts": 1,
+                   "states": {"pending": 0, "completed": 1, "unknown": 0},
+                   "observed_completed_usage": {"input_tokens": 20,
+                       "output_tokens": 2, "cached_input_tokens": 10},
+                   "private": "Bearer SYNTHETIC_SECRET"}
+        result = audit({"exit": 0, "sink_requests": [attempt], "journal": journal}, [])
+        self.assertTrue(result["attempt_journal"]["matches_proxy_observation"])
+        self.assertFalse(result["attempt_journal"]["provider_billing_complete"])
+        self.assertNotIn("SYNTHETIC_SECRET", str(result))
+
 
 if __name__ == "__main__":
     unittest.main()

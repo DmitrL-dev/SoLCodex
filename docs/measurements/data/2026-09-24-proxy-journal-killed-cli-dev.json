@@ -1,0 +1,40 @@
+{
+  "all_attempts_have_observed_usage": true,
+  "attempt_journal": {
+    "attempts": 1,
+    "matches_proxy_observation": true,
+    "observed_completed_usage": {
+      "cached_input_tokens": 3840,
+      "input_tokens": 9884,
+      "output_tokens": 620
+    },
+    "provider_billing_complete": false,
+    "states": {
+      "completed": 1,
+      "pending": 0,
+      "unknown": 0
+    },
+    "valid": true
+  },
+  "attempt_states": {
+    "client_disconnected": 1,
+    "missing_or_ambiguous_usage": 0,
+    "observed_completion": 1,
+    "upstream_200": 1,
+    "upstream_other": 0
+  },
+  "attempts": 1,
+  "cli_completed_usage": null,
+  "cli_exit_code": -9,
+  "cli_turn_completions": 0,
+  "durable_proxy_ledger_tested": false,
+  "kill_to_completion_seconds": [
+    18.229
+  ],
+  "observed_response_usage": {
+    "cached_input_tokens": 3840,
+    "input_tokens": 9884,
+    "output_tokens": 620
+  },
+  "provider_billing_complete": false
+}

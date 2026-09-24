@@ -1,0 +1,34 @@
+{
+  "journal_after_restart": {
+    "all_attempts_have_observed_usage": false,
+    "attempts": 1,
+    "observed_completed_usage": {
+      "cached_input_tokens": 0,
+      "input_tokens": 0,
+      "output_tokens": 0
+    },
+    "provider_billing_complete": false,
+    "states": {
+      "completed": 0,
+      "pending": 1,
+      "unknown": 0
+    }
+  },
+  "journal_before_kill": {
+    "all_attempts_have_observed_usage": false,
+    "attempts": 1,
+    "observed_completed_usage": {
+      "cached_input_tokens": 0,
+      "input_tokens": 0,
+      "output_tokens": 0
+    },
+    "provider_billing_complete": false,
+    "states": {
+      "completed": 0,
+      "pending": 1,
+      "unknown": 0
+    }
+  },
+  "proxy_exit_code": -9,
+  "upstream_200_before_proxy_kill": true
+}
