@@ -1,0 +1,68 @@
+{
+  "api_requests_by_endpoint": {
+    "/models": 2,
+    "/responses": 2
+  },
+  "cli": {
+    "completed_turns": 1,
+    "error_events": 0,
+    "failed_turns": 0,
+    "tokens": {
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 12032,
+      "input_tokens": 24740,
+      "output_tokens": 52,
+      "reasoning_output_tokens": 0,
+      "total_input_output_tokens": 24792,
+      "uncached_input_tokens": 12708
+    }
+  },
+  "end_to_end_usage_complete": false,
+  "limitations": [
+    "OTel is emitted by the CLI, not an independent provider ledger.",
+    "OTel may be buffered and lost on abrupt process termination.",
+    "Response usage cannot be joined or deduplicated by count alone.",
+    "Startup prewarm usage may be outside CLI turn usage; billing is unknown.",
+    "Missing request usage is unknown, not zero; this audit does not estimate billed cost."
+  ],
+  "model_request_events": 2,
+  "otel_minus_cli": {
+    "cache_write_input_tokens": 0,
+    "cached_input_tokens": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "reasoning_output_tokens": 0,
+    "total_input_output_tokens": 0
+  },
+  "otel_reported_tokens": {
+    "cache_write_input_tokens": 0,
+    "cached_input_tokens": 12032,
+    "input_tokens": 24740,
+    "output_tokens": 52,
+    "reasoning_output_tokens": 0,
+    "total_input_output_tokens": 24792
+  },
+  "otlp_batches": 6,
+  "otlp_bytes": 207557,
+  "process_exit_code": 0,
+  "request_count_minus_usage_completion_count": 0,
+  "request_identity_keys_present": [],
+  "response_completions_with_usage": 2,
+  "response_completions_without_usage": 2,
+  "schema": "solcodex.otel-observation-audit.v1",
+  "sse_events_by_kind": {
+    "response.completed": 4,
+    "response.content_part.added": 1,
+    "response.content_part.done": 1,
+    "response.created": 2,
+    "response.custom_tool_call_input.delta": 23,
+    "response.custom_tool_call_input.done": 1,
+    "response.in_progress": 2,
+    "response.output_item.added": 2,
+    "response.output_item.done": 2,
+    "response.output_text.delta": 15,
+    "response.output_text.done": 1
+  },
+  "startup_prewarm_websocket_warmup_phases": 0,
+  "websocket_request_events": 0
+}

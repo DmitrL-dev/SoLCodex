@@ -1,0 +1,57 @@
+{
+  "api_requests_by_endpoint": {
+    "/models": 2
+  },
+  "cli": {
+    "completed_turns": 1,
+    "error_events": 0,
+    "failed_turns": 0,
+    "tokens": {
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 22016,
+      "input_tokens": 24747,
+      "output_tokens": 53,
+      "reasoning_output_tokens": 0,
+      "total_input_output_tokens": 24800,
+      "uncached_input_tokens": 2731
+    }
+  },
+  "end_to_end_usage_complete": false,
+  "limitations": [
+    "OTel is emitted by the CLI, not an independent provider ledger.",
+    "OTel may be buffered and lost on abrupt process termination.",
+    "Response usage cannot be joined or deduplicated by count alone.",
+    "Startup prewarm usage may be outside CLI turn usage; billing is unknown.",
+    "Missing request usage is unknown, not zero; this audit does not estimate billed cost."
+  ],
+  "model_request_events": 3,
+  "otel_minus_cli": {
+    "cache_write_input_tokens": 0,
+    "cached_input_tokens": 0,
+    "input_tokens": 10786,
+    "output_tokens": 0,
+    "reasoning_output_tokens": 0,
+    "total_input_output_tokens": 10786
+  },
+  "otel_reported_tokens": {
+    "cache_write_input_tokens": 0,
+    "cached_input_tokens": 22016,
+    "input_tokens": 35533,
+    "output_tokens": 53,
+    "reasoning_output_tokens": 0,
+    "total_input_output_tokens": 35586
+  },
+  "otlp_batches": 7,
+  "otlp_bytes": 89218,
+  "process_exit_code": 0,
+  "request_count_minus_usage_completion_count": 0,
+  "request_identity_keys_present": [],
+  "response_completions_with_usage": 3,
+  "response_completions_without_usage": 0,
+  "schema": "solcodex.otel-observation-audit.v1",
+  "sse_events_by_kind": {
+    "response.completed": 3
+  },
+  "startup_prewarm_websocket_warmup_phases": 1,
+  "websocket_request_events": 3
+}

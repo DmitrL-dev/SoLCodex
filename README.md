@@ -67,6 +67,8 @@ The [hook result boundary study](docs/research/2026-09-24-hook-result-boundary.m
 
 The [independent confirmation draft](docs/research/2026-09-24-confirmation-campaign-draft.md) specifies a once-only 360-task planning target, stronger verifier qualification, isolation, and request accounting. It is a design, not completed evidence.
 
+The [OTel usage probes](docs/measurements/2026-09-24-otel-usage-boundary.md) found WebSocket startup usage outside CLI turn totals and missing usage after abrupt termination. Published aggregates and a sanitized parser preserve these limits; they are not provider billing records.
+
 The [existing-task hook refresh study](docs/research/2026-09-24-live-hook-refresh.md) records a successful same-task, next-turn refresh after upgrade, without restarting the app. The code-mode script still received the original result.
 
 The [real-repository receipt pilot](docs/measurements/2026-09-24-real-repo-pilot.md) records two paired repairs, their aggregate trace data, and invalid exploratory attempts. Both pairs passed independent checks; token and time effects differed by task.
