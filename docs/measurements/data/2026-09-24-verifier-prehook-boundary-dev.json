@@ -1,0 +1,70 @@
+{
+  "full_shell_semantics_qualified": false,
+  "harness_declared_code_mode": true,
+  "harness_declared_codex_cli": "0.155.0-alpha.16.3",
+  "host_run_version_independently_verified": false,
+  "installed_solcodex_plugin": false,
+  "provider_billing_complete": false,
+  "repair_quality_measured": false,
+  "runs": {
+    "direct": {
+      "artifact_contains_marker": false,
+      "blocked_non_model_connections": 0,
+      "cli_trace_sha256": "a1459fab5b0b5a64c33063edb0266d0efdb320ad2d681907cd0a61e628fe8120",
+      "command_output_bytes": 8180,
+      "exact_command_matched": false,
+      "fixture_template_sha256": "39938a454cb75f47131fbb86acd19a0fb0ab80eabc048073cc17d4cd197a421c",
+      "hook_event_name": null,
+      "next_request_body_bytes": 60930,
+      "next_request_usage": {
+        "cached_tokens": 7936,
+        "input_tokens": 11190,
+        "output_tokens": 21
+      },
+      "proxy_observed_total_usage": {
+        "cached_input_tokens": 15872,
+        "input_tokens": 21215,
+        "output_tokens": 114
+      },
+      "proxy_summary_sha256": "53bf7f54409d6a40e73de5c9c62d419e1d0e1599a27072633d74ddddb0d89f7a",
+      "request_marker_flags": [
+        false,
+        true
+      ],
+      "separate_stream_artifacts": false,
+      "tool_name": null,
+      "verifier_child_executions": 1,
+      "verifier_command_sha256": "a1c9d559bf715e05e0307f0c51386833b10989cd68a4de780d4d0f3ceac10c07"
+    },
+    "prehook": {
+      "artifact_contains_marker": true,
+      "blocked_non_model_connections": 4,
+      "cli_trace_sha256": "8993d70bd99140bb36dc8682278fa857f244d2eb9e53185dc4eb190324e582df",
+      "command_output_bytes": 29,
+      "exact_command_matched": true,
+      "fixture_template_sha256": "39938a454cb75f47131fbb86acd19a0fb0ab80eabc048073cc17d4cd197a421c",
+      "hook_event_name": "PreToolUse",
+      "next_request_body_bytes": 52530,
+      "next_request_usage": {
+        "cached_tokens": 7936,
+        "input_tokens": 10128,
+        "output_tokens": 5
+      },
+      "proxy_observed_total_usage": {
+        "cached_input_tokens": 15872,
+        "input_tokens": 20150,
+        "output_tokens": 77
+      },
+      "proxy_summary_sha256": "6b467e5da81475addded8b21171920eb9e0ac6f08659d6a7983f2faf89cff5b5",
+      "request_marker_flags": [
+        false,
+        false
+      ],
+      "separate_stream_artifacts": true,
+      "tool_name": "Bash",
+      "verifier_child_executions": 1,
+      "verifier_command_sha256": "a1c9d559bf715e05e0307f0c51386833b10989cd68a4de780d4d0f3ceac10c07"
+    }
+  },
+  "schema": "solcodex.verifier-prehook-boundary-development.v1"
+}

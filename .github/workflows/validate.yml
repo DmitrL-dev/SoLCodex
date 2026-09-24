@@ -72,6 +72,10 @@ jobs:
         env:
           PYTHONDONTWRITEBYTECODE: "1"
         run: python -m unittest scripts.test_audit_prehook_request_probe -v
+      - name: Test verifier PreToolUse boundary audit
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python -m unittest scripts.test_audit_verifier_prehook_probe -v
       - name: Test projected candidate export
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
         env:
