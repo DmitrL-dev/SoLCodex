@@ -10,6 +10,12 @@ For eligible Enterprise workspaces, the [Codex plan guide](https://help.openai.c
 
 The [API request-ID guide](https://developers.openai.com/api/reference/overview) documents `x-request-id` and a caller-supplied `X-Client-Request-Id` for supported API endpoints, including their use in support investigations. It does not document a self-service request-ID-to-bill query for the ChatGPT Codex backend. Such IDs could improve forensic joins but do not by themselves fill missing usage.
 
+## Why the current journal cannot supply a finite upper bound
+
+The local [attempt journal](../../scripts/usage_attempt_ledger.py) commits an attempt before completion, but it does not record an enforced per-request input or output ceiling. In the proxy-crash probe, one attempt has no final usage. HTTP 200, the request-body length, and elapsed time do not establish the maximum number of tokens charged for that attempt. A 128-request cap in the [confirmation draft](2026-09-24-confirmation-campaign-draft.md) is a proposed runner rule, not a bound on tokens within one request.
+
+A conservative arm bound would require `sum(known input + output) + sum(unknown input_max + output_max)` over *every* dispatched attempt, with supported maxima for the actual endpoint, authentication, and model. The current journal has no such maxima, no complete retry/continuation chain, and no independent provider reconciliation. Public API limits cannot simply be assigned to the observed ChatGPT-authenticated backend route. Therefore the upper bound is presently **unestablished**; shortening the reconciliation window or treating unknown usage as zero would not fix it.
+
 ## Decision for a confirmatory campaign
 
 The current ChatGPT-authenticated setup can report **proxy-observed response usage** with explicit unknown attempts. It cannot yet report complete provider-debited usage. An API-key campaign with a dedicated project, isolated traffic, usage-API reconciliation, and separate daily cost reconciliation is a potential *different* measurement environment. It requires API and Admin credentials, model/version equivalence checks, and a paid-run budget; none was available in this probe. A workspace Enterprise route requires its own access and granularity verification. Until one route accounts for every accepted attempt—including cancellation, proxy loss, retries, and startup requests—any general savings claim remains NO-GO. Missing usage is unknown, never zero.

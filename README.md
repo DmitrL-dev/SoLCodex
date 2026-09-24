@@ -69,6 +69,10 @@ The [independent confirmation draft](docs/research/2026-09-24-confirmation-campa
 
 The [metadata-only candidate ranking gate](docs/research/2026-09-24-candidate-ranking.md) publishes prior development exposures and a strict ranking script before any held-out task rows are inspected. No candidate IDs or outcomes have been selected.
 
+The pinned metadata export produced [an aggregate of 32,079 rows](docs/measurements/data/2026-09-24-candidate-metadata-export.json); 282 directly exposed rows were excluded. Repository lineage and task eligibility remain unreviewed.
+
+A [phase-reset development pilot](docs/measurements/2026-09-24-phase-reset-development.md) tested a fresh edit session against resuming after a shared diagnosis on one exposed packaging task. Both repairs passed external checks; the smaller reset CLI token total is exploratory and does not measure the installed plugin or provider billing.
+
 The [OTel usage probes](docs/measurements/2026-09-24-otel-usage-boundary.md) found WebSocket startup usage outside CLI turn totals and missing usage after abrupt termination. Published aggregates and a sanitized parser preserve these limits; they are not provider billing records.
 
 An [HTTP proxy development probe](docs/measurements/2026-09-24-http-proxy-usage-development.md) observed final response usage after the CLI was killed. A live SQLite journal preserved that case, while killing the proxy after upstream HTTP 200 left a pending request with unknown usage. None of these results validates provider billing or general savings.

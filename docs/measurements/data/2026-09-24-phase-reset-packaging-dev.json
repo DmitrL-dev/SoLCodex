@@ -1,0 +1,87 @@
+{
+  "schema": "solcodex.phase-reset-development-aggregate.v1",
+  "kind": "development",
+  "task": "exposed packaging #928",
+  "intervention": "fresh edit session with diagnosis handoff versus resumed diagnosis session",
+  "installed_plugin_enabled": false,
+  "receipt_adapter_enabled": false,
+  "held_out": false,
+  "model": "gpt-6-luna",
+  "reasoning_effort": "low",
+  "codex_cli": "0.155.0-alpha.16.3",
+  "codex_binary_sha256_observed_after_run": "c67698d0990aae05211d9c43ab343ad9517e406824dea77eca103a2806232b3a",
+  "parent_git_tree_sha1": "fe23f653c822cfdb61d0c7ae81cf0bba9024a3e1",
+  "external_verifier_sha256": "841776fda08a41df4f0c652dda02a0b440d8b08dbaf5e16231520d3dcc1d4324",
+  "frozen_design_sha256": "fbc14bbc3e8193f4dd75c44184994d557fd6e59308eeba42f2f6d5114b291560",
+  "trace_sha256": {
+    "diagnosis": "53d09cfac3effca4e284ea4228dfe05149394dbb0f6aa0ee70f141d6fd48503a",
+    "reset": "c49ab831815e920562994d94ba78b5f097667a59256dd44620a041503b91bed1",
+    "resume": "37105ecdca6a41bfd868992de961834f2dd0e675f3bed381c87017497a32fc98"
+  },
+  "patch_sha256": {
+    "reset": "b0c1cb59908ff97db1ba4e8f17899a3e8e49d4bb18d6b2af8b2d5ce1e9d73817",
+    "resume": "93256da333ee03232273b753a45c908c69bab613e4eac630ec902a541ccc6183"
+  },
+  "parent_external_checks": "8/14",
+  "historical_fix_external_checks": "14/14",
+  "shared_diagnosis": {
+    "completed_turns": 1,
+    "cli_input_plus_output_tokens": 59893,
+    "cli_cached_input_tokens": 45056,
+    "cli_output_tokens": 855,
+    "elapsed_seconds": 32.65,
+    "tool_calls": 3
+  },
+  "execution_order": ["reset", "resume"],
+  "fresh_session_distinct_and_resume_reused_diagnosis_session": true,
+  "arms": {
+    "reset": {
+      "completed_edit_turns": 1,
+      "cli_edit_input_plus_output_tokens": 128784,
+      "cli_total_with_shared_diagnosis_tokens": 188677,
+      "cli_total_cached_input_tokens": 148480,
+      "cli_total_uncached_input_tokens": 37839,
+      "cli_total_output_tokens": 2358,
+      "total_elapsed_seconds": 78.684,
+      "edit_tool_calls": 8,
+      "external_checks": "14/14",
+      "full_upstream_tests_passed": 27298,
+      "full_upstream_tests_skipped": 1,
+      "patch_bytes": 4261
+    },
+    "resume": {
+      "completed_edit_turns": 1,
+      "cli_edit_input_plus_output_tokens": 175953,
+      "cli_total_with_shared_diagnosis_tokens": 235846,
+      "cli_total_cached_input_tokens": 199168,
+      "cli_total_uncached_input_tokens": 33888,
+      "cli_total_output_tokens": 2790,
+      "total_elapsed_seconds": 71.38,
+      "edit_tool_calls": 5,
+      "external_checks": "14/14",
+      "full_upstream_tests_passed": 27296,
+      "full_upstream_tests_skipped": 1,
+      "patch_bytes": 1709
+    }
+  },
+  "reset_minus_resume_cli_tokens": -47169,
+  "reset_relative_cli_token_change_percent": -20.0,
+  "reset_relative_elapsed_change_percent": 10.23,
+  "post_hoc_gold_behavior_cases": 583,
+  "post_hoc_gold_behavior_mismatches": {"reset": 0, "resume": 0},
+  "initial_evaluator_misclassified_both_arms": true,
+  "initial_evaluator_failure": "git diff --check ran in an evaluation copy without .git",
+  "evaluator_correction_sha256": "b137825aa61dac5b52fe24273e69016c76a4c105c7e31b71a52df5ec55ec4399",
+  "public_corrected_evaluator_sha256": "be082696b4cb5c00f4ffa221312a9c9e3b383314986725f6bc923935cd8cae4b",
+  "public_corrected_evaluator_results": {
+    "reset": {"applies": true, "diff_check_exit": 0, "verifier_exit": 0, "verifier_summary": "TOTAL 14/14"},
+    "resume": {"applies": true, "diff_check_exit": 0, "verifier_exit": 0, "verifier_summary": "TOTAL 14/14"}
+  },
+  "untracked_agent_files": {"reset": 0, "resume": 0},
+  "differential_report_sha256": "623c1548cece414fb4d732a51f92807f4274f36c7eb59acc39b33a0712712378",
+  "runner_code_hash_frozen_before_run": false,
+  "reset_home_contained_prior_session_files": true,
+  "independent_provider_request_accounting_complete": false,
+  "provider_billing_complete": false,
+  "general_savings_established": false
+}
