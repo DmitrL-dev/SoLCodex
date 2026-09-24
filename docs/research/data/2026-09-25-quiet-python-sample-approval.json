@@ -1,0 +1,17 @@
+{
+  "schema": "solcodex.quiet-python-sample-approval.v1",
+  "status": "pending",
+  "lineage_ranking_sha256": null,
+  "task_review_sha256": null,
+  "projected_candidate_sha256": "4c5848034925a17d81b9423988391231e04f36305421cac94f6589dd4b674020",
+  "lineage_map_sha256": null,
+  "ancestry_evidence_sha256": null,
+  "map_approval_sha256": null,
+  "projection_aggregate_sha256": null,
+  "selector_sha256": null,
+  "quiet_helper_sha256": null,
+  "core_selector_sha256": null,
+  "rules_sha256": null,
+  "screen_proposal_sha256": null,
+  "independent_curators": []
+}

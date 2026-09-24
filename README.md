@@ -113,11 +113,13 @@ A [two-attempt transport qualification matrix](docs/research/2026-09-25-two-atte
 
 The [two-attempt synthetic result](docs/measurements/2026-09-25-two-attempt-transport-development.md) matches the frozen matrix: two completed upstream attempts count 400 input-plus-output tokens; removing first-attempt usage leaves total cost unknown despite a 250-token known subtotal. The public reducer reproduces these limited aggregates.
 
-The dedicated [24-task selector](docs/research/2026-09-25-quiet-screen-selector.md) fixes eight tasks per family and blocks local sample output until the private review, shared matching code and two independent curator attestations are bound by a separate approval. Its current approval is pending.
+The original [full-corpus 24-task selector](docs/research/2026-09-25-quiet-screen-selector.md) fixes eight tasks per family and blocks local sample output until the private review, shared matching code and two independent curator attestations are bound by a separate approval. Its current approval is pending.
 
-A [metadata-only Python projection](docs/research/2026-09-25-quiet-python-projection.md) reduces the pending quiet-screen ancestry map from 3,607 direct repository names to 687, with no task IDs or outcomes published. It does not qualify ancestry or authorize selection; the selector still needs a separately approved scoped map.
+A [metadata-only Python projection](docs/research/2026-09-25-quiet-python-projection.md) reduces the pending quiet-screen ancestry map from 3,607 direct repository names to 687, with no task IDs or outcomes published. It does not qualify ancestry or authorize selection; the scoped selector still needs independently approved ancestry and task review.
 
 The [scoped Python lineage ranker](docs/research/2026-09-25-quiet-python-lineage-ranker.md) now checks the projected pool and requires a separate, independently reviewed ancestry-map approval. That approval remains pending, and no lineage ranking or sample has been published.
+
+The [scoped 24-task Python selector](docs/research/2026-09-25-quiet-python-sample-selector.md) replays the full lineage ranking and has its own pending curator approval. It has not selected tasks or authorized a model run.
 
 A [benchmark-source review](docs/research/2026-09-25-benchmark-source-robustness.md) adds SWE-bench-Live and SetUpAgent evidence on repository diversity, executable environments and contamination risk. It does not change the pinned held-out source or authorize sample selection.
 
