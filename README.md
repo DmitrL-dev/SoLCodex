@@ -115,6 +115,8 @@ The [two-attempt synthetic result](docs/measurements/2026-09-25-two-attempt-tran
 
 The dedicated [24-task selector](docs/research/2026-09-25-quiet-screen-selector.md) fixes eight tasks per family and blocks local sample output until the private review, shared matching code and two independent curator attestations are bound by a separate approval. Its current approval is pending.
 
+A [metadata-only Python projection](docs/research/2026-09-25-quiet-python-projection.md) reduces the pending quiet-screen ancestry map from 3,607 direct repository names to 687, with no task IDs or outcomes published. It does not qualify ancestry or authorize selection; the selector still needs a separately approved scoped map.
+
 A [benchmark-source review](docs/research/2026-09-25-benchmark-source-robustness.md) adds SWE-bench-Live and SetUpAgent evidence on repository diversity, executable environments and contamination risk. It does not change the pinned held-out source or authorize sample selection.
 
 The separate [exposed quiet-diagnostic model screen protocol, revision 2](docs/research/2026-09-25-quiet-diagnostic-model-screen-protocol-v2.md) froze four development runs on the already studied Click and packaging issues, with exact CLI, runtime, runner, evaluator and decision-rule pins. The [four-run result](docs/measurements/2026-09-25-quiet-diagnostic-model-screen-development.md) failed its independent quality and frozen first-command gates. Lower observed aggregate token use therefore does not establish qualified or general savings. Two initial provider compatibility attempts had unknown usage and are disclosed in the protocol revision.

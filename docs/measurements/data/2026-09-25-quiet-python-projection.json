@@ -1,0 +1,21 @@
+{
+  "schema": "solcodex.quiet-python-projection-aggregate.v1",
+  "candidate_source": "nebius/SWE-rebench-V2",
+  "candidate_revision": "475dd5e8703bb5fb22dd3c60b5d038b019eba1e0",
+  "predicate": "language == 'python'",
+  "source_candidate_sha256": "f0ce40acd96554d66554e0896152eb3e8fc741a626be74da29bc884",
+  "projection_code_sha256": "bd4336f7dbd8af629c52daa5d35cb83342dcff8af74f17b6f873929cbab69749",
+  "dependency_sha256": {
+    "rank_confirm_candidates.py": "e868e18111ae652d8478874960030dc551ce873321a13c40b191bba1bf814410",
+    "rank_confirm_lineages.py": "20175e2997a3a3dd85dd6d7f5dac8e0e9f4750d6c171086c182d7dcc5fce19cd",
+    "select_quiet_screen_sample.py": "7d2578786da93bc7e7d6f05ec35e7c96fd583e17b50d8c8ec1f5ff37aa4d8003"
+  },
+  "private_projection_sha256": "4c5848034925a17d81b9423988391231e04f36305421cac94f6589dd4b674020",
+  "source_candidate_count": 31797,
+  "projected_candidate_count": 7124,
+  "projected_direct_repository_count": 687,
+  "lineage_review_required": true,
+  "ancestry_independently_verified": false,
+  "sample_selection_authorized": false,
+  "model_run_authorized": false
+}
