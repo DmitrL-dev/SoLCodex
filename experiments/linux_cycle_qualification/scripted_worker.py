@@ -95,7 +95,7 @@ def main() -> int:
     print(json.dumps({"phase": "finished", "http_status": status,
                       "completion_seen": completed, "source_sha256": digest((work / "duration.py").read_bytes())},
                      sort_keys=True), flush=True)
-    return 0
+    return 0 if status == 200 and completed else 4
 
 
 if __name__ == "__main__":

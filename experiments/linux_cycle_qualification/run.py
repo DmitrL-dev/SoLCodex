@@ -362,6 +362,7 @@ def run(output: Path) -> int:
                     docker("rm", "-f", second_worker, check=False)
                     docker("rm", "-f", broker_name, check=False)
                     continue
+                stage = scenario + ":acceptance"
                 new = wait_for(lambda: [item["attempt_id"] for item in
                                        http_json(port, "/state")["requests"]
                                        if item["attempt_id"] not in before],
@@ -373,40 +374,49 @@ def run(output: Path) -> int:
                 if accepted is None or accepted["state"] != "accepted":
                     raise RuntimeError("accepted provider record not durable")
                 if scenario != "reconciliation_unavailable":
+                    stage = scenario + ":accepted_reconciliation"
                     reconciliation = ReconciliationLedger(ledger_path)
                     try:
                         reconciliation.reconcile(accepted)
                     finally:
                         reconciliation.close()
                 if scenario == "timeout_checkpoint":
+                    stage = scenario + ":checkpoint"
                     wait_for(lambda: (work / ".checkpoint_ready").is_file(),
                              "workspace checkpoint")
+                stage = scenario + ":fault_injection"
                 if scenario in {"worker_killed", "timeout_checkpoint"}:
                     docker("kill", worker_name)
                 targeted_worker_kill = scenario in {"worker_killed", "timeout_checkpoint"}
                 if scenario == "broker_killed":
                     docker("kill", broker_name)
-                    targeted_worker_kill = docker("kill", worker_name, check=False).returncode == 0
                 http_json(port, "/release/" + quote(attempt), post=True)
+                stage = scenario + ":provider_journal"
                 expected_provider = "accepted" if scenario == "no_completion" else "completed"
                 record = wait_for(lambda: (row if (row := provider_row(upstream_db, attempt))
                                         and row["state"] == expected_provider else None),
                                   "provider final journal")
                 expected_local = ("pending" if scenario == "broker_killed" else
                                   "unknown" if scenario == "no_completion" else "completed")
+                stage = scenario + ":local_ledger"
                 wait_for(lambda: local_state(ledger_path, attempt) == expected_local,
                          "local ledger state")
+                stage = scenario + ":worker_exit"
                 exit_code = int(docker("wait", worker_name, timeout=15).stdout.strip())
-                if ((targeted_worker_kill and exit_code != 137) or
-                        (not targeted_worker_kill and scenario == "broker_killed" and
-                         exit_code == 0) or
-                        (not targeted_worker_kill and scenario != "broker_killed" and
-                         exit_code != 0)):
+                expected_exits = ({137} if targeted_worker_kill else
+                                  {3, 4} if scenario == "broker_killed" else
+                                  {4} if scenario == "no_completion" else {0})
+                if exit_code not in expected_exits:
                     raise RuntimeError("worker exit differs from scenario")
                 logs = worker_logs(worker_name)
                 preflight = next((item for item in logs if item.get("phase") == "preflight"), None)
                 if preflight is None or not all(preflight["checks"].values()):
                     raise RuntimeError("worker containment checks failed")
+                if scenario in {"broker_killed", "no_completion"} and any(
+                        item.get("phase") == "finished" and item.get("completion_seen")
+                        for item in logs):
+                    raise RuntimeError("failed request was reported as completed")
+                stage = scenario + ":completed_reconciliation"
                 reconciliation = ReconciliationLedger(ledger_path)
                 try:
                     if scenario != "reconciliation_unavailable":
@@ -424,6 +434,7 @@ def run(output: Path) -> int:
                                          1 if scenario == "no_completion" else 2) or
                         summary["provider_billing_complete"] is not False):
                     raise RuntimeError("reconciliation completeness invalid")
+                stage = scenario + ":checkpoint_integrity"
                 source = (work / "duration.py").read_bytes()
                 expected_source = (GOLD_SHA256 if scenario in {"normal", "timeout_checkpoint"}
                                    else PARENT_SHA256)
