@@ -1,0 +1,79 @@
+{
+  "all_network_attempts_accounted": false,
+  "codex_cli": "0.155.0-alpha.16.3",
+  "installed_solcodex_plugin": false,
+  "nested_javascript_await_verified": false,
+  "private_request_bodies_retained": false,
+  "provider_billing_complete": false,
+  "runs": {
+    "direct": {
+      "artifact_contains_exact_original": false,
+      "blocked_non_model_connections": 0,
+      "cli_trace_sha256": "20f7e26eda1231ebe291180f26123f4f608a3b37fd5215c5804f629f1f485b3f",
+      "command_output_bytes": 8033,
+      "next_request_body_bytes": 60374,
+      "next_request_usage": {
+        "cached_tokens": 7936,
+        "input_tokens": 11091,
+        "output_tokens": 23
+      },
+      "proxy_summary_sha256": "30633fcfb019c4086168f0bcae42ec38f61dddb8c6e602c68bb73fc574e08adb",
+      "request_marker_flags": [
+        false,
+        true
+      ]
+    },
+    "direct-code": {
+      "artifact_contains_exact_original": false,
+      "blocked_non_model_connections": 0,
+      "cli_trace_sha256": "cc03315dd830c04b005a1e0e0e8ab4f4ecaef3331837f00b819f1eb753306e00",
+      "command_output_bytes": 8033,
+      "next_request_body_bytes": 56376,
+      "next_request_usage": {
+        "cached_tokens": 3840,
+        "input_tokens": 10589,
+        "output_tokens": 20
+      },
+      "proxy_summary_sha256": "37a73b3ef5598d888d1c2295cb5beccc52334c2122a82b481ea01e71f1c568d2",
+      "request_marker_flags": [
+        false,
+        true
+      ]
+    },
+    "prehook": {
+      "artifact_contains_exact_original": true,
+      "blocked_non_model_connections": 4,
+      "cli_trace_sha256": "00eb935110abe3a634d7bb885c5b26ed718032c9aec87b443c65e15623d516da",
+      "command_output_bytes": 29,
+      "next_request_body_bytes": 52295,
+      "next_request_usage": {
+        "cached_tokens": 3840,
+        "input_tokens": 10059,
+        "output_tokens": 5
+      },
+      "proxy_summary_sha256": "ad072c513ed3b7623b0142a07a40b78fd34fe34bdf6782107c72db69de5ad57c",
+      "request_marker_flags": [
+        false,
+        false
+      ]
+    },
+    "prehook-code": {
+      "artifact_contains_exact_original": true,
+      "blocked_non_model_connections": 4,
+      "cli_trace_sha256": "ea190d53406f67d38ac0a80db55e5ab04576729c2137756e5aa4c65766eb4b82",
+      "command_output_bytes": 29,
+      "next_request_body_bytes": 52296,
+      "next_request_usage": {
+        "cached_tokens": 7936,
+        "input_tokens": 10062,
+        "output_tokens": 5
+      },
+      "proxy_summary_sha256": "0094cfdb931033b61d1b3b0587bc5cad5e33f638cbfb13a3085ef74c346db2c5",
+      "request_marker_flags": [
+        false,
+        false
+      ]
+    }
+  },
+  "schema": "solcodex.next-request-boundary-development.v1"
+}

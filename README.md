@@ -65,6 +65,8 @@ A [macOS isolation probe](docs/measurements/2026-09-24-agent-isolation-probe.md)
 
 The [hook result boundary study](docs/research/2026-09-24-hook-result-boundary.md) records the direct and code-mode limitations, related upstream work, and the safe control-flow change in 0.1.9.
 
+A [next-request probe](docs/measurements/2026-09-24-next-request-boundary-development.md) observed that a temporary `PreToolUse` rewrite kept an output-only marker out of the next model request in both direct and code mode. It was one simple command, not installed-plugin savings or a transparent wrapper.
+
 The [independent confirmation draft](docs/research/2026-09-24-confirmation-campaign-draft.md) specifies a once-only 360-task planning target, stronger verifier qualification, isolation, and request accounting. It is a design, not completed evidence.
 
 The [metadata-only candidate ranking gate](docs/research/2026-09-24-candidate-ranking.md) published prior development exposures and a strict ranking script before the pinned metadata export. No candidate task has been selected, and no remaining candidate's gold or test patch has been inspected for this gate.
