@@ -67,7 +67,7 @@ The [hook result boundary study](docs/research/2026-09-24-hook-result-boundary.m
 
 The [independent confirmation draft](docs/research/2026-09-24-confirmation-campaign-draft.md) specifies a once-only 360-task planning target, stronger verifier qualification, isolation, and request accounting. It is a design, not completed evidence.
 
-The [metadata-only candidate ranking gate](docs/research/2026-09-24-candidate-ranking.md) publishes prior development exposures and a strict ranking script before any held-out task rows are inspected. No candidate IDs or outcomes have been selected.
+The [metadata-only candidate ranking gate](docs/research/2026-09-24-candidate-ranking.md) published prior development exposures and a strict ranking script before the pinned metadata export. No candidate task has been selected, and no remaining candidate's gold or test patch has been inspected for this gate.
 
 The pinned metadata export produced [an aggregate of 32,079 rows](docs/measurements/data/2026-09-24-candidate-metadata-export.json); 282 directly exposed rows were excluded. Repository lineage and task eligibility remain unreviewed.
 
