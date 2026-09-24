@@ -49,6 +49,8 @@ The [context-efficiency research map](docs/research/2026-09-23-context-efficienc
 
 The [Unreal Agent review](docs/research/2026-09-24-unreal-agent.md) checks its reported 39.23% Terminal-Bench cost difference against the linked Harbor run and separates asynchronous harness orchestration from this plugin's receipt mechanism.
 
+The [RRSI research review](docs/research/2026-09-24-rrsi.md) adds an adaptive-overfitting gate for harness experiments: record failed hypotheses, freeze held-out tasks, and compare full-task cost with the unevolved baseline. The paper's lower token use is relative to another evolved harness, not evidence of SoL Codex savings.
+
 The [retrieval-economics research note](docs/research/2026-09-24-retrieval-economics.md) reviews newer agent-memory evidence and tests whether an agent can recover a decisive line hidden by a bounded receipt. It keeps quality, provider tokens, retrieval work, and elapsed time separate.
 
 A separate [bounded artifact-search prototype](docs/measurements/receipt-adapter.md#bounded-artifact-search) prevents broad literal queries from replaying an entire saved command result. It is opt-in research code, outside the installed plugin.

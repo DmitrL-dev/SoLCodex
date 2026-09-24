@@ -6,6 +6,7 @@ All notable changes to this project are documented here.
 
 ### Research and documentation
 
+- Reviewed RRSI's held-out transfer and token-cost evidence, audited its public selection code, and added a frozen-task/complete-telemetry gate to the research protocol; no plugin runtime change.
 - Reviewed Unreal Agent's Terminal-Bench claim against its public Harbor job and source; documented the benchmark's cost-audit limits and a separate harness-level A/B design.
 - Added a source-linked retrieval-economics review and a pilot that makes an agent recover evidence omitted from a bounded receipt; the pilot passed verification but used more total tokens and time with the adapter.
 - Added an opt-in bounded artifact-search research prototype, focused tests, and CI coverage after broad artifact queries replayed the full diagnostic twice.
