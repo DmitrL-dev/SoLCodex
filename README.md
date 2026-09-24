@@ -121,6 +121,8 @@ The [scoped Python lineage ranker](docs/research/2026-09-25-quiet-python-lineage
 
 The [scoped 24-task Python selector](docs/research/2026-09-25-quiet-python-sample-selector.md) replays the full lineage ranking and has its own pending curator approval. It has not selected tasks or authorized a model run.
 
+A [20-repository GitHub metadata pilot](docs/measurements/2026-09-25-quiet-python-repository-probe-pilot.md) captured 14 valid responses and six unresolved redirects from the private Python queue. It is a preliminary ancestry evidence collection, not a lineage approval or an estimate for all 687 repositories.
+
 A [benchmark-source review](docs/research/2026-09-25-benchmark-source-robustness.md) adds SWE-bench-Live and SetUpAgent evidence on repository diversity, executable environments and contamination risk. It does not change the pinned held-out source or authorize sample selection.
 
 The separate [exposed quiet-diagnostic model screen protocol, revision 2](docs/research/2026-09-25-quiet-diagnostic-model-screen-protocol-v2.md) froze four development runs on the already studied Click and packaging issues, with exact CLI, runtime, runner, evaluator and decision-rule pins. The [four-run result](docs/measurements/2026-09-25-quiet-diagnostic-model-screen-development.md) failed its independent quality and frozen first-command gates. Lower observed aggregate token use therefore does not establish qualified or general savings. Two initial provider compatibility attempts had unknown usage and are disclosed in the protocol revision.
