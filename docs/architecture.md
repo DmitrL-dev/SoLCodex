@@ -32,7 +32,7 @@ flowchart LR
   F -->|yes| G[exact local artifact]
   G --> H[sanitized bounded receipt]
   H --> I[Non-blocking PostToolUse feedback]
-  I --> J[Direct result may use receipt]
+  I --> J[Host may expose original in direct mode]
   I --> K[Code-mode script may retain original]
   G --> AR[per-model report]
   F -->|no| U[Original result unchanged]
@@ -44,7 +44,7 @@ The active model slug selects only the byte threshold. Exact `gpt-6-astra` uses 
 
 When output is eligible, the hook writes the exact bytes it received to a private local artifact and computes a SHA-256 digest. The receipt includes known or unknown status, model profile, size, line count, hashes, a local artifact path, bounded diagnostic lines, and bounded head/tail previews. Supported credential shapes are redacted from the receipt; the exact artifact is deliberately unchanged. Output already truncated by the host before `PostToolUse` cannot be recovered.
 
-The hook compares serialized UTF-8 sizes before emitting feedback. If archival fails or the receipt is not smaller, the original result continues unchanged. `continue: false` avoids deliberately rejecting a code-mode Promise after the tool executes. The documented host behavior may still return the original result to a code-mode script; that script can re-emit it. The local byte report measures source versus receipt length, not actual model input in that case. Runtime exceptions are caught so the host session can continue: the plugin is fail-open.
+The hook compares serialized UTF-8 sizes before emitting feedback. If archival fails or the receipt is not smaller, the original result continues unchanged. `continue: false` avoids deliberately rejecting a code-mode Promise after the tool executes. On the tested CLI, the original remained available after non-blocking feedback in both direct and code-mode probes. The local byte report measures source versus receipt length, not actual model input. Runtime exceptions are caught so the host session can continue: the plugin is fail-open.
 
 ## Verification debt and compaction
 
