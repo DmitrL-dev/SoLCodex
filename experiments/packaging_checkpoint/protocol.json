@@ -1,0 +1,68 @@
+{
+  "schema": "solcodex.packaging-checkpoint-development-protocol.v1",
+  "status": "development-predeclared",
+  "task": "exposed packaging #928 SPDX nested-parenthesis repair",
+  "repository": "https://github.com/pypa/packaging.git",
+  "parent_commit": "3f83dea9b60e660e464535a1019d2de62723884f",
+  "parent_tree": "fe23f653c822cfdb61d0c7ae81cf0bba9024a3e1",
+  "historical_fix_commit": "a1f705642e50b79da6be83fb0f6149daa32fc7cc",
+  "historical_fix_tree": "b02a3cc76755cf16a9d247c003fb4748de52b51f",
+  "frozen_behavior_verifier_sha256": "841776fda08a41df4f0c652dda02a0b440d8b08dbaf5e16231520d3dcc1d4324",
+  "trusted_upstream_test": "tests/test_metadata.py from historical_fix_commit",
+  "image": "python@sha256:2f17fc044b579bab302c2e8054d3a686e2cb9a83de48e70534b94cd8ebbe06a9",
+  "source_date_epoch": 1761699550,
+  "wheels": [
+    {
+      "filename": "flit_core-3.12.0-py3-none-any.whl",
+      "sha256": "e7a0304069ea895172e3c7bb703292e992c5d1555dd1233ab7b5621b5b69e62c",
+      "url": "https://files.pythonhosted.org/packages/f2/65/b6ba90634c984a4fcc02c7e3afe523fef500c4980fec67cc27536ee50acf/flit_core-3.12.0-py3-none-any.whl"
+    },
+    {
+      "filename": "pytest-8.4.2-py3-none-any.whl",
+      "sha256": "872f880de3fc3a5bdc88a11b39c9710c3497a547cfa9320bc3c5e62fbf272e79",
+      "url": "https://files.pythonhosted.org/packages/a8/a4/20da314d277121d6534b3a980b29035dcd51e6744bd79075a6ce8fa4eb8d/pytest-8.4.2-py3-none-any.whl"
+    },
+    {
+      "filename": "iniconfig-2.1.0-py3-none-any.whl",
+      "sha256": "9deba5723312380e77435581c6bf4935c94cbfab9b1ed33ef8d238ea168eb760",
+      "url": "https://files.pythonhosted.org/packages/2c/e1/e6716421ea10d38022b952c159d5161ca1193197fb744506875fbb87ea7b/iniconfig-2.1.0-py3-none-any.whl"
+    },
+    {
+      "filename": "pluggy-1.6.0-py3-none-any.whl",
+      "sha256": "e920276dd6813095e9377c0bc5566d94c932c33b27a3e3945d8389c374dd4746",
+      "url": "https://files.pythonhosted.org/packages/54/20/4d324d65cc6d9205fabedc306948156824eb9f0ee1633355a8f7ec5c66bf/pluggy-1.6.0-py3-none-any.whl"
+    },
+    {
+      "filename": "pygments-2.19.2-py3-none-any.whl",
+      "sha256": "86540386c03d588bb81d44bc3928634ff26449851e99741617ecb9037ee5ec0b",
+      "url": "https://files.pythonhosted.org/packages/c7/21/705964c7812476f378728bdf590ca4b771ec72385c533964653c68e86bdc/pygments-2.19.2-py3-none-any.whl"
+    }
+  ],
+  "scenarios_in_order": [
+    "parent",
+    "historical_fix",
+    "alternate_checkpoint_1",
+    "alternate_checkpoint_2",
+    "wrong_symptom_only_with_forged_tests",
+    "alternate_without_helper"
+  ],
+  "behavior_gate": {
+    "parent": "8/14; nested cases fail",
+    "historical_fix": "14/14",
+    "alternate_checkpoints": "14/14 each, with identical manifests and result vectors",
+    "wrong_symptom_only_with_forged_tests": "rejected by trusted behavior despite forged candidate tests; upstream result reported separately",
+    "alternate_without_helper": "installed import fails; the new source file is material"
+  },
+  "upstream_gate": "historical fix and both alternate checkpoints pass trusted historical-fix tests/test_metadata.py after wheel installation",
+  "checkpoint_gate": "complete source tree, additions, deletions, executable modes, and internal symlinks survive capture and restore; external symlinks and special files fail closed",
+  "worker": {
+    "cpus": 2,
+    "memory_bytes": 2147483648,
+    "network": "none",
+    "stopped_before_capture": true
+  },
+  "model_requests": 0,
+  "provider_billing_complete": false,
+  "target_worker_qualified": false,
+  "scope": "exposed development fixture and synthetic worker; not independent repair quality, provider billing, or savings"
+}
