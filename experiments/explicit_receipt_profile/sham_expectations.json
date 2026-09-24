@@ -1,0 +1,16 @@
+{
+  "arm_order": [
+    "off",
+    "sham",
+    "on"
+  ],
+  "interpretation": "Compare complete serialized request bytes only. Synthetic provider usage is fixed and cannot establish model tokens, repair quality, or causal full-task savings.",
+  "model_run_authorized": false,
+  "prior_expectations_sha256": "166d0dd88c2d933dbb25c094641bca537e6a11d45399adce13badcef8e8198fa",
+  "private_source_sha256": {
+    "frozen_sham_package_control.py": "3d614eeb4a05646097ba45a7ac7f460b6037d3fe53129fcf66c8cb07bd0eb3e7",
+    "sham_package_probe.py": "57b9b2ef1f49716f61d9d9b6c6247ec48a8774855890180a0fe9824893a07e1f"
+  },
+  "schema": "solcodex.explicit-sham-plan.v1",
+  "status": "prospective_no_model_decomposition"
+}
