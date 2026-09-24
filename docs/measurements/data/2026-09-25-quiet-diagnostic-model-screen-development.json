@@ -1,0 +1,77 @@
+{
+  "cli": {
+    "code_mode": true,
+    "effort": "low",
+    "model": "gpt-6-luna",
+    "sha256": "c67698d0990aae05211d9c43ab343ad9517e406824dea77eca103a2806232b3a",
+    "version": "codex-cli 0.155.0-alpha.16.3"
+  },
+  "code_sha256": {
+    "audit.py": "ca5ebcda9af4e70feccbb502d42e895d75575f6668d4c0e7d37db2e5ad2b2330",
+    "broker_route.py": "6befd0bfe804ee451e132de4978b09f54f8d2ba5d09ba0f173c92e752c55bdb2",
+    "evaluate.py": "0706611b51ce9d4ea1d56d1973868f0a04d26441f658ee204d2747f5986a6922",
+    "host_bridge.py": "715957d3a6249173831c6c32b18dd133726ae2c0818803eca1f66197f3cd9fe6",
+    "isolation.py": "1d066b85412899338bde0a350adf74331515b6c1a0799cfac164e1df9209de7f",
+    "live_pilot.py": "48a04348d2050e5ca6221355319ff00b7287864b6c13789fcbafdd93f45173f3",
+    "pilot.py": "efd4ea9b97a564199fe66bf1c45d61ea6dbd0f6386b6148063e6bbdd3f8a94ee",
+    "process.py": "f38eb548f6e1326513f1e4745bf8c16d6a2785f1fc453b078001419af6a8f5a1",
+    "protocol_gate.py": "26310f67dd99ea15fe2b6f0581d41588bd60622a5f902a191ea4862aabae3c07",
+    "runtime_manifest.py": "d75109adcc217b3ec0049f5f67bb66913f94192cfa19bf7341073a816bcbc41c",
+    "safe_tree.py": "d308e37c198afbd5bd7d13c5dcd030ef665210f3e979cdad046a5d8755d84b43",
+    "snapshot.py": "016d29cd0f24141478eeab6d8b1d0e94228a22de2754a40bf8d01d01a1189e9c"
+  },
+  "method": "exposed-development-manual-counterbalance",
+  "quality": {
+    "assets_lock_sha256": "e61fee1904c164eabcba731a509394d45b9dbf8b6d517c4b7e39380aac40fd90",
+    "evaluator_runtime_sha256": "5a9a72a2ee60a188ac820f73b0baefc591926e0c6b72b8f1849d315bfb69640c"
+  },
+  "request_cap": 32,
+  "schedule": [
+    {
+      "arm": "verbose",
+      "id": "01-click-off",
+      "task": "click"
+    },
+    {
+      "arm": "quiet",
+      "id": "02-click-on",
+      "task": "click"
+    },
+    {
+      "arm": "quiet",
+      "id": "03-packaging-on",
+      "task": "packaging"
+    },
+    {
+      "arm": "verbose",
+      "id": "04-packaging-off",
+      "task": "packaging"
+    }
+  ],
+  "schema": "solcodex.quiet-model-screen.v1",
+  "seed": "f8796b38f0d21b7d0da166544cd219da",
+  "source_commits": {
+    "click": "16fe802a3f96c4c8fa3cd382f1a7577fda0c5321",
+    "packaging": "3f83dea9b60e660e464535a1019d2de62723884f"
+  },
+  "source_tree_sha256": {
+    "click": "6ab22715612fbcf9b079787f1589018a67c40f284de34b63ba18dce71487bbe3",
+    "packaging": "1ac9eb290502fbf5b3425d790e4b00b0cb17112f4940fabaa80544f4078f5045"
+  },
+  "status": "frozen",
+  "thresholds": {
+    "all_four_first_commands_verified": true,
+    "all_four_quality_pass": true,
+    "all_usage_observed": true,
+    "max_total_token_ratio": 0.85,
+    "max_wall_time_ratio": 1.25,
+    "on_no_more_tokens_in_each_task": true
+  },
+  "timeout_seconds": 600,
+  "usage_ledger_sha256": "1da10986547580b9e9afeb34d92b1f649a1fa5bfb36ac6a7aa2e26d7d99c565f",
+  "venv_tree_sha256": "c3302c0f5c59a7b8fe6c164c927cc3be03810967fbbc4b6e097849ed07b18d17",
+  "visible_patch_sha256": {
+    "click": "df0214b32febf5c367577485a5e834fe30b80e864a3cca086761b78cca53b781",
+    "packaging": "2650c4086b5522cc165232f1938947d7a1ca3280c25f25bcb456b0bbb5e4f602"
+  }
+}

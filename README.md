@@ -105,6 +105,8 @@ A separate [SymPy development pair](docs/measurements/2026-09-24-natural-history
 
 A [prospective held-out quiet-diagnostic screen](docs/research/2026-09-25-heldout-quiet-screen-proposal.md) is proposed for 24 new repository lineages. Its selection and approval gates remain pending; no task has been selected or run under that proposal.
 
+The separate [exposed quiet-diagnostic model screen protocol](docs/research/2026-09-25-quiet-diagnostic-model-screen-protocol.md) freezes four development runs on the already studied Click and packaging issues, with exact CLI, runtime, runner, evaluator and decision-rule pins. It has no model outcomes yet and cannot establish general savings.
+
 An [exposed source-level verifier probe](docs/measurements/2026-09-24-sympy-verifier-known-miss-development.md) reproduces the score difference: the shared-superclass variant passes the original 35/35 and selected upstream 48/48, but fails two later compatibility checks whose acceptance status is disputed. The verifiers and source-variant generator are public.
 
 A [diagnostic mutation pilot](docs/measurements/2026-09-24-sympy-diagnostic-mutants-development.md) records six distinct v2 failure vectors with source and report hashes. Several variants were tailored to known checks or share one failure mechanism, so the six-plausible-wrong-fix qualification gate remains unmet.
