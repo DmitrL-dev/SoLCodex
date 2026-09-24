@@ -1,0 +1,81 @@
+{
+  "bridge_stopped": true,
+  "broker_stopped": true,
+  "checkpoint_status": "captured",
+  "checkpoint_tree_sha256": "1ac9eb290502fbf5b3425d790e4b00b0cb17112f4940fabaa80544f4078f5045",
+  "cleanup_verified": true,
+  "cli_binary_sha256": "c67698d0990aae05211d9c43ab343ad9517e406824dea77eca103a2806232b3a",
+  "controller_sha256": "2416fe6a65f9f35a9fc0b8908a55ff6f86146f223e4101acd514b047ec7a9b5e",
+  "diagnostic_signature": true,
+  "exit_code": 0,
+  "expectations_sha256": "382bcb54ffeaae8b6fdf0e527275ab88a06152a8fa0ce46b6e186fa76c6c8987",
+  "first_command": {
+    "commands_observed": 1,
+    "first_command_completed": true,
+    "first_command_exact": true,
+    "first_exit_code": 1,
+    "malformed_lines": 0,
+    "other_prior_actions": [],
+    "status": "observed",
+    "trace_complete": true
+  },
+  "provider_errors": 0,
+  "provider_requests": 2,
+  "python_version": "3.12.14",
+  "quality_report_sha256": "b276c7abf38264f5d7be9af53f6ffed01c67f550b37457632920c658a3aafa18",
+  "quality_status": "fail",
+  "reconciliation_complete": true,
+  "request_items": [
+    [],
+    [
+      {
+        "call_id": "call_synthetic_1",
+        "type": "custom_tool_call"
+      },
+      {
+        "call_id": "call_synthetic_1",
+        "type": "custom_tool_call_output"
+      }
+    ]
+  ],
+  "runtime_tree_sha256": "c3302c0f5c59a7b8fe6c164c927cc3be03810967fbbc4b6e097849ed07b18d17",
+  "schema": "solcodex.real-cli-synthetic-provider-observations.v1",
+  "scope": "exploratory_synthetic_provider_real_cli",
+  "source_tree_sha256": "1ac9eb290502fbf5b3425d790e4b00b0cb17112f4940fabaa80544f4078f5045",
+  "source_unchanged": true,
+  "technical_ok": true,
+  "timed_out": false,
+  "trace_event_shapes": [
+    [
+      "thread.started",
+      null,
+      null
+    ],
+    [
+      "turn.started",
+      null,
+      null
+    ],
+    [
+      "item.started",
+      "command_execution",
+      "in_progress"
+    ],
+    [
+      "item.completed",
+      "command_execution",
+      "failed"
+    ],
+    [
+      "turn.completed",
+      null,
+      null
+    ]
+  ],
+  "trace_sha256": "a6afe5dc19f163ca01cf9151a689548ef3892b24481f00c09f2b24bfb8e1fce2",
+  "usage": {
+    "cached_input_tokens": 190,
+    "input_tokens": 320,
+    "output_tokens": 80
+  }
+}
