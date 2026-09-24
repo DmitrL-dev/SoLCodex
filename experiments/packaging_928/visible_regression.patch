@@ -1,0 +1,10 @@
+diff --git a/tests/test_metadata.py b/tests/test_metadata.py
+--- a/tests/test_metadata.py
++++ b/tests/test_metadata.py
+@@ -1294,1 +1294,6 @@ class TestMetadata:
+         assert bytes(message) == full.encode("utf-8")
++
++
++def test_nested_spdx_regression_probe():
++    from packaging.licenses import canonicalize_license_expression
++    assert canonicalize_license_expression("((MIT))") == "((MIT))"
