@@ -1,0 +1,95 @@
+{
+  "controls": {
+    "accept_days": {
+      "private_preflight_passed": 33,
+      "private_preflight_total": 34,
+      "source_sha256": "c21030150c1edb355c6850f7412804ced84cf9ff408ab8bce1247e54a917f19c",
+      "witness_case": "wrong_unit",
+      "witness_observed_wire": "I:86400"
+    },
+    "accept_float": {
+      "private_preflight_passed": 33,
+      "private_preflight_total": 34,
+      "source_sha256": "c5de069c3e9f67788c66f2986e4b98fedbadeda705c60a7c7a996d51eb146cd8",
+      "witness_case": "float",
+      "witness_observed_wire": "O"
+    },
+    "accept_negative_int": {
+      "private_preflight_passed": 33,
+      "private_preflight_total": 34,
+      "source_sha256": "7987e486bf773e5c19600ce953d719269363392ceb127a04b040e030eeb890b4",
+      "witness_case": "negative_int",
+      "witness_observed_wire": "I:-1"
+    },
+    "accept_newline": {
+      "private_preflight_passed": 33,
+      "private_preflight_total": 34,
+      "source_sha256": "8b748855156ea8ed1d494bd7ec7a3103ed348f57d6ea31fefb02348b56efbbe5",
+      "witness_case": "trailing_newline",
+      "witness_observed_wire": "I:1"
+    },
+    "bool_as_int": {
+      "private_preflight_passed": 32,
+      "private_preflight_total": 34,
+      "source_sha256": "3422dae4ef8bd56234e51f389f01d1b4fa362fb34a5f9fa44ef561e2b701e0ac",
+      "witness_case": "bool_false",
+      "witness_observed_wire": "O"
+    },
+    "float_result": {
+      "private_preflight_passed": 30,
+      "private_preflight_total": 34,
+      "source_sha256": "9cb03ee11e601eb8aac6766d06a98b5c49e7ba5053e43bac7385d8f31f51100e",
+      "witness_case": "hours",
+      "witness_observed_wire": "O"
+    },
+    "forged_unittest": {
+      "private_preflight_passed": 0,
+      "private_preflight_total": 34,
+      "source_sha256": "2a821690391d9112557e84ee178ed1cb46205fdec63de781240486a6e3b8a255",
+      "witness_case": "bool_false",
+      "witness_observed_wire": "O"
+    },
+    "hour_factor": {
+      "private_preflight_passed": 33,
+      "private_preflight_total": 34,
+      "source_sha256": "11ae3988898ebf798b8436474c18a459a4996905388c36c64397d50dd1610383",
+      "witness_case": "hours",
+      "witness_observed_wire": "I:720"
+    },
+    "minute_factor": {
+      "private_preflight_passed": 33,
+      "private_preflight_total": 34,
+      "source_sha256": "cab7b10ed4b0ae403647ce68ce0b0099303ca4813ac3d2fce762ff6df7a2f649",
+      "witness_case": "minutes",
+      "witness_observed_wire": "I:400"
+    },
+    "negative_string_type": {
+      "private_preflight_passed": 16,
+      "private_preflight_total": 34,
+      "source_sha256": "0991687b7355a6bb2ad0af629157357d6bd8190912994272f3c8123328f58619",
+      "witness_case": "double_suffix",
+      "witness_observed_wire": "T"
+    },
+    "reference": {
+      "private_preflight_passed": 34,
+      "private_preflight_total": 34,
+      "source_sha256": "d5d361e15b8e45f300122cace4ad94e1a84bb93ac57b0bc63670998daad3f3a1",
+      "witness_case": null
+    },
+    "strip_whitespace": {
+      "private_preflight_passed": 28,
+      "private_preflight_total": 34,
+      "source_sha256": "38def60f99b11eeb79783006502ff8e43557a5ca659092339b962bbc5a676049",
+      "witness_case": "leading_space",
+      "witness_observed_wire": "I:1"
+    },
+    "unicode_digits": {
+      "private_preflight_passed": 33,
+      "private_preflight_total": 34,
+      "source_sha256": "e61530b7cba643fae12793c9cbecd9a44dea3978312e2c62d146bc1d307f7379",
+      "witness_case": "unicode_digit",
+      "witness_observed_wire": "I:1"
+    }
+  },
+  "schema": "solcodex.action-fusion-controls.v1"
+}

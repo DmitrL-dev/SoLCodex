@@ -1,0 +1,87 @@
+{
+  "arms": {
+    "off": {
+      "accepted": true,
+      "agent_elapsed_seconds": 29.061,
+      "evidence_sha256": {
+        "candidate": "6d4fe6ed205622f659ac9353af8e005bbe7a29bb639660c823f91f2b596e7398",
+        "design": "10dd4ebd35dde6b0eb5f54462b9751c4b7bb92b10604d48892bc8527752f66a5",
+        "evaluation": "dfad60230fe9530965f1eceac7b5c6796d1a06aea1cc6082f77c0c9cd8134453",
+        "process": "dcd70c0dbc1c1f32ba781c5364ab7aeb196383f16082ba1009e2a54eabbab73d",
+        "proxy_summary": "89476485982c8f22095f95fadb3c2f46419e31cb69a81407f74db21569e0151b",
+        "trace": "01b76e081de10ce677927754016df284a4f967dd45f75fb3b00635f35b1f2d16"
+      },
+      "external_cases_passed": 34,
+      "external_cases_total": 34,
+      "model_requests": 5,
+      "provider_billing_complete": false,
+      "proxy_observed_usage": {
+        "cached_input_tokens": 34560,
+        "input_plus_output_tokens": 50888,
+        "input_tokens": 50140,
+        "output_tokens": 748,
+        "uncached_input_tokens": 15580
+      },
+      "source_sha256": "6d4fe6ed205622f659ac9353af8e005bbe7a29bb639660c823f91f2b596e7398",
+      "trace_mechanism": {
+        "combined_attempt_edit_failed_but_test_ran": 0,
+        "combined_shell_edit_test_attempts": 0,
+        "completed_command_items": 4,
+        "completed_file_change_items": 1,
+        "public_verifier_command_exits": [
+          0
+        ],
+        "separately_permissioned_fusion_attested": false
+      }
+    },
+    "on": {
+      "accepted": true,
+      "agent_elapsed_seconds": 53.307,
+      "evidence_sha256": {
+        "candidate": "a8250175de189d1c872a7c59459692d641f96dbd2ddb5fc8d647c4ea34d9e9a2",
+        "design": "db4fcd260d196021abcb5e171d73323ff4f9ffd5a453b8bd73900a5d8e0e3d9a",
+        "evaluation": "8fad5babc67098e373cb93c6854d862a6c382bcda0374780f98c59896d6bc533",
+        "process": "1c835330e02b639f33907431a71085ef855fdb595ed129ba094a1d8a9257cc99",
+        "proxy_summary": "5bc584abddf7f08a68eab7891bbe0456a0e0877ecf9223a27cfee71ff482eba8",
+        "trace": "4cd9f007b09924cd8cee6d618e2fe72cfbc7f6911e97331db7e5df9631cf24db"
+      },
+      "external_cases_passed": 34,
+      "external_cases_total": 34,
+      "model_requests": 9,
+      "provider_billing_complete": false,
+      "proxy_observed_usage": {
+        "cached_input_tokens": 64256,
+        "input_plus_output_tokens": 101116,
+        "input_tokens": 99774,
+        "output_tokens": 1342,
+        "uncached_input_tokens": 35518
+      },
+      "source_sha256": "a8250175de189d1c872a7c59459692d641f96dbd2ddb5fc8d647c4ea34d9e9a2",
+      "trace_mechanism": {
+        "combined_attempt_edit_failed_but_test_ran": 1,
+        "combined_shell_edit_test_attempts": 1,
+        "completed_command_items": 7,
+        "completed_file_change_items": 3,
+        "public_verifier_command_exits": [
+          1,
+          1,
+          0
+        ],
+        "separately_permissioned_fusion_attested": false
+      }
+    }
+  },
+  "frozen_commit": "31b518d2c58675700230e98bbaab4a79b331d58b",
+  "installed_hook_tested": false,
+  "observed_on_minus_off_seconds": 24.246,
+  "observed_on_minus_off_tokens": 50228,
+  "observed_on_over_off_token_ratio": 1.98703,
+  "one_pair_general_savings_supported": false,
+  "protocol_sha256": "28c253dc5e186a8e58278ee317602fc3eb4d66de6a436f19a0309d8237f26a6e",
+  "provider_billing_complete": false,
+  "run_order": [
+    "off",
+    "on"
+  ],
+  "schema": "solcodex.action-fusion-mechanism-development.v1"
+}

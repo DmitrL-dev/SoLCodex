@@ -1,0 +1,26 @@
+name: Action fusion behavior replay
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/action-fusion-replay.yml
+      - experiments/action_fusion/**
+      - docs/measurements/data/2026-09-24-action-fusion-mechanism-dev.json
+
+permissions:
+  contents: read
+
+jobs:
+  replay:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Replay published candidates in isolated containers
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python3 -m experiments.action_fusion.replay_behavior

@@ -101,6 +101,8 @@ An [exposed source-level verifier probe](docs/measurements/2026-09-24-sympy-veri
 
 A [diagnostic mutation pilot](docs/measurements/2026-09-24-sympy-diagnostic-mutants-development.md) records six distinct v2 failure vectors with source and report hashes. Several variants were tailored to known checks or share one failure mechanism, so the six-plausible-wrong-fix qualification gate remains unmet.
 
+An [action-fusion mechanism pair](docs/measurements/2026-09-24-action-fusion-mechanism-development.md) passed 34/34 external checks in both arms, but ON used 98.7% more proxy-observed tokens and its combined shell edit failed before the verifier ran on the unchanged parent. Published candidate sources and a Linux behavior replay make the negative result inspectable. No general saving is established.
+
 Two [instruction-blinded repair attempts](docs/measurements/2026-09-24-sympy-blind-repairs-development.md) later produced the same shared-superclass patch. Its clean replay passes v1 35/35 and upstream 48/48 but scores 35/37 on v2. The repeated patch is plausible on this exposed task; its acceptability remains unresolved.
 
 The [A/B trace accounting guide](docs/measurements/ab-trace.md) documents an aggregate-only `codex exec --json` parser, private manifest format, quality checks, and limits of the earlier five-pair pilot.
