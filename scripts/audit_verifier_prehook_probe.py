@@ -12,6 +12,7 @@ import json
 from pathlib import Path
 import re
 import shlex
+import sys
 
 try:
     from scripts.audit_prehook_request_probe import tokens
@@ -20,8 +21,23 @@ except ModuleNotFoundError:
 
 
 MARKER = re.compile(rb"HIDDEN_[0-9a-f]{24}")
-STATUS = re.compile(rb"CAPTURED_BYTES=([0-9]+) STATUS=0\n?\Z")
+STATUS = re.compile(rb"CAPTURED_BYTES=([0-9]+) STATUS=([01])\n?\Z")
 SUCCESS = re.compile(rb"test_output \(test_probe\.Probe\.test_output\) \.\.\. ok\r?\n.*Ran 1 test in [0-9.]+s\r?\n\r?\nOK\r?\n?\Z", re.S)
+FAILURE_FIXTURE_TEMPLATE_SHA256 = "a3e057b8502a9cc289586dfbac7caa4c88f0acdfd60afac7129ce46178482438"
+
+
+def failure_pattern(root: Path, merged_streams: bool = False) -> re.Pattern[bytes]:
+    source = re.escape(str(root / "work/test_probe.py").encode())
+    first = (rb"FAIL: test_output \(test_probe\.Probe\.test_output\)\r?\n"
+             if merged_streams else
+             rb"test_output \(test_probe\.Probe\.test_output\) \.\.\. FAIL\r?\n")
+    return re.compile(
+        first +
+        rb".*Traceback \(most recent call last\):\r?\n"
+        rb".*File \"" + source + rb"\", line 8, in test_output\r?\n"
+        rb"\s*self\.fail\('expected diagnostic failure'\)\r?\n"
+        rb"AssertionError: expected diagnostic failure\r?\n"
+        rb".*Ran 1 test in [0-9.]+s\r?\n\r?\nFAILED \(failures=1\)\r?\n?\Z", re.S)
 
 
 def shell_payload(command):
@@ -34,7 +50,10 @@ def shell_payload(command):
 
 
 def captured_argv(source):
-    tree = ast.parse(source)
+    try:
+        tree = ast.parse(source)
+    except SyntaxError as error:
+        raise ValueError("invalid private capture helper syntax") from None
     calls = [node for node in ast.walk(tree) if isinstance(node, ast.Call) and
              isinstance(node.func, ast.Attribute) and
              isinstance(node.func.value, ast.Name) and
@@ -50,7 +69,22 @@ def captured_argv(source):
     return argv
 
 
-def inspect(root: Path, prehook: bool) -> dict:
+def expected_capture_source(artifacts: Path, python: str) -> str:
+    argv_source = "[" + repr(python) + ",'-m','unittest','-v','test_probe']"
+    return (
+        "import pathlib,subprocess,sys\n"
+        "root=pathlib.Path(" + repr(str(artifacts)) + ")\n"
+        "with (root/'stdout.bin').open('wb') as out, (root/'stderr.bin').open('wb') as err:\n"
+        " code=subprocess.run(" + argv_source + ",stdout=out,stderr=err).returncode\n"
+        "size=(root/'stdout.bin').stat().st_size+(root/'stderr.bin').stat().st_size\n"
+        "print(f'CAPTURED_BYTES={size} STATUS={code}')\n"
+        "raise SystemExit(code)\n"
+    )
+
+
+def inspect(root: Path, prehook: bool, expected_exit: int = 0) -> dict:
+    if expected_exit not in (0, 1):
+        raise ValueError("unsupported verifier exit status")
     root = Path(root)
     artifacts = root / "artifacts"
     fixture = (root / "work" / "test_probe.py").read_bytes()
@@ -59,6 +93,8 @@ def inspect(root: Path, prehook: bool) -> dict:
         raise ValueError("expected exactly one private marker")
     marker = matches[0]
     fixture_template_sha256 = hashlib.sha256(fixture.replace(marker, b"<MARKER>")).hexdigest()
+    if expected_exit and fixture_template_sha256 != FAILURE_FIXTURE_TEMPLATE_SHA256:
+        raise ValueError("nonzero probe fixture differs from pinned failing test")
     count = (root / "work" / "run-count.log").read_text().splitlines()
     if count != ["run"]:
         raise ValueError("verifier child did not execute exactly once")
@@ -103,7 +139,7 @@ def inspect(root: Path, prehook: bool) -> dict:
     items = [event.get("item", {}) for event in events if event.get("type") == "item.completed"]
     commands = [item for item in items if item.get("type") == "command_execution"]
     finals = [item.get("text", "") for item in items if item.get("type") == "agent_message"]
-    if len(commands) != 1 or commands[0].get("exit_code") != 0 or not finals or \
+    if len(commands) != 1 or commands[0].get("exit_code") != expected_exit or not finals or \
             any(not isinstance(answer, str) for answer in finals):
         raise ValueError("verifier command or final answer is missing")
     raw_output = commands[0].get("aggregated_output")
@@ -129,11 +165,13 @@ def inspect(root: Path, prehook: bool) -> dict:
         if (len(executed) != 2 or not Path(executed[0]).is_absolute() or
                 executed[1] != "capture.py"):
             raise ValueError("prehook did not run the expected capture command")
-        verifier_argv = captured_argv((root / "work" / "capture.py").read_text())
+        capture_source = (root / "work" / "capture.py").read_text()
+        verifier_argv = captured_argv(capture_source)
         expected = [executed[0], "-m", "unittest", "-v", "test_probe"]
         hook_source = (root / "market/plugins/verifier-event-probe/scripts/hook.py").read_text()
         if (verifier_argv != expected or repr(" ".join(expected)) not in hook_source or
-                repr(" ".join(executed)) not in hook_source):
+                repr(" ".join(executed)) not in hook_source or
+                capture_source != expected_capture_source(artifacts, executed[0])):
             raise ValueError("hook admission and capture child differ from direct verifier")
         if (not stdout.is_file() or not stderr.is_file() or
                 stdout.is_symlink() or stderr.is_symlink() or stdout.samefile(stderr)):
@@ -141,8 +179,10 @@ def inspect(root: Path, prehook: bool) -> dict:
         expected_stdout = b"A" * 8000 + b"\n" + marker + b"\n"
         stdout_bytes, stderr_bytes = stdout.read_bytes(), stderr.read_bytes()
         match = STATUS.fullmatch(output)
-        if (stdout_bytes != expected_stdout or not SUCCESS.fullmatch(stderr_bytes) or
-                match is None or int(match.group(1)) != len(stdout_bytes) + len(stderr_bytes)):
+        expected_stderr = SUCCESS if expected_exit == 0 else failure_pattern(root)
+        if (stdout_bytes != expected_stdout or not expected_stderr.fullmatch(stderr_bytes) or
+                match is None or int(match.group(1)) != len(stdout_bytes) + len(stderr_bytes) or
+                int(match.group(2)) != expected_exit):
             raise ValueError("prehook artifact or bounded result missing")
     else:
         verifier_argv = executed
@@ -150,8 +190,10 @@ def inspect(root: Path, prehook: bool) -> dict:
                 executed[1:] != ["-m", "unittest", "-v", "test_probe"] or
                 stdout.exists() or stderr.exists() or len(output) <= 6000):
             raise ValueError("direct command did not run the pinned verifier")
+        if expected_exit and not failure_pattern(root, merged_streams=True).search(output):
+            raise ValueError("direct failure diagnosis is missing")
 
-    return {"request_marker_flags": flags,
+    result = {"request_marker_flags": flags,
             "tool_name": "Bash" if prehook else None,
             "hook_event_name": "PreToolUse" if prehook else None,
             "exact_command_matched": prehook,
@@ -167,19 +209,29 @@ def inspect(root: Path, prehook: bool) -> dict:
             "blocked_non_model_connections": blocked,
             "proxy_summary_sha256": hashlib.sha256(summary_bytes).hexdigest(),
             "cli_trace_sha256": hashlib.sha256(trace_bytes).hexdigest()}
+    if expected_exit:
+        result["verifier_exit_code"] = expected_exit
+    return result
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--direct", required=True, type=Path)
     parser.add_argument("--prehook", required=True, type=Path)
+    parser.add_argument("--expected-exit", type=int, choices=(0, 1), default=0)
     args = parser.parse_args()
-    direct = inspect(args.direct, False)
-    prehook = inspect(args.prehook, True)
-    if (direct["fixture_template_sha256"] != prehook["fixture_template_sha256"] or
-            direct["verifier_command_sha256"] != prehook["verifier_command_sha256"]):
-        raise ValueError("direct and prehook runs used different verifier fixtures or commands")
-    report = {"schema": "solcodex.verifier-prehook-boundary-development.v1",
+    try:
+        direct = inspect(args.direct, False, args.expected_exit)
+        prehook = inspect(args.prehook, True, args.expected_exit)
+        if (direct["fixture_template_sha256"] != prehook["fixture_template_sha256"] or
+                direct["verifier_command_sha256"] != prehook["verifier_command_sha256"]):
+            raise ValueError("direct and prehook runs used different verifier fixtures or commands")
+    except Exception:
+        print("Audit failed: private input rejected", file=sys.stderr)
+        raise SystemExit(1) from None
+    report = {"schema": ("solcodex.verifier-prehook-nonzero-development.v1"
+                         if args.expected_exit else
+                         "solcodex.verifier-prehook-boundary-development.v1"),
               "harness_declared_codex_cli": "0.155.0-alpha.16.3",
               "harness_declared_code_mode": True,
               "host_run_version_independently_verified": False,
@@ -188,6 +240,8 @@ def main():
               "full_shell_semantics_qualified": False,
               "repair_quality_measured": False,
               "runs": {"direct": direct, "prehook": prehook}}
+    if args.expected_exit:
+        report["nonzero_status_preserved_in_cli_result"] = True
     print(json.dumps(report, indent=2, sort_keys=True))
 
 

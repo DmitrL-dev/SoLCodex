@@ -1,0 +1,73 @@
+{
+  "full_shell_semantics_qualified": false,
+  "harness_declared_code_mode": true,
+  "harness_declared_codex_cli": "0.155.0-alpha.16.3",
+  "host_run_version_independently_verified": false,
+  "installed_solcodex_plugin": false,
+  "nonzero_status_preserved_in_cli_result": true,
+  "provider_billing_complete": false,
+  "repair_quality_measured": false,
+  "runs": {
+    "direct": {
+      "artifact_contains_marker": false,
+      "blocked_non_model_connections": 0,
+      "cli_trace_sha256": "2b9cb8877e1ef50231f39941504516ee82f8e2719e1ac3f2534f54bdb761bc62",
+      "command_output_bytes": 8673,
+      "exact_command_matched": false,
+      "fixture_template_sha256": "a3e057b8502a9cc289586dfbac7caa4c88f0acdfd60afac7129ce46178482438",
+      "hook_event_name": null,
+      "next_request_body_bytes": 61192,
+      "next_request_usage": {
+        "cached_tokens": 7936,
+        "input_tokens": 11266,
+        "output_tokens": 19
+      },
+      "proxy_observed_total_usage": {
+        "cached_input_tokens": 15872,
+        "input_tokens": 21288,
+        "output_tokens": 91
+      },
+      "proxy_summary_sha256": "31bf9182073ac21ea72a5320ee9e360bb27d1f40e2d883174f32fd57b2396ca5",
+      "request_marker_flags": [
+        false,
+        true
+      ],
+      "separate_stream_artifacts": false,
+      "tool_name": null,
+      "verifier_child_executions": 1,
+      "verifier_command_sha256": "a1c9d559bf715e05e0307f0c51386833b10989cd68a4de780d4d0f3ceac10c07",
+      "verifier_exit_code": 1
+    },
+    "prehook": {
+      "artifact_contains_marker": true,
+      "blocked_non_model_connections": 4,
+      "cli_trace_sha256": "08ab93edc1d8a16f25a217116d4c27dd181d53215d886c883052f0ebbdc11fe9",
+      "command_output_bytes": 29,
+      "exact_command_matched": true,
+      "fixture_template_sha256": "a3e057b8502a9cc289586dfbac7caa4c88f0acdfd60afac7129ce46178482438",
+      "hook_event_name": "PreToolUse",
+      "next_request_body_bytes": 52807,
+      "next_request_usage": {
+        "cached_tokens": 3840,
+        "input_tokens": 10159,
+        "output_tokens": 5
+      },
+      "proxy_observed_total_usage": {
+        "cached_input_tokens": 11776,
+        "input_tokens": 20181,
+        "output_tokens": 108
+      },
+      "proxy_summary_sha256": "8a956b90a9dcdc45174baef7e3b9f98b2d984ca3fe9a44e6bc402a638d5456b4",
+      "request_marker_flags": [
+        false,
+        false
+      ],
+      "separate_stream_artifacts": true,
+      "tool_name": "Bash",
+      "verifier_child_executions": 1,
+      "verifier_command_sha256": "a1c9d559bf715e05e0307f0c51386833b10989cd68a4de780d4d0f3ceac10c07",
+      "verifier_exit_code": 1
+    }
+  },
+  "schema": "solcodex.verifier-prehook-nonzero-development.v1"
+}

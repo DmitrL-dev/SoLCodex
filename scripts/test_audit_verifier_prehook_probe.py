@@ -1,7 +1,10 @@
 """Ensure verifier hook boundary evidence fails closed without leaking marker text."""
+import contextlib
+import io
 import json
 from pathlib import Path
 import shlex
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -14,19 +17,43 @@ except ModuleNotFoundError:
 
 
 class VerifierPrehookAuditTests(unittest.TestCase):
-    def fixture(self, root, prehook):
+    def fixture(self, root, prehook, expected_exit=0):
         marker = b"HIDDEN_" + b"a" * 24
         work, artifacts = root / "work", root / "artifacts"
         work.mkdir()
         artifacts.mkdir()
-        (work / "test_probe.py").write_bytes(b"value = " + repr(marker.decode()).encode() + b"\n")
+        if expected_exit:
+            fixture = (
+                "import pathlib,sys,unittest\n"
+                "class Probe(unittest.TestCase):\n"
+                " def test_output(self):\n"
+                "  p=pathlib.Path('run-count.log')\n"
+                "  with p.open('a') as out:out.write('run\\n')\n"
+                "  sys.stdout.write('A'*8000+'\\n'+" + repr(marker.decode()) + "+'\\n')\n"
+                "  sys.stdout.flush()\n"
+                "  self.fail('expected diagnostic failure')\n"
+            ).encode()
+        else:
+            fixture = b"value = " + repr(marker.decode()).encode() + b"\n"
+        (work / "test_probe.py").write_bytes(fixture)
         (work / "run-count.log").write_text("run\n")
         executable = "/tmp/fixed-python3"
         command = executable + " -m unittest -v test_probe"
         stdout = b"A" * 8000 + b"\n" + marker + b"\n"
-        stderr = (b"test_output (test_probe.Probe.test_output) ... ok\n\n" +
-                  b"----------------------------------------------------------------------\n" +
-                  b"Ran 1 test in 0.000s\n\nOK\n")
+        if expected_exit:
+            stderr = (b"test_output (test_probe.Probe.test_output) ... FAIL\n\n" +
+                      b"======================================================================\n" +
+                      b"FAIL: test_output (test_probe.Probe.test_output)\n" +
+                      b"----------------------------------------------------------------------\n" +
+                      b"Traceback (most recent call last):\n" +
+                      ("  File \"" + str(work / "test_probe.py") + "\", line 8, in test_output\n").encode() +
+                      b"    self.fail('expected diagnostic failure')\n" +
+                      b"AssertionError: expected diagnostic failure\n\n" +
+                      b"Ran 1 test in 0.000s\n\nFAILED (failures=1)\n")
+        else:
+            stderr = (b"test_output (test_probe.Probe.test_output) ... ok\n\n" +
+                      b"----------------------------------------------------------------------\n" +
+                      b"Ran 1 test in 0.000s\n\nOK\n")
         if prehook:
             (artifacts / "stdout.bin").write_bytes(stdout)
             (artifacts / "stderr.bin").write_bytes(stderr)
@@ -34,7 +61,14 @@ class VerifierPrehookAuditTests(unittest.TestCase):
                 "hook_event_name": "PreToolUse", "tool_name": "Bash",
                 "tool_input_keys": ["command"], "command_matches_exact": True}) + "\n")
             (work / "capture.py").write_text(
-                "import subprocess\nsubprocess.run(" + repr([executable, "-m", "unittest", "-v", "test_probe"]) + ")\n")
+                "import pathlib,subprocess,sys\n"
+                "root=pathlib.Path(" + repr(str(artifacts)) + ")\n"
+                "with (root/'stdout.bin').open('wb') as out, (root/'stderr.bin').open('wb') as err:\n"
+                " code=subprocess.run([" + repr(executable) + ",'-m','unittest','-v','test_probe']" +
+                ",stdout=out,stderr=err).returncode\n"
+                "size=(root/'stdout.bin').stat().st_size+(root/'stderr.bin').stat().st_size\n"
+                "print(f'CAPTURED_BYTES={size} STATUS={code}')\n"
+                "raise SystemExit(code)\n")
             hook = root / "market/plugins/verifier-event-probe/scripts/hook.py"
             hook.parent.mkdir(parents=True)
             hook.write_text("if cmd==" + repr(command) + ":\n output=" +
@@ -55,11 +89,17 @@ class VerifierPrehookAuditTests(unittest.TestCase):
                                    "input_tokens": 21, "output_tokens": 2,
                                    "cached_input_tokens": 4}}}
         (artifacts / "proxy-summary.json").write_text(json.dumps(summary))
-        output = ("CAPTURED_BYTES=%d STATUS=0" % (len(stdout) + len(stderr))) if prehook else (stdout + stderr).decode()
+        if prehook:
+            output = "CAPTURED_BYTES=%d STATUS=%d" % (len(stdout) + len(stderr), expected_exit)
+        elif expected_exit:
+            prefix = b"test_output (test_probe.Probe.test_output) ... "
+            output = (prefix + stdout + stderr[len(prefix):]).decode()
+        else:
+            output = (stdout + stderr).decode()
         executed = executable + (" capture.py" if prehook else " -m unittest -v test_probe")
         events = [{"type": "item.completed", "item": {"type": "command_execution",
                     "command": "/bin/zsh -lc " + shlex.quote(executed),
-                    "exit_code": 0, "aggregated_output": output}},
+                    "exit_code": expected_exit, "aggregated_output": output}},
                   {"type": "item.completed", "item": {"type": "agent_message",
                     "text": "UNKNOWN" if prehook else marker.decode()}},
                   {"type": "turn.completed", "usage": {"input_tokens": 1,
@@ -76,6 +116,63 @@ class VerifierPrehookAuditTests(unittest.TestCase):
                                  [False, False] if prehook else [False, True])
                 self.assertEqual(report["verifier_child_executions"], 1)
                 self.assertNotIn(marker.decode(), json.dumps(report))
+
+    def test_nonzero_verifier_status_survives_capture_and_tampering_fails(self):
+        for prehook in (False, True):
+            with self.subTest(prehook=prehook), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                marker, _ = self.fixture(root, prehook, expected_exit=1)
+                report = inspect(root, prehook, expected_exit=1)
+                self.assertEqual(report["verifier_exit_code"], 1)
+                self.assertNotIn(marker.decode(), json.dumps(report))
+                trace = root / "artifacts/trace.jsonl"
+                events = [json.loads(line) for line in trace.read_text().splitlines()]
+                events[0]["item"]["exit_code"] = 0
+                trace.write_text("\n".join(json.dumps(event) for event in events) + "\n")
+                with self.assertRaises(ValueError):
+                    inspect(root, prehook, expected_exit=1)
+                if prehook:
+                    events[0]["item"]["exit_code"] = 1
+                    events[0]["item"]["aggregated_output"] = events[0]["item"]["aggregated_output"].replace(
+                        "STATUS=1", "STATUS=0")
+                    trace.write_text("\n".join(json.dumps(event) for event in events) + "\n")
+                    with self.assertRaises(ValueError):
+                        inspect(root, True, expected_exit=1)
+
+    def test_nonzero_helper_fixture_traceback_and_private_error_fail_closed(self):
+        with tempfile.TemporaryDirectory() as direct_dir, tempfile.TemporaryDirectory() as hook_dir:
+            direct, hook = Path(direct_dir), Path(hook_dir)
+            self.fixture(direct, False, expected_exit=1)
+            self.fixture(hook, True, expected_exit=1)
+            helper = hook / "work/capture.py"
+            original_helper = helper.read_text()
+            helper.write_text(original_helper.replace("raise SystemExit(code)", "raise SystemExit(0)"))
+            with self.assertRaises(ValueError):
+                inspect(hook, True, expected_exit=1)
+            helper.write_text(original_helper)
+            fixture = hook / "work/test_probe.py"
+            original_fixture = fixture.read_text()
+            fixture.write_text(original_fixture.replace("  self.fail('expected diagnostic failure')",
+                                                        "  # self.fail('expected diagnostic failure')"))
+            with self.assertRaises(ValueError):
+                inspect(hook, True, expected_exit=1)
+            fixture.write_text(original_fixture)
+            stderr = hook / "artifacts/stderr.bin"
+            original_stderr = stderr.read_bytes()
+            stderr.write_bytes(original_stderr.replace(b"Traceback (most recent call last):\n", b""))
+            with self.assertRaises(ValueError):
+                inspect(hook, True, expected_exit=1)
+            stderr.write_bytes(original_stderr)
+            helper.write_text("(\n# PRIVATE_SENTINEL_123\n")
+            result = subprocess.run(
+                [sys.executable, str(Path(__file__).with_name("audit_verifier_prehook_probe.py")),
+                 "--direct", str(direct), "--prehook", str(hook), "--expected-exit", "1"],
+                capture_output=True, text=True)
+            self.assertEqual(result.returncode, 1)
+            self.assertEqual(result.stdout, "")
+            self.assertEqual(result.stderr, "Audit failed: private input rejected\n")
+            self.assertNotIn(str(hook), result.stderr)
+            self.assertNotIn("PRIVATE_SENTINEL_123", result.stderr)
 
     def test_missing_provider_completion_fails_closed(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -170,8 +267,11 @@ class VerifierPrehookAuditTests(unittest.TestCase):
             with (hook / "work/test_probe.py").open("ab") as stream:
                 stream.write(b"# changed fixture\n")
             with mock.patch.object(sys, "argv", ["audit", "--direct", str(direct),
-                                                "--prehook", str(hook)]), self.assertRaises(ValueError):
+                                                "--prehook", str(hook)]), \
+                    contextlib.redirect_stderr(io.StringIO()) as errors, \
+                    self.assertRaises(SystemExit):
                 main()
+            self.assertEqual(errors.getvalue(), "Audit failed: private input rejected\n")
 
 
 if __name__ == "__main__":
