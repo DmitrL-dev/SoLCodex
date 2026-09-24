@@ -1,0 +1,31 @@
+# Prospective held-out screen for quiet-first diagnostics (proposal, 2026-09-25)
+
+**Status: design only.** No task has been selected or run under this proposal. The [lineage-map](data/2026-09-24-lineage-map-approval.json) and [sample](data/2026-09-24-sample-approval.json) approvals are pending; their gates must not be bypassed. The two Click and packaging issues in the [exposed development preflight](../measurements/2026-09-25-quiet-diagnostic-preflight.md), plus every other published development lineage and its continuations, are excluded. This screen is held out from our development, not necessarily from model training: the [SWE-rebench V2 authors](https://arxiv.org/abs/2602.23866) describe the collection as training environments.
+
+## Selection before outcomes
+
+Propose 24 different repository lineages, eight each from `api`, `build`, and `state`, drawn from the previously pinned SWE-rebench V2 revision `475dd5e8703bb5fb22dd3c60b5d038b019eba1e0`. This needs a separately reviewed 24-task selector; the existing [confirmation selector](2026-09-24-sample-selector.md) is frozen for 120 tasks per family and cannot silently be reused with smaller quotas. Rank lineages and tasks by committed hashes, review the entire contiguous ranked prefix, and freeze all 24 identities and environments before the first arm. Two curators independently judge eligibility without seeing arm, outcomes, remaining quotas, or rank order. Resolve disagreements before selection.
+
+Require a reproducible Linux Python/pytest environment, a repairable existing behavior, and a diagnostic target that completes within 60 seconds. Do not select by output size, historical patch size, or expected ease. A short or initially green diagnostic remains eligible if an independent behavior oracle exposes the defect. For each selected task, verify that verbose and quiet modes on the same parent and historical fix collect identical node IDs and outcomes, including skip and expected-failure classifications. No parallel suite runs.
+
+## Assignment and treatment
+
+Each task gets one OFF and one ON run. OFF's first command is `python -m pytest TARGET -v`; ON's is `python -m pytest TARGET -q --tb=short`. Both include `-p no:cacheprovider -o addopts=` and use the same environment, task prompt, model, 600-second limit, 32-request cap, and later command freedom. The target is fixed before assignment. This tests the format of the **first diagnostic**, not the installed SoL Codex plugin.
+
+After freezing the sample, record a seed and exact assignment algorithm. Within each family, assign four pairs OFF→ON and four ON→OFF, run pairs sequentially on an idle worker, and separate source, HOME, temporary files, and local caches. Provider cache may still carry across runs; report cached and uncached input separately by order. The estimand is for this sequential regime, not a proven cold-cache regime.
+
+## Quality and accounting
+
+Before any agent run, the parent must fail an independent defect witness and the historical fix must pass. Add preservation checks justified by a public API contract, documentation, consumer behavior, or maintainer intent; mere agreement between parent and fix is insufficient. Challenge each oracle with several plausible wrong fixes and an alternate valid repair where feasible. Resolve ambiguous specifications before admission.
+
+Score complete agent source checkpoints with a host-owned verifier, frozen tests and inventory, read-only source, and no network. Record test pass and independent repair acceptance separately. Two reviewers assess candidate patches blind to arm, tokens, and run order; adjudicate disagreements without sending hidden feedback to the agent. Missing checkpoint, modified tests, new skips, fake success output, uncertain cleanup, or incomplete evidence cannot become a quality pass.
+
+Record every provider attempt and reconcile delivery and upstream ledgers by attempt ID. A provider completion after CLI disconnect still contributes tokens. Missing usage remains unknown, never zero. Keep failed repairs, retries, and timeouts in the assigned arm; score a preserved timeout checkpoint if available. A ledger or isolation failure stops the campaign without replacement tasks.
+
+## Analysis and decision
+
+For each arm, report all observed provider input-plus-output tokens divided by independently accepted repairs, including tokens spent on failures in the numerator. A zero accepted-repair denominator makes the ratio undefined. Also report acceptance by assignment, wall time per accepted repair, cached/uncached input, output, first-command adherence, and adverse quality pairs. Stop after the predeclared 24 pairs; do not extend the screen after viewing the effect.
+
+An engineering gate for considering a separate confirmation campaign is: at least 12 accepted OFF repairs, no pair accepted in OFF but rejected in ON, no adjudicated new ON preservation regression, ON/OFF tokens per accepted repair at most 0.90, time per accepted repair at most 1.10, and complete accounting. These thresholds are **not** a statistical proof of savings or quality preservation. Even with zero ON-only failures in 24 independent tasks, a one-sided 95% binomial upper bound is about 11.7%. Any unknown usage without finite defensible bounds makes the economic result inconclusive.
+
+A later confirmation needs a new nonoverlapping sample, a frozen analysis plan, and a justified quality margin. A noninferiority margin states how much loss could remain; it does not prove literal zero loss. The [CONSORT noninferiority reporting guidance](https://jamanetwork.com/journals/jama/fullarticle/1487502) is a useful reporting analogue, not a software-agent validation standard. A successful screen would support only quiet-first diagnostics on the selected Python repairs. General SoL Codex savings and other task families require separate evidence.
