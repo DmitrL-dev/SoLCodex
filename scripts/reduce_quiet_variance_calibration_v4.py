@@ -49,12 +49,38 @@ def usage_counts(value):
     return value
 
 
+def evidence_hash(value):
+    return (isinstance(value, str) and len(value) == 64
+            and all(char in '0123456789abcdef' for char in value))
+
+
+def accounting(row):
+    state = row['usage_state']
+    usage = usage_counts(row['usage'])
+    known = usage_counts(row['known_upstream_usage'])
+    if not evidence_hash(row['accounting_evidence_sha256']):
+        raise ValueError('started slot lacks accounting evidence pin')
+    if state == 'verified_complete':
+        if usage is None or known != usage:
+            raise ValueError('verified usage differs from known upstream usage')
+    elif state == 'lower_bound':
+        if usage is not None or known is None:
+            raise ValueError('invalid lower bound accounting')
+    elif state == 'unknown':
+        if usage is not None or known is not None:
+            raise ValueError('unknown accounting contains usage')
+    else:
+        raise ValueError('invalid started usage state')
+
+
 def validate(value, schedule_raw):
     expected = strict(schedule_raw)['schedule']
     if (not isinstance(value, dict)
-            or set(value) != {'schema', 'schedule_sha256', 'campaign_state',
+            or set(value) != {'schema', 'protocol_sha256', 'schedule_sha256',
+                              'campaign_state',
                               'terminal_reason', 'slots'}
             or value['schema'] != SCHEMA
+            or not evidence_hash(value['protocol_sha256'])
             or value['schedule_sha256'] != hashlib.sha256(schedule_raw).hexdigest()
             or not isinstance(value['slots'], list)
             or len(value['slots']) != len(expected)):
@@ -63,27 +89,35 @@ def validate(value, schedule_raw):
     for row, assignment in zip(value['slots'], expected):
         if (not isinstance(row, dict)
                 or set(row) != {'id', 'block', 'task', 'arm', 'status', 'quality',
-                                'usage', 'elapsed_seconds', 'timed_out', 'reason'}
+                                'usage_state', 'usage', 'known_upstream_usage',
+                                'accounting_evidence_sha256', 'elapsed_seconds',
+                                'timed_out', 'reason'}
                 or any(row[key] != assignment[key] for key in assignment)):
             raise ValueError('campaign slot differs from frozen assignment')
         status = row['status']
         if status == 'completed' and phase == 'completed':
-            if (type(row['quality']) is not bool or usage_counts(row['usage']) is None
+            accounting(row)
+            if (row['usage_state'] != 'verified_complete'
+                    or type(row['quality']) is not bool
                     or not finite_nonnegative(row['elapsed_seconds'])
                     or type(row['timed_out']) is not bool or row['reason'] is not None):
                 raise ValueError('incomplete observation in completed slot')
         elif status in ('stopped', 'unresolved') and phase == 'completed':
             phase = 'unstarted'
-            if (row['quality'] is not None or row['timed_out'] is not None
+            accounting(row)
+            if (status == 'unresolved' and row['usage_state'] == 'verified_complete'
+                    or row['quality'] is not None or row['timed_out'] is not None
                     or row['elapsed_seconds'] is not None
                     and not finite_nonnegative(row['elapsed_seconds'])
                     or not isinstance(row['reason'], str) or not row['reason'].strip()):
                 raise ValueError('invalid stopped slot')
-            usage_counts(row['usage'])
         elif status == 'unstarted' and phase in ('completed', 'unstarted'):
             phase = 'unstarted'
-            if any(row[key] is not None for key in
-                   ('quality', 'usage', 'elapsed_seconds', 'timed_out', 'reason')):
+            if (row['usage_state'] != 'not_started'
+                    or any(row[key] is not None for key in
+                           ('quality', 'usage', 'known_upstream_usage',
+                            'accounting_evidence_sha256', 'elapsed_seconds',
+                            'timed_out', 'reason'))):
                 raise ValueError('unstarted slot contains observations')
         else:
             raise ValueError('campaign has a gap, restart, or multiple stops')
@@ -135,14 +169,20 @@ def totals(rows):
     }
 
 
+def known_totals(rows):
+    return totals([{'usage': row['known_upstream_usage']} for row in rows
+                   if row['known_upstream_usage'] is not None])
+
+
 def reduce(value, schedule_raw):
     rows = validate(value, schedule_raw)
     started = [row for row in rows if row['status'] != 'unstarted']
-    missing_usage = [row['id'] for row in started if row['usage'] is None]
-    accounted = [row for row in started if row['usage'] is not None]
+    incomplete_usage = [row['id'] for row in started
+                        if row['usage_state'] != 'verified_complete']
     complete = value['campaign_state'] == 'complete'
     result = {
         'schema': 'solcodex.quiet-variance-calibration-analysis.v4',
+        'protocol_sha256': value['protocol_sha256'],
         'complete': complete,
         'started_count': len(started),
         'unstarted_ids': [row['id'] for row in rows if row['status'] == 'unstarted'],
@@ -150,10 +190,10 @@ def reduce(value, schedule_raw):
         'unresolved_ids': [row['id'] for row in rows if row['status'] == 'unresolved'],
         'campaign_state': value['campaign_state'],
         'terminal_reason': value['terminal_reason'],
-        'missing_usage_ids': missing_usage,
-        'all_started_usage_complete': not missing_usage,
-        'known_started_usage': totals(accounted),
-        'all_started_usage': totals(started) if not missing_usage else None,
+        'incomplete_usage_ids': incomplete_usage,
+        'all_started_usage_complete': not incomplete_usage,
+        'known_started_usage': known_totals(started),
+        'all_started_usage': totals(started) if not incomplete_usage else None,
         'arm_summary': None,
         'pairs': None,
         'paired_spread_by_task': None,

@@ -16,26 +16,38 @@ def campaign():
     for assignment in ASSIGNMENTS:
         quiet = assignment['arm'] == 'quiet'
         rows.append({**assignment, 'status': 'completed', 'quality': True,
+                     'usage_state': 'verified_complete',
                      'usage': {'input_tokens': 80 if quiet else 100,
                                'cached_input_tokens': 20,
                                'output_tokens': 20},
+                     'known_upstream_usage': {'input_tokens': 80 if quiet else 100,
+                                              'cached_input_tokens': 20,
+                                              'output_tokens': 20},
+                     'accounting_evidence_sha256': 'a' * 64,
                      'elapsed_seconds': 8 if quiet else 10,
                      'timed_out': False, 'reason': None})
     return {'schema': reducer.SCHEMA,
+            'protocol_sha256': 'b' * 64,
             'schedule_sha256': hashlib.sha256(SCHEDULE_RAW).hexdigest(),
             'campaign_state': 'complete', 'terminal_reason': None,
             'slots': rows}
 
 
-def stop_after(value, index, usage):
+def stop_after(value, index, usage, *, lower_bound=False):
     value['campaign_state'] = 'stopped'
     value['terminal_reason'] = 'cleanup_uncertain'
     rows = value['slots']
-    rows[index].update(status='stopped', quality=None, usage=usage,
+    rows[index].update(status='stopped', quality=None,
+                       usage_state=('lower_bound' if lower_bound else
+                                    'verified_complete' if usage is not None else 'unknown'),
+                       usage=None if lower_bound else usage,
+                       known_upstream_usage=usage,
                        elapsed_seconds=None, timed_out=None,
                        reason='cleanup_uncertain')
     for row in rows[index + 1:]:
-        row.update(status='unstarted', quality=None, usage=None,
+        row.update(status='unstarted', quality=None, usage_state='not_started',
+                   usage=None, known_upstream_usage=None,
+                   accounting_evidence_sha256=None,
                    elapsed_seconds=None, timed_out=None, reason=None)
 
 
@@ -94,14 +106,26 @@ class ReducerChecks(unittest.TestCase):
         self.assertFalse(result['all_started_usage_complete'])
         self.assertIsNone(result['all_started_usage'])
         self.assertEqual(result['known_started_usage']['input_plus_output_tokens'], 120)
-        self.assertEqual(result['missing_usage_ids'], [ASSIGNMENTS[1]['id']])
+        self.assertEqual(result['incomplete_usage_ids'], [ASSIGNMENTS[1]['id']])
+
+    def test_lower_bound_keeps_known_spend_without_claiming_completeness(self):
+        value = campaign()
+        stop_after(value, 1, value['slots'][1]['usage'], lower_bound=True)
+        result = reducer.reduce(value, SCHEDULE_RAW)
+        self.assertFalse(result['all_started_usage_complete'])
+        self.assertIsNone(result['all_started_usage'])
+        self.assertEqual(result['known_started_usage']['input_plus_output_tokens'], 220)
+        self.assertEqual(result['incomplete_usage_ids'], [ASSIGNMENTS[1]['id']])
+        self.assertIsNone(result['pairs'])
 
     def test_prestart_stop_keeps_all_slots_unstarted(self):
         value = campaign()
         value['campaign_state'] = 'stopped'
         value['terminal_reason'] = 'preflight_drift'
         for row in value['slots']:
-            row.update(status='unstarted', quality=None, usage=None,
+            row.update(status='unstarted', quality=None, usage_state='not_started',
+                       usage=None, known_upstream_usage=None,
+                       accounting_evidence_sha256=None,
                        elapsed_seconds=None, timed_out=None, reason=None)
         result = reducer.reduce(value, SCHEDULE_RAW)
         self.assertEqual(result['started_count'], 0)
@@ -120,6 +144,16 @@ class ReducerChecks(unittest.TestCase):
         self.assertEqual(result['unresolved_ids'], [ASSIGNMENTS[1]['id']])
         self.assertIsNone(result['all_started_usage'])
 
+    def test_unresolved_start_cannot_claim_verified_complete_usage(self):
+        value = campaign()
+        stop_after(value, 1, value['slots'][1]['usage'])
+        value['slots'][1]['status'] = 'unresolved'
+        value['slots'][1]['reason'] = 'unclosed_start'
+        value['campaign_state'] = 'unresolved'
+        value['terminal_reason'] = 'unclosed_start'
+        with self.assertRaises(ValueError):
+            reducer.reduce(value, SCHEDULE_RAW)
+
     def test_rejects_gap_and_boolean_usage(self):
         value = campaign()
         value['slots'][0]['status'] = 'unstarted'
@@ -127,6 +161,13 @@ class ReducerChecks(unittest.TestCase):
             reducer.reduce(value, SCHEDULE_RAW)
         value = campaign()
         value['slots'][0]['usage']['input_tokens'] = True
+        with self.assertRaises(ValueError):
+            reducer.reduce(value, SCHEDULE_RAW)
+
+    def test_rejects_lower_bound_labeled_verified(self):
+        value = campaign()
+        stop_after(value, 1, value['slots'][1]['usage'], lower_bound=True)
+        value['slots'][1]['usage_state'] = 'verified_complete'
         with self.assertRaises(ValueError):
             reducer.reduce(value, SCHEDULE_RAW)
 
