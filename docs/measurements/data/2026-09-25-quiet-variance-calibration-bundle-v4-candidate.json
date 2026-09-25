@@ -25,7 +25,7 @@
     "safe_tree.py": "d308e37c198afbd5bd7d13c5dcd030ef665210f3e979cdad046a5d8755d84b43",
     "snapshot.py": "016d29cd0f24141478eeab6d8b1d0e94228a22de2754a40bf8d01d01a1189e9c",
     "variance_calibration_bundle_v3.py": "2ffdc57fa69ad6333c5f7dd2bd05164b730b14caa494c05f0d2f44e4c4a40c94",
-    "variance_calibration_bundle_v4.py": "e411daf804de76e27f05bd290967cfebb70577120bc9162a786f8aaba9f45b95"
+    "variance_calibration_bundle_v4.py": "25abbc0c99631e9afd1c1ba64a27da304082dfe81a8cd2505bae6a3f4fe5928a"
   },
   "control_plan_sha256": "2937edc97dbcb6468180475b8e54f48329b7be08144ed65fad9575225ca5bb6a",
   "host_python_runtime": {

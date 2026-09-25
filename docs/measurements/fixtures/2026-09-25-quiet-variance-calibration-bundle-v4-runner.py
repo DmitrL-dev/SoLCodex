@@ -149,7 +149,7 @@ def published_decision(script, args, key):
     if script.read_bytes() != subprocess.check_output(
             ['git', 'show', 'HEAD:' + relative], cwd=PUBLIC, timeout=10):
         raise ValueError('qualification reducer differs: ' + relative)
-    process = subprocess.run([sys.executable, str(script), *args],
+    process = subprocess.run([sys.executable, '-B', str(script), *args],
                              cwd=PUBLIC, capture_output=True, text=True, timeout=20)
     if process.returncode != 0:
         raise ValueError('qualification reducer failed: ' + relative)
