@@ -10,6 +10,7 @@ import hashlib
 import http.client
 import http.server
 import json
+import os
 from pathlib import Path
 import threading
 
@@ -53,6 +54,25 @@ def source_patch(task: str, work: Path) -> str:
     raise ValueError('unsupported control task')
 
 
+def rejected_packaging_patch(work: Path) -> str:
+    """An attempted repair that accepts nested grouping by losing other semantics."""
+    return ('*** Begin Patch\n*** Update File: ' +
+            str(work / 'src/packaging/licenses/__init__.py') + '\n'
+            '@@\n'
+            '-    if not raw_license_expression:\n'
+            '+    raw_license_expression = raw_license_expression.replace("(", "").replace(")", "")\n'
+            '+    if not raw_license_expression:\n'
+            '@@\n'
+            '-        elif token == "(" and python_tokens and python_tokens[-1] not in {"or", "and"}:\n'
+            '+        elif (\n'
+            '+            token == "("\n'
+            '+            and python_tokens\n'
+            '+            and python_tokens[-1] not in {"or", "and", "("}\n'
+            '+        ):\n'
+            '             message = f"Invalid license expression: {raw_license_expression!r}"\n'
+            '*** End Patch')
+
+
 def payload(identifier: str, item: dict | None, usage: tuple[int, int, int]) -> bytes:
     def event(value: dict) -> bytes:
         return b'data: ' + json.dumps(value, sort_keys=True,
@@ -93,21 +113,34 @@ class LocalProvider:
         first_js = ('const r=await tools.exec_command({cmd:' + json.dumps(command) +
                     ',workdir:' + json.dumps(str(work)) +
                     ',yield_time_ms:30000,max_output_tokens:700}); text(r.output);')
-        omit_patch = case == 'quality_fail_continues' and row['id'].startswith('01-')
+        rejected = case == 'quality_fail_continues' and row['id'] == '01-b1-packaging-verbose'
+        if case == 'quality_fail_continues' and row['id'].startswith('01-') and not rejected:
+            raise ValueError('quality-failure control assignment differs')
         self.replies = [payload('resp_synthetic_1', _call(1, first_js), USAGE[0])]
-        if not omit_patch:
-            patch_text = source_patch(row['task'], work)
-            second_js = ('const r=await tools.apply_patch(' + json.dumps(patch_text) +
-                         '); text(r);')
-            self.replies.append(payload('resp_synthetic_2', _call(2, second_js), USAGE[1]))
-            self.replies.append(payload('resp_synthetic_3', None, USAGE[2]))
-        else:
-            self.replies.append(payload('resp_synthetic_2', None, USAGE[1]))
+        patch_text = (rejected_packaging_patch(work) if rejected
+                      else source_patch(row['task'], work))
+        second_js = ('const r=await tools.apply_patch(' + json.dumps(patch_text) +
+                     '); text(r);')
+        self.replies.append(payload('resp_synthetic_2', _call(2, second_js), USAGE[1]))
+        self.replies.append(payload('resp_synthetic_3', None, USAGE[2]))
         self.requests: list[dict] = []
+        self.events: list[dict] = []
         self.errors: list[str] = []
-        self._lock = threading.Lock()
+        self._lock = threading.RLock()
         self._server = None
         self._thread = None
+        self._events_fd = None
+        self._events_path = None
+
+    def _record(self, event: dict):
+        with self._lock:
+            value = {'seq': len(self.events), **event}
+            raw = (json.dumps(value, sort_keys=True, separators=(',', ':')) + '\n').encode()
+            remaining = memoryview(raw)
+            while remaining:
+                remaining = remaining[os.write(self._events_fd, remaining):]
+            os.fsync(self._events_fd)
+            self.events.append(value)
 
     def credential(self) -> str:
         return TOKEN
@@ -119,6 +152,14 @@ class LocalProvider:
 
     def __enter__(self):
         owner = self
+        output = self.campaign_root / 'control-transcripts'
+        if output.is_symlink():
+            raise ValueError('control transcript directory is a symlink')
+        output.mkdir(mode=0o700, exist_ok=True)
+        self._events_path = output / (self.row['id'] + '-events.jsonl')
+        self._events_fd = os.open(self._events_path,
+                                  os.O_CREAT | os.O_EXCL | os.O_WRONLY |
+                                  os.O_APPEND | os.O_NOFOLLOW, 0o600)
 
         class Handler(http.server.BaseHTTPRequestHandler):
             def log_message(self, *_args):
@@ -135,23 +176,37 @@ class LocalProvider:
                     body = self.rfile.read(length)
                     with owner._lock:
                         index = len(owner.requests)
-                        owner.requests.append({'path': self.path,
-                                               'request_body_utf8': body.decode('utf-8'),
-                                               'request_sha256': sha(body)})
+                        request = {'path': self.path,
+                                   'request_body_utf8': body.decode('utf-8'),
+                                   'request_sha256': sha(body)}
+                        owner.requests.append(request)
+                        owner._record({'kind': 'received', 'response_slot': index,
+                                       **request})
                     if index >= len(owner.replies):
+                        owner._record({'kind': 'unexpected_request',
+                                       'response_slot': index})
                         self.send_error(503)
                         return
                     reply = owner.replies[index]
+                    owner._record({'kind': 'send_intent', 'response_slot': index,
+                                   'response_id': f'resp_synthetic_{index+1}',
+                                   'response_sha256': sha(reply),
+                                   'response_sse_utf8': reply.decode('utf-8')})
                     self.send_response(200)
                     self.send_header('Content-Type', 'text/event-stream')
                     self.send_header('Content-Length', str(len(reply)))
                     self.end_headers()
                     self.wfile.write(reply)
                     self.wfile.flush()
+                    owner._record({'kind': 'sent', 'response_slot': index,
+                                   'response_sha256': sha(reply)})
                 except (BrokenPipeError, ConnectionResetError):
-                    pass
+                    owner._record({'kind': 'downstream_closed',
+                                   'response_slot': locals().get('index')})
                 except Exception as error:
                     owner.errors.append(type(error).__name__)
+                    owner._record({'kind': 'error', 'response_slot': locals().get('index'),
+                                   'error': type(error).__name__})
 
         self._server = http.server.ThreadingHTTPServer(('127.0.0.1', 0), Handler)
         self._server.daemon_threads = False
@@ -164,18 +219,26 @@ class LocalProvider:
         self._server.shutdown()
         self._server.server_close()
         self._thread.join(5)
+        os.close(self._events_fd)
+        sent_slots = {event['response_slot'] for event in self.events
+                      if event['kind'] == 'sent'}
+        sent_replies = [reply for index, reply in enumerate(self.replies)
+                        if index in sent_slots]
         transcript = {'schema': 'solcodex.local-control-provider-transcript.v4',
                       'case': self.case, 'id': self.row['id'],
                       'requests': self.requests,
+                      'events_sha256': sha(self._events_path.read_bytes()),
+                      'events': self.events,
                       'response_sse_utf8': [reply.decode('utf-8')
-                                            for reply in self.replies],
-                      'response_sha256': [sha(reply) for reply in self.replies],
+                                            for reply in sent_replies],
+                      'response_sha256': [sha(reply) for reply in sent_replies],
                       'errors': self.errors,
                       'server_stopped': not self._thread.is_alive()}
-        output = self.campaign_root / 'control-transcripts'
-        output.mkdir(mode=0o700, exist_ok=True)
+        output = self._events_path.parent
         with (output / (self.row['id'] + '.json')).open('x') as stream:
             json.dump(transcript, stream, sort_keys=True, separators=(',', ':'))
             stream.write('\n')
+            stream.flush()
+            os.fsync(stream.fileno())
         if self._thread.is_alive() or self.errors:
             raise RuntimeError('local control provider failed')

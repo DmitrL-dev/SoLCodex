@@ -4,6 +4,14 @@
   "model_run_authorized": false,
   "schedule_sha256": "ef948e932cc2ff1bf6e8c3cfd379d29dc1bfe4a00d2c7ff852e0b93d203a9cd1",
   "scope": "campaign coordinator qualification with a deterministic local provider, not an A/B measurement",
+  "revision": {
+    "number": 2,
+    "prior_public_head": "0c65f89cba8ec5ce86a16d3be423efc639b75d1f",
+    "prior_protocol_sha256": "dc9e038590fcf0b41948e161f302f3325f85997b344f4ad0fe1317f7ba87b1c2",
+    "prior_control_outcome": "The first quality_fail_continues control recorded a quality failure and continued, but the provider made no source repair. The planned rejected-repair condition was absent, so this run does not qualify the campaign path.",
+    "new_control_change": "The provider now makes a source edit that the evaluator rejects in slot 01 and records fsynced receive, send-intent, and sent events. The revised protocol and provider must be pushed before a fresh control begins.",
+    "qualification": "The earlier run remains nonqualifying raw evidence; this revision does not authorize model execution."
+  },
   "execution_contract": {
     "entrypoint": "Run the pinned v4 campaign CLI as a fresh process for each invocation, including preflight, block execution, restart, and export.",
     "qualification_mode": "A separate, pinned control-only CLI mode must accept a candidate protocol while model_run_authorized remains false. It must require the deterministic local provider and synthetic credential explicitly and fail closed when either is absent. The production execution path remains gated by qualified evidence and cannot use this permit.",

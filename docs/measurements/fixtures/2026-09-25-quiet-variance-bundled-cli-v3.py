@@ -18,7 +18,7 @@ PINNED = {
 }
 VERSION = 'codex-cli 0.155.0-alpha.16.4'
 APP_CLI = '/Applications/ChatGPT.app/Contents/Resources/codex'
-SOURCE_SNAPSHOT_NAME = 'quiet-diagnostic-pilot-bundle-v3'
+SOURCE_SNAPSHOT_NAME = 'quiet-diagnostic-pilot-bundle-v4r2'
 
 
 def sha(path: Path) -> str:

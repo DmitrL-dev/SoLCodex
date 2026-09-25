@@ -11,9 +11,9 @@
   "code_sha256": {
     "audit.py": "f9125a16217434990356c94f16a4bf39cd498abbd61199ce45953dc47885ed56",
     "broker_route.py": "6befd0bfe804ee451e132de4978b09f54f8d2ba5d09ba0f173c92e752c55bdb2",
-    "bundled_cli_v3.py": "339fe153f689239a64c7a0fa52c6404a00eb2031a75425fbd1bddee8acdd1f43",
+    "bundled_cli_v3.py": "5a5db1ff039dbec6d3c7b1bfc619f882eec90f818c199c8b4849e9d7939bcb2f",
     "campaign_state_v4.py": "28f3fc5e8cfd0c4fdb3ff18ebd0a0e5a840b307b622f03cb3fc02fff40730217",
-    "control_provider_v4.py": "a5f6f067b69c77505ccdbfaf7203041cdb3f49b2930eca44a57a57673c98ae80",
+    "control_provider_v4.py": "b89d97287e2061eb5544bd4c6d4451c9c1de3bd0694a31f9f15d3083b6aa1fa9",
     "evaluate.py": "0706611b51ce9d4ea1d56d1973868f0a04d26441f658ee204d2747f5986a6922",
     "host_bridge.py": "285cd479136dce51670661d09ee84f76e3f4038cb4419857412552be09bfaa5a",
     "isolation.py": "1d066b85412899338bde0a350adf74331515b6c1a0799cfac164e1df9209de7f",
@@ -27,7 +27,7 @@
     "variance_calibration_bundle_v3.py": "2ffdc57fa69ad6333c5f7dd2bd05164b730b14caa494c05f0d2f44e4c4a40c94",
     "variance_calibration_bundle_v4.py": "25abbc0c99631e9afd1c1ba64a27da304082dfe81a8cd2505bae6a3f4fe5928a"
   },
-  "control_plan_sha256": "2937edc97dbcb6468180475b8e54f48329b7be08144ed65fad9575225ca5bb6a",
+  "control_plan_sha256": "41c1dd959a08dac7a215dd9959d9abf69815463af2b931f524269b8cee635196",
   "host_python_runtime": {
     "base_prefix": "/Users/dmitrylabintcev/.cache/codex-runtimes/codex-primary-runtime/dependencies/python",
     "executable": "/Users/dmitrylabintcev/Documents/Codex/2026-09-24/sol-codex-astra-gpt-6-sol/work/phase-reset-packaging-dev-v1/tools/venv/bin/python",
