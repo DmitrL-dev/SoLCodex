@@ -137,6 +137,8 @@ The separate [exposed quiet-diagnostic model screen protocol, revision 2](docs/r
 
 The later [v3 calibration qualification audit](docs/measurements/2026-09-25-quiet-variance-bundle-v3-independent-audit.md) rejected authorization of its planned 16 model runs despite five passing narrow controls. The candidate remains pending because the campaign could fail to record a stopped slot, did not pin the base Python runtime, and had no frozen final-analysis reducer. A [v4 repair plan and draft reducer](docs/research/2026-09-25-quiet-variance-v4-repair-plan.md) address those gaps in development; no v4 model run is authorized.
 
+A [revision-2 four-slot synthetic campaign control](docs/measurements/2026-09-25-quiet-variance-v4r2-quality-fail-control.md) records a packaging source edit with failed external quality checks followed by three passing slots. Its compact evidence archive and separate checker reproduce a partial recorded decision; they do not qualify the campaign path or authorize model runs.
+
 An [exposed source-level verifier probe](docs/measurements/2026-09-24-sympy-verifier-known-miss-development.md) reproduces the score difference: the shared-superclass variant passes the original 35/35 and selected upstream 48/48, but fails two later compatibility checks whose acceptance status is disputed. The verifiers and source-variant generator are public.
 
 A [diagnostic mutation pilot](docs/measurements/2026-09-24-sympy-diagnostic-mutants-development.md) records six distinct v2 failure vectors with source and report hashes. Several variants were tailored to known checks or share one failure mechanism, so the six-plausible-wrong-fix qualification gate remains unmet.
