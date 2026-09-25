@@ -1,0 +1,79 @@
+{
+  "baseline_tree_sha256": "6ab22715612fbcf9b079787f1589018a67c40f284de34b63ba18dce71487bbe3",
+  "case": {
+    "arm": "quiet",
+    "checkpoint_tree_sha256": "715e83baae94b5b3271ff19de66e96e13fa85cafaeebb28a123df11f3b4f7227",
+    "cleanup_verified": true,
+    "exit_code": 0,
+    "first_command": {
+      "commands_observed": 1,
+      "first_command_completed": true,
+      "first_command_exact": true,
+      "first_exit_code": 1,
+      "malformed_lines": 0,
+      "other_prior_actions": [],
+      "status": "observed",
+      "trace_complete": true
+    },
+    "id": "03-b1-click-quiet",
+    "private_final_sha256": "68a422384d129b14ca379f264cbabc52986cd4febafdc128880220b0cf0835f2",
+    "private_quality_report_sha256": "3c5432c21461fcadab2c08f31307c0f269394dc350ad97d5aa17a1b34218b64b",
+    "quality": true,
+    "quality_status": "pass",
+    "reconciliation_complete": true,
+    "task": "click",
+    "technical_ok": true,
+    "timed_out": false,
+    "trace_sha256": "fd75a0132616931730be0ba573bf1adf9d67ad8634759696418df353ce98dc4e",
+    "usage": {
+      "cached_input_tokens": 195,
+      "input_tokens": 390,
+      "output_tokens": 90
+    }
+  },
+  "cli": {
+    "code_mode": true,
+    "code_mode_host_sha256": "48c61488ebc34342a71c8cd70b7b46947b86e31f5c616a3160a93a3407e8067b",
+    "effort": "low",
+    "model": "gpt-6-luna",
+    "sha256": "93169e745735930598e867ad837abf3fdc50774a3ad7e7aa89c0d0c51b0189a5",
+    "version": "codex-cli 0.155.0-alpha.16.4"
+  },
+  "fixtures": {
+    "patch": {
+      "path": "docs/measurements/fixtures/2026-09-25-click-source-only-v3.patch.txt",
+      "sha256": "c3dd29662dedbf48068582ae97f8ace13b7933b5dc678d4daf606dae2327f183"
+    },
+    "probe": {
+      "path": "docs/measurements/fixtures/2026-09-25-quiet-variance-bundle-v3-normal-cli-exploratory-probe.py",
+      "sha256": "b9b8c3b9683925451e346595bb1de29a005e116d97dfa6a06a121a54e71077cc"
+    },
+    "regressions": {
+      "path": "docs/measurements/fixtures/2026-09-25-click-extended-regressions-v3.py",
+      "sha256": "5f7153d07ccf32a2ff050315e331cbc2b249b998e8a15428c965f1167ba4141a"
+    }
+  },
+  "limitations": [
+    "Exploratory control was run before a prospective four-case plan was frozen.",
+    "Provider responses and token counts were synthetic; no model request was made.",
+    "Private evaluator report and complete host artifacts are hash-pinned but not public.",
+    "This result does not establish A/B savings or general quality preservation."
+  ],
+  "model_requests": 0,
+  "patched_core_sha256": "03d17ce009f1128fbd8ac94d5aa670a5243e6c9d1bd984ffa0b17c6e8ffc50ae",
+  "patched_source_tree_sha256": "715e83baae94b5b3271ff19de66e96e13fa85cafaeebb28a123df11f3b4f7227",
+  "provider": "local_scripted_synthetic",
+  "reported_local_checks": {
+    "additional_resource_regression_groups": "7/7",
+    "external_behavior": "9/9",
+    "mypy_strict_core": "pass",
+    "upstream": "1283 passed, 22 skipped, 1 xfailed"
+  },
+  "schema": "solcodex.click-source-only-normal-cli-exploratory.v1",
+  "source_commit": "16fe802a3f96c4c8fa3cd382f1a7577fda0c5321",
+  "status": "exploratory_not_qualification",
+  "trace": {
+    "path": "docs/measurements/data/2026-09-25-click-source-only-v3-normal-cli-exploratory-trace.jsonl",
+    "sha256": "fd75a0132616931730be0ba573bf1adf9d67ad8634759696418df353ce98dc4e"
+  }
+}

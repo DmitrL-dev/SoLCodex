@@ -1,0 +1,80 @@
+*** Begin Patch
+*** Update File: src/click/core.py
+@@
+     """Used a default provided by :attr:`Context.default_map`."""
+     PROMPT = enum.auto()
+     """Used a prompt to confirm a default or provide a value."""
++
++
++class _CloseFrame(t.TypedDict):
++    exception_info: tuple[
++        type[BaseException] | None, BaseException | None, TracebackType | None
++    ]
++    claimed: bool
++    suppressed: bool
+ 
+ 
+ class Context:
+@@
+         self._depth = 0
+         self._parameter_source: dict[str, ParameterSource] = {}
+         self._exit_stack = ExitStack()
++        self._close_frame: _CloseFrame | None = None
+ 
+     @property
+     def protected_args(self) -> list[str]:
+@@
+         exc_type: type[BaseException] | None,
+         exc_value: BaseException | None,
+         tb: TracebackType | None,
+-    ) -> None:
++    ) -> bool | None:
+         self._depth -= 1
+-        if self._depth == 0:
+-            self.close()
+-        pop_context()
++        try:
++            if self._depth == 0:
++                previous_frame = self._close_frame
++                frame = _CloseFrame(
++                    exception_info=(exc_type, exc_value, tb),
++                    claimed=False,
++                    suppressed=False,
++                )
++                self._close_frame = frame
++                try:
++                    self.close()
++                    return frame["suppressed"]
++                finally:
++                    self._close_frame = previous_frame
++            return None
++        finally:
++            pop_context()
+ 
+     @contextmanager
+     def scope(self, cleanup: bool = True) -> cabc.Iterator[Context]:
+@@
+         :meth:`call_on_close`, and exit all context managers entered
+         with :meth:`with_resource`.
+         """
+-        self._exit_stack.close()
+-        # In case the context is reused, create a new exit stack.
+-        self._exit_stack = ExitStack()
++        frame = self._close_frame
++        active_frame = frame is not None and not frame["claimed"]
++        if frame is not None and active_frame:
++            frame["claimed"] = True
++            exc_info = frame["exception_info"]
++        else:
++            exc_info = (None, None, None)
++        try:
++            suppressed = self._exit_stack.__exit__(*exc_info)
++        finally:
++            # In case the context is reused, create a new exit stack.
++            self._exit_stack = ExitStack()
++        if frame is not None and active_frame:
++            frame["suppressed"] = bool(suppressed)
+ 
+     @property
+     def command_path(self) -> str:
+*** End Patch
