@@ -1,0 +1,370 @@
+{
+  "calibration_core_sha256": "5d231b03a4d1fb56fd04f97ff5f41e33d71bced86b04043bc1f52218bb5f202c",
+  "case_order": [
+    "wrong_complete",
+    "wrong_cleanup_uncertain"
+  ],
+  "cli_binary_sha256": "93169e745735930598e867ad837abf3fdc50774a3ad7e7aa89c0d0c51b0189a5",
+  "cli_version": "codex-cli 0.155.0-alpha.16.4",
+  "code_mode_host_sha256": "48c61488ebc34342a71c8cd70b7b46947b86e31f5c616a3160a93a3407e8067b",
+  "control_timeout_seconds": 90,
+  "evaluator_runtime_tree_sha256": "5a9a72a2ee60a188ac820f73b0baefc591926e0c6b72b8f1849d315bfb69640c",
+  "expected_cases": [
+    {
+      "admissible": true,
+      "arm": "quiet",
+      "behavior_case_pass_vector": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        false,
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "behavior_passed": 6,
+      "behavior_total": 14,
+      "bridge_stopped": true,
+      "broker_attempts": 3,
+      "broker_bridge_attempt_ids_match": true,
+      "broker_stopped": true,
+      "broker_usage_status": "complete_observed",
+      "case": "wrong_complete",
+      "checkpoint_status": "captured",
+      "checkpoint_tree_sha256": "607c7f277ab7b7ff9bbe94a77feb5e6aee3f3e131cc3abc63d06d71d14b509b5",
+      "cleanup_verified": true,
+      "copied_cli_sha256": {
+        "codex": "93169e745735930598e867ad837abf3fdc50774a3ad7e7aa89c0d0c51b0189a5",
+        "codex-code-mode-host": "48c61488ebc34342a71c8cd70b7b46947b86e31f5c616a3160a93a3407e8067b"
+      },
+      "distinct_attempt_ids": true,
+      "evaluator_calls": 1,
+      "evaluator_upstream_exit": 1,
+      "evaluator_upstream_failed_call_count": 13,
+      "evaluator_upstream_failed_call_ids_sha256": "e02c245d1f086f0e5ce5ea29c9742d119a2f35b80306a75c46d2866c9aed81d3",
+      "evaluator_upstream_inventory_sha256": "6da92136adbe79c030efa193028fb9190341e8e7203ce1c40efe24b9470111da",
+      "evaluator_upstream_unexpected_skips": [],
+      "exit_code": 0,
+      "expected_tree_sha256": "607c7f277ab7b7ff9bbe94a77feb5e6aee3f3e131cc3abc63d06d71d14b509b5",
+      "first_command": {
+        "commands_observed": 1,
+        "first_command_completed": true,
+        "first_command_exact": true,
+        "first_exit_code": 1,
+        "malformed_lines": 0,
+        "other_prior_actions": [],
+        "status": "observed",
+        "trace_complete": true
+      },
+      "id": "02-b1-packaging-quiet",
+      "injected_cleanup_failure": false,
+      "ledger_errors": {
+        "bridge": false,
+        "broker": false
+      },
+      "patch_kind": "wrong",
+      "provider_billing_complete": false,
+      "provider_errors": 0,
+      "provider_requests": 3,
+      "quality": false,
+      "quality_report_present": true,
+      "quality_status": "fail",
+      "real_cleanup_verified": true,
+      "real_supervisor_tree_sha256": "607c7f277ab7b7ff9bbe94a77feb5e6aee3f3e131cc3abc63d06d71d14b509b5",
+      "reconciliation_complete": true,
+      "request_items": [
+        [],
+        [
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call"
+          },
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call_output"
+          }
+        ],
+        [
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call"
+          },
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call_output"
+          },
+          {
+            "call_id": "call_synthetic_2",
+            "type": "custom_tool_call"
+          },
+          {
+            "call_id": "call_synthetic_2",
+            "type": "custom_tool_call_output"
+          }
+        ]
+      ],
+      "snapshot_present": true,
+      "task": "packaging",
+      "technical_ok": true,
+      "timed_out": false,
+      "trace_event_shapes": [
+        [
+          "thread.started",
+          null,
+          null
+        ],
+        [
+          "turn.started",
+          null,
+          null
+        ],
+        [
+          "item.started",
+          "command_execution",
+          "in_progress"
+        ],
+        [
+          "item.completed",
+          "command_execution",
+          "failed"
+        ],
+        [
+          "item.started",
+          "file_change",
+          "in_progress"
+        ],
+        [
+          "item.completed",
+          "file_change",
+          "completed"
+        ],
+        [
+          "turn.completed",
+          null,
+          null
+        ]
+      ],
+      "upstream_observed_completed_usage": {
+        "cached_input_tokens": 195,
+        "input_tokens": 390,
+        "output_tokens": 90
+      },
+      "upstream_passed": false,
+      "upstream_states": {
+        "completed": 3,
+        "pending": 0,
+        "unknown": 0
+      },
+      "usage": {
+        "cached_input_tokens": 195,
+        "input_tokens": 390,
+        "output_tokens": 90
+      },
+      "usage_kind": "complete"
+    },
+    {
+      "admissible": false,
+      "arm": "quiet",
+      "behavior_case_pass_vector": null,
+      "behavior_passed": null,
+      "behavior_total": null,
+      "bridge_stopped": true,
+      "broker_attempts": 3,
+      "broker_bridge_attempt_ids_match": true,
+      "broker_stopped": true,
+      "broker_usage_status": "complete_observed",
+      "case": "wrong_cleanup_uncertain",
+      "checkpoint_status": "blocked_unverified_cleanup",
+      "checkpoint_tree_sha256": null,
+      "cleanup_verified": false,
+      "copied_cli_sha256": {
+        "codex": "93169e745735930598e867ad837abf3fdc50774a3ad7e7aa89c0d0c51b0189a5",
+        "codex-code-mode-host": "48c61488ebc34342a71c8cd70b7b46947b86e31f5c616a3160a93a3407e8067b"
+      },
+      "distinct_attempt_ids": true,
+      "evaluator_calls": 0,
+      "evaluator_upstream_exit": null,
+      "evaluator_upstream_failed_call_count": null,
+      "evaluator_upstream_failed_call_ids_sha256": null,
+      "evaluator_upstream_inventory_sha256": null,
+      "evaluator_upstream_unexpected_skips": null,
+      "exit_code": 0,
+      "expected_tree_sha256": "607c7f277ab7b7ff9bbe94a77feb5e6aee3f3e131cc3abc63d06d71d14b509b5",
+      "first_command": {
+        "commands_observed": 1,
+        "first_command_completed": true,
+        "first_command_exact": true,
+        "first_exit_code": 1,
+        "malformed_lines": 0,
+        "other_prior_actions": [],
+        "status": "observed",
+        "trace_complete": true
+      },
+      "id": "02-b1-packaging-quiet",
+      "injected_cleanup_failure": true,
+      "ledger_errors": {
+        "bridge": false,
+        "broker": false
+      },
+      "patch_kind": "wrong",
+      "provider_billing_complete": false,
+      "provider_errors": 0,
+      "provider_requests": 3,
+      "quality": null,
+      "quality_report_present": false,
+      "quality_status": null,
+      "real_cleanup_verified": true,
+      "real_supervisor_tree_sha256": "607c7f277ab7b7ff9bbe94a77feb5e6aee3f3e131cc3abc63d06d71d14b509b5",
+      "reconciliation_complete": true,
+      "request_items": [
+        [],
+        [
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call"
+          },
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call_output"
+          }
+        ],
+        [
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call"
+          },
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call_output"
+          },
+          {
+            "call_id": "call_synthetic_2",
+            "type": "custom_tool_call"
+          },
+          {
+            "call_id": "call_synthetic_2",
+            "type": "custom_tool_call_output"
+          }
+        ]
+      ],
+      "snapshot_present": false,
+      "task": "packaging",
+      "technical_ok": false,
+      "timed_out": false,
+      "trace_event_shapes": [
+        [
+          "thread.started",
+          null,
+          null
+        ],
+        [
+          "turn.started",
+          null,
+          null
+        ],
+        [
+          "item.started",
+          "command_execution",
+          "in_progress"
+        ],
+        [
+          "item.completed",
+          "command_execution",
+          "failed"
+        ],
+        [
+          "item.started",
+          "file_change",
+          "in_progress"
+        ],
+        [
+          "item.completed",
+          "file_change",
+          "completed"
+        ],
+        [
+          "turn.completed",
+          null,
+          null
+        ]
+      ],
+      "upstream_observed_completed_usage": {
+        "cached_input_tokens": 195,
+        "input_tokens": 390,
+        "output_tokens": 90
+      },
+      "upstream_passed": null,
+      "upstream_states": {
+        "completed": 3,
+        "pending": 0,
+        "unknown": 0
+      },
+      "usage": {
+        "cached_input_tokens": 195,
+        "input_tokens": 390,
+        "output_tokens": 90
+      },
+      "usage_kind": "complete"
+    }
+  ],
+  "host_python_runtime": {
+    "base_prefix": "/Users/dmitrylabintcev/.cache/codex-runtimes/codex-primary-runtime/dependencies/python",
+    "executable": "/Users/dmitrylabintcev/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "module_origins": {
+      "fcntl": "built-in",
+      "hashlib": "/Users/dmitrylabintcev/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/hashlib.py",
+      "json": "/Users/dmitrylabintcev/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/__init__.py",
+      "os": "/Users/dmitrylabintcev/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/os.py",
+      "pathlib": "/Users/dmitrylabintcev/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py",
+      "shutil": "/Users/dmitrylabintcev/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/shutil.py",
+      "sqlite3": "/Users/dmitrylabintcev/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/sqlite3/__init__.py",
+      "subprocess": "/Users/dmitrylabintcev/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py"
+    },
+    "resolved_executable": "/Users/dmitrylabintcev/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "tree_sha256": "e90bf88962f70fdfa36d2f5367c25afc668965802038f055fc7d053429317d03"
+  },
+  "model_run_authorized": false,
+  "private_source_sha256": {
+    "audit.py": "f9125a16217434990356c94f16a4bf39cd498abbd61199ce45953dc47885ed56",
+    "broker_route.py": "6befd0bfe804ee451e132de4978b09f54f8d2ba5d09ba0f173c92e752c55bdb2",
+    "bundled_cli_v3.py": "339fe153f689239a64c7a0fa52c6404a00eb2031a75425fbd1bddee8acdd1f43",
+    "cli_integrated_bundle_probe_v3.py": "867dd57d48981540e201a2f3943cd4ed7701016b4614e9a7116111d5a0b0b1fb",
+    "cli_normal_bundle_probe_v3.py": "b9b8c3b9683925451e346595bb1de29a005e116d97dfa6a06a121a54e71077cc",
+    "cli_toolcall_probe.py": "2416fe6a65f9f35a9fc0b8908a55ff6f86146f223e4101acd514b047ec7a9b5e",
+    "evaluate.py": "0706611b51ce9d4ea1d56d1973868f0a04d26441f658ee204d2747f5986a6922",
+    "frozen_quiet_variance_bundle_integrated_v3.py": "4e5d0bc7491ad9e5f5ddaffd08c45b946160eb2e12aab3f7af8a9b5170b21752",
+    "host_bridge.py": "285cd479136dce51670661d09ee84f76e3f4038cb4419857412552be09bfaa5a",
+    "isolation.py": "1d066b85412899338bde0a350adf74331515b6c1a0799cfac164e1df9209de7f",
+    "live_pilot.py": "fb4c35f8ff4436c6053216923a692c1cd56086db8b3d3e3d2ff85a0daa997744",
+    "pilot.py": "efd4ea9b97a564199fe66bf1c45d61ea6dbd0f6386b6148063e6bbdd3f8a94ee",
+    "process.py": "f38eb548f6e1326513f1e4745bf8c16d6a2785f1fc453b078001419af6a8f5a1",
+    "protocol_gate.py": "26310f67dd99ea15fe2b6f0581d41588bd60622a5f902a191ea4862aabae3c07",
+    "runtime_manifest.py": "d75109adcc217b3ec0049f5f67bb66913f94192cfa19bf7341073a816bcbc41c",
+    "safe_tree.py": "d308e37c198afbd5bd7d13c5dcd030ef665210f3e979cdad046a5d8755d84b43",
+    "snapshot.py": "016d29cd0f24141478eeab6d8b1d0e94228a22de2754a40bf8d01d01a1189e9c",
+    "test_host_bridge.py": "e370cec67991890045f7444660f617aec4079004bc5da9e762a90271b8607414",
+    "variance_calibration_bundle_v3.py": "2ffdc57fa69ad6333c5f7dd2bd05164b730b14caa494c05f0d2f44e4c4a40c94"
+  },
+  "python_version": "3.12.14",
+  "quality_assets_lock_sha256": "e61fee1904c164eabcba731a509394d45b9dbf8b6d517c4b7e39380aac40fd90",
+  "reducer_sha256": "2b7a944a25027a26ee88a3f4bb901875447aaa547d2af35cc7a2bcb069679dd5",
+  "runtime_tree_sha256": "c3302c0f5c59a7b8fe6c164c927cc3be03810967fbbc4b6e097849ed07b18d17",
+  "schedule_row": {
+    "arm": "quiet",
+    "block": 1,
+    "id": "02-b1-packaging-quiet",
+    "task": "packaging"
+  },
+  "schema": "solcodex.quiet-variance-bundle-integrated-expectations.v1",
+  "source_tree_sha256": "1ac9eb290502fbf5b3425d790e4b00b0cb17112f4940fabaa80544f4078f5045",
+  "status": "prospective_no_model_development_control",
+  "usage_ledger_sha256": "1da10986547580b9e9afeb34d92b1f649a1fa5bfb36ac6a7aa2e26d7d99c565f",
+  "wrong_tree_sha256": "607c7f277ab7b7ff9bbe94a77feb5e6aee3f3e131cc3abc63d06d71d14b509b5"
+}
