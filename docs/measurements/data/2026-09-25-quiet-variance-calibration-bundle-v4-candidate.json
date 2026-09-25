@@ -11,7 +11,7 @@
   "code_sha256": {
     "audit.py": "f9125a16217434990356c94f16a4bf39cd498abbd61199ce45953dc47885ed56",
     "broker_route.py": "6befd0bfe804ee451e132de4978b09f54f8d2ba5d09ba0f173c92e752c55bdb2",
-    "bundled_cli_v3.py": "5a5db1ff039dbec6d3c7b1bfc619f882eec90f818c199c8b4849e9d7939bcb2f",
+    "bundled_cli_v3.py": "339fe153f689239a64c7a0fa52c6404a00eb2031a75425fbd1bddee8acdd1f43",
     "campaign_state_v4.py": "28f3fc5e8cfd0c4fdb3ff18ebd0a0e5a840b307b622f03cb3fc02fff40730217",
     "control_provider_v4.py": "b89d97287e2061eb5544bd4c6d4451c9c1de3bd0694a31f9f15d3083b6aa1fa9",
     "evaluate.py": "0706611b51ce9d4ea1d56d1973868f0a04d26441f658ee204d2747f5986a6922",
