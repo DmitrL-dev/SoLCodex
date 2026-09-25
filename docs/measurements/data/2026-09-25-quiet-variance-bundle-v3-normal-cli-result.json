@@ -1,0 +1,489 @@
+{
+  "cases": [
+    {
+      "admissible": true,
+      "arm": "verbose",
+      "behavior_passed": 14,
+      "behavior_total": 14,
+      "bridge_stopped": true,
+      "broker_stopped": true,
+      "checkpoint_status": "captured",
+      "checkpoint_tree_sha256": "ad9f932ad4671fa1c3d080fc96bc042722c88d6bdfd06bf15ed7590b7841d62d",
+      "cleanup_verified": true,
+      "diagnostic_output_verified": true,
+      "exit_code": 0,
+      "expected_gold_tree_sha256": "ad9f932ad4671fa1c3d080fc96bc042722c88d6bdfd06bf15ed7590b7841d62d",
+      "extended_click_regression_groups": null,
+      "first_command": {
+        "commands_observed": 1,
+        "first_command_completed": true,
+        "first_command_exact": true,
+        "first_exit_code": 1,
+        "malformed_lines": 0,
+        "other_prior_actions": [],
+        "status": "observed",
+        "trace_complete": true
+      },
+      "id": "01-b1-packaging-verbose",
+      "ledgers_verified": true,
+      "patch_sha256": "27253b62657bfdbc5ce8f99f4873c7bc28af9159fe5e5204eceecaea55767d8b",
+      "provider_errors": 0,
+      "provider_requests": 3,
+      "quality": true,
+      "quality_report_sha256": "2268d00f9ea252e08ae2e3e47401aa980ef5c84ef1f34dbcc49470604f17e0fb",
+      "quality_status": "pass",
+      "reconciliation_complete": true,
+      "request_items": [
+        [],
+        [
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call"
+          },
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call_output"
+          }
+        ],
+        [
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call"
+          },
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call_output"
+          },
+          {
+            "call_id": "call_synthetic_2",
+            "type": "custom_tool_call"
+          },
+          {
+            "call_id": "call_synthetic_2",
+            "type": "custom_tool_call_output"
+          }
+        ]
+      ],
+      "sealed_inventory_sha256": "66d49059e80937c90c895e8b0ce8f9f7305d1e504eaac91f5cc4a0ada890a6ff",
+      "task": "packaging",
+      "technical_ok": true,
+      "timed_out": false,
+      "trace_event_shapes": [
+        [
+          "thread.started",
+          null,
+          null
+        ],
+        [
+          "turn.started",
+          null,
+          null
+        ],
+        [
+          "item.started",
+          "command_execution",
+          "in_progress"
+        ],
+        [
+          "item.completed",
+          "command_execution",
+          "failed"
+        ],
+        [
+          "item.started",
+          "file_change",
+          "in_progress"
+        ],
+        [
+          "item.completed",
+          "file_change",
+          "completed"
+        ],
+        [
+          "turn.completed",
+          null,
+          null
+        ]
+      ],
+      "trace_sha256": "d2624a3c2164b392207a00819ae46bf1caa8bf49468ca962917488c108ed7191",
+      "upstream_passed": true,
+      "usage": {
+        "cached_input_tokens": 195,
+        "input_tokens": 390,
+        "output_tokens": 90
+      }
+    },
+    {
+      "admissible": true,
+      "arm": "quiet",
+      "behavior_passed": 14,
+      "behavior_total": 14,
+      "bridge_stopped": true,
+      "broker_stopped": true,
+      "checkpoint_status": "captured",
+      "checkpoint_tree_sha256": "ad9f932ad4671fa1c3d080fc96bc042722c88d6bdfd06bf15ed7590b7841d62d",
+      "cleanup_verified": true,
+      "diagnostic_output_verified": true,
+      "exit_code": 0,
+      "expected_gold_tree_sha256": "ad9f932ad4671fa1c3d080fc96bc042722c88d6bdfd06bf15ed7590b7841d62d",
+      "extended_click_regression_groups": null,
+      "first_command": {
+        "commands_observed": 1,
+        "first_command_completed": true,
+        "first_command_exact": true,
+        "first_exit_code": 1,
+        "malformed_lines": 0,
+        "other_prior_actions": [],
+        "status": "observed",
+        "trace_complete": true
+      },
+      "id": "02-b1-packaging-quiet",
+      "ledgers_verified": true,
+      "patch_sha256": "8dba2cccb95d01694852b7712f05b93c229c4d6af705e38e16799f6b52dcec0b",
+      "provider_errors": 0,
+      "provider_requests": 3,
+      "quality": true,
+      "quality_report_sha256": "6cc9d5f30a9d0ea50ee1de9962bf7dbfb967d60841184a413882a8a2d1f9761c",
+      "quality_status": "pass",
+      "reconciliation_complete": true,
+      "request_items": [
+        [],
+        [
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call"
+          },
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call_output"
+          }
+        ],
+        [
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call"
+          },
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call_output"
+          },
+          {
+            "call_id": "call_synthetic_2",
+            "type": "custom_tool_call"
+          },
+          {
+            "call_id": "call_synthetic_2",
+            "type": "custom_tool_call_output"
+          }
+        ]
+      ],
+      "sealed_inventory_sha256": "bcc802752082d9c05785a8466ac2359f7472a9d53da8cf616135f4274ed23dd1",
+      "task": "packaging",
+      "technical_ok": true,
+      "timed_out": false,
+      "trace_event_shapes": [
+        [
+          "thread.started",
+          null,
+          null
+        ],
+        [
+          "turn.started",
+          null,
+          null
+        ],
+        [
+          "item.started",
+          "command_execution",
+          "in_progress"
+        ],
+        [
+          "item.completed",
+          "command_execution",
+          "failed"
+        ],
+        [
+          "item.started",
+          "file_change",
+          "in_progress"
+        ],
+        [
+          "item.completed",
+          "file_change",
+          "completed"
+        ],
+        [
+          "turn.completed",
+          null,
+          null
+        ]
+      ],
+      "trace_sha256": "031771f6c5c6f7dd8bd2aa393161309ac96ce50ca195cf079667bad9ebaad9bd",
+      "upstream_passed": true,
+      "usage": {
+        "cached_input_tokens": 195,
+        "input_tokens": 390,
+        "output_tokens": 90
+      }
+    },
+    {
+      "admissible": true,
+      "arm": "quiet",
+      "behavior_passed": 9,
+      "behavior_total": 9,
+      "bridge_stopped": true,
+      "broker_stopped": true,
+      "checkpoint_status": "captured",
+      "checkpoint_tree_sha256": "715e83baae94b5b3271ff19de66e96e13fa85cafaeebb28a123df11f3b4f7227",
+      "cleanup_verified": true,
+      "diagnostic_output_verified": true,
+      "exit_code": 0,
+      "expected_gold_tree_sha256": "715e83baae94b5b3271ff19de66e96e13fa85cafaeebb28a123df11f3b4f7227",
+      "extended_click_regression_groups": 7,
+      "first_command": {
+        "commands_observed": 1,
+        "first_command_completed": true,
+        "first_command_exact": true,
+        "first_exit_code": 1,
+        "malformed_lines": 0,
+        "other_prior_actions": [],
+        "status": "observed",
+        "trace_complete": true
+      },
+      "id": "03-b1-click-quiet",
+      "ledgers_verified": true,
+      "patch_sha256": "3b97cc5252313a9e65ddfac1a62c31f5fc139d106f82b53bc96a31d22442b56e",
+      "provider_errors": 0,
+      "provider_requests": 3,
+      "quality": true,
+      "quality_report_sha256": "e5c24f3449cb69737c9311480aa44f8f4e05ed4fcd824706c9ea1817a90026d1",
+      "quality_status": "pass",
+      "reconciliation_complete": true,
+      "request_items": [
+        [],
+        [
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call"
+          },
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call_output"
+          }
+        ],
+        [
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call"
+          },
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call_output"
+          },
+          {
+            "call_id": "call_synthetic_2",
+            "type": "custom_tool_call"
+          },
+          {
+            "call_id": "call_synthetic_2",
+            "type": "custom_tool_call_output"
+          }
+        ]
+      ],
+      "sealed_inventory_sha256": "8a9f807f7948e635051d0915ad0d6322ea4378d09aae8bf5687421e45f82b6aa",
+      "task": "click",
+      "technical_ok": true,
+      "timed_out": false,
+      "trace_event_shapes": [
+        [
+          "thread.started",
+          null,
+          null
+        ],
+        [
+          "turn.started",
+          null,
+          null
+        ],
+        [
+          "item.started",
+          "command_execution",
+          "in_progress"
+        ],
+        [
+          "item.completed",
+          "command_execution",
+          "failed"
+        ],
+        [
+          "item.started",
+          "file_change",
+          "in_progress"
+        ],
+        [
+          "item.completed",
+          "file_change",
+          "completed"
+        ],
+        [
+          "turn.completed",
+          null,
+          null
+        ]
+      ],
+      "trace_sha256": "39558704ea89bf61ebca93586d05486030788bd620e43b26dcf72ba064d5eb84",
+      "upstream_passed": true,
+      "usage": {
+        "cached_input_tokens": 195,
+        "input_tokens": 390,
+        "output_tokens": 90
+      }
+    },
+    {
+      "admissible": true,
+      "arm": "verbose",
+      "behavior_passed": 9,
+      "behavior_total": 9,
+      "bridge_stopped": true,
+      "broker_stopped": true,
+      "checkpoint_status": "captured",
+      "checkpoint_tree_sha256": "715e83baae94b5b3271ff19de66e96e13fa85cafaeebb28a123df11f3b4f7227",
+      "cleanup_verified": true,
+      "diagnostic_output_verified": true,
+      "exit_code": 0,
+      "expected_gold_tree_sha256": "715e83baae94b5b3271ff19de66e96e13fa85cafaeebb28a123df11f3b4f7227",
+      "extended_click_regression_groups": 7,
+      "first_command": {
+        "commands_observed": 1,
+        "first_command_completed": true,
+        "first_command_exact": true,
+        "first_exit_code": 1,
+        "malformed_lines": 0,
+        "other_prior_actions": [],
+        "status": "observed",
+        "trace_complete": true
+      },
+      "id": "04-b1-click-verbose",
+      "ledgers_verified": true,
+      "patch_sha256": "1356ec936dbca936bc27988678b5f72356e5f71f974969ada9af49eb04fdb4a0",
+      "provider_errors": 0,
+      "provider_requests": 3,
+      "quality": true,
+      "quality_report_sha256": "8e5d795627cd5115bfda4af3b5fa479a0cb14c2f6d1fb4b43230ddb2a72e7686",
+      "quality_status": "pass",
+      "reconciliation_complete": true,
+      "request_items": [
+        [],
+        [
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call"
+          },
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call_output"
+          }
+        ],
+        [
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call"
+          },
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call_output"
+          },
+          {
+            "call_id": "call_synthetic_2",
+            "type": "custom_tool_call"
+          },
+          {
+            "call_id": "call_synthetic_2",
+            "type": "custom_tool_call_output"
+          }
+        ]
+      ],
+      "sealed_inventory_sha256": "3550efa58953dcda7082af4181541d6ccf76b7a9315cdb3a4251fb31c5e3ff44",
+      "task": "click",
+      "technical_ok": true,
+      "timed_out": false,
+      "trace_event_shapes": [
+        [
+          "thread.started",
+          null,
+          null
+        ],
+        [
+          "turn.started",
+          null,
+          null
+        ],
+        [
+          "item.started",
+          "command_execution",
+          "in_progress"
+        ],
+        [
+          "item.completed",
+          "command_execution",
+          "failed"
+        ],
+        [
+          "item.started",
+          "file_change",
+          "in_progress"
+        ],
+        [
+          "item.completed",
+          "file_change",
+          "completed"
+        ],
+        [
+          "turn.completed",
+          null,
+          null
+        ]
+      ],
+      "trace_sha256": "da03be3444bc4bee62cb9848d6e4e59d308833c40e72bbde865cf20729eca60b",
+      "upstream_passed": true,
+      "usage": {
+        "cached_input_tokens": 195,
+        "input_tokens": 390,
+        "output_tokens": 90
+      }
+    }
+  ],
+  "cli_bundle_sha256": {
+    "codex": "93169e745735930598e867ad837abf3fdc50774a3ad7e7aa89c0d0c51b0189a5",
+    "codex-code-mode-host": "48c61488ebc34342a71c8cd70b7b46947b86e31f5c616a3160a93a3407e8067b"
+  },
+  "expectations_sha256": "4183541eb9af4b704a14170f97e8b987d62c62cd699fca5ec1d19732c2df4fde",
+  "mismatched_fields": [],
+  "predeclared_match": true,
+  "private_artifacts_verified": true,
+  "private_source_sha256": {
+    "audit.py": "f9125a16217434990356c94f16a4bf39cd498abbd61199ce45953dc47885ed56",
+    "broker_route.py": "6befd0bfe804ee451e132de4978b09f54f8d2ba5d09ba0f173c92e752c55bdb2",
+    "bundled_cli_v3.py": "339fe153f689239a64c7a0fa52c6404a00eb2031a75425fbd1bddee8acdd1f43",
+    "cli_normal_bundle_probe_v3.py": "b9b8c3b9683925451e346595bb1de29a005e116d97dfa6a06a121a54e71077cc",
+    "cli_toolcall_probe.py": "2416fe6a65f9f35a9fc0b8908a55ff6f86146f223e4101acd514b047ec7a9b5e",
+    "click_extended_regressions_v3.py": "5f7153d07ccf32a2ff050315e331cbc2b249b998e8a15428c965f1167ba4141a",
+    "click_source_only_patch_v3.txt": "c3dd29662dedbf48068582ae97f8ace13b7933b5dc678d4daf606dae2327f183",
+    "evaluate.py": "0706611b51ce9d4ea1d56d1973868f0a04d26441f658ee204d2747f5986a6922",
+    "frozen_quiet_variance_bundle_normal_cli_v3.py": "1fa154b3847bc51f68c76ffccbf1466baf6c21753a1b9db1779e7c28168de278",
+    "host_bridge.py": "285cd479136dce51670661d09ee84f76e3f4038cb4419857412552be09bfaa5a",
+    "isolation.py": "1d066b85412899338bde0a350adf74331515b6c1a0799cfac164e1df9209de7f",
+    "live_pilot.py": "fb4c35f8ff4436c6053216923a692c1cd56086db8b3d3e3d2ff85a0daa997744",
+    "pilot.py": "efd4ea9b97a564199fe66bf1c45d61ea6dbd0f6386b6148063e6bbdd3f8a94ee",
+    "process.py": "f38eb548f6e1326513f1e4745bf8c16d6a2785f1fc453b078001419af6a8f5a1",
+    "protocol_gate.py": "26310f67dd99ea15fe2b6f0581d41588bd60622a5f902a191ea4862aabae3c07",
+    "runtime_manifest.py": "d75109adcc217b3ec0049f5f67bb66913f94192cfa19bf7341073a816bcbc41c",
+    "safe_tree.py": "d308e37c198afbd5bd7d13c5dcd030ef665210f3e979cdad046a5d8755d84b43",
+    "snapshot.py": "016d29cd0f24141478eeab6d8b1d0e94228a22de2754a40bf8d01d01a1189e9c",
+    "test_host_bridge.py": "e370cec67991890045f7444660f617aec4079004bc5da9e762a90271b8607414",
+    "variance_calibration_bundle_v3.py": "2ffdc57fa69ad6333c5f7dd2bd05164b730b14caa494c05f0d2f44e4c4a40c94"
+  },
+  "public_head": "903cef133c3dd1522ddfe65d6773f2788237ee31",
+  "schema": "solcodex.quiet-variance-bundle-normal-cli-observations.v1",
+  "scope": "pinned_bundle_no_model_normal_cli_matrix"
+}
