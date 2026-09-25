@@ -1,0 +1,166 @@
+{
+  "calibration_candidate_sha256": "06b1281d9f52ad12845177828c143842e7c678066c1cbc94de606fdeb8e43596",
+  "case": "packaging_patch_cancel_late_missing_usage",
+  "cli_binary_sha256": "93169e745735930598e867ad837abf3fdc50774a3ad7e7aa89c0d0c51b0189a5",
+  "cli_version": "codex-cli 0.155.0-alpha.16.4",
+  "code_mode_host_sha256": "48c61488ebc34342a71c8cd70b7b46947b86e31f5c616a3160a93a3407e8067b",
+  "evaluator_runtime_tree_sha256": "5a9a72a2ee60a188ac820f73b0baefc591926e0c6b72b8f1849d315bfb69640c",
+  "expected_observations": {
+    "bridge_stopped": true,
+    "broker_attempts": 3,
+    "broker_stopped": true,
+    "broker_usage_status": "unknown",
+    "checkpoint_status": "captured",
+    "checkpoint_tree_sha256": "ad9f932ad4671fa1c3d080fc96bc042722c88d6bdfd06bf15ed7590b7841d62d",
+    "cleanup_verified": true,
+    "diagnostic_signature": true,
+    "exit_code": -15,
+    "first_command": {
+      "commands_observed": 1,
+      "first_command_completed": true,
+      "first_command_exact": true,
+      "first_exit_code": 1,
+      "malformed_lines": 0,
+      "other_prior_actions": [],
+      "status": "observed",
+      "trace_complete": false
+    },
+    "late_completion_after_runner": true,
+    "ledger_errors": {
+      "bridge": false,
+      "broker": false
+    },
+    "provider_billing_complete": false,
+    "provider_errors": 0,
+    "provider_requests": 3,
+    "quality_status": "pass",
+    "reconciliation_complete": false,
+    "reconciliation_ids_match": true,
+    "request_items": [
+      [],
+      [
+        {
+          "call_id": "call_synthetic_1",
+          "type": "custom_tool_call"
+        },
+        {
+          "call_id": "call_synthetic_1",
+          "type": "custom_tool_call_output"
+        }
+      ],
+      [
+        {
+          "call_id": "call_synthetic_1",
+          "type": "custom_tool_call"
+        },
+        {
+          "call_id": "call_synthetic_1",
+          "type": "custom_tool_call_output"
+        },
+        {
+          "call_id": "call_synthetic_2",
+          "type": "custom_tool_call"
+        },
+        {
+          "call_id": "call_synthetic_2",
+          "type": "custom_tool_call_output"
+        }
+      ]
+    ],
+    "schema": "solcodex.quiet-variance-bundle-negative-observations.v1",
+    "scope": "pinned_bundle_no_model_late_missing_usage",
+    "technical_ok": false,
+    "third_request_seen": true,
+    "third_upstream": {
+      "error": "invalid_sse",
+      "response_bytes_positive": true,
+      "send_attempted": true,
+      "state": "unknown",
+      "upstream_status": 200
+    },
+    "timed_out": true,
+    "trace_event_shapes": [
+      [
+        "thread.started",
+        null,
+        null
+      ],
+      [
+        "turn.started",
+        null,
+        null
+      ],
+      [
+        "item.started",
+        "command_execution",
+        "in_progress"
+      ],
+      [
+        "item.completed",
+        "command_execution",
+        "failed"
+      ],
+      [
+        "item.started",
+        "file_change",
+        "in_progress"
+      ],
+      [
+        "item.completed",
+        "file_change",
+        "completed"
+      ]
+    ],
+    "upstream_observed_completed_usage": {
+      "cached_input_tokens": 190,
+      "input_tokens": 320,
+      "output_tokens": 80
+    },
+    "upstream_states": {
+      "completed": 2,
+      "pending": 0,
+      "unknown": 1
+    },
+    "usage": null
+  },
+  "gold_tree_sha256": "ad9f932ad4671fa1c3d080fc96bc042722c88d6bdfd06bf15ed7590b7841d62d",
+  "model_run_authorized": false,
+  "positive_result_sha256": "7a54b2ea42cefd5665cac159c8f61e9ff33953556eb5dda9db2a0e8aa287a3b7",
+  "private_source_sha256": {
+    "audit.py": "f9125a16217434990356c94f16a4bf39cd498abbd61199ce45953dc47885ed56",
+    "broker_route.py": "6befd0bfe804ee451e132de4978b09f54f8d2ba5d09ba0f173c92e752c55bdb2",
+    "bundled_cli.py": "fbbb17d001cbd494b86a86d8ec7d041f54d314618e6322bbe96757c1868e781a",
+    "cli_late_checkpoint_bundle_probe.py": "e086c4d9cdf8255dd6706f6dc5c238488d95efd361e8cf465f8ecff093260876",
+    "cli_late_missing_usage_bundle_probe.py": "30e61f8b7281d1b7591afa067ce60ea784a42ced5073da62c06cf33a44336e29",
+    "cli_toolcall_probe.py": "2416fe6a65f9f35a9fc0b8908a55ff6f86146f223e4101acd514b047ec7a9b5e",
+    "evaluate.py": "0706611b51ce9d4ea1d56d1973868f0a04d26441f658ee204d2747f5986a6922",
+    "frozen_quiet_variance_bundle_negative_path.py": "84a0b934960a01ccbbd0abb0f96ffcbc6a94208d60ec68f29cd32cf5d3464862",
+    "frozen_quiet_variance_bundle_positive_path.py": "3be73b95bf5a6b53a8967ea76520ecc32745bca2b98e5576e3472ff56abaa560",
+    "host_bridge.py": "285cd479136dce51670661d09ee84f76e3f4038cb4419857412552be09bfaa5a",
+    "isolation.py": "1d066b85412899338bde0a350adf74331515b6c1a0799cfac164e1df9209de7f",
+    "live_pilot.py": "fb4c35f8ff4436c6053216923a692c1cd56086db8b3d3e3d2ff85a0daa997744",
+    "pilot.py": "efd4ea9b97a564199fe66bf1c45d61ea6dbd0f6386b6148063e6bbdd3f8a94ee",
+    "process.py": "f38eb548f6e1326513f1e4745bf8c16d6a2785f1fc453b078001419af6a8f5a1",
+    "protocol_gate.py": "26310f67dd99ea15fe2b6f0581d41588bd60622a5f902a191ea4862aabae3c07",
+    "runtime_manifest.py": "d75109adcc217b3ec0049f5f67bb66913f94192cfa19bf7341073a816bcbc41c",
+    "safe_tree.py": "d308e37c198afbd5bd7d13c5dcd030ef665210f3e979cdad046a5d8755d84b43",
+    "selftest-protocol.json": "daa7604d54c88be6d96f8b6e04ff352d4ee1d4569ef1ca023cdfad46d9208fe2",
+    "snapshot.py": "016d29cd0f24141478eeab6d8b1d0e94228a22de2754a40bf8d01d01a1189e9c",
+    "test_harness.py": "8eb0e5876f81c80677e296790d2f1145caa68aa78cf69711abc723e546ed90ff",
+    "test_host_bridge.py": "e370cec67991890045f7444660f617aec4079004bc5da9e762a90271b8607414",
+    "variance_calibration_bundle.py": "4ed1fe1dc93e019b7cc7c371510a065c20984abbbb3aaaffdab71f6d57e2df8d"
+  },
+  "python_version": "3.12.14",
+  "quality_assets_lock_sha256": "e61fee1904c164eabcba731a509394d45b9dbf8b6d517c4b7e39380aac40fd90",
+  "reducer_sha256": "b867c178ec8db323af24417d7e9096e01b39d9bc25b9fbd02bf18f409245302b",
+  "runtime_tree_sha256": "c3302c0f5c59a7b8fe6c164c927cc3be03810967fbbc4b6e097849ed07b18d17",
+  "schedule_row": {
+    "arm": "quiet",
+    "id": "03-packaging-on",
+    "task": "packaging"
+  },
+  "schema": "solcodex.quiet-variance-bundle-negative-expectations.v1",
+  "source_tree_sha256": "1ac9eb290502fbf5b3425d790e4b00b0cb17112f4940fabaa80544f4078f5045",
+  "status": "prospective_no_model_development_control",
+  "usage_ledger_sha256": "1da10986547580b9e9afeb34d92b1f649a1fa5bfb36ac6a7aa2e26d7d99c565f"
+}
