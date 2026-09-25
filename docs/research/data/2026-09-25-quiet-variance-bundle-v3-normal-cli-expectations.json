@@ -1,0 +1,508 @@
+{
+  "calibration_core_sha256": "5d231b03a4d1fb56fd04f97ff5f41e33d71bced86b04043bc1f52218bb5f202c",
+  "case": "normal_completion_first_frozen_block",
+  "cli_binary_sha256": "93169e745735930598e867ad837abf3fdc50774a3ad7e7aa89c0d0c51b0189a5",
+  "cli_version": "codex-cli 0.155.0-alpha.16.4",
+  "click_patch_sha256": "c3dd29662dedbf48068582ae97f8ace13b7933b5dc678d4daf606dae2327f183",
+  "code_mode_host_sha256": "48c61488ebc34342a71c8cd70b7b46947b86e31f5c616a3160a93a3407e8067b",
+  "control_timeout_seconds": 90,
+  "evaluator_runtime_tree_sha256": "5a9a72a2ee60a188ac820f73b0baefc591926e0c6b72b8f1849d315bfb69640c",
+  "expected_cases": [
+    {
+      "admissible": true,
+      "arm": "verbose",
+      "behavior_passed": 14,
+      "behavior_total": 14,
+      "bridge_stopped": true,
+      "broker_stopped": true,
+      "checkpoint_status": "captured",
+      "checkpoint_tree_sha256": "ad9f932ad4671fa1c3d080fc96bc042722c88d6bdfd06bf15ed7590b7841d62d",
+      "cleanup_verified": true,
+      "diagnostic_output_verified": true,
+      "exit_code": 0,
+      "expected_gold_tree_sha256": "ad9f932ad4671fa1c3d080fc96bc042722c88d6bdfd06bf15ed7590b7841d62d",
+      "extended_click_regression_groups": null,
+      "first_command": {
+        "commands_observed": 1,
+        "first_command_completed": true,
+        "first_command_exact": true,
+        "first_exit_code": 1,
+        "malformed_lines": 0,
+        "other_prior_actions": [],
+        "status": "observed",
+        "trace_complete": true
+      },
+      "id": "01-b1-packaging-verbose",
+      "ledgers_verified": true,
+      "provider_errors": 0,
+      "provider_requests": 3,
+      "quality": true,
+      "quality_status": "pass",
+      "reconciliation_complete": true,
+      "request_items": [
+        [],
+        [
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call"
+          },
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call_output"
+          }
+        ],
+        [
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call"
+          },
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call_output"
+          },
+          {
+            "call_id": "call_synthetic_2",
+            "type": "custom_tool_call"
+          },
+          {
+            "call_id": "call_synthetic_2",
+            "type": "custom_tool_call_output"
+          }
+        ]
+      ],
+      "task": "packaging",
+      "technical_ok": true,
+      "timed_out": false,
+      "trace_event_shapes": [
+        [
+          "thread.started",
+          null,
+          null
+        ],
+        [
+          "turn.started",
+          null,
+          null
+        ],
+        [
+          "item.started",
+          "command_execution",
+          "in_progress"
+        ],
+        [
+          "item.completed",
+          "command_execution",
+          "failed"
+        ],
+        [
+          "item.started",
+          "file_change",
+          "in_progress"
+        ],
+        [
+          "item.completed",
+          "file_change",
+          "completed"
+        ],
+        [
+          "turn.completed",
+          null,
+          null
+        ]
+      ],
+      "upstream_passed": true,
+      "usage": {
+        "cached_input_tokens": 195,
+        "input_tokens": 390,
+        "output_tokens": 90
+      }
+    },
+    {
+      "admissible": true,
+      "arm": "quiet",
+      "behavior_passed": 14,
+      "behavior_total": 14,
+      "bridge_stopped": true,
+      "broker_stopped": true,
+      "checkpoint_status": "captured",
+      "checkpoint_tree_sha256": "ad9f932ad4671fa1c3d080fc96bc042722c88d6bdfd06bf15ed7590b7841d62d",
+      "cleanup_verified": true,
+      "diagnostic_output_verified": true,
+      "exit_code": 0,
+      "expected_gold_tree_sha256": "ad9f932ad4671fa1c3d080fc96bc042722c88d6bdfd06bf15ed7590b7841d62d",
+      "extended_click_regression_groups": null,
+      "first_command": {
+        "commands_observed": 1,
+        "first_command_completed": true,
+        "first_command_exact": true,
+        "first_exit_code": 1,
+        "malformed_lines": 0,
+        "other_prior_actions": [],
+        "status": "observed",
+        "trace_complete": true
+      },
+      "id": "02-b1-packaging-quiet",
+      "ledgers_verified": true,
+      "provider_errors": 0,
+      "provider_requests": 3,
+      "quality": true,
+      "quality_status": "pass",
+      "reconciliation_complete": true,
+      "request_items": [
+        [],
+        [
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call"
+          },
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call_output"
+          }
+        ],
+        [
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call"
+          },
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call_output"
+          },
+          {
+            "call_id": "call_synthetic_2",
+            "type": "custom_tool_call"
+          },
+          {
+            "call_id": "call_synthetic_2",
+            "type": "custom_tool_call_output"
+          }
+        ]
+      ],
+      "task": "packaging",
+      "technical_ok": true,
+      "timed_out": false,
+      "trace_event_shapes": [
+        [
+          "thread.started",
+          null,
+          null
+        ],
+        [
+          "turn.started",
+          null,
+          null
+        ],
+        [
+          "item.started",
+          "command_execution",
+          "in_progress"
+        ],
+        [
+          "item.completed",
+          "command_execution",
+          "failed"
+        ],
+        [
+          "item.started",
+          "file_change",
+          "in_progress"
+        ],
+        [
+          "item.completed",
+          "file_change",
+          "completed"
+        ],
+        [
+          "turn.completed",
+          null,
+          null
+        ]
+      ],
+      "upstream_passed": true,
+      "usage": {
+        "cached_input_tokens": 195,
+        "input_tokens": 390,
+        "output_tokens": 90
+      }
+    },
+    {
+      "admissible": true,
+      "arm": "quiet",
+      "behavior_passed": 9,
+      "behavior_total": 9,
+      "bridge_stopped": true,
+      "broker_stopped": true,
+      "checkpoint_status": "captured",
+      "checkpoint_tree_sha256": "715e83baae94b5b3271ff19de66e96e13fa85cafaeebb28a123df11f3b4f7227",
+      "cleanup_verified": true,
+      "diagnostic_output_verified": true,
+      "exit_code": 0,
+      "expected_gold_tree_sha256": "715e83baae94b5b3271ff19de66e96e13fa85cafaeebb28a123df11f3b4f7227",
+      "extended_click_regression_groups": 7,
+      "first_command": {
+        "commands_observed": 1,
+        "first_command_completed": true,
+        "first_command_exact": true,
+        "first_exit_code": 1,
+        "malformed_lines": 0,
+        "other_prior_actions": [],
+        "status": "observed",
+        "trace_complete": true
+      },
+      "id": "03-b1-click-quiet",
+      "ledgers_verified": true,
+      "provider_errors": 0,
+      "provider_requests": 3,
+      "quality": true,
+      "quality_status": "pass",
+      "reconciliation_complete": true,
+      "request_items": [
+        [],
+        [
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call"
+          },
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call_output"
+          }
+        ],
+        [
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call"
+          },
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call_output"
+          },
+          {
+            "call_id": "call_synthetic_2",
+            "type": "custom_tool_call"
+          },
+          {
+            "call_id": "call_synthetic_2",
+            "type": "custom_tool_call_output"
+          }
+        ]
+      ],
+      "task": "click",
+      "technical_ok": true,
+      "timed_out": false,
+      "trace_event_shapes": [
+        [
+          "thread.started",
+          null,
+          null
+        ],
+        [
+          "turn.started",
+          null,
+          null
+        ],
+        [
+          "item.started",
+          "command_execution",
+          "in_progress"
+        ],
+        [
+          "item.completed",
+          "command_execution",
+          "failed"
+        ],
+        [
+          "item.started",
+          "file_change",
+          "in_progress"
+        ],
+        [
+          "item.completed",
+          "file_change",
+          "completed"
+        ],
+        [
+          "turn.completed",
+          null,
+          null
+        ]
+      ],
+      "upstream_passed": true,
+      "usage": {
+        "cached_input_tokens": 195,
+        "input_tokens": 390,
+        "output_tokens": 90
+      }
+    },
+    {
+      "admissible": true,
+      "arm": "verbose",
+      "behavior_passed": 9,
+      "behavior_total": 9,
+      "bridge_stopped": true,
+      "broker_stopped": true,
+      "checkpoint_status": "captured",
+      "checkpoint_tree_sha256": "715e83baae94b5b3271ff19de66e96e13fa85cafaeebb28a123df11f3b4f7227",
+      "cleanup_verified": true,
+      "diagnostic_output_verified": true,
+      "exit_code": 0,
+      "expected_gold_tree_sha256": "715e83baae94b5b3271ff19de66e96e13fa85cafaeebb28a123df11f3b4f7227",
+      "extended_click_regression_groups": 7,
+      "first_command": {
+        "commands_observed": 1,
+        "first_command_completed": true,
+        "first_command_exact": true,
+        "first_exit_code": 1,
+        "malformed_lines": 0,
+        "other_prior_actions": [],
+        "status": "observed",
+        "trace_complete": true
+      },
+      "id": "04-b1-click-verbose",
+      "ledgers_verified": true,
+      "provider_errors": 0,
+      "provider_requests": 3,
+      "quality": true,
+      "quality_status": "pass",
+      "reconciliation_complete": true,
+      "request_items": [
+        [],
+        [
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call"
+          },
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call_output"
+          }
+        ],
+        [
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call"
+          },
+          {
+            "call_id": "call_synthetic_1",
+            "type": "custom_tool_call_output"
+          },
+          {
+            "call_id": "call_synthetic_2",
+            "type": "custom_tool_call"
+          },
+          {
+            "call_id": "call_synthetic_2",
+            "type": "custom_tool_call_output"
+          }
+        ]
+      ],
+      "task": "click",
+      "technical_ok": true,
+      "timed_out": false,
+      "trace_event_shapes": [
+        [
+          "thread.started",
+          null,
+          null
+        ],
+        [
+          "turn.started",
+          null,
+          null
+        ],
+        [
+          "item.started",
+          "command_execution",
+          "in_progress"
+        ],
+        [
+          "item.completed",
+          "command_execution",
+          "failed"
+        ],
+        [
+          "item.started",
+          "file_change",
+          "in_progress"
+        ],
+        [
+          "item.completed",
+          "file_change",
+          "completed"
+        ],
+        [
+          "turn.completed",
+          null,
+          null
+        ]
+      ],
+      "upstream_passed": true,
+      "usage": {
+        "cached_input_tokens": 195,
+        "input_tokens": 390,
+        "output_tokens": 90
+      }
+    }
+  ],
+  "model_run_authorized": false,
+  "private_source_sha256": {
+    "audit.py": "f9125a16217434990356c94f16a4bf39cd498abbd61199ce45953dc47885ed56",
+    "broker_route.py": "6befd0bfe804ee451e132de4978b09f54f8d2ba5d09ba0f173c92e752c55bdb2",
+    "bundled_cli_v3.py": "339fe153f689239a64c7a0fa52c6404a00eb2031a75425fbd1bddee8acdd1f43",
+    "cli_normal_bundle_probe_v3.py": "b9b8c3b9683925451e346595bb1de29a005e116d97dfa6a06a121a54e71077cc",
+    "cli_toolcall_probe.py": "2416fe6a65f9f35a9fc0b8908a55ff6f86146f223e4101acd514b047ec7a9b5e",
+    "click_extended_regressions_v3.py": "5f7153d07ccf32a2ff050315e331cbc2b249b998e8a15428c965f1167ba4141a",
+    "click_source_only_patch_v3.txt": "c3dd29662dedbf48068582ae97f8ace13b7933b5dc678d4daf606dae2327f183",
+    "evaluate.py": "0706611b51ce9d4ea1d56d1973868f0a04d26441f658ee204d2747f5986a6922",
+    "frozen_quiet_variance_bundle_normal_cli_v3.py": "1fa154b3847bc51f68c76ffccbf1466baf6c21753a1b9db1779e7c28168de278",
+    "host_bridge.py": "285cd479136dce51670661d09ee84f76e3f4038cb4419857412552be09bfaa5a",
+    "isolation.py": "1d066b85412899338bde0a350adf74331515b6c1a0799cfac164e1df9209de7f",
+    "live_pilot.py": "fb4c35f8ff4436c6053216923a692c1cd56086db8b3d3e3d2ff85a0daa997744",
+    "pilot.py": "efd4ea9b97a564199fe66bf1c45d61ea6dbd0f6386b6148063e6bbdd3f8a94ee",
+    "process.py": "f38eb548f6e1326513f1e4745bf8c16d6a2785f1fc453b078001419af6a8f5a1",
+    "protocol_gate.py": "26310f67dd99ea15fe2b6f0581d41588bd60622a5f902a191ea4862aabae3c07",
+    "runtime_manifest.py": "d75109adcc217b3ec0049f5f67bb66913f94192cfa19bf7341073a816bcbc41c",
+    "safe_tree.py": "d308e37c198afbd5bd7d13c5dcd030ef665210f3e979cdad046a5d8755d84b43",
+    "snapshot.py": "016d29cd0f24141478eeab6d8b1d0e94228a22de2754a40bf8d01d01a1189e9c",
+    "test_host_bridge.py": "e370cec67991890045f7444660f617aec4079004bc5da9e762a90271b8607414",
+    "variance_calibration_bundle_v3.py": "2ffdc57fa69ad6333c5f7dd2bd05164b730b14caa494c05f0d2f44e4c4a40c94"
+  },
+  "python_version": "3.12.14",
+  "quality_assets_lock_sha256": "e61fee1904c164eabcba731a509394d45b9dbf8b6d517c4b7e39380aac40fd90",
+  "reducer_sha256": "260cd65f63b63b2b809985e3d87c618e273faaa870e7be01fc4e9f4a16390036",
+  "runtime_tree_sha256": "c3302c0f5c59a7b8fe6c164c927cc3be03810967fbbc4b6e097849ed07b18d17",
+  "schedule_rows": [
+    {
+      "arm": "verbose",
+      "block": 1,
+      "id": "01-b1-packaging-verbose",
+      "task": "packaging"
+    },
+    {
+      "arm": "quiet",
+      "block": 1,
+      "id": "02-b1-packaging-quiet",
+      "task": "packaging"
+    },
+    {
+      "arm": "quiet",
+      "block": 1,
+      "id": "03-b1-click-quiet",
+      "task": "click"
+    },
+    {
+      "arm": "verbose",
+      "block": 1,
+      "id": "04-b1-click-verbose",
+      "task": "click"
+    }
+  ],
+  "schema": "solcodex.quiet-variance-bundle-normal-cli-expectations.v1",
+  "source_tree_sha256": {
+    "click": "6ab22715612fbcf9b079787f1589018a67c40f284de34b63ba18dce71487bbe3",
+    "packaging": "1ac9eb290502fbf5b3425d790e4b00b0cb17112f4940fabaa80544f4078f5045"
+  },
+  "status": "prospective_no_model_development_control",
+  "usage_ledger_sha256": "1da10986547580b9e9afeb34d92b1f649a1fa5bfb36ac6a7aa2e26d7d99c565f"
+}
