@@ -13,6 +13,11 @@ RUNNER = ROOT / 'docs/measurements/fixtures/2026-09-25-quiet-variance-calibratio
 BUNDLE = ROOT / 'docs/measurements/fixtures/2026-09-25-quiet-variance-bundled-cli-v3.py'
 EVIDENCE = {
     'unit': ROOT / 'docs/measurements/data/2026-09-25-quiet-variance-current-unit-probe.json',
+    'late_missing': ROOT / 'docs/measurements/data/2026-09-25-quiet-variance-bundle-v3-negative-result.json',
+    'positive_path': ROOT / 'docs/measurements/data/2026-09-25-quiet-variance-bundle-v3-positive-result.json',
+    'normal_cli_matrix': ROOT / 'docs/measurements/data/2026-09-25-quiet-variance-bundle-v3-normal-cli-result.json',
+    'integrated_path': ROOT / 'docs/measurements/data/2026-09-25-quiet-variance-bundle-v3-integrated-result.json',
+    'independent_review': ROOT / 'docs/research/data/2026-09-25-quiet-variance-bundle-v3-qualification-review.json',
 }
 
 
@@ -63,12 +68,13 @@ def audit():
         'bundle_hashes_declared': (cli['version'] == 'codex-cli 0.155.0-alpha.16.4'
                                    and is_sha(cli['sha256'])
                                    and is_sha(cli['code_mode_host_sha256'])),
-        'existing_evidence_pinned': all(sha(path) == qualifications[name]
-                                        for name, path in EVIDENCE.items()),
-        'remaining_evidence_unset': all(qualifications[name] is None for name in
-                                       ('late_missing', 'positive_path',
-                                        'normal_cli_matrix', 'integrated_path',
-                                        'independent_review')),
+        'evidence_slots_exact': set(qualifications) == set(EVIDENCE),
+        'existing_evidence_pinned': all(
+            qualifications[name] is None or
+            (path.is_file() and sha(path) == qualifications[name])
+            for name, path in EVIDENCE.items()),
+        'qualification_still_incomplete': any(value is None
+                                               for value in qualifications.values()),
         'four_balanced_blocks': len(schedule['schedule']) == 16 and all(
             len([row for row in schedule['schedule'] if row['block'] == block]) == 4
             for block in range(1, 5)),
