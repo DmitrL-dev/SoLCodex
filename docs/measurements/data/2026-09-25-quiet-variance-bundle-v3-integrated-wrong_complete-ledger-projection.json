@@ -1,0 +1,61 @@
+{
+  "attempt_ids_match": true,
+  "case": "wrong_complete",
+  "delivery": [
+    {
+      "cached_input_tokens": 40,
+      "input_tokens": 120,
+      "ordinal": 1,
+      "output_tokens": 30,
+      "reason": null,
+      "state": "completed"
+    },
+    {
+      "cached_input_tokens": 150,
+      "input_tokens": 200,
+      "ordinal": 2,
+      "output_tokens": 50,
+      "reason": null,
+      "state": "completed"
+    },
+    {
+      "cached_input_tokens": 5,
+      "input_tokens": 70,
+      "ordinal": 3,
+      "output_tokens": 10,
+      "reason": null,
+      "state": "completed"
+    }
+  ],
+  "raw_sha256": {
+    "delivery": "12e97b2b8e8a566e9783f3e112ac426dd3aefc4dda196f09bbe589a74dcc1b6f",
+    "upstream": "4eb11d00dab4269b031338ac2e3d8a8c908560c642d882aacee4ddf366e6d26f"
+  },
+  "schema": "solcodex.quiet-variance-bundle-ledger-projection.v1",
+  "upstream": [
+    {
+      "cached_input_tokens": 40,
+      "input_tokens": 120,
+      "ordinal": 1,
+      "output_tokens": 30,
+      "reason": null,
+      "state": "completed"
+    },
+    {
+      "cached_input_tokens": 150,
+      "input_tokens": 200,
+      "ordinal": 2,
+      "output_tokens": 50,
+      "reason": null,
+      "state": "completed"
+    },
+    {
+      "cached_input_tokens": 5,
+      "input_tokens": 70,
+      "ordinal": 3,
+      "output_tokens": 10,
+      "reason": null,
+      "state": "completed"
+    }
+  ]
+}
