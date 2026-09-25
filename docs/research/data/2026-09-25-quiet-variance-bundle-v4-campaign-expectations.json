@@ -1,0 +1,168 @@
+{
+  "schema": "solcodex.quiet-variance-campaign-path-expectations.v4",
+  "status": "prospective_unexecuted",
+  "model_run_authorized": false,
+  "schedule_sha256": "ef948e932cc2ff1bf6e8c3cfd379d29dc1bfe4a00d2c7ff852e0b93d203a9cd1",
+  "scope": "campaign coordinator qualification with a deterministic local provider, not an A/B measurement",
+  "execution_contract": {
+    "entrypoint": "Run the pinned v4 campaign CLI as a fresh process for each invocation, including preflight, block execution, restart, and export.",
+    "qualification_mode": "A separate, pinned control-only CLI mode must accept a candidate protocol while model_run_authorized remains false. It must require the deterministic local provider and synthetic credential explicitly and fail closed when either is absent. The production execution path remains gated by qualified evidence and cannot use this permit.",
+    "real_components": [
+      "public Git freeze check",
+      "source and runtime pin checks",
+      "exclusive execution lock",
+      "durable journal and seal",
+      "one_live",
+      "pinned Codex CLI and Code Mode host",
+      "sandbox and managed process",
+      "broker and bridge",
+      "SQLite usage ledgers",
+      "quality evaluator",
+      "analysis export"
+    ],
+    "synthetic_boundary": "Only the upstream provider transport and bearer value are synthetic. Each provider request and response is recorded. Provider and CLI network traffic is restricted to loopback; the preflight Git origin check is separately observed and allowed. The coordinator, preflight, CLI launch, and one_live are not replaced.",
+    "drift_isolation": "Each case uses a private source and runtime copy with the pinned basename and bytes. Drift challenges mutate only that copy, never the user's active public checkout. Public Git HEAD and pushed origin/main remain checked by the real preflight.",
+    "fault_handshake": "The pinned control mode must expose acknowledged boundaries after durable start, after observed CLI/provider request, after one_live return before seal, after durable seal before finish, after durable finish before next start, and before each pin check. The supervisor records the boundary and fault before releasing the coordinator; file polling alone is insufficient.",
+    "crash_supervisor": "For in-flight CLI crashes, an independent supervisor records the CLI PID and provider request, terminates the coordinator, then proves no descendant process or late provider request remains before restart. A leak fails the case.",
+    "prohibited_shortcuts": [
+      "mocking preflight, execute, one_live, CLI, broker, bridge, or evaluator",
+      "relabeling four synthetic IDs as the 16 frozen schedule slots",
+      "accepting an outcome summary or hash without raw evidence",
+      "using a live credential or a non-loopback provider connection"
+    ]
+  },
+  "required_artifacts": [
+    "this plan at a pushed public commit before any case starts",
+    "content-addressed raw case trees with process exits, provider transcript, journal, seals, final/result, trace, both SQLite ledgers, quality report, boundary acknowledgements, supervisor process inventory, and network observations",
+    "a separate machine-verifier decision over the raw bytes, published after its source is frozen",
+    "an independent review of the frozen plan, exact runner and verifier bytes, raw cases, and decision"
+  ],
+  "verifier_contract": [
+    "Do not import the campaign coordinator or analysis exporter.",
+    "Read the journal, seal, host files, provider transcript, quality report, and both SQLite ledgers independently from the raw case tree.",
+    "Recompute file hashes, ordered slot identities, durable transitions, first-command adherence, quality status, request-to-ledger identity, usage totals, unstarted IDs, and exported usage states.",
+    "Reject missing, malformed, conflicting, unpinned, or unobserved evidence and any unscheduled launch.",
+    "Match the process exits below, including signal deaths; do not convert a crash into a passing stop.",
+    "Confirm the control permit never requests a live credential and the provider connection factory cannot dial outside loopback."
+  ],
+  "cases": [
+    {
+      "id": "complete_16",
+      "fault": "none",
+      "expected": "All 16 frozen IDs launch once across four separate block invocations; 16 terminal finishes, phase complete, no unstarted IDs, verified complete synthetic usage in every slot."
+    },
+    {
+      "id": "quality_fail_continues",
+      "fault": "The provider produces an admissible first-slot repair that the evaluator rejects.",
+      "expected": "Slot 01 finishes with quality fail and disposition continue; slot 02 starts in the same block. Quality failure remains an observed outcome."
+    },
+    {
+      "id": "accounting_uncertain_stops",
+      "fault": "The provider leaves first-slot upstream usage incomplete.",
+      "expected": "Slot 01 is sealed and finishes with stop; slots 02-16 remain unstarted; export reports only supported lower-bound usage and no treatment estimate."
+    },
+    {
+      "id": "cleanup_uncertain_stops",
+      "fault": "Induce a first-slot managed-process cleanup failure and observe the actual cleanup receipt; changing only the JSON receipt is insufficient.",
+      "expected": "Slot 01 is sealed and finishes with stop; slots 02-16 remain unstarted even if usage and quality are otherwise available."
+    },
+    {
+      "id": "missing_final_stops",
+      "fault": "Remove first-slot final.json after one_live returns and before seal.",
+      "expected": "Available evidence is sealed; slot 01 finishes with stop; slots 02-16 remain unstarted."
+    },
+    {
+      "id": "malformed_final_stops",
+      "fault": "Corrupt first-slot final.json after one_live returns and before seal.",
+      "expected": "Available evidence is sealed; slot 01 finishes with stop; slots 02-16 remain unstarted."
+    },
+    {
+      "id": "prestart_pin_drift_stops",
+      "fault": "Change an isolated private source pin after slot 01 finishes and before the preflight for slot 02.",
+      "expected": "A stopped event names slot 02 without a start for it; only slot 01 was consumed and slots 02-16 remain unstarted."
+    },
+    {
+      "id": "postflight_pin_drift_stops",
+      "fault": "Change an isolated private source pin after slot 01 returns and before its postflight.",
+      "expected": "Slot 01 is sealed and finishes with stop and pins_valid false; slots 02-16 remain unstarted."
+    },
+    {
+      "id": "crash_after_start_before_cli",
+      "fault": "Terminate the first campaign process at an acknowledged boundary after durable start for slot 01 and before CLI launch.",
+      "expected": "Restart cannot launch slot 01 again or advance to slot 02; export reports an unresolved started slot and no treatment estimate."
+    },
+    {
+      "id": "crash_after_cli_request_never_retries",
+      "fault": "Terminate the first campaign process after the external supervisor observes a real CLI PID and its first local provider request.",
+      "expected": "The supervisor proves all descendants and requests cease before restart. Restart cannot relaunch slot 01 or advance to slot 02; export reports an unresolved started slot and no treatment estimate."
+    },
+    {
+      "id": "crash_after_seal_never_retries",
+      "fault": "Terminate the first campaign process after slot 01 seal is durable and before finish.",
+      "expected": "Restart cannot launch slot 01 again or advance to slot 02; export reports an unresolved started slot and no treatment estimate."
+    },
+    {
+      "id": "crash_after_finish_resumes",
+      "fault": "Terminate the process after durable finish for slot 01 and before slot 02 starts.",
+      "expected": "Restart begins at slot 02 exactly once and never relaunches slot 01."
+    },
+    {
+      "id": "tampered_seal_rejected",
+      "fault": "Mutate a sealed first-slot host byte before restart and export.",
+      "expected": "Replay or export rejects the tamper and no further slot launches."
+    },
+    {
+      "id": "accounted_early_cli_timeout_continues",
+      "fault": "Use a pinned control-only shorter managed-CLI timeout while retaining the shared provider deadline, and complete upstream usage before that deadline.",
+      "expected": "A real CLI timeout and verified cleanup with complete accounting are sealed as an admissible observation; slot 02 starts. This does not claim to exercise expiration of the 600-second campaign deadline."
+    },
+    {
+      "id": "checkpoint_uncertain_stops",
+      "fault": "Make the first-slot actual checkpoint fail through a provider-directed workspace change after the required first diagnostic.",
+      "expected": "Slot 01 is sealed with checkpoint uncertainty and stop; slots 02-16 remain unstarted."
+    },
+    {
+      "id": "adherence_uncertain_stops",
+      "fault": "The synthetic provider makes the first tool action differ from the pinned diagnostic command.",
+      "expected": "Slot 01 is sealed with first-command uncertainty and stop; slots 02-16 remain unstarted."
+    },
+    {
+      "id": "quality_report_uncertain_stops",
+      "fault": "Corrupt the first-slot quality report at the acknowledged post-one_live, pre-seal boundary.",
+      "expected": "Slot 01 is sealed with quality evidence uncertainty and stop; slots 02-16 remain unstarted."
+    },
+    {
+      "id": "lock_contention_rejected",
+      "fault": "Hold the first coordinator at an acknowledged boundary with its lock acquired; invoke a second real campaign CLI process against the same root.",
+      "expected": "The contender fails to acquire the lock and makes no journal event or provider request; the first coordinator can resume."
+    },
+    {
+      "id": "corrupt_journal_rejected",
+      "fault": "Corrupt the journal after a durable first-block finish and before a fresh-process restart.",
+      "expected": "Restart and export reject the journal; no further slot launches."
+    }
+  ],
+  "process_exit_contract": {
+    "meaning": "Ordered Python subprocess returncodes for the named invocations. SIGKILL is -9. A failed preflight, replay, lock, or export raises and exits 1; a terminal coordinator stop returns 2.",
+    "complete_16": [0, 0, 0, 0],
+    "quality_fail_continues": [0],
+    "accounting_uncertain_stops": [2],
+    "cleanup_uncertain_stops": [2],
+    "missing_final_stops": [2],
+    "malformed_final_stops": [2],
+    "prestart_pin_drift_stops": [2],
+    "postflight_pin_drift_stops": [2],
+    "crash_after_start_before_cli": [-9, 1, 0],
+    "crash_after_cli_request_never_retries": [-9, 1, 0],
+    "crash_after_seal_never_retries": [-9, 1, 0],
+    "crash_after_finish_resumes": [-9, 0],
+    "tampered_seal_rejected": [0, 1, 1],
+    "accounted_early_cli_timeout_continues": [0],
+    "checkpoint_uncertain_stops": [2],
+    "adherence_uncertain_stops": [2],
+    "quality_report_uncertain_stops": [2],
+    "lock_contention_rejected": [1, 0],
+    "corrupt_journal_rejected": [0, 1, 1]
+  },
+  "decision_rule": "All cases and all verifier checks must pass on raw evidence before campaign_path can be filled. The plan alone confers no authorization."
+}
