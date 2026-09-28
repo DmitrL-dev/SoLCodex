@@ -4,6 +4,10 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+### Repository
+
+- Repository validation passes again. Thirteen recorded measurement files that already contain local paths are exempt from the local-path check only while their pinned bytes are unchanged, a negated sentence no longer trips the public-claim check, and a linked worktree's `.git` file is no longer scanned.
+
 ### Research and documentation
 
 - Added an independently preflighted SymPy ArraySymbol development pair. Both arms passed the frozen 35 external and 48 selected upstream checks; ON used fewer provider-reported tokens and took longer. A post-hoc check found an overbroad `_ArrayExpr` change and the same `ZeroArray`/`OneArray` regression in both arms, invalidating an accepted-repair economy claim. Added two primary studies on agent instruction adherence to the cost-frontier review.

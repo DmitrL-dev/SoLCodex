@@ -419,6 +419,27 @@ class ReleaseToolTests(unittest.TestCase):
                 self.assertIn(literal, text, f"{relative} missing {literal!r}")
             self.assertIn(model_disclaimer, text)
 
+    def test_frozen_evidence_keeps_local_paths_only_while_its_bytes_match(self) -> None:
+        relative = "docs/measurements/data/2026-09-25-quiet-variance-bundle-v3-positive-trace.jsonl"
+        source = (ROOT / relative).read_bytes()
+        repo = self.fixture_repo()
+        target = repo / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(source)
+        result = self.run_validator(repo)
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+        target.write_bytes(source + b"\n")
+        result = self.run_validator(repo)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn(f"{relative}: local absolute path", result.stderr)
+
+    def test_worktree_git_file_is_not_scanned(self) -> None:
+        repo = self.fixture_repo()
+        (repo / ".git").write_text("gitdir: " + "/" + "Users/example/repo/.git/worktrees/fix\n", encoding="utf-8")
+        result = self.run_validator(repo)
+        self.assertEqual(result.returncode, 0, result.stderr)
+
     def test_validator_rejects_unsupported_public_claims(self) -> None:
         repo = self.fixture_repo()
         (repo / "README.md").write_text(
