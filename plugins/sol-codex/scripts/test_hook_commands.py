@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
+import base64
+import hashlib
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -14,6 +17,13 @@ from unittest.mock import patch
 
 
 PLUGIN_ROOT = Path(__file__).resolve().parents[1]
+# Every release shares PLUGIN_DATA/<runtime directory>/bootstrap.py. Loader
+# bytes that change under a released directory make publish() raise in every
+# task, so all hooks degrade. A loader change needs a new runtime directory
+# and regenerated hook commands.
+RELEASED_BOOTSTRAP_DIGESTS = {
+    "runtime-v1": "84e04d0b3dcffad4aa060ec30194f5b8168c8c381b1210e0f5192e6f583d9e1f",
+}
 
 
 class HookCommandTests(unittest.TestCase):
@@ -189,6 +199,61 @@ class HookCommandTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0)
             self.assertEqual(result.stdout, "")
             self.assertIn("runtime unavailable or ambiguous", result.stderr)
+
+    def launcher_source(self) -> str:
+        encoded = re.search(r"b64decode\(\W*([A-Za-z0-9+/=]{40,})", self.commands[0])
+        self.assertIsNotNone(encoded)
+        return base64.b64decode(encoded.group(1)).decode("utf-8")
+
+    def test_released_runtime_directory_keeps_its_bootstrap_bytes(self) -> None:
+        source = (PLUGIN_ROOT / "scripts" / "sol_bootstrap.py").read_bytes().replace(b"\r\n", b"\n")
+        digest = hashlib.sha256(source).hexdigest()
+        directories = set(re.findall(r'"(runtime-v[0-9]+)"', source.decode("utf-8")))
+        self.assertEqual(len(directories), 1, directories)
+        directory = directories.pop()
+        launcher = self.launcher_source()
+        self.assertIn(f'"{directory}"', launcher)
+        self.assertIn(digest, launcher)
+        if directory in RELEASED_BOOTSTRAP_DIGESTS:
+            self.assertEqual(
+                digest, RELEASED_BOOTSTRAP_DIGESTS[directory],
+                f"sol_bootstrap.py changed under released {directory}; installed tasks would fail "
+                "with 'runtime collision or corruption'. Move the loader to a new runtime directory "
+                "and regenerate the hook commands.",
+            )
+
+    @unittest.skipIf(os.name == "nt", "builds a POSIX launcher command")
+    def test_changed_loader_needs_a_new_runtime_directory(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            base = Path(directory)
+            data = base / "data"
+            released = base / "released"
+            self.fixture(released, "released")
+            self.assertEqual(self.invoke(released, data).returncode, 0)
+            original = (released / "scripts" / "sol_bootstrap.py").read_bytes().replace(b"\r\n", b"\n")
+            launcher = self.launcher_source()
+            for runtime, expected in (("runtime-v1", None), ("runtime-v2", "upgraded")):
+                with self.subTest(runtime=runtime):
+                    root = base / runtime
+                    self.fixture(root, "upgraded")
+                    changed = original.replace(b'"runtime-v1"', f'"{runtime}"'.encode()) + b"# changed loader\n"
+                    (root / "scripts" / "sol_bootstrap.py").write_bytes(changed)
+                    code = launcher.replace('"runtime-v1"', f'"{runtime}"').replace(
+                        hashlib.sha256(original).hexdigest(), hashlib.sha256(changed).hexdigest(),
+                    )
+                    environment = os.environ.copy()
+                    environment.update({"PLUGIN_ROOT": str(root), "PLUGIN_DATA": str(data), "PYTHONDONTWRITEBYTECODE": "1"})
+                    result = subprocess.run(
+                        [sys.executable, "-c", code],
+                        input=json.dumps({"session_id": "next-release", "hook_event_name": "SessionStart"}),
+                        text=True, capture_output=True, env=environment, check=False,
+                    )
+                    self.assertEqual(result.returncode, 0, result.stderr)
+                    if expected is None:
+                        self.assertEqual(result.stdout, "")
+                        self.assertIn("runtime collision or corruption", result.stderr)
+                    else:
+                        self.assertEqual(json.loads(result.stdout)["runtime"], expected, result.stderr)
 
 
 if __name__ == "__main__":
