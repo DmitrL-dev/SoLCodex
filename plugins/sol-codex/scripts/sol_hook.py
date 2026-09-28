@@ -51,9 +51,11 @@ DEFAULT_PACK_THRESHOLD = 6_144
 ASTRA_PACK_THRESHOLD = 4_096
 MAX_RECEIPT_CHARS = 7_000
 MAX_TRACKED_FILES = 32
+FILE_VIEW_INLINE_LIMIT = 65_536
 
 PACKING_METRIC_KEYS = (
     "packed_observations", "source_bytes", "receipt_bytes", "saved_bytes",
+    "artifact_rereads", "artifact_reread_bytes",
 )
 
 CODE_SUFFIXES = {
@@ -73,9 +75,29 @@ CODE_BASENAMES = {
     "yarn.lock",
 }
 
+PROSE_SUFFIXES = {".adoc", ".markdown", ".md", ".rst"}
+
+# Commands whose output is file content the agent asked to read. Replacing
+# them with a head/tail receipt makes the agent read the artifact again.
+FILE_VIEW_EXECUTABLES = {"bat", "batcat", "cat", "head", "less", "more", "nl", "sed", "tail"}
+GIT_VIEW_SUBCOMMANDS = {"blame", "diff", "show"}
+
 ENV_ASSIGNMENT_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*=.*$", re.S)
 PYTHON_EXECUTABLE_RE = re.compile(r"^python(?:3(?:\.\d+)?)?$", re.I)
-TEST_RUNNER_HINT_RE = re.compile(r"\b(?:pytest|unittest)\b", re.I)
+# Descriptor duplication such as `2>&1` keeps the command's own exit status.
+FD_DUPLICATION_RE = re.compile(r"(?<!\S)[0-9]?>&[0-9](?!\S)")
+TEST_RUNNER_HINT_RE = re.compile(
+    r"\b(?:pytest|unittest|jest|vitest|rspec|phpunit|ctest)\b"
+    r"|\b(?:cargo|go|swift|dotnet|deno|npm|pnpm|yarn|bun|make|gradle|gradlew|mvn|mvnw)"
+    r"\s+(?:run\s+)?test\b",
+    re.I,
+)
+PATCH_EXIT_HEADER_RE = re.compile(r"exit code: (-?\d+)\r?\n")
+PATCH_FAILURE_PREFIXES = (
+    "error:", "failed:", "patch failed", "apply_patch verification failed",
+    "failed to parse apply_patch", "invalid patch", "patch rejected",
+    "failed to apply patch", "failed to find expected lines", "no files were modified",
+)
 NON_VERIFYING_OPTIONS = {
     "--allow-no-tests", "--auto-gen-config", "--cache-show", "--co", "--collect-only",
     "--collectonly",
@@ -98,16 +120,21 @@ SIGNAL_RE = re.compile(
 
 SECRET_SUBSTITUTIONS = [
     (
+        # A folded header continues only with single-token lines. Indented
+        # diagnostics such as traceback frames after the header stay visible.
         re.compile(
-            r"(authorization[ \t]*[:=][ \t]*)[^\r\n]*(?:\r?\n[ \t]+[^\r\n]*)*",
+            r"(authorization[ \t]*[:=][ \t]*)[^\r\n]*"
+            r"(?:\r?\n[ \t]+[A-Za-z0-9+/=._~-]+[ \t]*(?=\r?\n|\Z))*",
             re.I,
         ),
         r"\1[REDACTED]",
     ),
     (
+        # The lookbehind starts a match only at an identifier boundary, so a
+        # long token-like run is scanned once instead of once per character.
         re.compile(
-            r'''(["']?(?:authorization|api[_-]?key|access[_-]?token|refresh[_-]?token|'''
-            r'''password|passwd|secret|private[_-]?key)["']?\s*[:=]\s*)'''
+            r'''(["']?(?<![A-Za-z0-9_.-])[A-Za-z0-9_.-]*(?:authorization|api[_-]?key|access[_-]?(?:token|key)|'''
+            r'''refresh[_-]?token|password|passwd|secret|private[_-]?key|token)["']?\s*[:=]\s*)'''
             r'''(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|[^\s,;}]+)''',
             re.I,
         ),
@@ -118,12 +145,24 @@ SECRET_SUBSTITUTIONS = [
         re.compile(r"\beyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\b"),
         "[REDACTED]",
     ),
+    (
+        re.compile(
+            r"\b(?:gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|glpat-[A-Za-z0-9_-]{20,}"
+            r"|xox[abprs]-[A-Za-z0-9-]{10,}|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{35})\b"
+        ),
+        "[REDACTED]",
+    ),
+    (
+        re.compile(r"((?<![A-Za-z0-9+.-])[A-Za-z][A-Za-z0-9+.-]*://[^\s:/?#@]+:)[^\s@/?#]+(?=@)"),
+        r"\1[REDACTED]",
+    ),
 ]
 
-PRIVATE_KEY_BLOCK_RE = re.compile(
-    r"-----BEGIN (?P<label>[A-Z0-9 ]*PRIVATE KEY)-----.*?(?:-----END (?P=label)-----|\Z)",
-    re.I | re.S,
-)
+PRIVATE_KEY_BEGIN_RE = re.compile(r"-----BEGIN ([A-Z0-9 ]*PRIVATE KEY)-----", re.I)
+# Without a nearby END marker, redact the rest of the BEGIN line and the
+# base64 lines that follow, not every byte to the end of the output.
+PRIVATE_KEY_BODY_RE = re.compile(r"[^\r\n]*(?:\r?\n[ \t]*[A-Za-z0-9+/=]{16,}[ \t]*(?=\r?\n|\Z))*")
+MAX_PRIVATE_KEY_BLOCK = 16_384
 
 
 def utc_now() -> str:
@@ -179,6 +218,8 @@ def default_state(event: Dict[str, Any]) -> Dict[str, Any]:
             "source_bytes": 0,
             "receipt_bytes": 0,
             "saved_bytes": 0,
+            "artifact_rereads": 0,
+            "artifact_reread_bytes": 0,
             "compactions": 0,
         },
         "metrics_by_model": {},
@@ -320,7 +361,11 @@ def response_succeeded(response: Any) -> bool:
     if code is not None:
         return code == 0
     text = response_text(response).strip().lower()
-    return not text.startswith(("error:", "failed:", "patch failed"))
+    # Codex formats patch results as `Exit code: N` followed by the output.
+    header = PATCH_EXIT_HEADER_RE.match(text)
+    if header:
+        return int(header.group(1)) == 0
+    return not text.startswith(PATCH_FAILURE_PREFIXES)
 
 
 def patch_paths(patch: str) -> List[str]:
@@ -343,7 +388,73 @@ def is_code_path(raw_path: str) -> bool:
     if name in CODE_BASENAMES or path.suffix.lower() in CODE_SUFFIXES:
         return True
     parts = {part.lower() for part in path.parts}
-    return bool(parts.intersection({"src", "lib", "app", "tests", "test", "scripts", ".github"})) and name != "readme.md"
+    return (
+        bool(parts.intersection({"src", "lib", "app", "tests", "test", "scripts", ".github"}))
+        and path.suffix.lower() not in PROSE_SUFFIXES
+    )
+
+
+def shell_tokens(command: str) -> Optional[List[str]]:
+    try:
+        lexer = shlex.shlex(FD_DUPLICATION_RE.sub(" ", command), posix=True, punctuation_chars=";&|()")
+        lexer.whitespace_split = True
+        lexer.commenters = ""
+        return list(lexer)
+    except ValueError:
+        return None
+
+
+def git_subcommand(arguments: List[str]) -> Optional[str]:
+    index = 0
+    while index < len(arguments):
+        argument = arguments[index]
+        if argument in {"-C", "-c"}:
+            index += 2
+        elif argument.startswith("-"):
+            index += 1
+        else:
+            return argument.lower()
+    return None
+
+
+def is_file_view(command: str) -> bool:
+    normalized = command.strip()
+    if not normalized or "\n" in normalized or "\r" in normalized:
+        return False
+    if "`" in normalized or "$(" in normalized:
+        return False
+    tokens = shell_tokens(normalized)
+    if not tokens:
+        return False
+    segments: List[List[str]] = [[]]
+    for token in tokens:
+        if token in {"|", "&&", ";"}:
+            segments.append([])
+        elif token and set(token) <= set(";&|()"):
+            return False
+        else:
+            segments[-1].append(token)
+    viewed = False
+    for segment in segments:
+        if not segment:
+            return False
+        executable = Path(segment[0]).name.lower()
+        arguments = segment[1:]
+        if executable == "cd" and len(arguments) <= 1:
+            continue
+        if executable == "git":
+            if git_subcommand(arguments) not in GIT_VIEW_SUBCOMMANDS:
+                return False
+        elif executable not in FILE_VIEW_EXECUTABLES:
+            return False
+        elif executable == "sed" and any(
+            argument.startswith("--in-place")
+            or (argument.startswith("-") and not argument.startswith("--") and "i" in argument[1:])
+            for argument in arguments
+        ):
+            return False
+        viewed = True
+    return viewed
 
 
 def is_verifier(command: str) -> bool:
@@ -354,12 +465,8 @@ def is_verifier(command: str) -> bool:
     # could turn an apparently verifying argument into --help or --version.
     if "`" in normalized or any(character in normalized for character in "$*?[]{}"):
         return False
-    try:
-        lexer = shlex.shlex(normalized, posix=True, punctuation_chars=";&|()")
-        lexer.whitespace_split = True
-        lexer.commenters = ""
-        tokens = list(lexer)
-    except ValueError:
+    tokens = shell_tokens(normalized)
+    if tokens is None:
         return False
     if any(token and set(token) <= set(";&|()") for token in tokens):
         return False
@@ -394,6 +501,9 @@ def is_verifier(command: str) -> bool:
             return True
         if option.startswith("--") and len(option) >= 3:
             return "--help".startswith(lowered) or "--version".startswith(lowered)
+        if executable == "go":
+            # Go flags are single-dash words such as -short, -bench, and -shuffle.
+            return lowered in {"-h", "-help"}
         return option.startswith("-") and not option.startswith("--") and "h" in option[1:].lower()
 
     if any(informational(argument) for argument in raw_arguments):
@@ -438,8 +548,28 @@ def is_verifier(command: str) -> bool:
     return False
 
 
+def redact_private_keys(text: str) -> str:
+    parts: List[str] = []
+    position = 0
+    while True:
+        begin = PRIVATE_KEY_BEGIN_RE.search(text, position)
+        if begin is None:
+            break
+        end_marker = f"-----END {begin.group(1)}-----"
+        end = text.find(end_marker, begin.end(), begin.end() + MAX_PRIVATE_KEY_BLOCK)
+        if end >= 0:
+            stop = end + len(end_marker)
+        else:
+            stop = PRIVATE_KEY_BODY_RE.match(text, begin.end()).end()
+        parts.append(text[position:begin.start()])
+        parts.append("[REDACTED PRIVATE KEY]")
+        position = stop
+    parts.append(text[position:])
+    return "".join(parts)
+
+
 def sanitize_text(text: str) -> str:
-    sanitized = PRIVATE_KEY_BLOCK_RE.sub("[REDACTED PRIVATE KEY]", text)
+    sanitized = redact_private_keys(text)
     for pattern, replacement in SECRET_SUBSTITUTIONS:
         sanitized = pattern.sub(replacement, sanitized)
     return sanitized
@@ -563,7 +693,8 @@ def metrics(state: Dict[str, Any]) -> Dict[str, int]:
     values = state.setdefault("metrics", {})
     for key in (
         "code_mutations", "verification_pass", "verification_fail", "packed_observations",
-        "source_bytes", "receipt_bytes", "saved_bytes", "compactions",
+        "source_bytes", "receipt_bytes", "saved_bytes", "artifact_rereads",
+        "artifact_reread_bytes", "compactions",
     ):
         values.setdefault(key, 0)
     return values
@@ -775,6 +906,15 @@ def bounded_threshold(raw: str, fallback: int) -> int:
         return fallback
 
 
+def add_packing_metrics(store: StateStore, event: Dict[str, Any], increments: Dict[str, int]) -> None:
+    with store.locked() as state:
+        values = metrics(state)
+        per_model = model_metrics(state, current_model(event))
+        for key, increment in increments.items():
+            values[key] += increment
+            per_model[key] += increment
+
+
 def pack_threshold(event: Dict[str, Any]) -> int:
     generic = os.environ.get("SOL_CODEX_PACK_THRESHOLD_BYTES")
     if generic is not None:
@@ -800,8 +940,18 @@ def handle_shell(event: Dict[str, Any], root: Path, store: StateStore) -> None:
         update_verification(store, verifier_start[0], code, verifier_start[1])
     text = response_text(event.get("tool_response"))
     size = len(text.encode("utf-8", "surrogatepass"))
+    # Reading a receipt artifact is the retrieval cost of an earlier receipt.
+    # Count it against the local difference and never pack it into a receipt
+    # that points back at the same artifact.
+    if str(root / "observations") in command:
+        add_packing_metrics(store, event, {"artifact_rereads": 1, "artifact_reread_bytes": size})
+        return
     threshold = pack_threshold(event)
     if size <= threshold:
+        return
+    # A file view is content the agent asked for; a head/tail receipt only
+    # makes it read the artifact again in smaller ranges.
+    if size <= FILE_VIEW_INLINE_LIMIT and is_file_view(command):
         return
     # An unknown-status test receipt makes the agent reopen the artifact just
     # to establish pass/fail. Keep the original result visible instead. This
@@ -820,18 +970,12 @@ def handle_shell(event: Dict[str, Any], root: Path, store: StateStore) -> None:
         receipt_size = len(receipt.encode("utf-8"))
     if receipt_size >= source_size:
         return
-    with store.locked() as state:
-        values = metrics(state)
-        per_model = model_metrics(state, current_model(event))
-        increments = {
-            "packed_observations": 1,
-            "source_bytes": source_size,
-            "receipt_bytes": receipt_size,
-            "saved_bytes": source_size - receipt_size,
-        }
-        for key, increment in increments.items():
-            values[key] += increment
-            per_model[key] += increment
+    add_packing_metrics(store, event, {
+        "packed_observations": 1,
+        "source_bytes": source_size,
+        "receipt_bytes": receipt_size,
+        "saved_bytes": source_size - receipt_size,
+    })
     # Blocking after execution rejects code-mode promises and can interrupt a
     # chain after side effects. A non-blocking receipt preserves control flow;
     # current code-mode runtimes may still pass the original result to the
@@ -974,6 +1118,9 @@ def packing_report(root: Path) -> Dict[str, Any]:
         key: max(0, totals[key] - attributed[key])
         for key in PACKING_METRIC_KEYS
     }
+    # Local difference after the bytes spent reading receipt artifacts back.
+    for values in (totals, *by_model.values()):
+        values["net_saved_bytes"] = values["saved_bytes"] - values["artifact_reread_bytes"]
     return {
         "schema_version": SCHEMA_VERSION,
         "state_files": state_files,

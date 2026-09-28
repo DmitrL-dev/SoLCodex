@@ -21,7 +21,7 @@ Open `/hooks`, review the resolved commands, and trust the plugin when Codex ask
 
 ## What it does
 
-- `PostToolUse` watches shell and patch results. Eligible extracted text larger than 6 KiB is written under `PLUGIN_DATA`; `gpt-6-astra` uses a 4 KiB threshold. For structured results, the artifact is extracted text, not a byte-for-byte copy of the response object.
+- `PostToolUse` watches shell and patch results. Eligible extracted text larger than 6 KiB is written under `PLUGIN_DATA`; `gpt-6-astra` uses a 4 KiB threshold. For structured results, the artifact is extracted text, not a byte-for-byte copy of the response object. File views (`cat`, `nl`, `sed`, `head`, `tail`, `git show`/`diff`/`blame`) up to 64 KiB, reads of receipt artifacts, and unknown-status test-runner output stay inline.
 - The hook can emit a bounded receipt with status (or `unknown`), hashes, diagnostic lines, and a small preview. On the tested host, the original result remained visible in both direct and code-mode probes despite non-blocking feedback. Receipt redaction is best effort; the exact local artifact is not redacted.
 - Successful code patches create verification debt. A recognized verifier clears it only when its matching `PreToolUse` ran after the latest code patch and a structured exit code or private status sidecar reports exit code zero. Sidecars are a workflow aid, not a security attestation against malicious project code.
 - `PreCompact`, `PostCompact`, and `SessionStart` keep the debt reminder across Codex compaction. `Stop` warns about pending or failed verification without blocking the final answer; the agent must report checks accurately.

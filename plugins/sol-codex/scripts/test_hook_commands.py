@@ -14,6 +14,9 @@ from unittest.mock import patch
 
 
 PLUGIN_ROOT = Path(__file__).resolve().parents[1]
+GENERATOR = PLUGIN_ROOT.parents[1] / "scripts" / "generate_hook_commands.py"
+# The generator ships with the repository, not with the installed plugin.
+REQUIRES_GENERATOR = unittest.skipUnless(GENERATOR.is_file(), "hook command generator is not packaged")
 
 
 class HookCommandTests(unittest.TestCase):
@@ -29,6 +32,7 @@ class HookCommandTests(unittest.TestCase):
         self.assertEqual(len(self.commands), 7)
         self.assertEqual(len(set(self.commands)), 1)
 
+    @REQUIRES_GENERATOR
     def test_commands_match_pinned_bootstrap(self) -> None:
         sys.path.insert(0, str(PLUGIN_ROOT.parents[1] / "scripts"))
         try:
@@ -38,6 +42,7 @@ class HookCommandTests(unittest.TestCase):
         finally:
             sys.path.pop(0)
 
+    @REQUIRES_GENERATOR
     def test_crlf_source_generates_same_pinned_commands(self) -> None:
         sys.path.insert(0, str(PLUGIN_ROOT.parents[1] / "scripts"))
         try:
