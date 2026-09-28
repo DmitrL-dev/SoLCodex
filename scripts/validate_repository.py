@@ -251,7 +251,9 @@ def validate_tracked_files(repo: Path) -> list[str]:
             text = content.decode("utf-8")
         except UnicodeDecodeError:
             continue
-        frozen = FROZEN_LOCAL_PATH_EVIDENCE.get(relative.as_posix()) == hashlib.sha256(content).hexdigest()
+        # Windows checkouts may convert line endings; the digest covers LF bytes.
+        normalized = content.replace(b"\r\n", b"\n")
+        frozen = FROZEN_LOCAL_PATH_EVIDENCE.get(relative.as_posix()) == hashlib.sha256(normalized).hexdigest()
         errors.extend(scan_text(relative.as_posix(), text, allow_local_paths=frozen))
     return errors
 
