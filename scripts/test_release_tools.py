@@ -429,6 +429,10 @@ class ReleaseToolTests(unittest.TestCase):
         result = self.run_validator(repo)
         self.assertEqual(result.returncode, 0, result.stderr)
 
+        target.write_bytes(source.replace(b"\n", b"\r\n"))
+        result = self.run_validator(repo)
+        self.assertEqual(result.returncode, 0, result.stderr)
+
         target.write_bytes(source + b"\n")
         result = self.run_validator(repo)
         self.assertNotEqual(result.returncode, 0)
