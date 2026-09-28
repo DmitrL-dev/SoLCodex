@@ -913,6 +913,194 @@ class SolHookTests(unittest.TestCase):
         self.assertEqual(report["by_model"]["gpt-5.6-sol"]["packed_observations"], 1)
         self.assertEqual(report["unattributed"]["packed_observations"], 0)
 
+    def test_file_view_output_stays_inline(self) -> None:
+        source = "".join(f"{index:5d}\tdef handler_{index}(request):  # route\n" for index in range(200))
+        for command in (
+            "nl -ba src/app.py | sed -n '1,200p'",
+            "cat src/app.py",
+            "cd src && head -n 200 app.py",
+            "git -C src diff",
+            "git show HEAD:src/app.py 2>&1",
+        ):
+            with self.subTest(command=command):
+                result = self.harness.run(event(
+                    "PostToolUse",
+                    tool_name="exec_command",
+                    tool_input={"cmd": command},
+                    tool_response=source,
+                ))
+                self.assertEqual(result.stdout, "")
+        self.assertFalse((self.data / "observations").exists())
+
+    def test_non_view_pipelines_and_huge_file_views_still_pack(self) -> None:
+        for command, size in (
+            ("cat build.log | rg ERROR", 13_000),
+            ("sed -i.bak s/a/b/ src/app.py && cat src/app.py", 13_000),
+            ("cat build.log", sol_hook.FILE_VIEW_INLINE_LIMIT + 1),
+        ):
+            with self.subTest(command=command):
+                result = self.harness.run(event(
+                    "PostToolUse",
+                    tool_name="exec_command",
+                    tool_input={"cmd": command},
+                    tool_response="log line\n" + ("x" * size),
+                ))
+                self.assertIs(json.loads(result.stdout)["continue"], False)
+
+    def test_artifact_reread_is_counted_and_never_repacked(self) -> None:
+        response = "search results\n" + ("x" * 13_000)
+        packed = json.loads(self.harness.run(event(
+            "PostToolUse",
+            tool_name="exec_command",
+            tool_input={"cmd": "rg -n TODO src"},
+            tool_response=response,
+        )).stdout)
+        artifact = re.search(r"^Artifact: (.+)$", packed["stopReason"], re.M).group(1)
+        reread = self.harness.run(event(
+            "PostToolUse",
+            tool_name="exec_command",
+            tool_input={"cmd": f"cat {artifact}"},
+            tool_response=response,
+        ))
+        self.assertEqual(reread.stdout, "")
+
+        report = json.loads(self.harness.report().stdout)
+        totals = report["totals"]
+        self.assertEqual(totals["packed_observations"], 1)
+        self.assertEqual(totals["artifact_rereads"], 1)
+        self.assertEqual(totals["artifact_reread_bytes"], len(response.encode("utf-8")))
+        self.assertEqual(totals["net_saved_bytes"], totals["saved_bytes"] - totals["artifact_reread_bytes"])
+        self.assertLess(totals["net_saved_bytes"], 0)
+        self.assertEqual(report["by_model"]["gpt-5.6-sol"]["artifact_rereads"], 1)
+
+    def test_unknown_status_output_of_other_test_runners_stays_inline(self) -> None:
+        for command in ("cargo test", "npm test", "go test ./...", "./gradlew test", "npx vitest run"):
+            with self.subTest(command=command):
+                result = self.harness.run(event(
+                    "PostToolUse",
+                    tool_name="exec_command",
+                    tool_input={"cmd": command},
+                    tool_response="test result: FAILED. 1 failed\n" + ("x" * 13_000),
+                ))
+                self.assertEqual(result.stdout, "")
+        self.assertFalse((self.data / "observations").exists())
+
+    def test_verifier_accepts_descriptor_duplication_and_go_word_flags(self) -> None:
+        for command in ("pytest -q 2>&1", "python3 -m pytest -q tests 2>&1", "go test -short ./...", "go test -bench . ./..."):
+            with self.subTest(command=command):
+                self.assertTrue(sol_hook.is_verifier(command))
+        for command in ("pytest -q 2>&1 | tail -20", "pytest -q 2>&1 &", "go test -h", "go test -help"):
+            with self.subTest(command=command):
+                self.assertFalse(sol_hook.is_verifier(command))
+
+        self.record_code_change()
+        self.harness.run(event(
+            "PreToolUse", tool_name="Bash", tool_use_id="exec-redirected-pass",
+            permission_mode="default", tool_input={"command": "python3 -m pytest -q 2>&1"},
+        ))
+        self.harness.run(event(
+            "PostToolUse",
+            tool_name="Bash",
+            tool_use_id="exec-redirected-pass",
+            tool_input={"command": "python3 -m pytest -q 2>&1"},
+            tool_response={"output": "1 passed", "exit_code": 0},
+        ))
+        allowed = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
+        self.assertEqual(allowed, {"continue": True})
+
+    def test_receipt_keeps_diagnostics_near_redacted_credentials(self) -> None:
+        output = (
+            "header\n"
+            + ("ordinary output\n" * 300)
+            + "Authorization: Bearer FAKE_HEADER_SECRET_VALUE\n"
+            + '  File "app.py", line 3, in handler\n'
+            + "    raise AssertionError('boom')\n"
+            + "match: -----BEGIN PRIVATE KEY-----\n"
+            + ("ordinary output\n" * 300)
+            + "ERROR real failure\n"
+            + "2 failed, 10 passed\n"
+        )
+        receipt = json.loads(self.harness.run(event(
+            "PostToolUse",
+            tool_name="Bash",
+            tool_input={"command": "diagnostic-with-credentials"},
+            tool_response={"output": output, "exit_code": 1},
+        ), threshold=256).stdout)["stopReason"]
+        self.assertNotIn("FAKE_HEADER_SECRET_VALUE", receipt)
+        self.assertIn("raise AssertionError('boom')", receipt)
+        self.assertIn("ERROR real failure", receipt)
+        self.assertIn("2 failed, 10 passed", receipt)
+
+    def test_receipt_redacts_environment_style_and_prefixed_tokens(self) -> None:
+        # Built at runtime so no credential-shaped literal is committed.
+        secrets = {
+            "aws": "FAKE" + "AWS" * 10,
+            "github": "gh" + "p_" + "F" * 36,
+            "slack": "xo" + "xb-" + "1" * 12,
+            "database": "FAKE_DB_PASSWORD_VALUE",
+            "session": "FAKE_SESSION_TOKEN_VALUE",
+        }
+        output = (
+            f"AWS_SECRET_ACCESS_KEY={secrets['aws']}\n"
+            f"GITHUB_TOKEN={secrets['github']}\n"
+            f"notify {secrets['slack']}\n"
+            f"DATABASE_URL=postgres://app:{secrets['database']}@db.internal:5432/app\n"
+            f'{{"session_token": "{secrets["session"]}"}}\n'
+            "usage max_tokens=4096 token_count: 12 input_tokens=8051\n"
+            + ("ordinary output\n" * 300)
+        )
+        receipt = json.loads(self.harness.run(event(
+            "PostToolUse",
+            tool_name="Bash",
+            tool_input={"command": "env"},
+            tool_response={"output": output, "exit_code": 0},
+        ), threshold=256).stdout)["stopReason"]
+        for secret in secrets.values():
+            self.assertNotIn(secret, receipt)
+        self.assertIn("postgres://app:[REDACTED]@db.internal:5432/app", receipt)
+        self.assertIn("max_tokens=4096 token_count: 12 input_tokens=8051", receipt)
+
+    def test_redaction_stays_linear_on_long_token_runs(self) -> None:
+        for text in ("x" * 200_000, "a." * 100_000, "hit: -----BEGIN PRIVATE KEY-----\n" * 5_000):
+            started = time.monotonic()
+            sol_hook.sanitize_text(text)
+            self.assertLess(time.monotonic() - started, 5)
+
+    def test_prose_under_source_directories_does_not_create_debt(self) -> None:
+        self.harness.run(event(
+            "PostToolUse",
+            tool_name="apply_patch",
+            tool_use_id="patch-docs",
+            tool_input={"patch": "*** Begin Patch\n*** Update File: src/docs/guide.md\n@@\n-old\n+new\n*** End Patch"},
+            tool_response="Exit code: 0\nWall time: 0 seconds\nOutput:\nSuccess. Updated the following files:\nM src/docs/guide.md\n",
+        ))
+        allowed = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
+        self.assertEqual(allowed, {"continue": True})
+
+    def test_failed_apply_patch_does_not_create_debt(self) -> None:
+        patch_input = {"patch": "*** Begin Patch\n*** Update File: src/main.py\n@@\n-old\n+new\n*** End Patch"}
+        for response in (
+            "apply_patch verification failed: Failed to find expected lines in src/main.py:\nold",
+            "Exit code: 1\nWall time: 0 seconds\nOutput:\nInvalid patch hunk on line 2\n",
+        ):
+            with self.subTest(response=response.splitlines()[0]):
+                with tempfile.TemporaryDirectory() as temporary:
+                    harness = HookHarness(Path(temporary) / "plugin-data")
+                    harness.run(event(
+                        "PostToolUse", tool_name="apply_patch", tool_use_id="patch-failed",
+                        tool_input=patch_input, tool_response=response,
+                    ))
+                    allowed = json.loads(harness.run(event("Stop", stop_hook_active=False)).stdout)
+                    self.assertEqual(allowed, {"continue": True})
+
+        self.harness.run(event(
+            "PostToolUse", tool_name="apply_patch", tool_use_id="patch-applied",
+            tool_input=patch_input,
+            tool_response="Exit code: 0\nWall time: 0 seconds\nOutput:\nSuccess. Updated the following files:\nM src/main.py\n",
+        ))
+        blocked = json.loads(self.harness.run(event("Stop", stop_hook_active=False)).stdout)
+        self.assert_pending_stop(blocked)
+
     def test_stop_reentry_is_fail_open(self) -> None:
         self.record_code_change()
         payload = json.loads(self.harness.run(event("Stop", stop_hook_active=True)).stdout)

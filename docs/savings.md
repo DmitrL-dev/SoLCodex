@@ -47,6 +47,8 @@ The report has three scopes:
 - `by_model`: events recorded with an exact model slug;
 - `unattributed`: the difference between totals and attributed model counters.
 
+Since 0.1.11, `artifact_rereads` and `artifact_reread_bytes` count commands that read a receipt artifact back, and `totals` and each `by_model` entry include `net_saved_bytes = saved_bytes - artifact_reread_bytes`. A negative value means the agent read more artifact bytes than the receipts replaced. Code-mode results that bypassed the receipt are still counted as receipt events.
+
 ## Deterministic mechanism benchmark
 
 The repository includes a local benchmark that exercises both thresholds, exact artifact hashing, credential redaction, plain-string unknown status, the structured-response status guard, and the net-savings guard:
