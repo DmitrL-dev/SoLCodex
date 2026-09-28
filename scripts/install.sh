@@ -2,7 +2,7 @@
 set -euo pipefail
 
 plugin_name="sol-codex"
-plugin_version="0.1.10+codex.20260924"
+plugin_version="0.1.11+codex.20260928"
 marketplace_name="sol-codex-portable"
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 source_root="$script_dir"

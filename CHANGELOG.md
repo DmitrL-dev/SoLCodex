@@ -27,6 +27,18 @@ All notable changes to this project are documented here.
 - Verified and documented that a new turn in the same task adopted the updated hook after a cache-preserving CLI upgrade; the original code-mode result remained visible.
 - Confirmed that a nonzero tool exit preserved its status without rejecting a nested Promise, and documented command-selection guidance for the opt-in adapter.
 
+## [0.1.11] - 2026-09-28
+
+### Fixed
+
+- File views (`cat`, `nl`, `sed`, `head`, `tail`, `git show`/`diff`/`blame`) up to 64 KiB stay inline. In a recorded session every packed file read was followed by one or two artifact reads in smaller ranges.
+- Commands that read a receipt artifact are never packed into a receipt pointing at the same artifact. They are counted as `artifact_rereads` and `artifact_reread_bytes`, and the report adds `net_saved_bytes`.
+- Unknown-status output from `cargo test`, `go test`, `npm`/`pnpm`/`yarn`/`bun test`, `jest`, `vitest`, Gradle, Maven, and similar runners stays inline like `pytest` and `unittest`.
+- Recognized verifiers accept descriptor duplication such as `2>&1`. Go word flags such as `-short` and `-bench` are no longer treated as help requests.
+- Receipt redaction keeps indented diagnostics after an `Authorization` header and stops an unterminated private-key marker at its key-like lines instead of removing the rest of the output. It also redacts environment-style names ending in a secret keyword, common token prefixes, and passwords in URL user info. Matching now stays linear on long token-like runs.
+- Documentation files under source directories no longer create verification debt. Failed `apply_patch` results, including `Exit code: N` headers, no longer create debt.
+- Hook-command generator tests skip when the repository generator is not packaged with the installed plugin.
+
 ## [0.1.9] - 2026-09-24
 
 ### Fixed
