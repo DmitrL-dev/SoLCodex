@@ -20,6 +20,7 @@ All notable changes to this project are documented here.
 - Recorded a same-fixture bounded-search development pair with equal verification and lower observed provider tokens/time, while keeping it separate from held-out evidence.
 - Recorded a separate cache-boundary repair pair with equal verification, fewer observed provider tokens, and longer elapsed time; expanded the research review with prompt-cache economics.
 - Recorded a historical CRLF loader pair whose apparent ON success failed a broader behavior matrix; added regression tests for source-line-ending invariance and bootstrap pin integrity.
+- Added a loader-protocol guard: `sol_bootstrap.py` bytes are frozen for the released `runtime-v1` directory, because changed bytes there would make every installed task fail with `runtime collision or corruption`. A companion test shows that the same change under a new runtime directory loads.
 - Probed macOS filesystem isolation for historical-task agents and documented the remaining protection work before a confirmatory campaign.
 - Added a cost-frontier research protocol based on provider-billed coding-agent studies and independent Astra review.
 - Extended the opt-in artifact search with bounded line-range retrieval and explicit reporting when long matched lines are omitted.
