@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import stat
@@ -45,6 +46,38 @@ ARCHIVE_ALLOWED_DIRECTORIES = frozenset(
     if parent.as_posix() != "."
 )
 LOCAL_PATH_RE = re.compile(r"/(?:Users|home)/[^/\s]+/")
+# Recorded measurement evidence that already contains local paths. Most files
+# are pinned by SHA-256 from other tracked results and rechecked by reducers,
+# so rewriting them would break the evidence chain. The exemption covers only
+# the local-path check and lapses as soon as a file's bytes change.
+FROZEN_LOCAL_PATH_EVIDENCE = {
+    "docs/measurements/data/2026-09-25-click-source-only-v3-normal-cli-exploratory-trace.jsonl":
+        "fd75a0132616931730be0ba573bf1adf9d67ad8634759696418df353ce98dc4e",
+    "docs/measurements/data/2026-09-25-quiet-variance-bundle-negative-trace.jsonl":
+        "108c164043a3467aa80ec4139054e68ad60a6bb58400ddb79b27c4f03935f8a0",
+    "docs/measurements/data/2026-09-25-quiet-variance-bundle-positive-path-trace.jsonl":
+        "3a69e86077450b1e24396d599d205a166188e31e73b45b41f1afed8995156ff1",
+    "docs/measurements/data/2026-09-25-quiet-variance-bundle-v3-integrated-wrong_cleanup_uncertain-trace.jsonl":
+        "ff5d25c140b5300389ae0d7c5385ad1491c8e2696b54fe3d428d2a08c3bc8fe6",
+    "docs/measurements/data/2026-09-25-quiet-variance-bundle-v3-integrated-wrong_complete-trace.jsonl":
+        "fcf7a11064aaa2e2bc0ea8ebd61864377b1c6cbac21ae6c8fea59b464ff03630",
+    "docs/measurements/data/2026-09-25-quiet-variance-bundle-v3-negative-trace.jsonl":
+        "9592f468e648ef5c1debedb8ffd0ead8965a1fe916dfd40e7142d27b1bc3f639",
+    "docs/measurements/data/2026-09-25-quiet-variance-bundle-v3-normal-cli-01-b1-packaging-verbose-trace.jsonl":
+        "d2624a3c2164b392207a00819ae46bf1caa8bf49468ca962917488c108ed7191",
+    "docs/measurements/data/2026-09-25-quiet-variance-bundle-v3-normal-cli-02-b1-packaging-quiet-trace.jsonl":
+        "031771f6c5c6f7dd8bd2aa393161309ac96ce50ca195cf079667bad9ebaad9bd",
+    "docs/measurements/data/2026-09-25-quiet-variance-bundle-v3-normal-cli-03-b1-click-quiet-trace.jsonl":
+        "39558704ea89bf61ebca93586d05486030788bd620e43b26dcf72ba064d5eb84",
+    "docs/measurements/data/2026-09-25-quiet-variance-bundle-v3-normal-cli-04-b1-click-verbose-trace.jsonl":
+        "da03be3444bc4bee62cb9848d6e4e59d308833c40e72bbde865cf20729eca60b",
+    "docs/measurements/data/2026-09-25-quiet-variance-bundle-v3-positive-trace.jsonl":
+        "cfec1cf9a0394c2a656e75676e9862602601a795a8457820fcaa6c74ced5009d",
+    "docs/measurements/data/2026-09-25-quiet-variance-calibration-bundle-v4-candidate.json":
+        "e3f3203c07a199e47a3ccc261d4317352bacb703dd2a3288fddeab7826291f68",
+    "docs/research/data/2026-09-25-quiet-variance-bundle-v3-integrated-expectations.json":
+        "878f41c2521aa4551593cfc8797b8b78c1fb0c8ef7d1af31fbfcb329a1bb481e",
+}
 CREDENTIAL_RE = re.compile(r"\bsk-[A-Za-z0-9_-]{12,}\b")
 KNOWN_SYNTHETIC_TOKENS = {"sk-abcdefghijklmnopqrstuvwxyz123456"}
 PRIVATE_KEY_RE = re.compile(
@@ -74,7 +107,8 @@ def public_relative_paths(repo: Path) -> Iterable[Path]:
             continue
         relative = path.relative_to(repo)
         rendered = relative.as_posix()
-        if rendered in {".DS_Store"} or rendered.startswith(IGNORED_PREFIXES):
+        # In a linked worktree `.git` is a file that names the main checkout.
+        if rendered in {".DS_Store", ".git"} or rendered.startswith(IGNORED_PREFIXES):
             continue
         yield relative
 
@@ -187,9 +221,9 @@ def prohibited_path_reason(relative: Path) -> str | None:
     return None
 
 
-def scan_text(label: str, text: str) -> list[str]:
+def scan_text(label: str, text: str, allow_local_paths: bool = False) -> list[str]:
     errors: list[str] = []
-    if LOCAL_PATH_RE.search(text):
+    if not allow_local_paths and LOCAL_PATH_RE.search(text):
         errors.append(f"{label}: local absolute path")
     if any(match.group(0) not in KNOWN_SYNTHETIC_TOKENS for match in CREDENTIAL_RE.finditer(text)):
         errors.append(f"{label}: credential marker")
@@ -217,7 +251,8 @@ def validate_tracked_files(repo: Path) -> list[str]:
             text = content.decode("utf-8")
         except UnicodeDecodeError:
             continue
-        errors.extend(scan_text(relative.as_posix(), text))
+        frozen = FROZEN_LOCAL_PATH_EVIDENCE.get(relative.as_posix()) == hashlib.sha256(content).hexdigest()
+        errors.extend(scan_text(relative.as_posix(), text, allow_local_paths=frozen))
     return errors
 
 
