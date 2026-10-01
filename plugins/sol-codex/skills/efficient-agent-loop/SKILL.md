@@ -7,6 +7,22 @@ description: Reduce avoidable model turns and repeated context during coding wor
 
 Finish the requested work with fewer model round trips without skipping evidence.
 
+## Gather and wait efficiently
+
+The SessionStart hook delivers these core rules directly on startup, resume, clear, and compaction;
+the agent does not need to locate this skill to receive them.
+
+Gather independent facts in one parallel tool round and choose dependent follow-ups from its results.
+Read the smallest relevant file ranges for inspection; preserve complete data that will be transformed.
+Probe the required tools and dependencies together in the intended environment before running. Repair
+missing prerequisites there instead of discovering them one failure at a time.
+
+When a tool reports work still running, prefer 30-60 second waits between status checks. Use shorter
+waits when interaction, interruption, or a deadline requires them. Add no sleeps to blocking tools.
+Run the task's required checks and inspect their exit status before claiming completion. Additional
+checks should resolve a concrete remaining risk; stop redundant verification once the required checks
+pass. Efficiency never overrides correctness, failed checks, or the user's requirements.
+
 ## Fuse deterministic work
 
 When a code mutation and its narrow verifier are both known before execution, use one programmatic tool call only if it can invoke the patch tool and verifier tool as distinct, separately authorized nested calls. Await and confirm the patch result before invoking the verifier. A failed, declined, or unknown patch result stops the sequence. Never put the edit and verifier in one shell command: the verifier may run after an edit failure. Use separate tool calls when the nested-tool boundary or edit status cannot be confirmed. Do not fuse when the mutation needs inspection before choosing the next command, the verifier is unknown, either action is destructive, or the commands have materially different authorization boundaries.
