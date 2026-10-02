@@ -29,18 +29,9 @@ python3 scripts/upgrade_preserve_cache.py
 
 It saves the exact existing SoL Codex cache entries, refreshes the marketplace, reinstalls only when the version changed, and restores old paths without overwriting the new installation. This also protects tasks whose loaded hook commands predate the new bootstrap. The tool refuses unexpected cache entries or links outside this plugin's cache. Keep its backup directory if a restore fails.
 
-For a manual update, refresh the marketplace checkout first:
+The updater installs the replacement directly, without first removing the enabled plugin. An install failure before selection changes therefore leaves the current version enabled while saved cache entries are restored. A CLI error after a partial replacement can leave a different selection; inspect `codex plugin list --json` before retrying. On a Codex build that cannot replace an installed plugin with `plugin add`, the updater reports a version mismatch instead of deliberately uninstalling the working version. This update path was exercised with Codex CLI `0.159.2`, including preservation of an already bound task runtime.
 
-```bash
-codex plugin marketplace upgrade sol-codex
-```
-
-If the installed plugin remains on an old cachebuster version, reinstall it:
-
-```bash
-codex plugin remove sol-codex@sol-codex
-codex plugin add sol-codex@sol-codex
-```
+Use the updater above for an installed plugin. Direct CLI replacement can prune old cache paths; removing the working plugin before replacement succeeds can also leave it disabled. Inspect the selected version with `codex plugin list --json` after an error, retaining any reported backup.
 
 Open `/hooks` again. Review any changed trust hash. Codex [added plugin hook refresh](https://github.com/openai/codex/pull/42990); a controlled app-server check on `0.155.0-alpha.16` observed a new plugin hook in the same process and session ID after a plugin update. The Desktop UI's enable/disable path is a separate behavior; verify a real hook event after updating. Since `0.1.8`, SoL Codex keeps an immutable copy of each invoked runtime in `PLUGIN_DATA/runtime-v1` and binds it to the task and original `PLUGIN_ROOT`. If a later plugin operation prunes that cache path, the old command still runs its bound runtime. A new root selects its new runtime when the host refreshes hooks. The loader protocol and its pinned bootstrap command are intended to stay unchanged across runtime-only releases. Tasks that loaded `0.1.7` or older commands cannot gain recovery retroactively. A stale host engine may keep invoking an already loaded hook after a plugin is disabled; the loader has no host signal to distinguish that from cache pruning. See [troubleshooting](troubleshooting.md) for edge cases.
 

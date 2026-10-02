@@ -41,6 +41,7 @@ elif args == ['plugin', 'remove', 'sol-codex@sol-codex']:
     shutil.rmtree(cache)
     installed.write_text('none')
 elif args == ['plugin', 'add', 'sol-codex@sol-codex']:
+    shutil.rmtree(cache)
     shutil.copytree(market, cache / '0.1.7')
     installed.write_text('0.1.7')
 else:
@@ -55,6 +56,7 @@ else:
                 capture_output=True, text=True, env=environment,
             )
             self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual(installed.read_text(), "0.1.7")
             self.assertEqual((cache / "0.1.6/hook.py").read_text(), "old trusted hook\n")
             self.assertEqual((cache / "0.1.7/.codex-plugin/plugin.json").is_file(), True)
             self.assertTrue((cache / "0.1.5").is_symlink())
@@ -100,6 +102,7 @@ else:
             )
             self.assertEqual(result.returncode, 1)
             self.assertEqual((cache / "0.1.6/hook.py").read_text(), "old trusted hook\n")
+            self.assertEqual(installed.read_text(), "0.1.6", "failed update must preserve the enabled installation")
 
 
 if __name__ == "__main__":

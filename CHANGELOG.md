@@ -7,6 +7,7 @@ All notable changes to this project are documented here.
 ### Runtime candidate
 
 - Expanded the directly delivered SessionStart policy with parallel discovery, complete transformation inputs, dependency preflight, bounded polling intervals, and required-check completion. The same rules return after resume, clear, and compaction without skill discovery. Required verification, pending debt, and Astra reasoning guidance remain active. This candidate does not establish a token or cost saving.
+- The cache-preserving updater installs the replacement without first uninstalling the enabled plugin. A failure before selection changes leaves the previous version enabled. Regression coverage verifies both this failure and restoration after the CLI prunes old cache entries.
 
 ### Repository
 
