@@ -1,0 +1,60 @@
+{
+  "candidate_acceptance_authorized": false,
+  "files": {
+    "control_runtime_finalization_v1.py": {
+      "body_after_module_docstring_sha256": "c45f85552cb9066625893bcf724c23979b73a3e87e98b58e339943d7b38df9d7",
+      "change_scope": "module docstring only; all remaining bytes identical",
+      "published_sha256": "4d7277a8012d9ea441ffb35a1a2c76fa58a7affb64d79e5882076c4fdbc3dec6",
+      "reviewed_sha256": "129bb44445af18d37508c691927bce30495fb059e87ff4533e9165cb4051d1f2"
+    },
+    "control_runtime_origins_v1.py": {
+      "body_after_module_docstring_sha256": "bb8f4d3159c60571dcb484f854de9ee08b32a55ea0e2f62253a4bbe28962aa91",
+      "change_scope": "module docstring only; all remaining bytes identical",
+      "published_sha256": "78d7f2944c79bd4bf32ecb783493f102ff7cf1b59355b4e8a1be369253bed3c1",
+      "reviewed_sha256": "f33e9c4c8680b5b1735d69c2e683b79d0044d621e5636b59d81aedd92d5c6f70"
+    },
+    "test_control_runtime_finalization_v1.py": {
+      "body_after_module_docstring_sha256": "6574f185f98ea6742e2a3785acd243d49276808d31c85a3dc6113bd43b8c0ff6",
+      "change_scope": "module docstring only; all remaining bytes identical",
+      "published_sha256": "fe6e3e0e3b9a4013bc842696cedab90903c7928adecb84e610b649373a008ffb",
+      "reviewed_sha256": "f4d7ae0f141150689915296860ecbf55607e3fa9748097a98ab6989de725ca49"
+    },
+    "test_control_runtime_origins_v1.py": {
+      "body_after_module_docstring_sha256": "1d455c13c7c3395867dec00ef5afa2ec2fc4176fe0edf5f2f0f65468c0e3d905",
+      "change_scope": "module docstring only; all remaining bytes identical",
+      "published_sha256": "4f1d533141621116a5c1df2557b355aadb5cf31263287b82fcaf356e3d75d094",
+      "reviewed_sha256": "cc67bdb5dccbe9e839bc60c943cbb8803bf4ab21c6a46b016e91843d8fdddba1"
+    }
+  },
+  "host_authentication_established": false,
+  "hosted_ci_matrix": {
+    "os": [
+      "ubuntu-latest",
+      "macos-latest"
+    ],
+    "python": [
+      "3.10",
+      "3.11",
+      "3.12"
+    ]
+  },
+  "independent_series_frozen": false,
+  "native_bridge_implemented": false,
+  "new_independent_benchmark_provider_requests": 0,
+  "original_native_components_published": false,
+  "protected_launcher_implemented": false,
+  "schema": "solcodex.runtime-evidence-development-source.v1",
+  "scientific_release_gate": "HOLD_STATISTICAL_CONFIRMATION",
+  "scope": "pure JSON consistency components and synthetic unittest fixtures",
+  "source_review_receipt_sha256": [
+    "ca5b6ed06d3dd77864fb6ae7a1932eafe0826779b150013df94a1eab4e75e0e6",
+    "cd73c1e34b5d246c4dc4b6cc75dfc1797c66c04de9732efda93b5afbeee019e9"
+  ],
+  "synthetic_test_methods": {
+    "finalization": 44,
+    "origin": 34,
+    "total": 78
+  },
+  "verification_command": "python -m unittest discover -s experiments/runtime_evidence -p 'test_*.py' -v",
+  "verification_results": "External exact-commit CI logs; this source manifest claims no execution result."
+}
