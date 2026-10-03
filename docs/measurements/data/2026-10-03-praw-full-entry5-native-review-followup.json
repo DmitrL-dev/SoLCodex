@@ -1,0 +1,44 @@
+{
+  "controls_qualified": false,
+  "data_commit": "dbd821a3b195e6155e5903116f5efe499af56073",
+  "historical_controls_requalified": false,
+  "limits": [
+    "Review verifies retained data and API snapshots; no invocation/code authenticity, continuous OS custody, GC neutrality, original3.12profile equivalence or quality/economy acceptance.",
+    "Public derivative PENDING_AT_DERIVATIVE_CREATION records historical review state; this explicit later followup closes retained-data reviews only."
+  ],
+  "new_model_benchmark_requests": 0,
+  "observed_verdict": "BOTH_UNRESOLVED_NOT_QUALIFIED",
+  "original_aggregate": "2026-10-03-praw-full-entry5-native.json",
+  "review_pins": {
+    "root9-full-base-native-independent-retained-data-review.json": {
+      "bytes": 7451,
+      "sha256": "2240a8cacd50b03d09c3c9b79216a25e626de718c2d1997a1b69669c078fa8ce",
+      "status": "VERIFIED_RETAINED_DIAGNOSTIC_ONLY"
+    },
+    "root9-full-gold-and-base-raw-api-independent-retained-data-review.json": {
+      "bytes": 7362,
+      "sha256": "6905b62098b72b33c21c68725dec0336d09b4e0770b036e78fcd469b3be1c8c1",
+      "status": "VERIFIED_RETAINED_DIAGNOSTIC_AND_RAW_API_CONSISTENCY_ONLY"
+    },
+    "root9-full-gold-context-v3-independent-retained-data-review.json": {
+      "bytes": 5843,
+      "sha256": "27f1dd984e315463cdd21a9fe88df7a5934c56ecabbad8f7cb5d47c111550b6f",
+      "status": "PASS_RETAINED_RAW_CONTEXT_DATA_CONSISTENCY_ONLY"
+    }
+  },
+  "reviewed_scope": {
+    "base_events": 8978,
+    "base_uncertainties": 582,
+    "findings": [],
+    "gold_context_files": 13,
+    "gold_events": 8971,
+    "gold_uncertainties": 73,
+    "ordered_nodes_each": 129,
+    "raw_API_files": 22,
+    "reports_each": 387,
+    "resolved_dispatches_each": 910
+  },
+  "schema": "solcodex.praw-full-entry5-native-independent-review-followup.v1",
+  "scientific_acceptance": false,
+  "scientific_gate": "HOLD_STATISTICAL_CONFIRMATION"
+}
