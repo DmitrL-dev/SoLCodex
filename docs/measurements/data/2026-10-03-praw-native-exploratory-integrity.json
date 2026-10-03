@@ -1,0 +1,40 @@
+{
+  "controls_qualified": false,
+  "data_files_sha256": {
+    "2026-10-03-praw-native-exploratory-phases.csv": "cbab964670dd9c80801645b4c13add55f1ec74e3f7e53539c772c69e9b7856be",
+    "2026-10-03-praw-native-exploratory.json": "e2d2e3fa403f2e7fdb4f4fa4609f4a573206d424430736c4a274905a91b2f87e"
+  },
+  "full_provider_telemetry_and_independent_AB_established": false,
+  "ordered_nodes_per_diagnostic": 129,
+  "phase_table_rows": 774,
+  "phases_per_node": [
+    "setup",
+    "call",
+    "teardown"
+  ],
+  "private_retained_data_verifiers_sha256": {
+    "independent_Base2_raw_review": "92efc432e007871e74226557071b8b01b2b582051fd84ffd55e344d9dbea450b",
+    "parent_public_table_byte_comparison": "365d46a62b63e7792ce3b765812e86e6e7a773e0be458683df47b58a18028bfc"
+  },
+  "publication": {
+    "CI_directive": "[skip ci]",
+    "CI_skip_reference": "https://docs.github.com/en/actions/how-tos/manage-workflow-runs/skip-workflow-runs",
+    "local_workflow_source_sha256": {
+      "action-fusion-replay.yml": "b183636db723f7c2a39fd4b881f638f10e8fe6af82893228d219738353d2dbd8",
+      "linux-cycle-qualification.yml": "5c7f2fed051ae11a498f113ab32bbafc61e899e4d69f12da2d27b46c60870790",
+      "linux-worker-preflight.yml": "a6d97c30fac002daa3b6edf7f9cdc1721d933cf45df52a9f1b5af72cb790656f",
+      "packaging-checkpoint-qualification.yml": "dd3f6779a6a823af3554b88b1f3c00591da5fa5e877f72ec872f8335800e7e7e",
+      "validate.yml": "8a5c8b82d4944a6d7303c55aa01cbb08d59b36de2709dc01e48e9e2b030999b2"
+    },
+    "merge_release_install_authorized_by_this_record": false,
+    "no_workflow_dispatch_performed": true,
+    "purpose": "Reproducible phase-count and uncertainty aggregates, qualification limits preserved",
+    "skipped_checks_mean_pass": false,
+    "trigger_scope": "This branch uses push/pull_request for Validate; other four workflows are dispatch or main-specific push. Workflow files are unchanged."
+  },
+  "retained_methodology": "Different development observer versions and corrected cassette-role bindings; two Base diagnostics, not a randomized independent model comparison. Both remain failed/unqualified.",
+  "schema": "solcodex.praw-native-exploratory-public-integrity.v1",
+  "scientific_acceptance": false,
+  "statistical_release": "HOLD_STATISTICAL_CONFIRMATION",
+  "verification_scope": "CSV and JSON rows compared with retained raw native diagnostic results. Source pins read as bytes, no project import/AST/compile/lint/test on the laptop. These verifiers do not establish source/code/cache/host or causal authentication."
+}
