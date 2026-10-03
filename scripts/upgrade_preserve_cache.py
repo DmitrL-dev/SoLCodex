@@ -87,7 +87,8 @@ def upgrade(codex: str, cache_root: Path) -> None:
         if new_version == old_version:
             print(f"No newer version found ({old_version}); cache unchanged.")
             return
-        subprocess.run([codex, "plugin", "remove", PLUGIN_ID], check=True)
+        # Ask the CLI to replace the enabled plugin directly. Removing first
+        # would leave the plugin disabled if installation failed.
         subprocess.run([codex, "plugin", "add", PLUGIN_ID], check=True)
         if str(installed_entry(codex)["version"]) != new_version:
             raise RuntimeError(f"installed version does not match marketplace version {new_version}")

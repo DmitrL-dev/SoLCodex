@@ -1,0 +1,174 @@
+{
+  "candidate_acceptance_authorized": false,
+  "controls_qualified": false,
+  "historical_controls_requalified": false,
+  "host_authentication_established": false,
+  "limits": [
+    "Same-process identity and chain observations do not authenticate execution or historical load origin.",
+    "Base582 and Gold73 uncertainties retain transport2/actor1; pytest0 alone is not qualification.",
+    "Two snapshot and post-work checks do not prove continuous custody, cleanup neutrality or GC neutrality.",
+    "Gold is a bugfix control, not full Observer OFF counterfactual.",
+    "External conservative elapsed bounds and manager MemoryPeak do not establish child RSS/performance.",
+    "Counts of repeated origin checkpoints are not counts of distinct unresolved implementations.",
+    "Historical formal failures remain unchanged; no reroll/release/protocol freeze."
+  ],
+  "new_model_benchmark_requests_in_diagnostics": 0,
+  "next_experiment": "Prospective matched full Observer OFF/ON Base with reviewed common report recorder and lifetime/negative controls. Source-only contract; not implemented or executed.",
+  "observed_change": {
+    "base_failed_calls": 2,
+    "base_failed_teardowns": 4,
+    "changed_receiver_count_per_run": 645,
+    "gold_failed_phases": 0,
+    "resolved_dispatches_per_run": 910,
+    "same_underlying_function_code": true,
+    "stored_vs_resolved_execution_authentication_established": false,
+    "work_and_cassette_bytes_modes_owners_unchanged_after_exit": true
+  },
+  "original_profile": {
+    "actor_deadline_seconds": 420,
+    "cpu_cores": 1,
+    "cpu_id": 5,
+    "entry_flags": [
+      "-I",
+      "-B"
+    ],
+    "image_config_sha256": "21c7b6f5b027abcf62f4ef739d0c20f256a47c17c84b8ee666024b5427c1d250",
+    "matches_unproven_original_3_12_3_8_3_5_profile": false,
+    "memory_bytes": 1073741824,
+    "pids": 256,
+    "pytest": "9.0.2",
+    "pytest_deadline_seconds": 180,
+    "python": "3.10.19",
+    "site_enabled": true,
+    "swap_bytes": 0,
+    "tmp_bytes": 134217728,
+    "uid": 10000
+  },
+  "phase_table": {
+    "file": "2026-10-03-praw-full-entry5-native-phases.csv",
+    "ordered_nodes_per_run": 129,
+    "reports_per_run": 387,
+    "rows": 774,
+    "sha256": "c224721a0472b95d760bce071407e583621a0469c1028fbc7af2d5871b01e581"
+  },
+  "runs": {
+    "base": {
+      "actor_elapsed_seconds": 96.33410879317671,
+      "actor_exit_status": 1,
+      "after_exit_oom": false,
+      "before_result": {
+        "bytes": 27987326,
+        "count": 8977,
+        "tail_sha256": "a0b2d7e86f8dbf5743d3f8c1636b8a997cd505cdc2d8e6cdc47b3390dbbdeb8b"
+      },
+      "collection_and_infrastructure_errors": 0,
+      "conservative_pytest_elapsed_seconds": 86.69252817519009,
+      "entry_transport_status": 2,
+      "event_bytes": 28510084,
+      "event_sha256": "f1740c9bd1243180de4dec9f698e2414bf5a5f7bf2a33b1342f608be1031aec5",
+      "events": 8978,
+      "fixture_scopes_and_resolved_dispatches": 910,
+      "largest_event_bytes": 718393,
+      "native_raw_api_and_log_demux_verified": true,
+      "ordered_nodes": 129,
+      "phase_outcomes": {
+        "call:failed": 2,
+        "call:passed": 127,
+        "setup:passed": 129,
+        "teardown:failed": 4,
+        "teardown:passed": 125
+      },
+      "pytest_status": 1,
+      "raw_pins": {
+        "actor_receipt_sha256": "c24216431caf94facb3ec4c80bfecc608de7160800d38092cfa174b99f3d6018",
+        "binding_sha256": "ee0a1ef7c8e38fbd88e926920f1c0338d4657b43ea8e49b3bf5a01bc77afa9be",
+        "entry_result_sha256": "aaaeaaaff990caac1eaec2d5c0be8a3a82c39d6d13e964483aa7a60a46cb7f1a",
+        "raw_api_files": 11
+      },
+      "receiver_same_identity": {
+        "False": 645,
+        "None": 260,
+        "True": 5
+      },
+      "reports": 387,
+      "tail_sha256": "7e5091d08fc568e3a4cf9b3e4b99fa703a85bf08cf0f58aa9a5aad9c4987ef95",
+      "uncertainty_families": {
+        "opaque-value-not-rendered": 12,
+        "origin-checkpoint-unresolved": 570
+      }
+    },
+    "gold": {
+      "actor_elapsed_seconds": 64.98479463905096,
+      "actor_exit_status": 1,
+      "after_exit_oom": false,
+      "before_result": {
+        "bytes": 24502599,
+        "count": 8970,
+        "tail_sha256": "60a574615d76ceae991ae9166f1623ae9e2d700642db2fb1ffa6ec2ef7762d32"
+      },
+      "collection_and_infrastructure_errors": 0,
+      "conservative_pytest_elapsed_seconds": 55.756462988909334,
+      "entry_transport_status": 2,
+      "event_bytes": 24776238,
+      "event_sha256": "da784abe1892af34ffa62961dce50eb30c3bfe5d1f05b133f79d8c1553d148a0",
+      "events": 8971,
+      "fixture_scopes_and_resolved_dispatches": 910,
+      "largest_event_bytes": 718393,
+      "native_raw_api_and_log_demux_verified": true,
+      "ordered_nodes": 129,
+      "phase_outcomes": {
+        "call:passed": 129,
+        "setup:passed": 129,
+        "teardown:passed": 129
+      },
+      "pytest_status": 0,
+      "raw_pins": {
+        "actor_receipt_sha256": "35ab6b4e46bcfd5b4a97d0ebf04bca7b1cf9162e145d7f05b5e6f878d4b6c315",
+        "binding_sha256": "3907e3291ba7e983faa96ffa687a8d3f9c504368d3376fc13c4eb2c1de710b81",
+        "entry_result_sha256": "692dc14d7237e33eb1bf3ee3d1135d93edf05b066b09ca8f0c4ec24e548c135f",
+        "raw_api_files": 11
+      },
+      "receiver_same_identity": {
+        "False": 645,
+        "None": 260,
+        "True": 5
+      },
+      "reports": 387,
+      "tail_sha256": "e1f3892d9b14676c27004c17ce71d5d8837d6de47e7439562a3a73311c3a1ec2",
+      "uncertainty_families": {
+        "origin-checkpoint-unresolved": 73
+      }
+    }
+  },
+  "schema": "solcodex.praw-full-entry5-native-exploratory.v1",
+  "scientific_acceptance": false,
+  "scientific_gate_unchanged": {
+    "accepting_obligations_open": 556,
+    "complete_provider_telemetry": "PENDING",
+    "development_pairs": 48,
+    "geometric_ratio": 0.9032184210258059,
+    "independent_pairs_planned": 192,
+    "independent_pairs_started": 0,
+    "native_definitions_unexecuted": 267,
+    "one_sided_95_upper": 0.9528882569055573,
+    "quality_E": 1.79585632602213,
+    "required_quality_E_min": 20,
+    "required_upper_max": 0.95,
+    "status": "HOLD_STATISTICAL_CONFIRMATION"
+  },
+  "scope": "Full Base and Gold diagnostic controls on original Praw image. No independent model A/B, token-saving experiment, accepting route or general quality/GC equivalence claim.",
+  "source_pins": {
+    "actor_v2": "628476bb595946bffca488050d319f80d1efbd331b8f9553bf9090fa56cf7420",
+    "code_fingerprint": "eaa16882519eb6659c90399ecfc068e3209b153eea4e6281c3872bf18a4916a4",
+    "context_v3": "44a970d5d81cd489afd6cf7be654c22cab5577eb1149f29949ec46e203a3f31a",
+    "entry_v5": "d88a722584e4d08a6d0b75501d9a73e55e78b3670e55253c8c78b21c4d5e727e",
+    "materializer_v3": "e2ace0adc496a758340a4db5feb4dfbbd533a699d609748857487a9873e42b39",
+    "origin_reader": "698b19b0f034df24c1793199c52c68d90500605225b0c68f7624263ae6796ec3",
+    "producer_v4": "568deeaa096148653f22dcefe7621bd8e36dc1eeba6b2c6215841220873404af"
+  },
+  "verification": {
+    "base_independent_review_sha256": "2240a8cacd50b03d09c3c9b79216a25e626de718c2d1997a1b69669c078fa8ce",
+    "gold_raw_independent_review": "PENDING_AT_DERIVATIVE_CREATION",
+    "parent_raw_chain_phase_fixture_api_log_and_post_work_sha256": "edcc8e9b138f7269e20124964490f67419038814ed17c9a3149f6b4016e8e447"
+  }
+}

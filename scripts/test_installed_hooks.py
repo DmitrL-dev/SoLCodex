@@ -135,6 +135,37 @@ class InstalledHookSmokeTests(unittest.TestCase):
         self.assertEqual(state["metrics"]["verification_pass"], 1)
         self.assertFalse(state.get("pending_verifiers"))
 
+    def test_core_policy_reaches_every_start_source_without_skill_discovery(self) -> None:
+        shutil.rmtree(self.plugin_root / "skills")
+        for source in ("startup", "resume", "clear", "compact"):
+            with self.subTest(source=source):
+                started = self.invoke("SessionStart", source=source)
+                context = started["hookSpecificOutput"]["additionalContext"]
+                self.assertIn("Probe required tools and dependencies together", context)
+                self.assertIn("30-60 second waits", context)
+                self.assertIn("preserve complete data", context)
+                self.assertIn("inspect their exit status", context)
+                self.assertIn("never combine edit and test in one shell command", context)
+                self.assertLess(len(context.encode("utf-8")), 3000)
+
+    def test_compaction_policy_keeps_failed_verification_and_astra_guidance(self) -> None:
+        self.invoke(
+            "PostToolUse", tool_name="apply_patch", tool_use_id="policy-patch",
+            tool_input={"patch": "*** Begin Patch\n*** Update File: src/policy.py\n@@\n-old\n+new\n*** End Patch"},
+            tool_response={"output": "Done!"},
+        )
+        verifier = {"tool_name": "exec_command", "tool_use_id": "policy-check",
+                    "tool_input": {"cmd": "python -m unittest test_policy"}}
+        self.invoke("PreToolUse", **verifier)
+        self.invoke("PostToolUse", **verifier, tool_response={"exit_code": 1, "output": "FAILED"})
+        started = self.invoke("SessionStart", source="compact", model="gpt-6-astra")
+        context = started["hookSpecificOutput"]["additionalContext"]
+        self.assertIn("Pending verification debt (verification_failed)", context)
+        self.assertIn("src/policy.py", context)
+        self.assertIn("Do not reduce Astra reasoning effort", context)
+        self.assertIn("Efficiency never overrides correctness", context)
+        self.assertLess(len(context.encode("utf-8")), 3600)
+
 
 if __name__ == "__main__":
     unittest.main()

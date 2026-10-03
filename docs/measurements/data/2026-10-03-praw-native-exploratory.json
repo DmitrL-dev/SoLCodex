@@ -1,0 +1,126 @@
+{
+  "candidate_acceptance_authorized": false,
+  "controls_qualified": false,
+  "historical_controls_requalified": false,
+  "host_authentication_established": false,
+  "limits": [
+    "The same two call failures and four teardown failures remain in both diagnostic runs.",
+    "A cassette open-attempt or source observation does not prove application open success or playback. Two source observations reuse earlier cached records.",
+    "Retained source/code fingerprints and a consistent event hash chain are not source, native code, cache, host or causal authentication.",
+    "The helper route and -I/-B entry differ from an accepting runtime lease; formal first three Base plus three Gold controls have not started.",
+    "These are pre/post observer development diagnostics. They do not identify a token-efficiency effect or establish a quality gate.",
+    "Original Python3.12.3/pytest8.3.5 runtime custody, 267 scientific native definitions and 556 route/host obligations remain unresolved."
+  ],
+  "new_hosted_CI_run_required_for_this_data_claim": false,
+  "new_model_benchmark_requests_in_diagnostics": 0,
+  "observed_change": {
+    "cached_reuses": 2,
+    "cassette_role_correction_original_files": 659,
+    "fixture_byte_changes": 0,
+    "fixture_callable_scope": "30 stored native bound methods, six underlying functions, five receivers. Actual resolved invocation not authenticated.",
+    "new_Base2_cassette_source_events": 129,
+    "remaining_uncertainties": 582,
+    "stored_native_MethodType_unsupported_uncertainties_removed": 1816,
+    "unique_cached_source_records": 127
+  },
+  "original_profile": {
+    "base_commit": "6f3ee5cc0063c1161fba20b7df8c0ddf73c16a38",
+    "image_config_sha256": "21c7b6f5b027abcf62f4ef739d0c20f256a47c17c84b8ee666024b5427c1d250",
+    "image_manifest_sha256": "e338bf55ea4ea7d9ef87fe4ac72e22d89997a0981405fe9befb0d6cad35deda4",
+    "instance_id": "praw-dev__praw-1994",
+    "pytest": "9.0.2",
+    "python": "3.10.19"
+  },
+  "phase_table": {
+    "bytes": 87441,
+    "expected_phases_per_node": [
+      "setup",
+      "call",
+      "teardown"
+    ],
+    "filename": "2026-10-03-praw-native-exploratory-phases.csv",
+    "node_ordinal_base": 0,
+    "rows": 774,
+    "sha256": "cbab964670dd9c80801645b4c13add55f1ec74e3f7e53539c772c69e9b7856be"
+  },
+  "runs": [
+    {
+      "classification": "FAILED_DIAGNOSTIC_ONLY",
+      "container_transport_exit": 2,
+      "entry_source_sha256": "46650ef94313eee8c5e2c2b46d8709b16f113dd5b2002053f9696c96355d5812",
+      "id": "Base1",
+      "ordered_nodes": 129,
+      "phase_counts": {
+        "call": {
+          "failed": 2,
+          "passed": 127
+        },
+        "setup": {
+          "passed": 129
+        },
+        "teardown": {
+          "failed": 4,
+          "passed": 125
+        }
+      },
+      "phase_reports": 387,
+      "producer_source_sha256": "6cacdefa342b7238ddc96fabbf343a48e3ab0d7d8ae7e350bc0c331ecd09b101",
+      "pytest_exit": 1,
+      "raw_events_bytes": 10917524,
+      "raw_events_count": 6117,
+      "raw_events_sha256": "44eabd2f0c3de1f138095a073cb40d7c1aa4af3216d714e27129c5539312ff68",
+      "raw_result_sha256": "d3238a822ed09c9df327cde8b9fe8c2cea7707c8d491ea723a255016ff241998",
+      "uncertainties": 2398,
+      "uncertainties_by_code": {
+        "opaque-value-not-rendered": 12,
+        "origin-checkpoint-unresolved": 570,
+        "unsupported-fixture-callable": 1816
+      }
+    },
+    {
+      "classification": "FAILED_DIAGNOSTIC_ONLY",
+      "container_transport_exit": 2,
+      "entry_source_sha256": "036e471e36a64369bfb67a18cca14f96ab7d13547503a2627343186b1022507e",
+      "id": "Base2",
+      "ordered_nodes": 129,
+      "phase_counts": {
+        "call": {
+          "failed": 2,
+          "passed": 127
+        },
+        "setup": {
+          "passed": 129
+        },
+        "teardown": {
+          "failed": 4,
+          "passed": 125
+        }
+      },
+      "phase_reports": 387,
+      "producer_source_sha256": "a9b6eb09f7475106b8c41de480d067ed650cda0a69b40a635e3d1bba942608ad",
+      "pytest_exit": 1,
+      "raw_events_bytes": 21460199,
+      "raw_events_count": 6246,
+      "raw_events_sha256": "9652c15c6e1b4df999a6b6965a6ec92728ea3edb43518e096d30a2e58b13bea3",
+      "raw_result_sha256": "db457c227ab4c4bb59fbd77bef4a979a2256174227eeb9a9ed712b7989d991f2",
+      "uncertainties": 582,
+      "uncertainties_by_code": {
+        "opaque-value-not-rendered": 12,
+        "origin-checkpoint-unresolved": 570
+      }
+    }
+  ],
+  "schema": "solcodex.praw-native-exploratory-public-aggregate.v1",
+  "scientific_acceptance": false,
+  "scientific_gate_unchanged": {
+    "development_pairs": 48,
+    "geometric_token_ratio": 0.9032184210258059,
+    "independent192_started": false,
+    "one_sided_95_upper_token_ratio": 0.9528882569055573,
+    "quality_e_value": 1.79585632602213,
+    "required_quality_e_value": 20,
+    "statistical_release": "HOLD_STATISTICAL_CONFIRMATION",
+    "strict_upper_ratio_gate": 0.95
+  },
+  "scope": "Two full-suite native diagnostic runs before formal qualification. Not an independent model A/B or a token-saving experiment."
+}

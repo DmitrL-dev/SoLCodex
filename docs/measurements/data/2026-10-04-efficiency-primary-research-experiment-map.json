@@ -1,0 +1,119 @@
+{
+  "current_main_confirmation_unchanged": {
+    "accepting_obligations_open": 556,
+    "native_definitions_unexecuted": 267,
+    "planned_independent_pairs": 192,
+    "started_independent_pairs": 0,
+    "status": "HOLD_STATISTICAL_CONFIRMATION"
+  },
+  "experiment_candidates": [
+    {
+      "arms": [
+        "Existing baseline",
+        "Same semantic content with compact envelope"
+      ],
+      "confound": "Prompt-prefix/caching effects and repeated rereads may erase billed cost benefit.",
+      "hypothesis": "Lossless compact tool/file envelopes reduce repeated input processing without changing task-visible evidence.",
+      "id": "mechanical-context-format",
+      "negative": "Exact original evidence must be recoverable; omissions or displaced action instructions veto."
+    },
+    {
+      "arms": [
+        "Uncompressed history",
+        "Summary with deterministic pointers to full retained raw artifacts"
+      ],
+      "confound": "Include summary generation, recovery reads, coordinator and all subagent/provider tokens.",
+      "hypothesis": "Prospectively triggered summaries reduce repeated history ingestion while preserving failure evidence.",
+      "id": "adaptive-history-compression",
+      "negative": "Seed a previously observed unresolved failure and require its recovery; never silently erase an error or verification debt."
+    },
+    {
+      "arms": [
+        "No prior memory",
+        "Relevant summarized experience",
+        "Equal-size irrelevant experience"
+      ],
+      "confound": "Hold task families/repositories out of memory building; repeated-task leakage invalidates savings.",
+      "hypothesis": "Correctly retrieved prior solved experience improves next related task while reducing total cost.",
+      "id": "relevant-experience-memory",
+      "negative": "Separate unrelated and misleading-memory cohorts; no gold patch, hidden tests or evaluated-task outcomes in retrieval pool."
+    },
+    {
+      "arms": [
+        "Existing variable setup order",
+        "Same instructions/evidence with stable prefix"
+      ],
+      "confound": "Balance cold/warm/order/session-age; require provider cached/uncached token fields and prices.",
+      "hypothesis": "Stable context prefixes reduce billed uncached input cost even if total token count is unchanged.",
+      "id": "cache-prefix-stability",
+      "negative": "Same exact model/tools/task context; do not assert provider cache behavior from local prefix hashes alone."
+    }
+  ],
+  "new_model_benchmark_requests": 0,
+  "read_at_utc": "2026-10-03T21:48:47.562788+00:00",
+  "required_for_any_economy_claim": [
+    "Prospective fixed independent task sampling and arm randomization; preserve all failed/timeout/capture-invalid attempts in denominator.",
+    "Externally graded task behavior and failure-type coverage; quality noninferiority/evidence thresholds preregistered.",
+    "Complete provider request telemetry across primary agent, subagents, retries, compaction, verification and grading; cached/uncached input/output/reasoning separately if available.",
+    "Compare total billed cost plus token/request/latency metrics; missing billing fields remain unresolved.",
+    "Artifact byte pins and reproduction commands for exact declared runtime; causal/OS/source authentication claims require their own evidence."
+  ],
+  "schema": "solcodex.efficiency-primary-research-experiment-map.v1",
+  "scientific_acceptance": false,
+  "scope": "These are prospective separate experiment candidates. They do not change or reroll the existing48-pair development series or192-pair independent confirmation.",
+  "sources": [
+    {
+      "evidence_type": "Authors production report; not independently reproduced here",
+      "interpretation": "Component token reductions and total billed cost differ; Cursor results are not a SoL Codex effect size.",
+      "reported_mechanisms": [
+        "Trim static instructions",
+        "Load uncommon tool definitions on demand",
+        "Keep cache prefixes stable",
+        "Reduce repeated file-line numbering",
+        "Account for subagent coordination"
+      ],
+      "title": "Improved token efficiency for longer agent runs",
+      "url": "https://cursor.com/blog/improved-token-efficiency",
+      "version_date": "2026-09-23"
+    },
+    {
+      "evidence_type": "Author abstract v3; full methodology not audited here",
+      "interpretation": "Summarized relevant experience can help; unfiltered or incorrectly selected context may have limited or negative benefit. Test context accuracy, not just volume.",
+      "reported_scope": {
+        "base_tasks": 1100,
+        "languages": 9,
+        "related_tasks": 376,
+        "repositories": 51
+      },
+      "title": "SWE Context Bench: A Benchmark for Context Learning in Coding",
+      "url": "https://arxiv.org/abs/2602.08316v3",
+      "version_date": "2026-05-06"
+    },
+    {
+      "evidence_type": "Author abstract, small illustrative study",
+      "interpretation": "Five tasks with equal aggregate success do not establish noninferiority or general token savings; a compression hypothesis only.",
+      "reported_scope": {
+        "model": "Claude Haiku 4.5",
+        "reported_accuracy_each": "3/5",
+        "reported_token_reduction_percent": 22.7,
+        "tasks": 5
+      },
+      "title": "Active Context Compression: Autonomous Memory Management in LLM Agents",
+      "url": "https://arxiv.org/abs/2601.07190v1",
+      "version_date": "2026-01-12"
+    },
+    {
+      "evidence_type": "Author abstract v2; dataset not executed here",
+      "interpretation": "Paired guidance ablation motivates checking whether scientific information constrains a correct repair or causes anchoring; no SoL economy claim.",
+      "reported_scope": {
+        "repositories": 98,
+        "scientific_domains": 20,
+        "tasks": 119
+      },
+      "title": "SWE-bench Science: Can Coding Agents Resolve Engineering Tasks in Science?",
+      "url": "https://arxiv.org/abs/2608.19799v2",
+      "version_date": "2026-09-01"
+    }
+  ],
+  "status": "HYPOTHESES_ONLY_NOT_EXECUTED"
+}
