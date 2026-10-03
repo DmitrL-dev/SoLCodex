@@ -1,0 +1,949 @@
+{
+  "controls_qualified": false,
+  "declared_checks": 98,
+  "full_provider_telemetry_and_independent_AB_established": false,
+  "host_authentication_established": false,
+  "limits": [
+    "Checks are98 declared booleans, not98 independent experiments or the267 scientific qualification checks.",
+    "ON retains actual fixture requests and receivers until capture-unit release. Normal GC, lifetime and timing neutrality is not established.",
+    "Original result bytes include private nonces/context hashes; the public derivatives omit those fields. Private raw hashes identify provenance but do not authenticate the host.",
+    "The independent review covered49 retained raw files. Its separate raw status/mountinfo/release/context followup is not asserted by this publication.",
+    "The first supervisor attempt failed its input directory guard before child creation. It is retained as a setup failure; this publication concerns the separately prospective second context only.",
+    "Pytest status1 is expected in four arms because the synthetic raises fixture intentionally fails setup. Probe process exit0 reports declared comparisons, not all tests passing.",
+    "No token savings, complete provider telemetry, full Praw integration, qualified control or accepting runtime is proven by these diagnostics."
+  ],
+  "mechanism_source_sha256": {
+    "barrier": "76a26938440339f61d097f1677dace0c21a58a4537b105d36bf5b91103760b39",
+    "probe": "661a4f3d806d4517d6929e7c89b0bc892bec265dc1ec104e2b20b8e162078a78",
+    "supervisor": "69db4b7c1c2543141dd7ea2dec6b2556151122b16c7171fb47b00bff4a37dc95"
+  },
+  "new_hosted_CI_run_required_for_data_claim": false,
+  "new_model_benchmark_requests": 0,
+  "normal_lifetime_or_timing_neutrality_established": false,
+  "off_on_literal_projection_equal": true,
+  "off_on_literal_projection_keys": [
+    "events",
+    "outcomes",
+    "dispatch_names",
+    "resolver_calls",
+    "generator_resumes",
+    "fixture_exception_identity_match",
+    "pytest_status"
+  ],
+  "private_original_result_sha256": {
+    "budget0": "caf7485e379a55bef7dd0ef375901a4e41b60113bc9aff7da6f2a60d23cbdd01",
+    "foreign": "6a19fc7546d3ca91b9640346757a2e37508db4ab71cac27835aa5fd1629cc94d",
+    "occupied": "b823f0873e3784caed664ded392d6068b1f81165cd9c237f0b694516242e80c9",
+    "off": "7591d3c216c915ef433cc1b8482b8ba66573642d96b0684801b2bcf649d59fbf",
+    "on": "11fd64c38272c31e6e4a87f2d208b60985042aab12846201cb26046842cf45e3"
+  },
+  "profile": {
+    "container_memory_bytes": 536870912,
+    "container_swap_bytes": 0,
+    "cpu_quota_cores": 1,
+    "image_config_id": "sha256:21c7b6f5b027abcf62f4ef739d0c20f256a47c17c84b8ee666024b5427c1d250",
+    "network_mode": "none",
+    "ordinary_site_enabled": true,
+    "pids_limit": 64,
+    "pytest": "9.0.2",
+    "python": "3.10.19",
+    "python_flags": [
+      "-I",
+      "-B"
+    ],
+    "readonly_rootfs": true,
+    "registry_manifest_digest": "sha256:e338bf55ea4ea7d9ef87fe4ac72e22d89997a0981405fe9befb0d6cad35deda4",
+    "tmpfs_bytes": 33554432,
+    "user": "0:0"
+  },
+  "results": {
+    "budget0": {
+      "arm": "budget0",
+      "capture_failure": "dispatch-callback-capture-failed",
+      "capture_records": [],
+      "checks": {
+        "actual_transient_bound_method_lifetime_witness": true,
+        "capture_failure_veto_not_truncated_success": true,
+        "first_failed_scope_closed": true,
+        "four_native_dispatches_expected_receiver": true,
+        "four_native_resolver_calls": true,
+        "four_native_resolver_returns": true,
+        "generator_two_resumes_one_dispatch": true,
+        "helper_unchanged:code_fingerprint_v1.py": true,
+        "helper_unchanged:control_phase_producer_v6.py": true,
+        "helper_unchanged:control_runtime_origin_observer_v1.py": true,
+        "independent_trace_no_error": true,
+        "independent_trace_restored": true,
+        "literal_body_finalizer_expectations": true,
+        "literal_phase_outcomes": true,
+        "native_fixture_source_unchanged": true,
+        "no_runner_exception": true,
+        "profile_restored": true,
+        "pytest_functions_and_code_unchanged": true,
+        "pytest_status_is_expected1": true,
+        "record_limit_restored": true,
+        "same_real_fixture_exception_identity": true
+      },
+      "controls_qualified": false,
+      "dispatch_names": [
+        "bound",
+        "plain",
+        "generator",
+        "raises"
+      ],
+      "events": [
+        "body.bound",
+        "test.bound",
+        "body.plain",
+        "test.plain",
+        "body.generator",
+        "test.generator",
+        "body.generator.resume",
+        "body.generator.extra",
+        "body.raises",
+        "body.raises.finalizer"
+      ],
+      "fixture_exception_identity_match": true,
+      "fixture_source_sha256": "e1174bb27fa29607736fdfe6a0a750825841a1c1c621336285600952ad9d46b9",
+      "foreign_profile_replacement": null,
+      "generator_resumes": 2,
+      "helper_source_sha256": {
+        "code_fingerprint_v1.py": "eaa16882519eb6659c90399ecfc068e3209b153eea4e6281c3872bf18a4916a4",
+        "control_phase_producer_v6.py": "568deeaa096148653f22dcefe7621bd8e36dc1eeba6b2c6215841220873404af",
+        "control_runtime_origin_observer_v1.py": "698b19b0f034df24c1793199c52c68d90500605225b0c68f7624263ae6796ec3"
+      },
+      "host_authentication_established": false,
+      "lifetime_microcheck": {
+        "alive_after_capture_release": {
+          "bound:function": true,
+          "bound:request": false,
+          "bound:request_B": false,
+          "bound:resolved_callable": false,
+          "bound:stored_A": false,
+          "bound:stored_callable": false,
+          "generator:function": true,
+          "generator:request": false,
+          "generator:request_B": false,
+          "generator:resolved_callable": false,
+          "generator:stored_A": false,
+          "generator:stored_callable": false,
+          "plain:function": true,
+          "plain:request": false,
+          "plain:request_B": false,
+          "plain:resolved_callable": true,
+          "plain:stored_callable": true,
+          "raises:function": true,
+          "raises:request": false,
+          "raises:request_B": false,
+          "raises:resolved_callable": false,
+          "raises:stored_A": false,
+          "raises:stored_callable": false
+        },
+        "alive_after_harness_release_before_capture_release": {
+          "bound:function": true,
+          "bound:request": false,
+          "bound:request_B": false,
+          "bound:resolved_callable": false,
+          "bound:stored_A": false,
+          "bound:stored_callable": false,
+          "generator:function": true,
+          "generator:request": false,
+          "generator:request_B": false,
+          "generator:resolved_callable": false,
+          "generator:stored_A": false,
+          "generator:stored_callable": false,
+          "plain:function": true,
+          "plain:request": false,
+          "plain:request_B": false,
+          "plain:resolved_callable": true,
+          "plain:stored_callable": true,
+          "raises:function": true,
+          "raises:request": false,
+          "raises:request_B": false,
+          "raises:resolved_callable": false,
+          "raises:stored_A": false,
+          "raises:stored_callable": false
+        },
+        "gc_unreachable_counts": [
+          1853,
+          0
+        ],
+        "normal_lifetime_or_timing_neutrality_established": false,
+        "scope": "private capture records only; full Observer identity registry/audit hook not exercised"
+      },
+      "occupied_callback_calls": 0,
+      "outcomes": [
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_bound",
+          "setup",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_bound",
+          "call",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_bound",
+          "teardown",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_plain",
+          "setup",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_plain",
+          "call",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_plain",
+          "teardown",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_generator",
+          "setup",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_generator",
+          "call",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_generator",
+          "teardown",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_raises",
+          "setup",
+          "failed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_raises",
+          "teardown",
+          "passed"
+        ]
+      ],
+      "pytest_status": 1,
+      "resolver_calls": [
+        "bound",
+        "plain",
+        "generator",
+        "raises"
+      ],
+      "runner_failure": null,
+      "schema": "solcodex.fixture-resolved-dispatch-native-probe.v1",
+      "scientific_acceptance": false,
+      "scope": "capture unit plus same independent trace; not full observe_session/metadata drain",
+      "status": "NATIVE_MECHANISM_COMPARISONS_MATCH"
+    },
+    "foreign": {
+      "arm": "foreign",
+      "capture_failure": "dispatch-profile-boundary-identity-lost",
+      "capture_records": [],
+      "checks": {
+        "actual_transient_bound_method_lifetime_witness": true,
+        "foreign_profile_preserved_by_capture_stop": true,
+        "foreign_sticky_first_veto_and_capture_not_restored": true,
+        "foreign_veto_not_success_or_truncation": true,
+        "four_native_dispatches_expected_receiver": true,
+        "four_native_resolver_calls": true,
+        "four_native_resolver_returns": true,
+        "generator_two_resumes_one_dispatch": true,
+        "helper_unchanged:code_fingerprint_v1.py": true,
+        "helper_unchanged:control_phase_producer_v6.py": true,
+        "helper_unchanged:control_runtime_origin_observer_v1.py": true,
+        "independent_trace_no_error": true,
+        "independent_trace_restored": true,
+        "literal_body_finalizer_expectations": true,
+        "literal_phase_outcomes": true,
+        "native_fixture_source_unchanged": true,
+        "no_runner_exception": true,
+        "only_owned_foreign_sentinel_cleared_by_harness": true,
+        "profile_restored": true,
+        "pytest_functions_and_code_unchanged": true,
+        "pytest_status_is_expected1": true,
+        "record_limit_restored": true,
+        "replacement_in_actual_bound_request_scope": true,
+        "same_real_fixture_exception_identity": true
+      },
+      "controls_qualified": false,
+      "dispatch_names": [
+        "bound",
+        "plain",
+        "generator",
+        "raises"
+      ],
+      "events": [
+        "body.bound",
+        "test.bound",
+        "body.plain",
+        "test.plain",
+        "body.generator",
+        "test.generator",
+        "body.generator.resume",
+        "body.generator.extra",
+        "body.raises",
+        "body.raises.finalizer"
+      ],
+      "fixture_exception_identity_match": true,
+      "fixture_source_sha256": "e1174bb27fa29607736fdfe6a0a750825841a1c1c621336285600952ad9d46b9",
+      "foreign_profile_replacement": {
+        "after_capture_stop": {
+          "capture_restored": false,
+          "failure_after_stop": "dispatch-profile-boundary-identity-lost",
+          "failure_before_stop": "dispatch-profile-boundary-identity-lost",
+          "foreign_still_installed": true
+        },
+        "callback_calls": 21999,
+        "entry": {
+          "dispatch_count_before_yield": 0,
+          "fixture": "bound",
+          "nodeid": "test_fixture_resolved_dispatch.py::TestNative::test_bound",
+          "ordinal": 1,
+          "prior_profile_is_capture_callback": true,
+          "scope_fixture_is_independent_fixture": true,
+          "scope_is_active": true,
+          "scope_request_is_independent_request": true,
+          "when": "setup"
+        },
+        "owned_sentinel_cleared_in_finally": true
+      },
+      "generator_resumes": 2,
+      "helper_source_sha256": {
+        "code_fingerprint_v1.py": "eaa16882519eb6659c90399ecfc068e3209b153eea4e6281c3872bf18a4916a4",
+        "control_phase_producer_v6.py": "568deeaa096148653f22dcefe7621bd8e36dc1eeba6b2c6215841220873404af",
+        "control_runtime_origin_observer_v1.py": "698b19b0f034df24c1793199c52c68d90500605225b0c68f7624263ae6796ec3"
+      },
+      "host_authentication_established": false,
+      "lifetime_microcheck": {
+        "alive_after_capture_release": {
+          "bound:function": true,
+          "bound:request": false,
+          "bound:request_B": false,
+          "bound:resolved_callable": false,
+          "bound:stored_A": false,
+          "bound:stored_callable": false,
+          "generator:function": true,
+          "generator:request": false,
+          "generator:request_B": false,
+          "generator:resolved_callable": false,
+          "generator:stored_A": false,
+          "generator:stored_callable": false,
+          "plain:function": true,
+          "plain:request": false,
+          "plain:request_B": false,
+          "plain:resolved_callable": true,
+          "plain:stored_callable": true,
+          "raises:function": true,
+          "raises:request": false,
+          "raises:request_B": false,
+          "raises:resolved_callable": false,
+          "raises:stored_A": false,
+          "raises:stored_callable": false
+        },
+        "alive_after_harness_release_before_capture_release": {
+          "bound:function": true,
+          "bound:request": false,
+          "bound:request_B": false,
+          "bound:resolved_callable": false,
+          "bound:stored_A": false,
+          "bound:stored_callable": false,
+          "generator:function": true,
+          "generator:request": false,
+          "generator:request_B": false,
+          "generator:resolved_callable": false,
+          "generator:stored_A": false,
+          "generator:stored_callable": false,
+          "plain:function": true,
+          "plain:request": false,
+          "plain:request_B": false,
+          "plain:resolved_callable": true,
+          "plain:stored_callable": true,
+          "raises:function": true,
+          "raises:request": false,
+          "raises:request_B": false,
+          "raises:resolved_callable": false,
+          "raises:stored_A": false,
+          "raises:stored_callable": false
+        },
+        "gc_unreachable_counts": [
+          1853,
+          0
+        ],
+        "normal_lifetime_or_timing_neutrality_established": false,
+        "scope": "private capture records only; full Observer identity registry/audit hook not exercised"
+      },
+      "occupied_callback_calls": 0,
+      "outcomes": [
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_bound",
+          "setup",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_bound",
+          "call",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_bound",
+          "teardown",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_plain",
+          "setup",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_plain",
+          "call",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_plain",
+          "teardown",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_generator",
+          "setup",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_generator",
+          "call",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_generator",
+          "teardown",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_raises",
+          "setup",
+          "failed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_raises",
+          "teardown",
+          "passed"
+        ]
+      ],
+      "pytest_status": 1,
+      "resolver_calls": [
+        "bound",
+        "plain",
+        "generator",
+        "raises"
+      ],
+      "runner_failure": null,
+      "schema": "solcodex.fixture-resolved-dispatch-native-probe.v1",
+      "scientific_acceptance": false,
+      "scope": "capture unit plus same independent trace; not full observe_session/metadata drain",
+      "status": "NATIVE_MECHANISM_COMPARISONS_MATCH"
+    },
+    "occupied": {
+      "arm": "occupied",
+      "capture_failure": "dispatch-profile-occupied-install-refused",
+      "capture_records": [],
+      "checks": {
+        "helper_unchanged:code_fingerprint_v1.py": true,
+        "helper_unchanged:control_phase_producer_v6.py": true,
+        "helper_unchanged:control_runtime_origin_observer_v1.py": true,
+        "independent_trace_no_error": true,
+        "independent_trace_restored": true,
+        "native_fixture_source_unchanged": true,
+        "no_pytest_or_fixture_dispatch": true,
+        "no_runner_exception": true,
+        "occupied_slot_refused_and_preserved": true,
+        "profile_restored": true,
+        "pytest_functions_and_code_unchanged": true,
+        "record_limit_restored": true
+      },
+      "controls_qualified": false,
+      "dispatch_names": [],
+      "events": [],
+      "fixture_exception_identity_match": false,
+      "fixture_source_sha256": "e1174bb27fa29607736fdfe6a0a750825841a1c1c621336285600952ad9d46b9",
+      "foreign_profile_replacement": null,
+      "generator_resumes": 0,
+      "helper_source_sha256": {
+        "code_fingerprint_v1.py": "eaa16882519eb6659c90399ecfc068e3209b153eea4e6281c3872bf18a4916a4",
+        "control_phase_producer_v6.py": "568deeaa096148653f22dcefe7621bd8e36dc1eeba6b2c6215841220873404af",
+        "control_runtime_origin_observer_v1.py": "698b19b0f034df24c1793199c52c68d90500605225b0c68f7624263ae6796ec3"
+      },
+      "host_authentication_established": false,
+      "lifetime_microcheck": null,
+      "occupied_callback_calls": 12,
+      "outcomes": [],
+      "pytest_status": null,
+      "resolver_calls": [],
+      "runner_failure": null,
+      "schema": "solcodex.fixture-resolved-dispatch-native-probe.v1",
+      "scientific_acceptance": false,
+      "scope": "capture unit plus same independent trace; not full observe_session/metadata drain",
+      "status": "NATIVE_MECHANISM_COMPARISONS_MATCH"
+    },
+    "off": {
+      "arm": "off",
+      "capture_failure": null,
+      "capture_records": [],
+      "checks": {
+        "actual_transient_bound_method_lifetime_witness": true,
+        "four_native_dispatches_expected_receiver": true,
+        "four_native_resolver_calls": true,
+        "four_native_resolver_returns": true,
+        "generator_two_resumes_one_dispatch": true,
+        "helper_unchanged:code_fingerprint_v1.py": true,
+        "helper_unchanged:control_phase_producer_v6.py": true,
+        "helper_unchanged:control_runtime_origin_observer_v1.py": true,
+        "independent_trace_no_error": true,
+        "independent_trace_restored": true,
+        "literal_body_finalizer_expectations": true,
+        "literal_phase_outcomes": true,
+        "native_fixture_source_unchanged": true,
+        "no_runner_exception": true,
+        "profile_restored": true,
+        "pytest_functions_and_code_unchanged": true,
+        "pytest_status_is_expected1": true,
+        "record_limit_restored": true,
+        "same_real_fixture_exception_identity": true
+      },
+      "controls_qualified": false,
+      "dispatch_names": [
+        "bound",
+        "plain",
+        "generator",
+        "raises"
+      ],
+      "events": [
+        "body.bound",
+        "test.bound",
+        "body.plain",
+        "test.plain",
+        "body.generator",
+        "test.generator",
+        "body.generator.resume",
+        "body.generator.extra",
+        "body.raises",
+        "body.raises.finalizer"
+      ],
+      "fixture_exception_identity_match": true,
+      "fixture_source_sha256": "e1174bb27fa29607736fdfe6a0a750825841a1c1c621336285600952ad9d46b9",
+      "foreign_profile_replacement": null,
+      "generator_resumes": 2,
+      "helper_source_sha256": {
+        "code_fingerprint_v1.py": "eaa16882519eb6659c90399ecfc068e3209b153eea4e6281c3872bf18a4916a4",
+        "control_phase_producer_v6.py": "568deeaa096148653f22dcefe7621bd8e36dc1eeba6b2c6215841220873404af",
+        "control_runtime_origin_observer_v1.py": "698b19b0f034df24c1793199c52c68d90500605225b0c68f7624263ae6796ec3"
+      },
+      "host_authentication_established": false,
+      "lifetime_microcheck": {
+        "alive_after_capture_release": {
+          "bound:function": true,
+          "bound:request": false,
+          "bound:request_B": false,
+          "bound:resolved_callable": false,
+          "bound:stored_A": false,
+          "bound:stored_callable": false,
+          "generator:function": true,
+          "generator:request": false,
+          "generator:request_B": false,
+          "generator:resolved_callable": false,
+          "generator:stored_A": false,
+          "generator:stored_callable": false,
+          "plain:function": true,
+          "plain:request": false,
+          "plain:request_B": false,
+          "plain:resolved_callable": true,
+          "plain:stored_callable": true,
+          "raises:function": true,
+          "raises:request": false,
+          "raises:request_B": false,
+          "raises:resolved_callable": false,
+          "raises:stored_A": false,
+          "raises:stored_callable": false
+        },
+        "alive_after_harness_release_before_capture_release": {
+          "bound:function": true,
+          "bound:request": false,
+          "bound:request_B": false,
+          "bound:resolved_callable": false,
+          "bound:stored_A": false,
+          "bound:stored_callable": false,
+          "generator:function": true,
+          "generator:request": false,
+          "generator:request_B": false,
+          "generator:resolved_callable": false,
+          "generator:stored_A": false,
+          "generator:stored_callable": false,
+          "plain:function": true,
+          "plain:request": false,
+          "plain:request_B": false,
+          "plain:resolved_callable": true,
+          "plain:stored_callable": true,
+          "raises:function": true,
+          "raises:request": false,
+          "raises:request_B": false,
+          "raises:resolved_callable": false,
+          "raises:stored_A": false,
+          "raises:stored_callable": false
+        },
+        "gc_unreachable_counts": [
+          1853,
+          0
+        ],
+        "normal_lifetime_or_timing_neutrality_established": false,
+        "scope": "private capture records only; full Observer identity registry/audit hook not exercised"
+      },
+      "occupied_callback_calls": 0,
+      "outcomes": [
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_bound",
+          "setup",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_bound",
+          "call",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_bound",
+          "teardown",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_plain",
+          "setup",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_plain",
+          "call",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_plain",
+          "teardown",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_generator",
+          "setup",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_generator",
+          "call",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_generator",
+          "teardown",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_raises",
+          "setup",
+          "failed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_raises",
+          "teardown",
+          "passed"
+        ]
+      ],
+      "pytest_status": 1,
+      "resolver_calls": [
+        "bound",
+        "plain",
+        "generator",
+        "raises"
+      ],
+      "runner_failure": null,
+      "schema": "solcodex.fixture-resolved-dispatch-native-probe.v1",
+      "scientific_acceptance": false,
+      "scope": "capture unit plus same independent trace; not full observe_session/metadata drain",
+      "status": "NATIVE_MECHANISM_COMPARISONS_MATCH"
+    },
+    "on": {
+      "arm": "on",
+      "capture_failure": null,
+      "capture_records": [
+        {
+          "code_is_expected": true,
+          "fixture_is_independent_fixture": true,
+          "function_is_expected": true,
+          "name": "bound",
+          "node_phase_is_independent_request": true,
+          "ordinal": 1,
+          "ordinal_is_expected": true,
+          "receiver_differs_from_stored_A": true,
+          "receiver_is_independent_B": true,
+          "request_is_independent_request": true,
+          "resolved_is_independent_trace_argument": true,
+          "scope_count": 1,
+          "scope_is_top_level": true,
+          "stored_is_independent_stored": true
+        },
+        {
+          "code_is_expected": true,
+          "fixture_is_independent_fixture": true,
+          "function_is_expected": true,
+          "name": "plain",
+          "node_phase_is_independent_request": true,
+          "ordinal": 2,
+          "ordinal_is_expected": true,
+          "receiver_differs_from_stored_A": null,
+          "receiver_is_independent_B": null,
+          "request_is_independent_request": true,
+          "resolved_is_independent_trace_argument": true,
+          "scope_count": 1,
+          "scope_is_top_level": true,
+          "stored_is_independent_stored": true
+        },
+        {
+          "code_is_expected": true,
+          "fixture_is_independent_fixture": true,
+          "function_is_expected": true,
+          "name": "generator",
+          "node_phase_is_independent_request": true,
+          "ordinal": 3,
+          "ordinal_is_expected": true,
+          "receiver_differs_from_stored_A": true,
+          "receiver_is_independent_B": true,
+          "request_is_independent_request": true,
+          "resolved_is_independent_trace_argument": true,
+          "scope_count": 1,
+          "scope_is_top_level": true,
+          "stored_is_independent_stored": true
+        },
+        {
+          "code_is_expected": true,
+          "fixture_is_independent_fixture": true,
+          "function_is_expected": true,
+          "name": "raises",
+          "node_phase_is_independent_request": true,
+          "ordinal": 4,
+          "ordinal_is_expected": true,
+          "receiver_differs_from_stored_A": true,
+          "receiver_is_independent_B": true,
+          "request_is_independent_request": true,
+          "resolved_is_independent_trace_argument": true,
+          "scope_count": 1,
+          "scope_is_top_level": true,
+          "stored_is_independent_stored": true
+        }
+      ],
+      "checks": {
+        "actual_request_and_receiver_retained_before_unit_release": true,
+        "actual_transient_bound_method_lifetime_witness": true,
+        "capture_clean_four_scopes": true,
+        "four_actual_capture_records": true,
+        "four_native_dispatches_expected_receiver": true,
+        "four_native_resolver_calls": true,
+        "four_native_resolver_returns": true,
+        "generator_two_resumes_one_dispatch": true,
+        "helper_unchanged:code_fingerprint_v1.py": true,
+        "helper_unchanged:control_phase_producer_v6.py": true,
+        "helper_unchanged:control_runtime_origin_observer_v1.py": true,
+        "independent_trace_no_error": true,
+        "independent_trace_restored": true,
+        "literal_body_finalizer_expectations": true,
+        "literal_phase_outcomes": true,
+        "native_fixture_source_unchanged": true,
+        "no_runner_exception": true,
+        "profile_restored": true,
+        "pytest_functions_and_code_unchanged": true,
+        "pytest_status_is_expected1": true,
+        "record_limit_restored": true,
+        "same_real_fixture_exception_identity": true
+      },
+      "controls_qualified": false,
+      "dispatch_names": [
+        "bound",
+        "plain",
+        "generator",
+        "raises"
+      ],
+      "events": [
+        "body.bound",
+        "test.bound",
+        "body.plain",
+        "test.plain",
+        "body.generator",
+        "test.generator",
+        "body.generator.resume",
+        "body.generator.extra",
+        "body.raises",
+        "body.raises.finalizer"
+      ],
+      "fixture_exception_identity_match": true,
+      "fixture_source_sha256": "e1174bb27fa29607736fdfe6a0a750825841a1c1c621336285600952ad9d46b9",
+      "foreign_profile_replacement": null,
+      "generator_resumes": 2,
+      "helper_source_sha256": {
+        "code_fingerprint_v1.py": "eaa16882519eb6659c90399ecfc068e3209b153eea4e6281c3872bf18a4916a4",
+        "control_phase_producer_v6.py": "568deeaa096148653f22dcefe7621bd8e36dc1eeba6b2c6215841220873404af",
+        "control_runtime_origin_observer_v1.py": "698b19b0f034df24c1793199c52c68d90500605225b0c68f7624263ae6796ec3"
+      },
+      "host_authentication_established": false,
+      "lifetime_microcheck": {
+        "alive_after_capture_release": {
+          "bound:function": true,
+          "bound:request": false,
+          "bound:request_B": false,
+          "bound:resolved_callable": false,
+          "bound:stored_A": false,
+          "bound:stored_callable": false,
+          "generator:function": true,
+          "generator:request": false,
+          "generator:request_B": false,
+          "generator:resolved_callable": false,
+          "generator:stored_A": false,
+          "generator:stored_callable": false,
+          "plain:function": true,
+          "plain:request": false,
+          "plain:request_B": false,
+          "plain:resolved_callable": true,
+          "plain:stored_callable": true,
+          "raises:function": true,
+          "raises:request": false,
+          "raises:request_B": false,
+          "raises:resolved_callable": false,
+          "raises:stored_A": false,
+          "raises:stored_callable": false
+        },
+        "alive_after_harness_release_before_capture_release": {
+          "bound:function": true,
+          "bound:request": true,
+          "bound:request_B": true,
+          "bound:resolved_callable": true,
+          "bound:stored_A": true,
+          "bound:stored_callable": true,
+          "generator:function": true,
+          "generator:request": true,
+          "generator:request_B": true,
+          "generator:resolved_callable": true,
+          "generator:stored_A": true,
+          "generator:stored_callable": true,
+          "plain:function": true,
+          "plain:request": true,
+          "plain:request_B": true,
+          "plain:resolved_callable": true,
+          "plain:stored_callable": true,
+          "raises:function": true,
+          "raises:request": true,
+          "raises:request_B": true,
+          "raises:resolved_callable": true,
+          "raises:stored_A": true,
+          "raises:stored_callable": true
+        },
+        "gc_unreachable_counts": [
+          210,
+          1636
+        ],
+        "normal_lifetime_or_timing_neutrality_established": false,
+        "scope": "private capture records only; full Observer identity registry/audit hook not exercised"
+      },
+      "occupied_callback_calls": 0,
+      "outcomes": [
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_bound",
+          "setup",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_bound",
+          "call",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_bound",
+          "teardown",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_plain",
+          "setup",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_plain",
+          "call",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_plain",
+          "teardown",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_generator",
+          "setup",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_generator",
+          "call",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_generator",
+          "teardown",
+          "passed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_raises",
+          "setup",
+          "failed"
+        ],
+        [
+          "test_fixture_resolved_dispatch.py::TestNative::test_raises",
+          "teardown",
+          "passed"
+        ]
+      ],
+      "pytest_status": 1,
+      "resolver_calls": [
+        "bound",
+        "plain",
+        "generator",
+        "raises"
+      ],
+      "runner_failure": null,
+      "schema": "solcodex.fixture-resolved-dispatch-native-probe.v1",
+      "scientific_acceptance": false,
+      "scope": "capture unit plus same independent trace; not full observe_session/metadata drain",
+      "status": "NATIVE_MECHANISM_COMPARISONS_MATCH"
+    }
+  },
+  "schema": "solcodex.public.fixture-resolved-dispatch-mechanism.v1",
+  "scientific_acceptance": false,
+  "scientific_gate_unchanged": {
+    "development_pairs": 48,
+    "independent_pairs_executed": 0,
+    "obligations_open": 556,
+    "quality_e_threshold": 20,
+    "quality_e_value": 1.79585632602213,
+    "scientific_native_checks_unexecuted": 267,
+    "status": "HOLD_STATISTICAL_CONFIRMATION",
+    "strict_upper_threshold": 0.95,
+    "token_ratio_geometric": 0.9032184210258059,
+    "token_ratio_one_sided_95_upper": 0.9528882569055573
+  },
+  "scope": "Five fresh native mechanism diagnostics of capture records with the same independent trace. The full Observer registry, metadata drain, original Praw129 suite and model A/B were not exercised.",
+  "verification_sha256": {
+    "independent_retained_49_files_review": "f7c4a8a14666b5269eb26518cf1737b5f35054ad69b17496197e4831f55d87b8",
+    "parent_raw_comparison": "d609b08d52f03d1665706d1f2a934b3a6d07d6c3df17afbe7f042dc48ffb1e4e"
+  }
+}

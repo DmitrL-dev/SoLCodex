@@ -1,0 +1,16 @@
+{
+  "arms": 5,
+  "controls_qualified": false,
+  "data_files_sha256": {
+    "2026-10-03-fixture-resolved-dispatch-native-phases.csv": "0e35c6c92c00f2d4b061cfd9cb517f88a4d0c067b2a84e4602fa0281dc149a32",
+    "2026-10-03-fixture-resolved-dispatch-native.json": "0dc920fd6cdb2144660e0841e465fea6eb46dce8ce73fb7431ace49701b5c146"
+  },
+  "declared_checks": 98,
+  "independent_experiments": false,
+  "phase_rows": 44,
+  "pytest_invoked_arms": 4,
+  "schema": "solcodex.public.fixture-resolved-dispatch-mechanism-integrity.v1",
+  "scientific_acceptance": false,
+  "statistical_release": false,
+  "verification_scope": "CSV44 rows and summary counts are reproducible from public JSON without executing project code. Private raw hashes are provenance references, not host authentication."
+}
