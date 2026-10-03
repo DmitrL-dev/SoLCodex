@@ -1,0 +1,15 @@
+{
+  "claims_scope": "Derivative literal outcomes, retained diagnostic observations only.",
+  "files": {
+    "2026-10-03-praw-full-entry5-native-phases.csv": {
+      "bytes": 86667,
+      "sha256": "c224721a0472b95d760bce071407e583621a0469c1028fbc7af2d5871b01e581"
+    },
+    "2026-10-03-praw-full-entry5-native.json": {
+      "bytes": 7275,
+      "sha256": "a64dbc388280535d8d6ed7f9128e750741b63e4f3233385aefed92c57afdb6fe"
+    }
+  },
+  "schema": "solcodex.praw-full-entry5-native-integrity.v1",
+  "scientific_acceptance": false
+}
